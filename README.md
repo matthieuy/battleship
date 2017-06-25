@@ -3,6 +3,8 @@ Battleship
 
 Work in progress
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3/big.png)](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3)
+
 
 Requirements
 ============
