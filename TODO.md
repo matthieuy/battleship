@@ -10,7 +10,6 @@ TODO
     - [ ] Contribute documentation
     - [ ] Doc for add ammo
     - [ ] Doc for add bonus
-- [ ] Complete package.json, composer.json (keyword,...)
 - [ ] Make a Docker img for users want try or contribute easier
 - [ ] Translate :
     - [ ] Configure translate
