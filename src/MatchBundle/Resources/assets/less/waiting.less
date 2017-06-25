@@ -1,0 +1,60 @@
+select {
+  background-color: darken(#fff,5%);
+  margin: 0;
+}
+
+input[type="number"] {
+  max-width: 30px;
+}
+
+#status {
+  color: #F00;
+  font-weight: bold;
+}
+
+#playerlist {
+  // Disable selection
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  tbody {
+    overflow: auto;
+  }
+  .move {
+    cursor: move;
+  }
+  .ui-placeholder td {
+    background-color: #ffffcc;
+  }
+
+  .player-line {
+    line-height: 40px;
+  }
+
+  td {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #FFF;
+  }
+  select {
+    height: auto;
+    width: auto;
+  }
+  .color-div {
+    float: right;
+  }
+  input.color {
+    max-width: 60px;
+  }
+  .delete {
+    cursor: pointer;
+  }
+}
+
+#btn-list .button i {
+  margin-right: 5px;
+}

@@ -1,0 +1,40 @@
+security:
+    encoders:
+        UserBundle\Entity\User: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main_provider:
+            entity: { class: UserBundle\Entity\User }
+
+    firewalls:
+        # disables authentication for assets and the profiler
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            provider: main_provider
+            pattern: ^/
+            anonymous: ~
+            switch_user: { role: ROLE_ALLOWED_TO_SWITCH, parameter: _user }
+            form_login:
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                post_only: true
+                use_referer: true
+                remember_me: true
+            logout:
+                path: fos_user_security_logout
+                target: /
+            remember_me:
+                secret: "%secret%"
+                lifetime: 86400
+
+    access_control:
+        - { path: ^/login(\.html)?$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }

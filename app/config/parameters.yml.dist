@@ -1,0 +1,33 @@
+parameters:
+    # SQL
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     3306
+    database_name:     battleship
+    database_user:     root
+    database_password: ~
+
+    # Mail
+    mailer_transport:  smtp
+    mailer_host:       127.0.0.1
+    mailer_user:       ~
+    mailer_password:   ~
+    mailer_authmode:   ~
+    mailer_encrypt:    ~
+    mailer_port:       25
+    mailer_sender_address: no-reply@battleship
+    mailer_sender_name: Battleship
+
+    # Socket
+    socket_uri:        localhost
+    socket_port:       8080
+
+    # ZMQ
+    zmq_host:          127.0.0.1
+    zmq_port:          5555
+
+    # Other
+    locale:            en
+    secret:            ThisTokenIsNotSoSecretChangeIt
+    session_name:      battleship
+    use_ssl:           false

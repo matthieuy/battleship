@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+{% block title %}{{ game.name }} - {{ parent() }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack js '@match/js/match.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack css '@match/less/game.less.js' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center title">{{ game.name }}</h1>
+
+    <div id="vue">
+        <grid><i class="fa fa-spin fa-spinner"></i></grid>
+    </div>
+    <input type="hidden" id="user_id" value="{{ app.user.id|default('0') }}">
+    <input type="hidden" id="slug" value="{{ game.slug }}">
+{% endblock %}

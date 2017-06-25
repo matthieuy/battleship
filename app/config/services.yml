@@ -1,0 +1,32 @@
+services:
+    # PDO connexion
+    pdo:
+        class: PDO
+        arguments:
+            - "mysql:host=%database_host%;port=%database_port%;dbname=%database_name%"
+            - "%database_user%"
+            - "%database_password%"
+        calls:
+            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    # PDO session
+    session.handler.pdo:
+        class: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        public: false
+        arguments:
+            - "@pdo"
+            - {lock_mode: 0}
+
+    # Twig intl
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    # Fix session name
+    websocket.start.listener:
+        class: AppBundle\EventListener\ServerStartListener
+        arguments:
+            - "%session_name%"
+        tags:
+            - { name: kernel.event_listener, event: gos_web_socket.server_launched, method: "onServerStart" }

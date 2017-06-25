@@ -1,0 +1,18 @@
+# AppBundle
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+# UserBundle
+user:
+    resource: "@UserBundle/Controller/"
+    type:     annotation
+
+# FosUserBundle
+fos:
+    resource: "bundles/fos_user_routing.yml"
+
+# MatchBundle
+match:
+    resource: "@MatchBundle/Controller/"
+    type:     annotation

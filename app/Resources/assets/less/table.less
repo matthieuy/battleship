@@ -1,0 +1,52 @@
+@import "_macro";
+
+table {
+  margin: 15px auto;
+  border: 1px solid #DDD;
+  border-collapse: separate;
+  border-spacing: 1px;
+
+  thead {
+    font-weight: bold;
+    text-align: center;
+    background-color: #e8e7e7;
+    th {
+      text-shadow: 1px 2px 0 fade(#000, 20%);
+    }
+  }
+  tr td, tr th {
+    padding: 0.5em;
+  }
+  tr td {
+    font-size: em(14px);
+    vertical-align: middle;
+  }
+  tr:nth-of-type(even) {
+    background-color: #F9F9F9;
+  }
+  tr:hover {
+    background-color: darken(#F9F9F9, 2%);
+  }
+}
+
+table.extendable {
+  th {
+    cursor: pointer;
+  }
+  .caret {
+    float: right;
+    &:before {
+      content: '\f0d7';
+    }
+  }
+  &.minimize {
+    tbody { display: none; }
+    .caret:before {
+      content: '\f0d8';
+    }
+  }
+}
+
+.table-overflow {
+  overflow: auto;
+}

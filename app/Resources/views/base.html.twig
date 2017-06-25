@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Battleship{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href="{{ url('homepage') }}">
+        {% block stylesheets %}
+            {% webpack css '@app/less/theme.less.js' %}
+                <link rel="stylesheet" href="{{ asset_url }}">
+            {% end_webpack %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% include "::sidebar.html.twig" %}
+        <div id="container" canvas="container">
+            {% include "::topbar.html.twig" %}
+
+            {# Flash Message #}
+            <div id="flash-container">
+                {% for msg in app.session.flashbag.get('success') %}
+                    <div class="flash-msg success"><div class="close">&times;</div>{{ msg }}</div>
+                {% endfor %}
+                {% for msg in app.session.flashbag.get('info') %}
+                    <div class="flash-msg info"><div class="close">&times;</div>{{ msg }}</div>
+                {% endfor %}
+                {% for msg in app.session.flashbag.get('error') %}
+                    <div class="flash-msg error"><div class="close">&times;</div>{{ msg }}</div>
+                {% endfor %}
+                {% block flash %}{% endblock %}
+
+                <noscript>
+                    <div class="flash-msg error">This game require javascript enable !</div>
+                </noscript>
+            </div>
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}
+            <script>
+                var WS_URI = "ws{% if use_ssl %}s{% endif %}://{{ gos_web_socket_server_host }}:{{ gos_web_socket_server_port }}";
+                var WS, Flash;
+            </script>
+            <script src="{{ asset('vendor/autobahn.min.js') }}"></script>
+            {% webpack js '@app/js/app.js' %}
+                <script src="{{ asset_url }}"></script>
+            {% end_webpack %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,44 @@
+# Wait RPC
+game.wait.rpc:
+    channel: "rpc/wait/{method}"
+    handler:
+        callback: 'game.wait.rpc'
+    requirements:
+        method:
+            pattern: '[a-z_]+'
+
+# Wait topic
+game.wait.topic:
+    channel: 'game/{slug}/wait'
+    handler:
+        callback: 'game.wait'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'
+
+# Launch RPC
+game.launch.rpc:
+    channel: 'rpc/launch/{method}'
+    handler:
+        callback: 'game.launch.rpc'
+    requirements:
+        method:
+            pattern: '[a-z_]+'
+
+# Running game RPC
+game.run.rpc:
+    channel: 'rpc/run/{method}'
+    handler:
+        callback: 'game.run.rpc'
+    requirements:
+        method:
+            pattern: '[a-z_]+'
+
+# Running game topic
+game.run.topic:
+    channel: 'game/{slug}/run'
+    handler:
+        callback: 'game.run'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'

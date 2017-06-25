@@ -1,0 +1,12 @@
+maba_webpack:
+    enabled_bundles: [AppBundle, UserBundle, MatchBundle]
+    config:
+        parameters:
+            extract_css: true
+            path: "%kernel.root_dir%/../web/assets"
+            dev_server_public_path: "http://%socket_uri%:8080/compiled/"
+    aliases:
+        additional:
+            bower: "%kernel.root_dir%/Resources/bower"
+            npm: "%kernel.root_dir%/../node_modules"
+            vendor: "%kernel.root_dir%/../vendor"

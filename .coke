@@ -1,0 +1,8 @@
+# PHP CodeSniffer
+command=phpcs
+standard=vendor/m6web/symfony2-coding-standard/Symfony2
+verbose=true
+
+src/
+!src/.htaccess
+tests/

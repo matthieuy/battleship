@@ -1,0 +1,31 @@
+# Login page
+fos_user_security_login:
+    path: /login.html
+    defaults: { _controller: UserBundle:Security:login }
+    methods: [GET]
+
+# Login page (POST)
+fos_user_security_check:
+    path: /login
+    defaults: { _controller: FOSUserBundle:Security:check }
+    methods: [POST]
+
+# Logout
+fos_user_security_logout:
+    path: /logout
+    defaults: { _controller: FOSUserBundle:Security:logout }
+    methods: [GET]
+
+# Register
+fos_user_registration_register:
+    path: /register/
+    defaults: { _controller: UserBundle:Registration:register }
+    methods: [GET, POST]
+
+# Confirme register
+fos_user_registration_confirmed:
+    path: /confirmed
+    defaults: { _controller: UserBundle:Registration:confirmed }
+
+fos_user_profile_show:
+    path: /

@@ -1,0 +1,63 @@
+@import "_vars";
+
+#topbar {
+  position: relative;
+  z-index: 10;
+  height: @topbar-height;
+  font-family: Lobster;
+  line-height: @topbar-height;
+  background-color: @topbar-bgcolor;
+  color: @topbar-color;
+  margin-bottom: 20px;
+  .box-shadow(fade(@topbar-bgcolor, 30%) 0 6px 10px);
+  .gradient(lighten(@topbar-bgcolor, 20%), @topbar-bgcolor);
+
+  a {
+    text-decoration: none;
+    color: @topbar-color;
+  }
+
+  .menu {
+    float: left;
+    cursor: pointer;
+    font-size: 1.2em;
+    width: 70px;
+    margin: 0 15px;
+    color: @topbar-color;
+    transition: color 900ms ease-out;
+    &:hover {
+      color: darken(@topbar-color, 50%);
+    }
+    div {
+      float: left;
+    }
+  }
+
+  .title {
+    text-align: center;
+
+    a {
+      margin-left: 25px;
+    }
+
+    h1 {
+      font-size: 24px;
+      line-height: @topbar-height;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #topbar {
+    .menu {
+      margin: 0 10px;
+      width: 25px;
+    }
+    #btn-top {
+      margin: 0;
+    }
+    .title a {
+      margin-left: 0;
+    }
+  }
+}

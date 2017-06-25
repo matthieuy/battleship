@@ -1,0 +1,17 @@
+gos_web_socket:
+    client:
+        firewall: main
+        session_handler: "@session.handler.pdo"
+    pushers:
+        zmq:
+            default: true
+            host: "%zmq_host%"
+            port: "%zmq_port%"
+            persistent: true
+            protocol: tcp
+    server:
+        port: "%socket_port%"
+        host: "%socket_uri%"
+        router:
+            resources:
+                - "@MatchBundle/Resources/config/rpc.yml"

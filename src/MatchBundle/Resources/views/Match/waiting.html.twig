@@ -1,0 +1,123 @@
+{% extends "::base.html.twig" %}
+{% block title %}{{ game.name }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack css '@match/less/waiting.less.js' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack js '@match/js/waiting.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ game.name }}</h1>
+
+    <div id="vue">
+        {#############
+         ### INFOS ###
+         #############}
+        <div class="row">
+            <div class="column large-8 small-12 large-centered">
+                <game-info><i class="fa fa-spin fa-spinner"></i></game-info>
+                <input type="hidden" id="user_id" value="{{ app.user.id|default('0') }}">
+                <input type="hidden" id="slug" value="{{ game.slug }}">
+            </div>
+        </div>
+
+        <div class="row">
+            {###############
+             ### Options ###
+             ###############}
+            <div class="column large-6 small-12">
+                <game-options></game-options>
+            </div>
+
+            {#############
+             ### Score ###
+             #############}
+            <div class="column large-6 small-12">
+                <table class="small-12 extendable">
+                    <thead>
+                    <tr>
+                        <th colspan="2">
+                            Score
+                            <div class="fa caret"></div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Discovery
+                            <span class="fa opentip" data-tip="<strong>Discovery :</strong>The first hit on the boat."></span> :
+                        </td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DISCOVERY") }}</strong> points</td>
+                    </tr>
+                    <tr>
+                        <td>Direction
+                            <span class="fa opentip" data-tip="<strong>Direction :</strong>The second hit on the boat"></span> :
+                        </td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DIRECTION") }}</strong> points</td>
+                    </tr>
+                    <tr>
+                        <td>Touch
+                            <span class="fa opentip" data-tip="<strong>Touch :</strong>Touch a boat."></span> :
+                        </td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_TOUCH") }}</strong> points</td>
+                    </tr>
+                    <tr>
+                        <td>Sink
+                            <span class="fa opentip" data-tip="<strong>Sink :</strong>Last shot on a boat."></span> :
+                        </td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_SINK") }}</strong> points</td>
+                    </tr>
+                    <tr>
+                        <td>Blow
+                            <span class="fa opentip" data-tip="<strong>Blow :</strong>Sink the last boat of your enemy."></span> :
+                        </td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_FATAL") }}</strong> points</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {###############
+         ### Players ###
+         ###############}
+        <div class="row">
+            <div class="column small-12 large-centered">
+                <players-list><i class="fa fa-spin fa-spinner"></i></players-list>
+            </div>
+        </div>
+
+        {###############
+         ### Actions ###
+         ###############}
+        <div class="row">
+            <div class="column small-12 large-centered">
+                <table class="small-12">
+                    <thead>
+                        <tr>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="center">
+                                <btn-join><i class="fa fa-spin fa-spinner"></i></btn-join>
+                                <btn-ai></btn-ai>
+                                <btn-run></btn-run>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

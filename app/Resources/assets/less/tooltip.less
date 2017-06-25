@@ -1,0 +1,25 @@
+@import "_macro";
+
+.opentip {
+  padding-left: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  &.fa:before {
+    content: '\f059';
+  }
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid #000;
+  background-color: lighten(#000, 15%);
+  color: #FFF;
+  padding: 10px 15px;
+  .border-radius(8px);
+  .box-shadow(fade(#000, 60%) 5px 5px 30px);
+  strong {
+    display: block;
+    padding-bottom: 8px;
+  }
+}

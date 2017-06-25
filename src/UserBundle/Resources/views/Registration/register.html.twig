@@ -1,0 +1,19 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}{{ 'layout.register'|trans() }} - {{ parent() }}{% endblock %}
+
+{% block flash %}
+    {{ parent() }}
+    {{ form_errors(form) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ 'layout.register'|trans() }}</h1>
+    {{ form_start(form, {'attr': {'class': 'small-12 large-5 large-centered column'}}) }}
+        {{ form_rest(form) }}
+        <div class="center">
+            <input type="submit" value="{{ 'registration.submit'|trans() }}" class="button round success small-12 large-6">
+            <a href="{{ path('fos_user_security_login') }}" class="button round small-12 large-4">{{ 'layout.login'|trans() }}</a>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

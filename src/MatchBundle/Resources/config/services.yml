@@ -1,0 +1,54 @@
+services:
+    # Form create game
+    game.type.form:
+        class: MatchBundle\Form\Type\GameType
+        arguments:
+            - "@security.token_storage"
+        tags:
+            - { name: form.type }
+
+    # Wait RPC
+    game.wait.rpc:
+        class: MatchBundle\RPC\WaitingRpc
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    # Wait Topic
+    game.wait.topic:
+        class: MatchBundle\Topic\WaitingTopic
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: gos_web_socket.topic }
+
+    # Launcher RPC
+    game.launch.rpc:
+        class: MatchBundle\RPC\LaunchRpc
+        arguments:
+            - '@gos_web_socket.websocket.client_manipulator'
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+            - "@event_dispatcher"
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    # Running game RPC
+    game.run.rpc:
+        class: MatchBundle\RPC\GameRpc
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+            - "@event_dispatcher"
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    # Running game topic
+    game.run.topic:
+        class: MatchBundle\Topic\GameTopic
+        tags:
+            - { name: gos_web_socket.topic }

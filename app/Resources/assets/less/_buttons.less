@@ -1,0 +1,62 @@
+@import "_vars";
+
+.button {
+  display: inline-block;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border: 1px solid @btn-color;
+  font-size: 1em;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  line-height: normal;
+  font-weight: bold;
+  font-family: Helvetica, Arial, sans-serif !important;
+  background-color: @btn-color;
+  color: #000;
+
+  .gradient(lighten(@btn-color, 20%), @btn-color);
+  &:hover {
+    background-color: darken(@btn-color, @btn-darken);
+    .gradient(lighten(@btn-color, 30%), @btn-color);
+  }
+  &.round {
+    .border-radius(@btn-radius);
+  }
+  &.disabled {
+    color: #808080;
+    background-image: none;
+    cursor: default;
+    background-color: lighten(@btn-color, 25%);
+    border-color: lighten(@btn-color, 20%);
+  }
+}
+
+.button.success {
+  border: 1px solid @btn-success;
+  background-color: @btn-success;
+  .gradient(lighten(@btn-success, 20%), @btn-success);
+  &:hover {
+    background-color: darken(@btn-success, @btn-darken);
+    .gradient(lighten(@btn-success, 30%), @btn-success);
+  }
+  &.disabled {
+    background-image: none;
+    background-color: lighten(@btn-success, 25%);
+    border-color: lighten(@btn-success, 20%);
+  }
+}
+.button.alert {
+  border: 1px solid @btn-alert;
+  background-color: @btn-alert;
+  .gradient(lighten(@btn-alert, 20%), @btn-alert);
+  &:hover {
+    background-color: darken(@btn-alert, @btn-darken);
+    .gradient(lighten(@btn-alert, 30%), @btn-alert);
+  }
+  &.disabled {
+    background-image: none;
+    background-color: lighten(@btn-alert, 25%);
+    border-color: lighten(@btn-alert, 20%);
+  }
+}

@@ -1,0 +1,55 @@
+@import "_vars";
+form {
+    margin: 15px 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    line-height: 32px;
+    color: @label-color;
+    margin-bottom: 4px;
+    &.checkbox {
+        font-weight: inherit;
+        color: inherit;
+    }
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="search"], select {
+    width: 100%;
+    height: 35px;
+    padding: 5px;
+    .box-sizing(border-box);
+    margin-bottom: 15px;
+    border-color: #ccc;
+    .box-shadow(inset 0 2px 3px rgba(204, 204, 204, 0.1));
+    &:focus {
+	border-color: #ccc;
+	.box-shadow(0 0 5px #CCC);
+    }
+}
+input[type="checkbox"] {
+    height: 20px;
+}
+select {
+    height: 35px;
+}
+
+fieldset {
+    border: 1px solid #CCC;
+    padding: 20px;
+    margin-bottom: 15px;
+    .border-radius(10px);
+}
+
+.has-error {
+    color: #F00;
+    margin-bottom: 15px;
+    input {
+        background: #ff4b2d;
+        margin-bottom: 0;
+    }
+    li {
+        font-weight: bold;
+    }
+}

@@ -1,0 +1,39 @@
+@import "_vars";
+
+#flash-container {
+  position: relative;
+  z-index: 150;
+}
+.flash-msg {
+  display: block;
+  z-index: 150;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px 10px 10px 20px;
+  margin: 10px;
+  font-weight: bold;
+  .border-radius(10px);
+  .close {
+    float: right;
+    cursor: pointer;
+  }
+
+  &.success {
+    background-color: @flash-success;
+    border-color: darken(@flash-success, @flash-border);
+    color: darken(@flash-success, 25%);
+  @include box-shadow(fade(darken(@flash-success, @flash-border), 50%) 7px 7px 15px);
+  }
+  &.error {
+    background-color: @flash-error;
+    border-color: darken(@flash-error, @flash-border);
+    color: darken(@flash-error, 30%);
+    .box-shadow(fade(darken(@flash-error, @flash-border), 50%) 7px 7px 15px);
+  }
+  &.info {
+    background-color: @flash-info;
+    border-color: darken(@flash-info, @flash-border);
+    color: darken(@flash-info, 30%);
+    .box-shadow(fade(darken(@flash-info, @flash-border), 50%) 7px 7px 15px);
+  }
+}

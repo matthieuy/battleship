@@ -1,0 +1,29 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}{{ 'layout.login'|trans }} - {{ parent() }}{% endblock %}
+
+{% block flash %}
+    {{ parent() }}
+    {% if error %}
+        <div class="flash-msg error"><div class="close">&times;</div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ 'layout.login'|trans }}</h1>
+
+    <form method="post" action="{{ path('fos_user_security_check') }}" class="small-12 large-5 column large-centered">
+        <label for="username" class="lbl">{{ 'form.username'|trans }} :</label>
+        <input type="text" name="_username" id="username" placeholder="{{ 'form.username'|trans }}" value="{{ last_username }}" required="required">
+
+        <label for="password" class="lbl">{{ 'form.password'|trans }} :</label>
+        <input type="password" id="password" name="_password" placeholder="{{ 'form.password'|trans }}" required="required">
+        <div class="center">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="button round success small-12 large-5">
+        </div>
+        <div class="center">
+            <a href="{{ path('fos_user_registration_register') }}" class="button round small-12 large-5">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+        </div>
+    </form>
+{% endblock %}

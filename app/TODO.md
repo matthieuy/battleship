@@ -1,0 +1,109 @@
+TODO
+====
+
+- [ ] Slidebars isn't compatible ! I do a [PR on the original project](https://github.com/adchsm/Slidebars/pull/264) but wait merge 
+- [ ] Write a changelog
+- [ ] Complete the [README.md](README) :
+    - [ ] Add [https://poser.pugx.org](badges)
+    - [ ] SensionLab
+    - [ ] Install documentation
+    - [ ] Contribute documentation
+    - [ ] Doc for add ammo
+    - [ ] Doc for add bonus
+- [ ] Complete package.json, composer.json (keyword,...)
+- [ ] Make a Docker img for users want try or contribute easier
+- [ ] Translate :
+    - [ ] Configure translate
+    - [ ] Translate in French
+    - [ ] Make doc
+- [ ] Error 404 and other system errors
+- [ ] Modernizr
+- [ ] Script for debian service (init.d)
+- [ ] Unit test
+- [ ] Admin :
+    - [ ] List of websocket with page name
+- [ ] Clear npm and bower package
+- [ ] Session with redis or other system (vs MySQL)
+- [ ] Bugfix :
+    - [ ] FlashError : scrollTop
+- [ ] Personal TODO : 
+    - [ ] Envoy (or other script to deploy easier with git hook) 
+- [ ] Use promise for WS
+- [ ] Homepage :
+    - [ ] List game
+    - [ ] Button create
+    - [ ] Update page on :
+        - [ ] Create game
+        - [ ] Delete game
+        - [ ] Change status
+        - [ ] Change tour (in game)
+        - [ ] Change number of player (in waiting page)
+- [ ] Waiting page :
+    - [ ] Add console with action
+    - [ ] Delete game
+    - [ ] Add player avatar
+- [ ] Game :
+    - [ ] Allow anon. viewer
+    - [ ] Players image
+    - [ ] Rocket img
+    - [ ] Can change box size
+    - [ ] Score table
+    - [ ] Penalty
+    - [ ] Boat color
+    - [ ] Delete game
+    - [X] Tooltip on case
+    - [ ] Use promise for WS
+    - [ ] Disable shoot if game is over
+    - [ ] ISO view
+- [ ] Weapons :
+    - [ ] Weapon Registry
+    - [ ] Window in game for select weapon
+    - [ ] Make weapon
+    - [ ] CSS helper for weapon
+- [ ] Mobile :
+    - [ ] Helper for shoot
+    - [ ] Helper for weapon
+    - [ ] Battery API
+    - [ ] Offline API
+- [ ] Stats :
+    - [ ] Register stats on event
+    - [ ] Display user stats on profil
+    - [ ] Display stats on game
+- [ ] Users :
+    - [ ] Bugfix : register
+    - [ ] Forgot password
+    - [ ] Registration confirm by email
+    - [ ] Upload avatar on registration
+    - [ ] Profil page
+        - [ ] Change avatar
+        - [ ] Change email
+        - [ ] Change password
+        - [ ] Display informations
+- [ ] Chat room :
+    - [ ] Use BBcode
+    - [ ] notification
+    - [ ] General's room
+    - [ ] Game's room
+    - [ ] Team's room
+    - [ ] System message
+- [ ] Notifications :
+    - [ ] Config per type on profil page
+    - [ ] System :
+        - [ ] SMS
+        - [ ] IonicPush
+        - [ ] Discord
+        - [ ] Email
+        - [ ] Push Navigator
+        - [ ] Chat
+    - [ ] Type :
+        - Friend connect
+        - Tour
+        - Messages
+- [ ] IA :
+    - [ ] Add avatar
+    - [ ] Use ammo
+    - [ ] Use bonus
+- [ ] Bonus :
+    - [ ] Make Bonus registy
+    - [ ] Add/Remove/Use bonus
+    - [ ] Make bonus
