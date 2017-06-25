@@ -144,7 +144,7 @@
 
                 // Victim
                 if (box.player != null) {
-                    if (me.position == box.player) {
+                    if (me && me.position == box.player) {
                         tooltip.push("Your boat")
                     } else {
                         let victim = store.getters.playerById(box.player)
@@ -156,7 +156,7 @@
 
                 // Shooter
                 if (box.shoot != null) {
-                    if (me.position == box.shoot) {
+                    if (me && me.position == box.shoot) {
                         tooltip.push("Your shot")
                     } else {
                         let shooter = store.getters.playerById(box.shoot)
