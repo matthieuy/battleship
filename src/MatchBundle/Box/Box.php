@@ -125,7 +125,7 @@ class Box
      *
      * @return $this
      */
-    public function setIsSink($sink = true)
+    public function setSink($sink = true)
     {
         $this->isSink = $sink;
 

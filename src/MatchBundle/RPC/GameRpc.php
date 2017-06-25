@@ -411,7 +411,7 @@ class GameRpc implements RpcInterface
 
         // Save
         $victimBoats[$boatIndex] = $boat;
-        $box->setIsSink($isSink);
+        $box->setSink($isSink);
         $victim->setBoats($victimBoats);
         $this->returnBox->addBox($game, $box);
 

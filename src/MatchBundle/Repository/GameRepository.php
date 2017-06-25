@@ -3,7 +3,6 @@
 namespace MatchBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use MatchBundle\Entity\Game;
 
 /**
  * GameRepository
