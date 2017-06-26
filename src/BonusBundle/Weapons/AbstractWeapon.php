@@ -64,12 +64,14 @@ abstract class AbstractWeapon implements WeaponInterface
     public function getBoxes($x, $y, $rotate = 0)
     {
         $grid = $this->rotate($this->getGridArray(), $rotate);
-        $centerY = floor(count($grid) / 2);
-        $centerX = floor(count($grid[0]) / 2);
+        $rows = count($grid);
+        $cols = count($grid[0]);
+        $centerY = floor($rows / 2);
+        $centerX = floor($cols / 2);
 
         $boxes = [];
-        for ($sy=0; $sy < count($grid); $sy++) {
-            for ($sx=0; $sx < count($grid[0]); $sx++) {
+        for ($sy=0; $sy < $rows; $sy++) {
+            for ($sx=0; $sx < $cols; $sx++) {
                 if ($grid[$sy][$sx] == 1) {
                     $boxes[] = new Box($x+$sx-$centerX, $y+$sy-$centerY);
                 }

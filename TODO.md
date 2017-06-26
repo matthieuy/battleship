@@ -55,9 +55,9 @@ TODO
     - [ ] Disable shoot if game is over
     - [ ] ISO view
 - [ ] Weapons :
-    - [ ] Weapon Registry
+    - [X] Weapon Registry
     - [ ] Window in game for select weapon
-    - [ ] Make weapon
+    - [X] Make weapon
     - [ ] CSS helper for weapon
 - [ ] Mobile :
     - [ ] Helper for shoot
