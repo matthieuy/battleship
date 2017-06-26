@@ -434,11 +434,9 @@ class GameRpc implements RpcInterface
     private function nextTour(Game &$game, Player $fromPlayer)
     {
         // Get players and teams alive
-        $playersList = [];
         $teamsList = [];
         foreach ($game->getPlayers() as $player) {
             if ($player->getLife() > 0) {
-                $playersList[$player->getPosition()] = $player;
                 if (!isset($teamsList[$player->getTeam()])) {
                     $teamsList[$player->getTeam()] = [];
                 }
