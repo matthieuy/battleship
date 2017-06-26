@@ -21,7 +21,6 @@ $(() => {
 
     // Socket
     var slug = document.getElementById('slug').value
-    //var topicName = 'game/' + slug + '/run'
     WS.addDefaultData('slug', slug)
     WS.connect()
 

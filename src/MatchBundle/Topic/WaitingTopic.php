@@ -101,7 +101,6 @@ class WaitingTopic implements TopicInterface, PushableTopicInterface
      */
     private function getPlayersArray(Game $game)
     {
-        // TODO Clearly method
         $list = [];
         foreach ($game->getPlayers() as $player) {
             $list[] = $player->toArray();
