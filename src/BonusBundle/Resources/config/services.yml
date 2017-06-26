@@ -1,4 +1,34 @@
 services:
-#    bonus.example:
-#        class: BonusBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+###############################
+##### REGISTRY & MANAGER ######
+###############################
+    # The weapon registry
+    weapon.registry:
+        class: BonusBundle\Manager\WeaponRegistry
+
+####################
+##### WEAPONS ######
+####################
+    # Bomber
+    weapon.bomber:
+        class: BonusBundle\Weapons\BomberWeapon
+        tags:
+            - { name: weapon.type }
+
+    # Flash
+    weapon.flash:
+        class: BonusBundle\Weapons\FlashWeapon
+        tags:
+            - { name: weapon.type }
+
+    # Gust
+    weapon.gust:
+        class: BonusBundle\Weapons\GustWeapon
+        tags:
+            - { name: weapon.type }
+
+    # Mortar
+    weapon.mortar:
+        class: BonusBundle\Weapons\MortarWeapon
+        tags:
+            - { name: weapon.type }
