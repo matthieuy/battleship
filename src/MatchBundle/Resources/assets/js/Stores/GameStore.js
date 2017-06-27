@@ -58,6 +58,10 @@ const mutations = {
         state.tour = tour
     },
     UPDATE_GRID: (state, box) => {
+        if (box.life && state.me && box.life[state.me.position]) {
+            state.me.life = box.life[state.me.position]
+            delete box.life
+        }
         state.grid[box.y][box.x] = box
         if (box.sink) {
             box.sink.forEach(function(b, i) {

@@ -21,6 +21,7 @@ class Box
     protected $dead = false;
 
     protected $score;
+    protected $life = [];
     protected $isSink = false;
     protected $sinkInfo = [];
 
@@ -115,6 +116,19 @@ class Box
     public function setDead($dead)
     {
         $this->dead = $dead;
+
+        return $this;
+    }
+
+    /**
+     * Add life to box
+     * @param Player $player
+     *
+     * @return $this
+     */
+    public function setLife(Player $player)
+    {
+        $this->life[$player->getPosition()] = $player->getLife();
 
         return $this;
     }
@@ -300,6 +314,9 @@ class Box
         }
         if ($this->isSink) {
             $infos['sink'] = $this->sinkInfo;
+        }
+        if (!empty($this->life)) {
+            $infos['life'] = $this->life;
         }
 
         return $infos;
