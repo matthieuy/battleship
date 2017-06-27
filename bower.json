@@ -1,5 +1,12 @@
 {
   "name": "battleship",
+  "homepage": "https://github.com/matthieuy/battleship",
+  "authors": [
+    {
+      "name": "Matthieu YK",
+      "email": "matthieuy@riseup.net"
+    }
+  ],
   "version": "1.0.0",
   "description": "Battleship game",
   "licence": "MIT",
@@ -10,6 +17,7 @@
     "jquery-ui": "^1.12.1",
     "isometric": "JsIso#*",
     "async": "^2.1.5",
-    "velocity": "^1.4.3"
+    "velocity": "^1.4.3",
+    "favico.js": "^0.3.10"
   }
 }

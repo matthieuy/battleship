@@ -4,6 +4,7 @@ require('@app/js/tooltips.js')
 import Vue from "vue"
 import store from "./Stores/GameStore"
 import Grid from "./Components/Grid.vue"
+import BtnScore from "./Components/BtnScore.vue"
 
 // App vue
 new Vue({
@@ -12,6 +13,15 @@ new Vue({
     components: {
         Grid,
     }
+})
+
+// Top Button
+new Vue({
+    el: '#btn-top',
+    store,
+    components: {
+        BtnScore: BtnScore,
+    },
 })
 
 // Document.ready

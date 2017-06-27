@@ -103,6 +103,7 @@ class MatchController extends Controller
     {
         return $this->render('@Match/Match/game.html.twig', [
             'game' => $game,
+            'inGame' => true,
         ]);
     }
 }
