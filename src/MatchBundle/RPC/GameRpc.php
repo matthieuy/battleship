@@ -406,7 +406,7 @@ class GameRpc implements RpcInterface
 
         $shooter->addScore($points);
         if (!$shooter->isAi()) {
-            $box->setScore($points);
+            $box->setScore($shooter);
         }
 
         // Save

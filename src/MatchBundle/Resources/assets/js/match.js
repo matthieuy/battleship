@@ -4,6 +4,7 @@ require('@app/js/tooltips.js')
 import Vue from "vue"
 import store from "./Stores/GameStore"
 import Grid from "./Components/Grid.vue"
+import BtnWeapon from "./Components/BtnWeapon.vue"
 import BtnScore from "./Components/BtnScore.vue"
 
 // App vue
@@ -21,6 +22,7 @@ new Vue({
     store,
     components: {
         BtnScore: BtnScore,
+        BtnWeapon: BtnWeapon,
     },
 })
 

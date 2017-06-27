@@ -58,10 +58,21 @@ const mutations = {
         state.tour = tour
     },
     UPDATE_GRID: (state, box) => {
-        if (box.life && state.me && box.life[state.me.position]) {
-            state.me.life = box.life[state.me.position]
-            delete box.life
+        // Update bubble
+        if (state.me) {
+            // Update life
+            if (box.life && box.life[state.me.position]) {
+                state.me.life = box.life[state.me.position]
+                delete box.life
+            }
+            // Update score
+            if (box.score && box.score[state.me.position]) {
+                state.me.score = box.score[state.me.position]
+                delete box.score
+            }
         }
+
+        // Update grid and sink boat
         state.grid[box.y][box.x] = box
         if (box.sink) {
             box.sink.forEach(function(b, i) {
@@ -87,6 +98,7 @@ const getters = {
         return null
     },
     me: (state) => state.me,
+    options: (state) => state.options
 }
 
 const actions = {
