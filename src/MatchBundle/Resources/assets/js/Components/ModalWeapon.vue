@@ -13,7 +13,17 @@
 
                         <div class="large-12 column">
                             <div class="row">
-
+                                <div class="large-3 column" v-for="weapon in weapons.list">
+                                    <div class="center weapon">
+                                        <h3>{{ weapon.name }}</h3>
+                                        <em>Price: {{ weapon.price }} points</em>
+                                        <div class="grid weapon-model" :style="styleModel(weapon)">
+                                            <div class="clear row" v-for="row in weapon.grid">
+                                                <span class="box" v-for="box in row" :class="{'explose hit animated': box }"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -50,7 +60,29 @@
             close() {
                 store.commit('TOGGLE_WEAPON_MODAL', false)
             },
+            styleModel: (weapon) => {
+                return {
+                    width: (weapon.grid[0].length * 20) +'px',
+                    marginTop: (6 - weapon.grid.length) * 10 + 'px',
+                }
+            },
         },
+        watch: {
+            'weapons.modalOpen': (open) => {
+                if (open && !store.getters.weapons.loaded) {
+                    console.info('[Weapons] Loading')
+                    $.ajax({
+                        'url': $('input#ajax-weapons').val(),
+                        success(obj) {
+                            if (obj.error) {
+                                return Flash.error(obj.error)
+                            }
+                            store.commit('LOAD_WEAPON', obj)
+                        }
+                    })
+                }
+            }
+        }
     }
 </script>
 
@@ -110,6 +142,39 @@
         vertical-align: middle;
         .btn-action {
             margin-top: 25px;
+        }
+        .weapon {
+            cursor: pointer;
+            margin-top: 20px;
+            padding: 10px;
+            height: 180px;
+            background-color: #f2f2f2;
+            border: 1px solid #d9d9d9;
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            &.selected {
+                 border: 2px solid #1F7E1F;
+                 background-color: #b0ff9e;
+             }
+
+            &.disabled {
+                 border: 2px solid #F00;
+                 background-color: #FDE;
+                 cursor: default;
+             }
+        }
+        .weapon-model {
+            margin: 5px auto;
+            .row {
+                margin: 0;
+                height: 20px;
+            }
+            span {
+
+            }
         }
     }
 </style>

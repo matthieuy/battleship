@@ -90,4 +90,18 @@ abstract class AbstractWeapon implements WeaponInterface
 
         return $boxes;
     }
+
+    /**
+     * Convert to array
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'rotate' => $this->canBeRotate(),
+            'grid' => $this->getGridArray(),
+        ];
+    }
 }

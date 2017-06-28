@@ -16,6 +16,8 @@ const state = {
     options: {},
     weapons: {
         modalOpen: false,
+        loaded: false,
+        list: [],
     },
 }
 
@@ -89,7 +91,12 @@ const mutations = {
         } else {
             state.weapons.modalOpen = !state.weapons.modalOpen
         }
-    }
+        console.info('[Weapons] display modal :', state.weapons.modalOpen)
+    },
+    LOAD_WEAPON: (state, list) => {
+        state.weapons.list = list
+        state.weapons.loaded = true
+    },
 }
 
 const getters = {

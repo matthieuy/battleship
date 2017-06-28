@@ -56,4 +56,10 @@ interface WeaponInterface
      * @return boolean
      */
     public function canBeShuffle();
+
+    /**
+     * Convert to array
+     * @return array
+     */
+    public function toArray();
 }
