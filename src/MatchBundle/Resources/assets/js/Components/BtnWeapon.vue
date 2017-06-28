@@ -1,13 +1,13 @@
 <template>
     <span>
-        <div id="btn-weapon" title="Weapon" class="bubble" :class="{disabled: !enabled}">
+        <div id="btn-weapon" title="Weapon" class="bubble" :class="{disabled: !enabled}" @click="toggleModal()">
             <i class="fa fa-crosshairs"></i>
             <img id="weapon-bubble" src="img/null.png" width="25" height="25">
         </div>
     </span>
 </template>
 <script>
-    import { mapState, mapActions } from 'vuex'
+    import { mapState } from 'vuex'
     import store from '../Stores/GameStore'
     import Favico from '@bower/favico.js/favico.js'
 
@@ -22,6 +22,11 @@
                 return store.getters.options.weapon
             }
         },
+        methods: {
+            toggleModal() {
+                store.commit('TOGGLE_WEAPON_MODAL')
+            },
+        },
         mounted() {
             BubbleWeapon = new Favico({
                 elementId: 'weapon-bubble',
@@ -30,9 +35,11 @@
         },
         watch: {
             'me.score': (score) => {
-                console.info('[Bubble] Change score :' + score)
-                BubbleWeapon.badge(score)
-            }
+                if (store.getters.options.weapon) {
+                    console.info('[Bubble] Change score :' + score)
+                    BubbleWeapon.badge(score)
+                }
+            },
         },
     }
 </script>

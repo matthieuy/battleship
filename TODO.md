@@ -53,6 +53,7 @@ TODO
     - [ ] Use promise for WS
     - [ ] Disable shoot if game is over
     - [ ] ISO view
+    - [ ] Display grid (optional)
 - [ ] Weapons :
     - [X] Weapon Registry
     - [ ] Window in game for select weapon

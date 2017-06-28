@@ -14,6 +14,9 @@ const state = {
     me: null,
     grid: [],
     options: {},
+    weapons: {
+        modalOpen: false,
+    },
 }
 
 const mutations = {
@@ -80,6 +83,13 @@ const mutations = {
             })
         }
     },
+    TOGGLE_WEAPON_MODAL: (state, status) => {
+        if (typeof status !== 'undefined') {
+            state.weapons.modalOpen = status
+        } else {
+            state.weapons.modalOpen = !state.weapons.modalOpen
+        }
+    }
 }
 
 const getters = {
@@ -98,7 +108,8 @@ const getters = {
         return null
     },
     me: (state) => state.me,
-    options: (state) => state.options
+    options: (state) => state.options,
+    weapons: (state) => state.weapons,
 }
 
 const actions = {

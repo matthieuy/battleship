@@ -6,6 +6,7 @@ import store from "./Stores/GameStore"
 import Grid from "./Components/Grid.vue"
 import BtnWeapon from "./Components/BtnWeapon.vue"
 import BtnScore from "./Components/BtnScore.vue"
+import ModalWeapon from "./Components/ModalWeapon.vue"
 
 // App vue
 new Vue({
@@ -13,6 +14,7 @@ new Vue({
     store,
     components: {
         Grid,
+        ModalWeapon,
     }
 })
 
