@@ -30,6 +30,7 @@
                         <div class="clear"></div>
                         <div class="large-12 center">
                             <div class="row btn-action">
+                                <button class="button primary small-10 large-3" @click="rotate()">Rotate</button>
                                 <button class="button success small-10 large-3 disabled">Select</button>
                                 <button class="button alert small-10 large-3" @click="close()">Cancel</button>
                             </div>
@@ -66,10 +67,13 @@
                     marginTop: (6 - weapon.grid.length) * 10 + 'px',
                 }
             },
+            rotate() {
+                store.commit('ROTATE_WEAPON')
+            }
         },
         watch: {
             'weapons.modalOpen': (open) => {
-                if (open && !store.getters.weapons.loaded) {
+                if (open && !store.state.weapons.loaded) {
                     console.info('[Weapons] Loading')
                     $.ajax({
                         'url': $('input#ajax-weapons').val(),
