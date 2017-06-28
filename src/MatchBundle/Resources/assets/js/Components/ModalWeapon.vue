@@ -40,15 +40,13 @@
                 'weapons',
                 'me',
             ]),
+            // Points
             score() {
-                if (this.me.score) {
-                    return this.me.score
-                }
-
-                return 0
+                return (this.me && this.me.score) ? this.me.score : 0
             },
         },
         methods: {
+            // Close modal
             close() {
                 store.commit('TOGGLE_WEAPON_MODAL', false)
             },
