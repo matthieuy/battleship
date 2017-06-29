@@ -4,6 +4,9 @@ require('@app/js/tooltips.js')
 import Vue from "vue"
 import store from "./Stores/GameStore"
 import Grid from "./Components/Grid.vue"
+import BtnWeapon from "./Components/BtnWeapon.vue"
+import BtnScore from "./Components/BtnScore.vue"
+import ModalWeapon from "./Components/ModalWeapon.vue"
 
 // App vue
 new Vue({
@@ -11,7 +14,18 @@ new Vue({
     store,
     components: {
         Grid,
+        ModalWeapon,
     }
+})
+
+// Top Button
+new Vue({
+    el: '#btn-top',
+    store,
+    components: {
+        BtnScore: BtnScore,
+        BtnWeapon: BtnWeapon,
+    },
 })
 
 // Document.ready
@@ -21,7 +35,6 @@ $(() => {
 
     // Socket
     var slug = document.getElementById('slug').value
-    //var topicName = 'game/' + slug + '/run'
     WS.addDefaultData('slug', slug)
     WS.connect()
 

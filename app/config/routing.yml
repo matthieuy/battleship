@@ -1,3 +1,8 @@
+bonus:
+    resource: "@BonusBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 # AppBundle
 app:
     resource: "@AppBundle/Controller/"

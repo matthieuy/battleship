@@ -2,6 +2,8 @@
 
 namespace MatchBundle\RPC;
 
+use BonusBundle\Manager\WeaponRegistry;
+use BonusBundle\Weapons\WeaponInterface;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
@@ -29,10 +31,12 @@ class GameRpc implements RpcInterface
     private $clientManipulator;
     private $em;
     private $eventDispatcher;
-
+    private $weaponRegistry;
     private $pusher;
+
     /** @var ReturnBox */
     private $returnBox;
+    private $useWeapon = false;
 
     /**
      * GameRpc constructor.
@@ -40,17 +44,20 @@ class GameRpc implements RpcInterface
      * @param EntityManager              $em
      * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $eventDispatcher
+     * @param WeaponRegistry             $weaponRegistry
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        WeaponRegistry $weaponRegistry
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
+        $this->weaponRegistry = $weaponRegistry;
     }
 
     /**
@@ -162,9 +169,21 @@ class GameRpc implements RpcInterface
             return ['error' => 'You can\'t play now!'];
         }
 
+        // Weapons
+        try {
+            if (isset($params['weapon'])) {
+                $weapon = $this->weaponRegistry->getWeapon($params['weapon']);
+            } else {
+                $weapon = null;
+            }
+        } catch (\Exception $e) {
+            $weapon = null;
+        }
+        $weaponRotate = ($weapon && isset($params['rotate'])) ? $params['rotate'] : 0;
+
         // Check box
         $box = $game->getBox($x, $y);
-        if (!$box->isEmpty()) {
+        if (!$box->isEmpty() && $weapon === null) {
             // Already shoot
             if ($box->isAlreadyShoot()) {
                 return ['error' => 'Someone already shoot here!'];
@@ -182,7 +201,7 @@ class GameRpc implements RpcInterface
         }
 
         // Get boxes to shoot
-        $boxList = $this->getBoxesToShoot($game, $player, $x, $y);
+        $boxList = $this->getBoxesToShoot($game, $player, $x, $y, $weapon, $weaponRotate);
 
         // Do fire
         $this->returnBox = new ReturnBox();
@@ -310,16 +329,33 @@ class GameRpc implements RpcInterface
 
     /**
      * Get list of boxes to shoot
-     * @param Game    $game   The game
-     * @param Player  $player The shooter
-     * @param integer $x      X coord
-     * @param integer $y      Y coord
+     * @param Game            $game The game
+     * @param Player          $player The shooter
+     * @param integer         $x X coord
+     * @param integer         $y Y coord
+     * @param WeaponInterface $weapon The weapon to use or null
+     * @param integer         $weaponRotate Rotate of weapon
      *
      * @return Box[] List of box
      */
-    private function getBoxesToShoot(Game $game, Player $player, $x, $y)
+    private function getBoxesToShoot(Game $game, Player $player, $x, $y, WeaponInterface $weapon = null, $weaponRotate = 0)
     {
-        return [$game->getBox($x, $y)];
+        $noWeapon = [$game->getBox($x, $y)];
+        if (!$weapon) {
+            return $noWeapon;
+        }
+
+        // Price
+        $price = $weapon->getPrice();
+        if ($price > $player->getScore()) {
+            return $noWeapon;
+        }
+        $player->removeScore($price);
+        if (!$player->isAi()) {
+            $this->useWeapon = true;
+        }
+
+        return $weapon->getBoxes($game, $x, $y, $weaponRotate);
     }
 
     /**
@@ -332,6 +368,17 @@ class GameRpc implements RpcInterface
      */
     private function doFire(Game &$game, Box &$box, Player $shooter)
     {
+        // Use weapon : add score on first shoot
+        if ($this->useWeapon) {
+            $box->setScore($shooter);
+            $this->useWeapon = false;
+        }
+
+        // Some check
+        if (($shooter && $box->isSameTeam($shooter)) || $box->isAlreadyShoot() || $box->isOffzone($game->getSize())) {
+            return false;
+        }
+
         // Empty box
         if ($box->isEmpty()) {
             $box
@@ -340,11 +387,6 @@ class GameRpc implements RpcInterface
             $this->returnBox->addBox($game, $box);
 
             return true;
-        }
-
-        // Some check
-        if (($shooter && $box->isSameTeam($shooter)) || $box->isAlreadyShoot() || $box->isOffzone($game->getSize())) {
-            return false;
         }
 
         // Touch
@@ -406,12 +448,14 @@ class GameRpc implements RpcInterface
 
         $shooter->addScore($points);
         if (!$shooter->isAi()) {
-            $box->setScore($points);
+            $box->setScore($shooter);
         }
 
         // Save
         $victimBoats[$boatIndex] = $boat;
-        $box->setSink($isSink);
+        $box
+            ->setSink($isSink)
+            ->setLife($victim);
         $victim->setBoats($victimBoats);
         $this->returnBox->addBox($game, $box);
 
@@ -434,11 +478,9 @@ class GameRpc implements RpcInterface
     private function nextTour(Game &$game, Player $fromPlayer)
     {
         // Get players and teams alive
-        $playersList = [];
         $teamsList = [];
         foreach ($game->getPlayers() as $player) {
             if ($player->getLife() > 0) {
-                $playersList[$player->getPosition()] = $player;
                 if (!isset($teamsList[$player->getTeam()])) {
                     $teamsList[$player->getTeam()] = [];
                 }
@@ -556,20 +598,20 @@ class GameRpc implements RpcInterface
                     $boxLeft = ($x > 0 && isset($grid[$y][$x-1])) ? $grid[$y][$x-1] : false;
 
                     // Can we shoot on there box ?
-                    $canShootTop = ($boxTop && !isset($boxTop['shoot']) && (!isset($boxTop['team']) || $boxTop['team'] != $ai->getTeam()));
-                    $canShootRight = ($boxRight && !isset($boxRight['shoot']) && (!isset($boxRight['team']) || $boxRight['team'] != $ai->getTeam()));
-                    $canShootBottom = ($boxBottom && !isset($boxBottom['shoot']) && (!isset($boxBottom['team']) || $boxBottom['team'] != $ai->getTeam()));
-                    $canShootLeft = ($boxLeft && !isset($boxLeft['shoot']) && (!isset($boxLeft['team']) || $boxLeft['team'] != $ai->getTeam()));
+                    $canShootTop = ($boxTop !== false && !isset($boxTop['shoot']) && (!isset($boxTop['team']) || $boxTop['team'] != $ai->getTeam()));
+                    $canShootRight = ($boxRight !== false && !isset($boxRight['shoot']) && (!isset($boxRight['team']) || $boxRight['team'] != $ai->getTeam()));
+                    $canShootBottom = ($boxBottom !== false && !isset($boxBottom['shoot']) && (!isset($boxBottom['team']) || $boxBottom['team'] != $ai->getTeam()));
+                    $canShootLeft = ($boxLeft !== false && !isset($boxLeft['shoot']) && (!isset($boxLeft['team']) || $boxLeft['team'] != $ai->getTeam()));
 
                     $sx = $x;
                     $sy = $y;
 
                     // First pass : check 2 align explose
                     if ($pass == 0) {
-                        $exploseTop = ($boxTop && isset($boxTop['explose']));
-                        $exploseRight = ($boxRight && isset($boxRight['explose']));
-                        $exploseBottom = ($boxBottom && isset($boxBottom['explose']));
-                        $exploseLeft = ($boxLeft && isset($boxLeft['explose']));
+                        $exploseTop = ($boxTop !== false && isset($boxTop['explose']));
+                        $exploseRight = ($boxRight !== false && isset($boxRight['explose']));
+                        $exploseBottom = ($boxBottom !== false && isset($boxBottom['explose']));
+                        $exploseLeft = ($boxLeft !== false && isset($boxLeft['explose']));
                     } else {
                         // Other pass : bypass explose check
                         $exploseTop = true;
@@ -643,10 +685,15 @@ class GameRpc implements RpcInterface
                     $isolate = false;
                 }
             } while ($alreadyShoot || $owner || $isolate);
+
+            // Weapon
+            $weapon = $this->weaponRegistry->getWeaponForAI($ai->getScore());
+        } else {
+            $weapon = null;
         }
 
         // Fire !!!
-        $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy);
+        $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy, $weapon);
         foreach ($boxes as $box) {
             $this->doFire($game, $box, $ai);
         }

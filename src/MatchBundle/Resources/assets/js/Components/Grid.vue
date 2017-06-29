@@ -12,6 +12,7 @@
     </div>
 </template>
 <script>
+    import Vue from "vue"
     import { mapState, mapActions } from 'vuex'
     import store from '../Stores/GameStore'
 
@@ -32,8 +33,6 @@
         methods: {
             // Receive data from game
             receive_data: (obj) => {
-                console.log('receive_data', obj)
-
                 async.mapSeries(
                     obj.img,
                     function(img, next) {
@@ -65,7 +64,6 @@
 
                                 // Update grid
                                 store.commit('UPDATE_GRID', img)
-
                                 $box.addClass('animated')
 
                                 // Next img
@@ -83,10 +81,22 @@
             },
             // Do a shoot
             shoot: (box) => {
-                WS.callRPC('run/shoot', {
+                // Data to send by RPC
+                let dataSend = {
                     x: box.x,
                     y: box.y,
-                })
+                }
+
+                // Add weapon
+                if (store.state.weapons.selected) {
+                    Object.assign(dataSend, {
+                        weapon: store.state.weapons.selected,
+                        rotate: store.state.weapons.rotate,
+                    })
+                }
+
+                // RPC
+                WS.callRPC('run/shoot', dataSend)
             },
             // Update CSS
             update_grid_css() {
@@ -197,110 +207,5 @@
     }
 </script>
 <style lang="less">
-    @widthBox: 20px;
-    #grid {
-        margin: 20px auto;
-        background-color: #002a98;
-        cursor: pointer;
-        -moz-user-select: none;
-        -o-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select : none;
-        .grid-line {
-            clear: left;
-            float: left;
-        }
-        .box {
-            display: block;
-            float: left;
-            width: @widthBox;
-            height: @widthBox;
-            padding: 0;
-            .explose {
-                width: 100%;
-                height: 100%;
-                display: block;
-            }
-        }
-    }
-    .boat { background-image: url('/img/boat20.png'); }
-    .explose { background-image: url('/img/explose-20.png'); }
-    .miss { background-position: (@widthBox * -11) 0; }
-    .miss.animated { animation: explose-ice 2s steps(12) 1; }
-    .hit { background-position: (@widthBox * 6) @widthBox; }
-    .hit.animated { animation: explose-fire 2s steps(12) infinite; }
 
-    @keyframes explose-ice {
-        0% { background-position: 0 0; }
-        100% { background-position: (@widthBox * -12) 0; }
-    }
-    @keyframes explose-fire {
-        0% { background-position: 0 @widthBox; }
-        100% { background-position: (@widthBox * 12) @widthBox; }
-    }
-
-    .img1 { background-position: (@widthBox * 0) (@widthBox * 0); }
-    .img2 { background-position: (@widthBox * -1) (@widthBox * 0); }
-    .img3 { background-position: (@widthBox * -2) (@widthBox * 0); }
-    .img4 { background-position: (@widthBox * -3) (@widthBox * 0); }
-    .img5 { background-position: (@widthBox * -4) (@widthBox * 0); }
-    .img6 { background-position: (@widthBox * -5) (@widthBox * 0); }
-    .img7 { background-position: (@widthBox * -6) (@widthBox * 0); }
-    .img8 { background-position: (@widthBox * -7) (@widthBox * 0); }
-
-    .img9 { background-position: (@widthBox * 0) (@widthBox * -1); }
-    .img10 { background-position: (@widthBox * -1) (@widthBox * -1); }
-    .img11 { background-position: (@widthBox * -2) (@widthBox * -1); }
-    .img12 { background-position: (@widthBox * -3) (@widthBox * -1); }
-    .img13 { background-position: (@widthBox * -4) (@widthBox * -1); }
-    .img14 { background-position: (@widthBox * -5) (@widthBox * -1); }
-    .img15 { background-position: (@widthBox * -6) (@widthBox * -1); }
-    .img16 { background-position: (@widthBox * -7) (@widthBox * -1); }
-
-    .img17 { background-position: (@widthBox * 0) (@widthBox * -2); }
-    .img18 { background-position: (@widthBox * -1) (@widthBox * -2); }
-    .img19 { background-position: (@widthBox * -2) (@widthBox * -2); }
-    .img20 { background-position: (@widthBox * -3) (@widthBox * -2); }
-    .img21 { background-position: (@widthBox * -4) (@widthBox * -2); }
-    .img22 { background-position: (@widthBox * -5) (@widthBox * -2); }
-    .img23 { background-position: (@widthBox * -6) (@widthBox * -2); }
-    .img24 { background-position: (@widthBox * -7) (@widthBox * -2); }
-
-    .img25 { background-position: (@widthBox * 0) (@widthBox * -3); }
-    .img26 { background-position: (@widthBox * -1) (@widthBox * -3); }
-    .img27 { background-position: (@widthBox * -2) (@widthBox * -3); }
-    .img28 { background-position: (@widthBox * -3) (@widthBox * -3); }
-    .img29 { background-position: (@widthBox * -4) (@widthBox * -3); }
-    .img30 { background-position: (@widthBox * -5) (@widthBox * -3); }
-    .img31 { background-position: (@widthBox * -6) (@widthBox * -3); }
-    .img32 { background-position: (@widthBox * -7) (@widthBox * -3); }
-
-    .img33 { background-position: (@widthBox * 0) (@widthBox * -4); }
-    .img34 { background-position: (@widthBox * -1) (@widthBox * -4); }
-    .img35 { background-position: (@widthBox * -2) (@widthBox * -4); }
-    .img36 { background-position: (@widthBox * -3) (@widthBox * -4); }
-    .img37 { background-position: (@widthBox * -4) (@widthBox * -4); }
-    .img38 { background-position: (@widthBox * -5) (@widthBox * -4); }
-    .img39 { background-position: (@widthBox * -6) (@widthBox * -4); }
-    .img40 { background-position: (@widthBox * -7) (@widthBox * -4); }
-
-    .img41 { background-position: (@widthBox * 0) (@widthBox * -5); }
-    .img42 { background-position: (@widthBox * -1) (@widthBox * -5); }
-    .img43 { background-position: (@widthBox * -2) (@widthBox * -5); }
-    .img44 { background-position: (@widthBox * -3) (@widthBox * -5); }
-    .img45 { background-position: (@widthBox * -4) (@widthBox * -5); }
-    .img46 { background-position: (@widthBox * -5) (@widthBox * -5); }
-    .img47 { background-position: (@widthBox * -6) (@widthBox * -5); }
-    .img48 { background-position: (@widthBox * -7) (@widthBox * -5); }
-
-    .img49 { background-position: (@widthBox * 0) (@widthBox * -6); }
-    .img50 { background-position: (@widthBox * -1) (@widthBox * -6); }
-    .img51 { background-position: (@widthBox * -2) (@widthBox * -6); }
-    .img52 { background-position: (@widthBox * -3) (@widthBox * -6); }
-    .img53 { background-position: (@widthBox * -4) (@widthBox * -6); }
-    .img54 { background-position: (@widthBox * -5) (@widthBox * -6); }
-    .img55 { background-position: (@widthBox * -6) (@widthBox * -6); }
-    .img56 { background-position: (@widthBox * -7) (@widthBox * -6); }
 </style>

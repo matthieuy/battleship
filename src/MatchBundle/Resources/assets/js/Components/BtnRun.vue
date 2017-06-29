@@ -43,7 +43,6 @@
                 }
 
                 // Count team
-                // TODO Clearly method ?
                 var teamList = {}
                 this.players.forEach((player) => {
                     teamList[player.team] = 1
