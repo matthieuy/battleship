@@ -81,7 +81,7 @@ const mutations = {
         }
 
         // Update grid and sink boat
-        state.grid[box.y][box.x] = box
+        Vue.set(state.grid[box.y], box.x, box)
         if (box.sink) {
             box.sink.forEach(function(b, i) {
                 state.grid[b.y][b.x] = b

@@ -3,6 +3,7 @@
 namespace BonusBundle\Weapons;
 
 use MatchBundle\Box\Box;
+use MatchBundle\Entity\Game;
 
 /**
  * Interface WeaponInterface
@@ -19,13 +20,14 @@ interface WeaponInterface
 
     /**
      * Get boxes to shoot
+     * @param Game    $game   The game
      * @param integer $x      X position
      * @param integer $y      Y position
      * @param integer $rotate Number of 90degrees rotations
      *
      * @return Box[]
      */
-    public function getBoxes($x, $y, $rotate = 0);
+    public function getBoxes(Game $game, $x, $y, $rotate = 0);
 
     /**
      * Get the name

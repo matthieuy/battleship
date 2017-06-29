@@ -3,6 +3,7 @@
 namespace BonusBundle\Weapons;
 
 use MatchBundle\Box\Box;
+use MatchBundle\Entity\Game;
 
 /**
  * Class AbstractWeapon
@@ -36,7 +37,6 @@ abstract class AbstractWeapon implements WeaponInterface
         if ($time > 3) {
             $time = $time % 4;
         }
-        $result = $matrix;
 
         for ($t=$time; $t > 0; $t--) {
             $rows = count($matrix);
@@ -48,20 +48,22 @@ abstract class AbstractWeapon implements WeaponInterface
                     $result[$rows - $i - 1][$j] = $matrix[$rows - $j - 1][$i];
                 }
             }
-            $result = array_values($result);
+            $matrix = array_values($result);
         }
 
-        return $result;
+        return $matrix;
     }
 
     /**
+     * Get boxes to shoot
+     * @param Game    $game   The game
      * @param integer $x      X position
      * @param integer $y      Y position
      * @param integer $rotate Number of 90degrees rotations
      *
      * @return Box[]
      */
-    public function getBoxes($x, $y, $rotate = 0)
+    public function getBoxes(Game $game, $x, $y, $rotate = 0)
     {
         $grid = $this->rotate($this->getGridArray(), $rotate);
         $rows = count($grid);
@@ -73,7 +75,7 @@ abstract class AbstractWeapon implements WeaponInterface
         for ($sy=0; $sy < $rows; $sy++) {
             for ($sx=0; $sx < $cols; $sx++) {
                 if ($grid[$sy][$sx] == 1) {
-                    $boxes[] = new Box($x+$sx-$centerX, $y+$sy-$centerY);
+                    $boxes[] = $game->getBox($x+$sx-$centerX, $y+$sy-$centerY);
                 }
             }
         }

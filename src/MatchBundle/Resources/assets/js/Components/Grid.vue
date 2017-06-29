@@ -12,6 +12,7 @@
     </div>
 </template>
 <script>
+    import Vue from "vue"
     import { mapState, mapActions } from 'vuex'
     import store from '../Stores/GameStore'
 
@@ -32,8 +33,6 @@
         methods: {
             // Receive data from game
             receive_data: (obj) => {
-                console.log('receive_data', obj)
-
                 async.mapSeries(
                     obj.img,
                     function(img, next) {
@@ -65,7 +64,6 @@
 
                                 // Update grid
                                 store.commit('UPDATE_GRID', img)
-
                                 $box.addClass('animated')
 
                                 // Next img
