@@ -60,4 +60,23 @@ class WeaponRegistry
 
         return $this->weapons[$name];
     }
+
+    /**
+     * Get a weapon for AI
+     * @param integer $score AI score
+     *
+     * @return WeaponInterface|null The weapon or null
+     */
+    public function getWeaponForAI($score)
+    {
+        $list = [];
+        foreach ($this->weapons as $weapon) {
+            if ($weapon->canAiUseIt() && $score >= $weapon->getPrice()) {
+                $list[] = $weapon;
+            }
+        }
+        shuffle($list);
+
+        return (count($list)) ? $list[0] : null;
+    }
 }

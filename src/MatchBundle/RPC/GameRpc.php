@@ -685,10 +685,15 @@ class GameRpc implements RpcInterface
                     $isolate = false;
                 }
             } while ($alreadyShoot || $owner || $isolate);
+
+            // Weapon
+            $weapon = $this->weaponRegistry->getWeaponForAI($ai->getScore());
+        } else {
+            $weapon = null;
         }
 
         // Fire !!!
-        $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy);
+        $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy, $weapon);
         foreach ($boxes as $box) {
             $this->doFire($game, $box, $ai);
         }
