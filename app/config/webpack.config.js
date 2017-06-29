@@ -15,6 +15,7 @@ module.exports = function makeWebpackConfig(options) {
      * BUILD is for generating minified builds
      */
     var BUILD = options.environment === 'prod';
+    const NODE_ENV = (BUILD) ? 'production' : 'development'
 
     /**
      * Whether we are running in dev-server mode (versus simple compile)
@@ -247,7 +248,14 @@ module.exports = function makeWebpackConfig(options) {
          * Used by the bundle to use binary files (like images) as entry-points
          * Reference: https://github.com/mariusbalcytis/extract-file-loader
          */
-        new ExtractFilePlugin()
+        new ExtractFilePlugin(),
+
+        // Add node_env
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(NODE_ENV)
+            }
+        })
     ];
 
     config.plugins.push(new webpack.ProvidePlugin({

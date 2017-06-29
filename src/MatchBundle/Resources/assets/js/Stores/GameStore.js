@@ -14,6 +14,7 @@ const state = {
     me: null,
     grid: [],
     options: {},
+    // @todo vuex module for weapon
     weapons: {
         modalOpen: false,
         loaded: false,
@@ -170,5 +171,5 @@ export default new Vuex.Store({
     mutations,
     getters,
     actions,
-    strict: true
+    strict: process.env.NODE_ENV !== 'production'
 })

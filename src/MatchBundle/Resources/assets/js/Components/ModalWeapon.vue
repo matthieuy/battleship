@@ -73,6 +73,7 @@
         },
         watch: {
             'weapons.modalOpen': (open) => {
+                // @todo Open and load weapon in store.action
                 if (open && !store.state.weapons.loaded) {
                     console.info('[Weapons] Loading')
                     $.ajax({
