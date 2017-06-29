@@ -598,20 +598,20 @@ class GameRpc implements RpcInterface
                     $boxLeft = ($x > 0 && isset($grid[$y][$x-1])) ? $grid[$y][$x-1] : false;
 
                     // Can we shoot on there box ?
-                    $canShootTop = ($boxTop && !isset($boxTop['shoot']) && (!isset($boxTop['team']) || $boxTop['team'] != $ai->getTeam()));
-                    $canShootRight = ($boxRight && !isset($boxRight['shoot']) && (!isset($boxRight['team']) || $boxRight['team'] != $ai->getTeam()));
-                    $canShootBottom = ($boxBottom && !isset($boxBottom['shoot']) && (!isset($boxBottom['team']) || $boxBottom['team'] != $ai->getTeam()));
-                    $canShootLeft = ($boxLeft && !isset($boxLeft['shoot']) && (!isset($boxLeft['team']) || $boxLeft['team'] != $ai->getTeam()));
+                    $canShootTop = ($boxTop !== false && !isset($boxTop['shoot']) && (!isset($boxTop['team']) || $boxTop['team'] != $ai->getTeam()));
+                    $canShootRight = ($boxRight !== false && !isset($boxRight['shoot']) && (!isset($boxRight['team']) || $boxRight['team'] != $ai->getTeam()));
+                    $canShootBottom = ($boxBottom !== false && !isset($boxBottom['shoot']) && (!isset($boxBottom['team']) || $boxBottom['team'] != $ai->getTeam()));
+                    $canShootLeft = ($boxLeft !== false && !isset($boxLeft['shoot']) && (!isset($boxLeft['team']) || $boxLeft['team'] != $ai->getTeam()));
 
                     $sx = $x;
                     $sy = $y;
 
                     // First pass : check 2 align explose
                     if ($pass == 0) {
-                        $exploseTop = ($boxTop && isset($boxTop['explose']));
-                        $exploseRight = ($boxRight && isset($boxRight['explose']));
-                        $exploseBottom = ($boxBottom && isset($boxBottom['explose']));
-                        $exploseLeft = ($boxLeft && isset($boxLeft['explose']));
+                        $exploseTop = ($boxTop !== false && isset($boxTop['explose']));
+                        $exploseRight = ($boxRight !== false && isset($boxRight['explose']));
+                        $exploseBottom = ($boxBottom !== false && isset($boxBottom['explose']));
+                        $exploseLeft = ($boxLeft !== false && isset($boxLeft['explose']));
                     } else {
                         // Other pass : bypass explose check
                         $exploseTop = true;
