@@ -14,7 +14,7 @@
                         <div class="large-12 column">
                             <div class="row">
                                 <div class="large-3 column" v-for="weapon in weapons.list">
-                                    <div class="center weapon">
+                                    <div class="center weapon" :class="classWeapon(weapon)" @click="highlight(weapon)">
                                         <h3>{{ weapon.name }}</h3>
                                         <em>Price: {{ weapon.price }} points</em>
                                         <div class="grid weapon-model" :style="styleModel(weapon)">
@@ -31,7 +31,7 @@
                         <div class="large-12 center">
                             <div class="row btn-action">
                                 <button class="button primary small-10 large-3" @click="rotate()">Rotate</button>
-                                <button class="button success small-10 large-3 disabled">Select</button>
+                                <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">Select</button>
                                 <button class="button alert small-10 large-3" @click="close()">Cancel</button>
                             </div>
                         </div>
@@ -46,6 +46,11 @@
     import store from '../Stores/GameStore'
 
     export default {
+        data() {
+            return {
+                selected: null,
+            }
+        },
         computed: {
             ...mapState([
                 'weapons',
@@ -60,6 +65,8 @@
             // Close modal
             close() {
                 store.commit('TOGGLE_WEAPON_MODAL', false)
+                store.commit('SELECT_WEAPON')
+                this.selected = null
             },
             styleModel: (weapon) => {
                 return {
@@ -67,9 +74,26 @@
                     marginTop: (6 - weapon.grid.length) * 10 + 'px',
                 }
             },
+            classWeapon(weapon) {
+                return {
+                    disabled: weapon.price > this.score,
+                    selected: this.selected && weapon.name == this.selected.name,
+                }
+            },
             rotate() {
                 store.commit('ROTATE_WEAPON')
-            }
+            },
+            highlight(weapon) {
+                if (weapon.price > this.score) {
+                    return false
+                }
+                console.info('[Weapons] Highlight ' + weapon.name)
+                this.selected = weapon
+            },
+            select() {
+                store.commit('SELECT_WEAPON', this.selected)
+                store.commit('TOGGLE_WEAPON_MODAL', false)
+            },
         },
         watch: {
             'weapons.modalOpen': (open) => {
@@ -161,7 +185,7 @@
             }
 
             &.selected {
-                 border: 2px solid #1F7E1F;
+                 outline: #1F7E1F solid 2px;
                  background-color: #b0ff9e;
              }
 

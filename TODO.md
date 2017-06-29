@@ -56,7 +56,7 @@ TODO
     - [ ] Display grid (optional)
 - [ ] Weapons :
     - [X] Weapon Registry
-    - [ ] Window in game for select weapon
+    - [X] Window in game for select weapon
     - [X] Make weapon
     - [ ] CSS helper for weapon
 - [ ] Mobile :

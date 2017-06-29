@@ -20,6 +20,7 @@ const state = {
         loaded: false,
         list: [],
         rotate: 0,
+        selected: null,
     },
 }
 
@@ -96,7 +97,9 @@ const mutations = {
         console.info('[Weapons] display modal :', state.weapons.modalOpen)
     },
     LOAD_WEAPON: (state, list) => {
-        state.weapons.list = list
+        state.weapons.list = list.sort(function(o1, o2) {
+            return o1.price - o2.price
+        })
         state.weapons.loaded = true
     },
     ROTATE_WEAPON: (state) => {
@@ -133,6 +136,14 @@ const mutations = {
             weapon.grid = newGrid
         })
     },
+    SELECT_WEAPON: (state, weapon) => {
+        if (weapon) {
+            state.weapons.selected = weapon.name
+            console.info('[Weapons] Select ' + weapon.name)
+        } else {
+            state.weapons.selected = null
+        }
+    }
 }
 
 const getters = {

@@ -83,10 +83,22 @@
             },
             // Do a shoot
             shoot: (box) => {
-                WS.callRPC('run/shoot', {
+                // Data to send by RPC
+                let dataSend = {
                     x: box.x,
                     y: box.y,
-                })
+                }
+
+                // Add weapon
+                if (store.state.weapons.selected) {
+                    Object.assign(dataSend, {
+                        weapon: store.state.weapons.selected,
+                        rotate: store.state.weapons.rotate,
+                    })
+                }
+
+                // RPC
+                WS.callRPC('run/shoot', dataSend)
             },
             // Update CSS
             update_grid_css() {
