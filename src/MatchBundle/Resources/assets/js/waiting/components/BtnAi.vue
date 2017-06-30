@@ -3,18 +3,15 @@
         v-if="isCreator"
         @click="addAI"
         :data-tip="tip"
-        :class="{ disabled: (!loaded || disabled || loading) }"
+        :class="btnClass"
         class="button round small-12 large-2 opentip">
         <i :class="{ 'fa fa-spin fa-circle-o-notch': loading }"></i> {{ name }}
     </span>
-    <!--
-    <span id="btn-ai" class="disabled"
-    data-tip="<strong>{{ 'ai.add'|trans }} :</strong>{{ 'ai.add_desc'|trans }}"><i></i> {{ 'ai.add'|trans }}</span>
-    -->
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from '../Stores/WaitingStore'
+    import store from '../store/store'
+    import * as types from "../store/mutation-types"
 
     export default{
         props: {
@@ -24,6 +21,7 @@
         data() {
             return {
                 loading: false,
+                disabled: true,
             }
         },
         computed: {
@@ -31,31 +29,35 @@
                 'loaded',
                 'game',
                 'players',
-                'isCreator'
+                'isCreator',
             ]),
             tip() {
                 return `<strong>${this.name} :</strong> ${this.desc}`
             },
-            disabled() {
-                return (this.players.length >= this.game.max) || this.loading
-            }
+            btnClass() {
+                this.disabled = (!this.isCreator || this.players.length >= this.game.max)
+                return {
+                    disabled: this.disabled || this.loading || !this.loaded
+                }
+            },
         },
         methods: {
             // Add a AI
             addAI() {
-                if (!this.loaded || !this.isCreator || this.disabled) {
-                    return;
+                if (this.disabled) {
+                    return false
                 }
+
                 this.loading = true
                 this.loaded = false
 
-                WS.callRPC('wait/join', {join: true, ai: true}, (obj) => {
+                store.dispatch(types.ACTION.ADD_AI).then((obj) => {
                     this.loading = false
                     if (obj.msg) {
                         return Flash.error(obj.msg)
                     }
                 })
-            }
-        }
+            },
+        },
     }
 </script>

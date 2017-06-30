@@ -10,7 +10,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% webpack js '@match/js/waiting.js' %}
+    {% webpack js '@match/js/waiting/waiting.js' %}
         <script src="{{ asset_url }}"></script>
     {% end_webpack %}
 {% endblock %}
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="column large-8 small-12 large-centered">
                 <game-info><i class="fa fa-spin fa-spinner"></i></game-info>
-                <input type="hidden" id="user_id" value="{{ app.user.id|default('0') }}">
+                <input type="hidden" id="user-id" value="{{ app.user.id|default('0') }}">
                 <input type="hidden" id="slug" value="{{ game.slug }}">
             </div>
         </div>

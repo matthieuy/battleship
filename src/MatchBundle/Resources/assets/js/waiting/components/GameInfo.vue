@@ -17,7 +17,7 @@
                 <td>Grid size :</td>
                 <td v-if="!isCreator">{{ game.size }} x {{ game.size }}</td>
                 <td v-if="isCreator">
-                    <select :value="game.size" @change="changeSize">
+                    <select v-model="size">
                         <option value="15">15 x 15 (2 players)</option>
                         <option value="20">20 x 20 (3 players)</option>
                         <option value="25">25 x 25 (4/5 players)</option>
@@ -44,7 +44,7 @@
                 <td>
                     {{ players.length }} /
                     <span v-if="isCreator">
-                        <input type="number" min="2" max="12" :value="game.max" @change="changeMax">
+                        <input type="number" min="2" max="12" v-model="max">
                     </span>
                     <span v-if="!isCreator">{{ game.max }}</span>
                 </td>
@@ -58,41 +58,47 @@
 </template>
 
 <script>
+    // Imports
     import { mapState } from 'vuex'
-    import store from '../Stores/WaitingStore'
+    import store from '../store/store'
+    import * as types from "../store/mutation-types"
     import moment from 'moment'
 
     export default {
         computed: {
             ...mapState([
-                'players',
-                'size',
                 'game',
-                'loaded',
+                'players',
                 'isCreator',
+                'loaded',
             ]),
+            // Get create date
             date() {
                 return moment.unix(this.game.date).format('LLL')
-            }
-        },
-        methods: {
-            // Change size of the grid
-            changeSize(e) {
-                if (!this.isCreator) {
-                    return;
-                }
-                let value = Math.min(50, Math.max(15, e.target.value))
-                e.target.value = this.game.size
-                WS.callRPC('wait/size', {type: 'size', size: value})
             },
-            // Change max player
-            changeMax(e) {
-                if (!this.isCreator) {
-                    return;
+            // Get/Set grid size
+            size: {
+                get() {
+                    return this.game.size
+                },
+                set(size) {
+                    if (this.isCreator) {
+                        size = Math.min(50, Math.max(15, size))
+                        store.dispatch(types.ACTION.CHANGE_SIZE, size)
+                    }
                 }
-                let value = Math.min(12, Math.max(2, e.target.value))
-                e.target.value = this.game.max
-                WS.callRPC('wait/size', {type: 'max', size: value})
+            },
+            // Get/set max players limit
+            max: {
+                get() {
+                    return this.game.max
+                },
+                set(max) {
+                    if (this.isCreator) {
+                        max = Math.min(12, Math.max(2, max))
+                        store.dispatch(types.ACTION.CHANGE_MAX, max)
+                    }
+                }
             },
         },
     }
