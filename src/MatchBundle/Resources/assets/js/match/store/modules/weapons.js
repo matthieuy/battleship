@@ -110,6 +110,7 @@ export default {
                         weapon: context.state.select,
                         rotate: context.state.rotate,
                     })
+                    context.commit(MUTATION.SELECT)
                 }
                 resolve(obj)
             })

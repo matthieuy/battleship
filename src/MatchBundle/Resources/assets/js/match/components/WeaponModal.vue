@@ -74,6 +74,7 @@
             select() {
                 store.commit(MUTATION.SELECT, this.selected)
                 store.commit(MUTATION.WEAPON_MODAL, false)
+                this.selected = null
             },
             // Rotate weapons
             rotate() {

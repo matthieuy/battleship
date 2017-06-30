@@ -103,7 +103,7 @@
                 // Add weapon
                 store.dispatch(types.ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
                     // Send data
-                    store.dispatch(types.ACTION.SHOOT, obj)
+                    store.dispatch(types.ACTION.SHOOT, dataSend)
                 })
             },
             // CSS for box

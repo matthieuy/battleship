@@ -95,12 +95,12 @@ TODO
         - [ ] Push Navigator
         - [ ] Chat
     - [ ] Type :
-        - Friend connect
-        - Tour
-        - Messages
+        - [ ] Friend connect
+        - [ ] Tour
+        - [ ] Messages
 - [ ] IA :
     - [ ] Add avatar
-    - [ ] Use ammo
+    - [X] Use ammo
     - [ ] Use bonus
 - [ ] Bonus :
     - [ ] Make Bonus registy
