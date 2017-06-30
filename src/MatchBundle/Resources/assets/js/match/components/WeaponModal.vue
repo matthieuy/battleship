@@ -1,5 +1,5 @@
 <template>
-    <div v-show="weapons.modalOpen">
+    <div v-show="weapon.modal">
         <div class="modal-bg"></div>
         <div class="modal-wrap">
             <div class="modal-container">
@@ -7,18 +7,18 @@
                     <div id="modal-weapon">
                         <div class="center">
                             <h1>Weapons</h1>
-                            <div><strong>{{ score }}</strong> points</div>
+                            <div v-show="me"><strong>{{ score }}</strong> points</div>
                         </div>
                         <div class="clear"></div>
 
                         <div class="large-12 column">
                             <div class="row">
-                                <div class="large-3 column" v-for="weapon in weapons.list">
-                                    <div class="center weapon" :class="classWeapon(weapon)" @click="highlight(weapon)">
-                                        <h3>{{ weapon.name }}</h3>
-                                        <em>Price: {{ weapon.price }} points</em>
-                                        <div class="grid weapon-model" :style="styleModel(weapon)">
-                                            <div class="clear row" v-for="row in weapon.grid">
+                                <div class="large-3 column" v-for="w in weapon.list">
+                                    <div class="center weapon" :class="classWeapon(w)" @click="highlight(w)">
+                                        <h3>{{ w.name }}</h3>
+                                        <em>Price: {{ w.price }} points</em>
+                                        <div class="grid weapon-model" :style="styleModel(w)">
+                                            <div class="clear row" v-for="row in w.grid">
                                                 <span class="box" v-for="box in row" :class="{'explose hit animated': box }"></span>
                                             </div>
                                         </div>
@@ -42,8 +42,10 @@
     </div>
 </template>
 <script>
+    // Import
     import { mapState } from 'vuex'
-    import store from '../Stores/GameStore'
+    import store from "../store/GameStore"
+    import { ACTION, MUTATION } from "../store/modules/weapons"
 
     export default {
         data() {
@@ -53,65 +55,64 @@
         },
         computed: {
             ...mapState([
-                'weapons',
+                'weapon', // Weapon module
                 'me',
+                'boxSize',
             ]),
-            // Points
             score() {
                 return (this.me && this.me.score) ? this.me.score : 0
-            },
+            }
         },
         methods: {
             // Close modal
             close() {
-                store.commit('TOGGLE_WEAPON_MODAL', false)
-                store.commit('SELECT_WEAPON')
+                store.commit(MUTATION.WEAPON_MODAL, false)
+                store.commit(MUTATION.SELECT)
                 this.selected = null
             },
-            styleModel: (weapon) => {
-                return {
-                    width: (weapon.grid[0].length * 20) +'px',
-                    marginTop: (6 - weapon.grid.length) * 10 + 'px',
-                }
+            // Select weapon
+            select() {
+                store.commit(MUTATION.SELECT, this.selected)
+                store.commit(MUTATION.WEAPON_MODAL, false)
             },
+            // Rotate weapons
+            rotate() {
+                store.commit(MUTATION.ROTATE)
+            },
+            // CSS class for weapon box
             classWeapon(weapon) {
                 return {
                     disabled: weapon.price > this.score,
                     selected: this.selected && weapon.name == this.selected.name,
                 }
             },
-            rotate() {
-                store.commit('ROTATE_WEAPON')
-            },
+            // Highlight the weapon (on click)
             highlight(weapon) {
-                if (weapon.price > this.score) {
-                    return false
+                if (this.score >= weapon.price) {
+                    this.selected = weapon
                 }
-                console.info('[Weapons] Highlight ' + weapon.name)
-                this.selected = weapon
             },
-            select() {
-                store.commit('SELECT_WEAPON', this.selected)
-                store.commit('TOGGLE_WEAPON_MODAL', false)
+            // Calcul style of model weapon
+            styleModel(weapon) {
+                return {
+                    width: (weapon.grid[0].length * this.boxSize) +'px',
+                    marginTop: (6 - weapon.grid.length) * (this.boxSize / 2) + 'px',
+                }
             },
         },
         watch: {
-            'weapons.modalOpen': (open) => {
-                // @todo Open and load weapon in store.action
-                if (open && !store.state.weapons.loaded) {
-                    console.info('[Weapons] Loading')
-                    $.ajax({
-                        'url': $('input#ajax-weapons').val(),
-                        success(obj) {
-                            if (obj.error) {
-                                return Flash.error(obj.error)
-                            }
-                            store.commit('LOAD_WEAPON', obj)
+            // Load weapons list on the first call
+            'weapon.modal': (open) => {
+                if (open && !store.state.weapon.loaded) {
+                    store.dispatch(ACTION.LOAD, $('input#ajax-weapons').val()).then((list) => {
+                        if (list.error) {
+                            return Flash.error(list.error)
                         }
+                        store.commit(MUTATION.SET_LIST, list)
                     })
                 }
-            }
-        }
+            },
+        },
     }
 </script>
 
