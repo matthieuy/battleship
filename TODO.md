@@ -51,7 +51,7 @@ TODO
     - [ ] Delete game
     - [X] Tooltip on case
     - [ ] Use promise for WS
-    - [ ] Disable shoot if game is over
+    - [X] Disable shoot if game is over
     - [ ] ISO view
     - [ ] Display grid (optional)
 - [X] Weapons :

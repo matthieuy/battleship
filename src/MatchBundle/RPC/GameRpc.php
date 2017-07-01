@@ -99,6 +99,9 @@ class GameRpc implements RpcInterface
             'options' => $game->getOptions(),
             'players' => [],
         ];
+        if ($game->getStatus() == Game::STATUS_END) {
+            $infos['finished'] = true;
+        }
 
         // Players list
         $me = null;

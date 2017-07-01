@@ -41,6 +41,7 @@ export default {
         state.players = obj.players
         state.options = obj.options
         state.grid = grid
+        state.gameover = (obj.finished === true)
     },
 
     // Set text status
@@ -51,6 +52,11 @@ export default {
     // Set tour
     [types.MUTATION.SET_TOUR] (state, tour) {
         state.tour = tour
+    },
+
+    // Set gameover
+    [types.MUTATION.SET_GAMEOVER] (state) {
+        state.gameover = true
     },
 
     // Update grid (after animate)

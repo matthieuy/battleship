@@ -19,7 +19,8 @@ const state = {
     options: {},
     me: null,
     grid: [],
-    status: 'Loading game...'
+    status: 'Loading game...',
+    gameover: false,
 }
 
 // Export store

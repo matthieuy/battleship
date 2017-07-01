@@ -58,6 +58,7 @@
                 'weapon', // Weapon module
                 'me',
                 'boxSize',
+                'gameover',
             ]),
             score() {
                 return (this.me && this.me.score) ? this.me.score : 0
@@ -84,13 +85,13 @@
             // CSS class for weapon box
             classWeapon(weapon) {
                 return {
-                    disabled: weapon.price > this.score,
+                    disabled: weapon.price > this.score || this.gameover || (this.me && this.me.life <= 0),
                     selected: this.selected && weapon.name == this.selected.name,
                 }
             },
             // Highlight the weapon (on click)
             highlight(weapon) {
-                if (this.score >= weapon.price) {
+                if (this.score >= weapon.price && !this.gameover && (this.me && this.me.life > 0)) {
                     this.selected = weapon
                 }
             },
@@ -121,6 +122,10 @@
             },
             // on select : add helper on the grid
             ['weapon.select'](weapon) {
+                if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
+                    return false;
+                }
+
                 weapon = store.getters.getWeapon(weapon)
                 if (weapon) {
                     // Get weapon grid

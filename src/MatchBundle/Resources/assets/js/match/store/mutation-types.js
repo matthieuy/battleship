@@ -9,6 +9,7 @@ export const MUTATION = {
     SET_STATUS: 'SET_STATUS',
     UPDATE_GRID: 'UPDATE_GRID',
     SET_TOUR: 'SET_TOUR',
+    SET_GAMEOVER: 'SET_GAMEOVER',
 }
 
 // Actions

@@ -38,6 +38,7 @@
                 'boxSize',
                 'me',
                 'tour',
+                'gameover',
             ]),
             // getters from store
             ...mapGetters([
@@ -86,6 +87,10 @@
                         })
                     },
                     function() { // End of animate
+                        if (obj.finished) {
+                            store.commit(types.MUTATION.SET_GAMEOVER)
+                        }
+
                         // Update tour
                         if (obj.tour) {
                             store.commit(types.MUTATION.SET_TOUR, obj.tour)
@@ -94,6 +99,10 @@
                 )
             },
             shoot(box) {
+                if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
+                    return false;
+                }
+
                 // Data to send by RPC
                 let dataSend = {
                     x: box.x,
@@ -167,7 +176,11 @@
                 tour.forEach(function(playerId) {
                     players.push(self.playerById(playerId).name)
                 })
-                store.commit(types.MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
+                if (this.gameover) {
+                    store.commit(types.MUTATION.SET_STATUS, "Winner : " + players.join(', '))
+                } else {
+                    store.commit(types.MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
+                }
             },
             // grid size => update CSS
             size(size) {
