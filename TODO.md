@@ -54,11 +54,11 @@ TODO
     - [ ] Disable shoot if game is over
     - [ ] ISO view
     - [ ] Display grid (optional)
-- [ ] Weapons :
+- [X] Weapons :
     - [X] Weapon Registry
     - [X] Window in game for select weapon
     - [X] Make weapon
-    - [ ] CSS helper for weapon
+    - [X] CSS helper for weapon
 - [ ] Mobile :
     - [ ] Helper for shoot
     - [ ] Helper for weapon
