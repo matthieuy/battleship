@@ -103,7 +103,7 @@
         },
         watch: {
             // Load weapons list on the first call
-            'weapon.modal': (open) => {
+            ['weapon.modal'](open) {
                 if (open && !store.state.weapon.loaded) {
                     store.dispatch(ACTION.LOAD, $('input#ajax-weapons').val()).then((list) => {
                         if (list.error) {
@@ -112,8 +112,29 @@
                         store.commit(MUTATION.SET_LIST, list)
                     })
                 }
+
+                // Bind escape touch
+                if (open && store.state.weapon.modal) {
+                    $(window).on('keyup', escapeTouch)
+                } else {
+                    $(window).off('keyup', escapeTouch)
+                }
             },
         },
+    }
+
+    /**
+     * Press escape touch : close or lease weapon
+     * @param e
+     */
+    function escapeTouch(e) {
+        if (e.which == 27) {
+            if (store.state.weapon.modal) {
+                store.commit(MUTATION.WEAPON_MODAL, false)
+            } else {
+                store.commit(MUTATION.SELECT)
+            }
+        }
     }
 </script>
 
