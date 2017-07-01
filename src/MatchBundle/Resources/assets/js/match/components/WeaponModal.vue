@@ -114,10 +114,9 @@
                 }
 
                 // Bind escape touch
-                if (open && store.state.weapon.modal) {
+                if (open || store.state.weapon.modal || store.state.weapon.select) {
+                    console.log('bind')
                     $(window).on('keyup', escapeTouch)
-                } else {
-                    $(window).off('keyup', escapeTouch)
                 }
             },
         },
@@ -134,6 +133,7 @@
             } else {
                 store.commit(MUTATION.SELECT)
             }
+            $(window).off('keyup', escapeTouch)
         }
     }
 </script>
