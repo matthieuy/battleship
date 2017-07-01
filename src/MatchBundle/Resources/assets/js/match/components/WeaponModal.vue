@@ -78,6 +78,7 @@
             },
             // Rotate weapons
             rotate() {
+                store.commit(MUTATION.SELECT)
                 store.commit(MUTATION.ROTATE)
             },
             // CSS class for weapon box
@@ -115,8 +116,52 @@
 
                 // Bind escape touch
                 if (open || store.state.weapon.modal || store.state.weapon.select) {
-                    console.log('bind')
                     $(window).on('keyup', escapeTouch)
+                }
+            },
+            // on select : add helper on the grid
+            ['weapon.select'](weapon) {
+                weapon = store.getters.getWeapon(weapon)
+                if (weapon) {
+                    // Get weapon grid
+                    let weaponBox = weapon.grid
+                    let weaponSize = [weaponBox.length, weaponBox[0].length]
+                    let weaponCenter = [Math.floor(weaponSize[0] / 2), Math.floor(weaponSize[1] / 2)]
+
+                    // Get list of box to shoot
+                    let boxes = []
+                    for (let y=0; y<weaponSize[0]; y++) {
+                        for (let x=0; x<weaponSize[1]; x++) {
+                            if (weaponBox[y][x]) {
+                                boxes.push([
+                                    x - weaponCenter[1],
+                                    y - weaponCenter[0],
+                                ])
+                            }
+                        }
+                    }
+
+                    // Add .target in box to shoot
+                    $('#grid')
+                        .off('mouseover mouseout', 'span')
+                        .on('mouseover', 'span', function() {
+                            let coord = $(this).attr('id').split('_').map((i) => parseInt(i))
+                            coord.shift()
+
+                            boxes.forEach(function(box) {
+                                let id = '#g_' + (box[1] + coord[0]) + '_' + (box[0] + coord[1])
+                                if ($(id).length === 1) {
+                                    $(id).addClass('target')
+                                }
+                            })
+                        })
+                        .on('mouseout', 'span', function() {
+                            $('#grid .target').removeClass('target')
+                        })
+                } else {
+                    // Unbind helper
+                    $('#grid .target').removeClass('target')
+                    $('#grid').off('mouseover mouseout', 'span')
                 }
             },
         },
@@ -139,6 +184,9 @@
 </script>
 
 <style lang="less">
+    #grid span.target {
+        background-color: rgba(255, 0, 0, 0.75);
+    }
     .modal-bg {
         top: 0;
         left: 0;

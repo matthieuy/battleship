@@ -117,5 +117,14 @@ export default {
         },
 
     },
-    getters: {},
+    getters: {
+        // Get weapon
+        getWeapon: (state) => (name) => {
+            let weapon = state.list.filter(function(weapon) {
+                return (weapon.name == name)
+            })
+
+            return (weapon.length) ? weapon[0] : null
+        },
+    },
 }
