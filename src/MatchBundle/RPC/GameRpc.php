@@ -36,7 +36,6 @@ class GameRpc implements RpcInterface
 
     /** @var ReturnBox */
     private $returnBox;
-    private $useWeapon = false;
 
     /**
      * GameRpc constructor.
@@ -352,7 +351,7 @@ class GameRpc implements RpcInterface
         }
         $player->removeScore($price);
         if (!$player->isAi()) {
-            $this->useWeapon = true;
+            $this->returnBox->setUseWeapon();
         }
 
         return $weapon->getBoxes($game, $x, $y, $weaponRotate);
@@ -369,9 +368,9 @@ class GameRpc implements RpcInterface
     private function doFire(Game &$game, Box &$box, Player $shooter)
     {
         // Use weapon : add score on first shoot
-        if ($this->useWeapon) {
+        if ($this->returnBox->isUseWeapon()) {
             $box->setScore($shooter);
-            $this->useWeapon = false;
+            $this->returnBox->setUseWeapon(false);
         }
 
         // Some check
