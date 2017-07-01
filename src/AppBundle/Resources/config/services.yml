@@ -1,0 +1,6 @@
+services:
+    # Homepage topic
+    homepage.topic:
+        class: AppBundle\Topic\HomeTopic
+        tags:
+            - { name:  gos_web_socket.topic }

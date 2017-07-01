@@ -1,0 +1,5 @@
+# Homepage
+homepage.topic:
+    channel: 'homepage'
+    handler:
+        callback: 'homepage'
