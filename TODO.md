@@ -27,14 +27,14 @@ TODO
     - [ ] Envoy (or other script to deploy easier with git hook) 
 - [ ] Use promise for WS
 - [ ] Homepage :
-    - [ ] List game
-    - [ ] Button create
+    - [X] List game
+    - [X] Button create
     - [ ] Update page on :
-        - [ ] Create game
+        - [X] Create game
         - [ ] Delete game
-        - [ ] Change status
-        - [ ] Change tour (in game)
-        - [ ] Change number of player (in waiting page)
+        - [X] Change status
+        - [X] Change tour (in game)
+        - [X] Change number of player (in waiting page)
 - [ ] Waiting page :
     - [ ] Add console with action
     - [ ] Delete game
