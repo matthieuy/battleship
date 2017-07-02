@@ -95,6 +95,10 @@ class WaitingRpc implements RpcInterface
         // Success
         if ($result) {
             $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+
+            // Update homepage
+            $list = $this->em->getRepository('MatchBundle:Game')->getList();
+            $this->pusher->push(['games' => $list], 'homepage.topic');
         }
 
         return ['success' => $result];

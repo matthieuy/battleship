@@ -3,7 +3,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% webpack js '@match/js/match.js' %}
+    {% webpack js '@match/js/match/match.js' %}
         <script src="{{ asset_url }}"></script>
     {% end_webpack %}
 {% endblock %}
@@ -20,10 +20,9 @@
 
     <div id="vue">
         <grid><i class="fa fa-spin fa-spinner"></i></grid>
-
-        <modal-weapon></modal-weapon>
+        <weapon-modal></weapon-modal>
     </div>
-    <input type="hidden" id="user_id" value="{{ app.user.id|default('0') }}">
+    <input type="hidden" id="user-id" value="{{ app.user.id|default('0') }}">
     <input type="hidden" id="slug" value="{{ game.slug }}">
     <input type="hidden" id="ajax-weapons" value="{{ path('ajax.weapon') }}">
 {% endblock %}

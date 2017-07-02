@@ -36,7 +36,6 @@ class GameRpc implements RpcInterface
 
     /** @var ReturnBox */
     private $returnBox;
-    private $useWeapon = false;
 
     /**
      * GameRpc constructor.
@@ -100,6 +99,9 @@ class GameRpc implements RpcInterface
             'options' => $game->getOptions(),
             'players' => [],
         ];
+        if ($game->getStatus() == Game::STATUS_END) {
+            $infos['finished'] = true;
+        }
 
         // Players list
         $me = null;
@@ -220,6 +222,7 @@ class GameRpc implements RpcInterface
         // Return and push
         $return = $this->returnBox->getReturnBox($game, $player);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+        $this->eventDispatcher->dispatch(MatchEvents::CHANGE_TOUR, new GameEvent($game));
 
         // Save
         $this->em->flush();
@@ -352,7 +355,7 @@ class GameRpc implements RpcInterface
         }
         $player->removeScore($price);
         if (!$player->isAi()) {
-            $this->useWeapon = true;
+            $this->returnBox->setUseWeapon();
         }
 
         return $weapon->getBoxes($game, $x, $y, $weaponRotate);
@@ -369,9 +372,9 @@ class GameRpc implements RpcInterface
     private function doFire(Game &$game, Box &$box, Player $shooter)
     {
         // Use weapon : add score on first shoot
-        if ($this->useWeapon) {
+        if ($this->returnBox->isUseWeapon()) {
             $box->setScore($shooter);
-            $this->useWeapon = false;
+            $this->returnBox->setUseWeapon(false);
         }
 
         // Some check

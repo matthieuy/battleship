@@ -558,6 +558,22 @@ class Game
     }
 
     /**
+     * Get players who had play
+     * @return Player[]|array
+     */
+    public function getPlayersTour()
+    {
+        $tour = [];
+        foreach ($this->getPlayers() as $player) {
+            if (in_array($player->getPosition(), $this->tour)) {
+                $tour[] = $player;
+            }
+        }
+
+        return $tour;
+    }
+
+    /**
      * Get a box of the grid
      * @param integer $x X coord
      * @param integer $y Y coord
@@ -582,6 +598,7 @@ class Game
         $infos = [
             'id' => $this->id,
             'name' => $this->name,
+            'status' => $this->status,
             'slug' => $this->slug,
             'size' => $this->size,
             'date' => $this->createAt->getTimestamp(),
@@ -592,9 +609,41 @@ class Game
         switch ($this->status) {
             case self::STATUS_WAIT:
                 $infos = array_merge($infos, [
+                    'nb' => $this->players->count(),
                     'max' => $this->maxPlayer,
-                    'creatorId' => $this->creator->getId(),
                     'creatorName' => $this->creator->getUsername(),
+                ]);
+                break;
+
+            case self::STATUS_RUN:
+                $players = $this->getPlayersTour();
+                $tour = [];
+                foreach ($players as $player) {
+                    $tour[] = [
+                        'id' => $player->getUser()->getId(),
+                        'name' => $player->getName(),
+                        ];
+                }
+                $infos = array_merge($infos, [
+                    'tour' => $tour,
+                    'creatorName' => $this->creator->getUsername(),
+                    'date' => $this->getRunAt()->getTimestamp(),
+                    'last' => $this->getLastShoot()->getTimestamp(),
+                ]);
+                break;
+
+            case self::STATUS_END:
+                $players = $this->getPlayersTour();
+                $tour = [];
+                foreach ($players as $player) {
+                    if ($player->getLife() > 0) {
+                        $tour[] = $player->getName();
+                    }
+                }
+                $infos = array_merge($infos, [
+                    'tour' => $tour,
+                    'date' => $this->getRunAt()->getTimestamp(),
+                    'enddate' => $this->getLastShoot()->getTimestamp(),
                 ]);
                 break;
         }

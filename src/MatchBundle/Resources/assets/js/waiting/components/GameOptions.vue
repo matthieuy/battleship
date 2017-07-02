@@ -53,7 +53,8 @@
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../Stores/WaitingStore'
+    import store from '../store/store'
+    import * as types from "../store/mutation-types"
 
     export default {
         data() {
@@ -76,26 +77,6 @@
             bonus_name: {type: String, default: 'Bonus'},
             bonus_desc: {type: String, default: 'Players can catch bonus'},
         },
-        methods: {
-            tips(type) {
-                return `<strong>${this[type+'_name']} :</strong>${this[type+'_desc']}`
-            },
-            changeOption(name, value) {
-                if (!this.isCreator) {
-                    return;
-                }
-
-                this.loading[name] = true
-                var that = this
-
-                WS.callRPC('wait/options', {
-                    option: name,
-                    value: value,
-                }, (obj) => {
-                    this.loading[name] = false
-                })
-            }
-        },
         computed: {
             ...mapState([
                 'game',
@@ -109,7 +90,25 @@
             },
             penalty() {
                 return (this.game.options) ? this.game.options.penalty : 0
-            }
-        }
+            },
+        },
+        methods: {
+            tips(type) {
+                return `<strong>${this[type+'_name']} :</strong>${this[type+'_desc']}`
+            },
+            changeOption(name, value) {
+                if (!this.isCreator) {
+                    return false
+                }
+
+                this.loading[name] = true
+                store.dispatch(types.ACTION.CHANGE_OPTION, {
+                    option: name,
+                    value: value,
+                }).then((obj) => {
+                    this.loading[name] = false
+                })
+            },
+        },
     }
 </script>
