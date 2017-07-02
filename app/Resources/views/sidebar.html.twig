@@ -4,16 +4,20 @@
     <ul class="sidebar-menu">
         <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i>Home</a></li>
 
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <li><a href="{{ path('match.create') }}"><i class="fa fa-gamepad"></i>Create game</a></li>
-        {% endif %}
-
-        {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if inGame|default(false) %}
+                <li>
+                    <a id="link-delete-game" href="{{ path('match.delete', {'slug': game.slug}) }}" style="color: #F00" class="in">
+                        <i class="fa fa-trash-o"></i>
+                        Delete the game
+                    </a>
+                </li>
+            {% endif %}
+            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+        {% else %}
             <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
             <li><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-hand-o-right"></i>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
-        {% endif %}
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
         {% endif %}
         <li><a href="javascript:void(0);" class="sb-close in"><i class="fa fa-times"></i>Close menu</a></li>
     </ul>

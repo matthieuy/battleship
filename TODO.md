@@ -29,15 +29,15 @@ TODO
 - [ ] Homepage :
     - [X] List game
     - [X] Button create
-    - [ ] Update page on :
+    - [X] Update page on :
         - [X] Create game
-        - [ ] Delete game
+        - [X] Delete game
         - [X] Change status
         - [X] Change tour (in game)
         - [X] Change number of player (in waiting page)
 - [ ] Waiting page :
     - [ ] Add console with action
-    - [ ] Delete game
+    - [X] Delete game
     - [ ] Add player avatar
 - [ ] Game :
     - [ ] Allow anon. viewer
@@ -47,7 +47,7 @@ TODO
     - [ ] Score table
     - [ ] Penalty
     - [ ] Boat color
-    - [ ] Delete game
+    - [X] Delete game
     - [ ] Use promise for WS
     - [ ] ISO view
     - [ ] Display grid (optional)
@@ -61,7 +61,7 @@ TODO
     - [ ] Display user stats on profil
     - [ ] Display stats on game
 - [ ] Users :
-    - [ ] Bugfix : register
+    - [X] Bugfix : register
     - [ ] Forgot password
     - [ ] Registration confirm by email
     - [ ] Upload avatar on registration

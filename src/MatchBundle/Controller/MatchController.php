@@ -82,6 +82,40 @@ class MatchController extends Controller
     }
 
     /**
+     * Delete a game
+     * @param Game $game
+     *
+     * @Route(
+     *     name="match.delete",
+     *     path="/game/{slug}/delete",
+     *     methods={"GET"},
+     *     requirements={"slug": "([0-9A-Za-z\-]+)"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(Game $game)
+    {
+        // Check rights
+        if (!$this->isGranted('ROLE_ADMIN') && $game->getCreator()->getId() !== $this->getUser()->getId()) {
+            $this->addFlash('error', 'Bad request');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        // Remove
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->remove($game);
+        $em->flush();
+        $this->addFlash('success', 'Game delete successful!');
+
+        // Event
+        $event = new GameEvent($game);
+        $this->get('event_dispatcher')->dispatch(MatchEvents::DELETE, $event);
+
+        // Redirection
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
      * Display the waiting page
      * @param Game $game
      * @return Response

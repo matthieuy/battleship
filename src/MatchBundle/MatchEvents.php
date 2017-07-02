@@ -15,6 +15,12 @@ final class MatchEvents
     const CREATE = 'match.create';
 
     /**
+     * When a new game is delete
+     * Instance of MatchBundle\Event\GameEvent
+     */
+    const DELETE = 'match.delete';
+
+    /**
      * When the game is launch
      * Instance of MatchBundle\Event\GameEvent
      */
