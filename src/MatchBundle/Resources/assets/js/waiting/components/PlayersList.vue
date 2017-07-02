@@ -14,18 +14,20 @@
             <th class="center" width="100">Team</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="sortable-players">
             <tr v-for="player in players" class="player-line" :data-id="player.id" :key="player.id">
-                <td class="opentip move"
+                <td class="opentip"
+                    :class="{move: isSortable}"
                     :data-tip="(player.ai) ? 'IA' : 'Player'"
-                    :style="txtColor(player.color)">
-                    <i class="fa" :class="{ 'fa-desktop': player.ai, 'fa-gamepad': !player.ai }"></i>
+                    :style="txtColor(player.color)"
+                    >
+                    <i class="fa" :class="[player.ai ? 'fa-gamepad' : 'fa-desktop']"></i>
                 </td>
                 <td></td>
                 <td>
-                    {{ player.name }}
-                    <div class="color-div" v-show="isEditable(player)">
-                        <input @change="changeColor($event, player)" type="color" class="color" title="Change color" :value="'#' + player.color">
+                    {{ player.name }}
+                    <div class="color-div" v-show="isCreator || player.userId === userId">
+                        <input type="color" class="color" title="Change color" :value="'#' + player.color" @change="changeColor($event, player)">
                     </div>
                 </td>
                 <td>
@@ -35,7 +37,7 @@
                     <span
                         class="delete"
                         title="Remove the player"
-                        v-show="isEditable(player)"
+                        v-show="isCreator || player.userId === userId"
                         @click="remove($event, player)">&times;</span>
                 </td>
             </tr>
@@ -51,7 +53,8 @@
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../Stores/WaitingStore'
+    import store from '../store/store'
+    import * as types from "../store/mutation-types"
 
     export default {
         computed: {
@@ -59,25 +62,11 @@
                 'players',
                 'loaded',
                 'isCreator',
+                'userId',
             ]),
-        },
-        watch: {
-            // Watch creator to enable/disable sortable list
-            isCreator(newValue) {
-                if (newValue) {
-                    $('#playerlist tbody').sortable('enable')
-                } else {
-                    $('#playerlist tbody').sortable('disable')
-                }
+            isSortable() {
+                return this.isCreator && this.players.length > 1
             },
-            // Watch players list to enable/disable sortable list
-            players(newPlayersList) {
-                if (this.isCreator && newPlayersList.length > 1) {
-                    $('#playerlist tbody').sortable('enable')
-                } else {
-                    $('#playerlist tbody').sortable('disable')
-                }
-            }
         },
         methods: {
             // Calcul text color for player line
@@ -89,36 +78,42 @@
                     color: (textColor < 127.5) ? '#FFF' : '#000'
                 }
             },
-            // Is this player line is editable
-            isEditable(player) {
-                return (store.state.isCreator || player.userId === store.state.userId)
-            },
-            // Change team
+            // Change player team
             changeTeam(e, player) {
                 this.loaded = false
-                WS.callRPC('wait/team', {
+                store.dispatch(types.ACTION.CHANGE_TEAM, {
                     playerId: player.id,
-                    team: e.target.value
+                    team: e.target.value,
                 })
             },
-            // Change color
+            // Change player color
             changeColor(e, player) {
                 this.loaded = false
-                WS.callRPC('wait/color', {
+                store.dispatch(types.ACTION.CHANGE_COLOR, {
                     playerId: player.id,
-                    color: e.target.value
+                    color: e.target.value,
                 })
             },
             // Remove a player
             remove(e, player) {
-                e.target.innerHTML = '<i class="fa fa-spin fa-spinner"></i>'
                 this.loaded = false
-                WS.callRPC('wait/join', {join: false, id: player.id}, function(obj) {
+                e.target.innerHTML = '<i class="fa fa-spin fa-spinner"></i>'
+                store.dispatch(types.ACTION.REMOVE_PLAYER, player.id).then((obj) => {
                     e.target.innerHTML = '&times;'
                     if (obj.msg) {
                         return Flash.error(obj.msg)
                     }
                 })
+            }
+        },
+        watch: {
+            // Watcher to enable/disable sortable list
+            isSortable(newValue) {
+                if (newValue) {
+                    $('#playerlist tbody').sortable('enable')
+                } else {
+                    $('#playerlist tbody').sortable('disable')
+                }
             },
         },
         mounted() {
@@ -127,25 +122,25 @@
                 forceHelperSize: true,
                 forcePlaceholderSize: true,
                 placeholder: 'ui-placeholder',
+                scroll: false,
+                cursor: 'move',
                 helper: function(e, ui) {
                     ui.children().each(function() {
                         $(this).width($(this).width())
-                    });
+                    })
                     return ui
                 },
                 handle: 'td.move',
                 start: function(e, ui) {
-                    $('.ui-placeholder').height($(ui.item).height());
+                    $('.ui-placeholder').height($(ui.item).height())
                 },
                 update: function(e, ui) {
-                    WS.callRPC('wait/position', {
+                    store.dispatch(types.ACTION.UPDATE_ORDER, {
                         playerId: ui.item.data('id'),
                         position: ui.item.index('#playerlist tbody tr:visible')
                     })
                     return ui
                 },
-                scroll: false,
-                cursor: 'move'
             })
         },
     }

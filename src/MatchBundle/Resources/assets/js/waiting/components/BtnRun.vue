@@ -2,16 +2,17 @@
     <span
         v-if="isCreator"
         @click="run"
-        class="button success round small-12 large-2 opentip"
-        :class="{ disabled: (!loaded || disabled || loading) }"
-        :data-tip="tip">
+        :data-tip="tip"
+        :class="btnClass"
+        class="button success round small-12 large-2 opentip">
         <i :class="{ 'fa fa-spin fa-circle-o-notch': loading }"></i> {{ name }}
     </span>
 </template>
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../Stores/WaitingStore'
+    import store from '../store/store'
+    import * as types from "../store/mutation-types"
 
     export default {
         props: {
@@ -21,10 +22,12 @@
         data() {
             return {
                 loading: false,
+                disabled: true,
             }
         },
         computed: {
             ...mapState([
+                'game',
                 'isCreator',
                 'players',
                 'loaded',
@@ -32,28 +35,31 @@
             tip() {
                 return `<strong>${this.name} :</strong>${this.desc}`
             },
-            disabled() {
-                return (this.players.length < 2) || this.loading
-            }
+            btnClass() {
+                this.disabled = this.players.length < 2 || this.game.max < this.players.length || this.loading
+                return {
+                    disabled: this.disabled || this.loading || !this.loaded
+                }
+            },
         },
         methods: {
             run() {
-                if (!this.loaded || !this.isCreator || this.disabled) {
-                    return;
+                if (this.disabled) {
+                    return false
                 }
 
                 // Count team
-                var teamList = {}
+                let teamList = {}
                 this.players.forEach((player) => {
                     teamList[player.team] = 1
                 })
-                var nbTeam = Object.size(teamList)
+                let nbTeam = Object.size(teamList)
 
                 // Check team
                 if (nbTeam <= 1) {
                     return Flash.error('The game must consist with SEVERAL teams')
                 }
-                for(var i=1; i<=nbTeam; i++) {
+                for(let i=1; i<=nbTeam; i++) {
                     if (typeof teamList[i] == 'undefined') {
                         return Flash.error('Nobody in team #'+i+' !')
                     }
@@ -61,16 +67,16 @@
 
                 // Any human player ?
                 if ($('#playerlist tbody .fa-gamepad').length === 0) {
-                    return Flash.error('Game contains only AI!');
+                    return Flash.error('Game contains only AI!')
                 }
 
                 // Confirm ?
                 if (!window.confirm('Are you sure to start the game ?')) {
-                    return;
+                    return false
                 }
 
                 this.loading = true
-                WS.callRPC('launch/run', {}, (obj) => {
+                store.dispatch(types.ACTION.RUN).then((obj) => {
                     this.loading = false
                 })
             }

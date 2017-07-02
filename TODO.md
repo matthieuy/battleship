@@ -4,7 +4,6 @@ TODO
 - [ ] Slidebars isn't compatible ! I do a [PR on the original project](https://github.com/adchsm/Slidebars/pull/264) but wait merge 
 - [ ] Write a changelog
 - [ ] Complete the [README.md](README) :
-    - [X] Add badges
     - [ ] Install documentation
     - [ ] Contribute documentation
     - [ ] Doc for add ammo
@@ -28,14 +27,14 @@ TODO
     - [ ] Envoy (or other script to deploy easier with git hook) 
 - [ ] Use promise for WS
 - [ ] Homepage :
-    - [ ] List game
-    - [ ] Button create
+    - [X] List game
+    - [X] Button create
     - [ ] Update page on :
-        - [ ] Create game
+        - [X] Create game
         - [ ] Delete game
-        - [ ] Change status
-        - [ ] Change tour (in game)
-        - [ ] Change number of player (in waiting page)
+        - [X] Change status
+        - [X] Change tour (in game)
+        - [X] Change number of player (in waiting page)
 - [ ] Waiting page :
     - [ ] Add console with action
     - [ ] Delete game
@@ -49,16 +48,9 @@ TODO
     - [ ] Penalty
     - [ ] Boat color
     - [ ] Delete game
-    - [X] Tooltip on case
     - [ ] Use promise for WS
-    - [ ] Disable shoot if game is over
     - [ ] ISO view
     - [ ] Display grid (optional)
-- [ ] Weapons :
-    - [X] Weapon Registry
-    - [X] Window in game for select weapon
-    - [X] Make weapon
-    - [ ] CSS helper for weapon
 - [ ] Mobile :
     - [ ] Helper for shoot
     - [ ] Helper for weapon
@@ -95,12 +87,11 @@ TODO
         - [ ] Push Navigator
         - [ ] Chat
     - [ ] Type :
-        - Friend connect
-        - Tour
-        - Messages
+        - [ ] Friend connect
+        - [ ] Tour
+        - [ ] Messages
 - [ ] IA :
     - [ ] Add avatar
-    - [ ] Use ammo
     - [ ] Use bonus
 - [ ] Bonus :
     - [ ] Make Bonus registy

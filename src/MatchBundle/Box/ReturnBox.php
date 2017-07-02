@@ -14,6 +14,7 @@ class ReturnBox
 {
     /** @var Box[]  */
     protected $listBox;
+    protected $useWeapon = false;
 
     /**
      * ReturnBox constructor.
@@ -70,6 +71,24 @@ class ReturnBox
         }
 
         return $return;
+    }
+
+    /**
+     * Get useWeapon
+     * @return boolean
+     */
+    public function isUseWeapon()
+    {
+        return $this->useWeapon;
+    }
+
+    /**
+     * Set Use Weapon
+     * @param boolean $useWeapon
+     */
+    public function setUseWeapon($useWeapon = true)
+    {
+        $this->useWeapon = $useWeapon;
     }
 
     /**

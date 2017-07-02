@@ -1,0 +1,17 @@
+services:
+    # Homepage topic
+    homepage.topic:
+        class: AppBundle\Topic\HomeTopic
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name:  gos_web_socket.topic }
+
+    # Homepage listenr
+    homepage.listener:
+        class: AppBundle\EventListener\HomepageListener
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+        tags:
+            - { name: kernel.event_subscriber }
