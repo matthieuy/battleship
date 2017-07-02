@@ -44,6 +44,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
             - "@event_dispatcher"
+            - "@weapon.registry"
         tags:
             - { name: gos_web_socket.rpc }
 

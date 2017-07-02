@@ -20,7 +20,8 @@ class Box
     protected $shoot;
     protected $dead = false;
 
-    protected $score;
+    protected $score = [];
+    protected $life = [];
     protected $isSink = false;
     protected $sinkInfo = [];
 
@@ -73,13 +74,13 @@ class Box
 
     /**
      * Set score
-     * @param integer $score Score of the shooter
+     * @param Player $player
      *
      * @return $this
      */
-    public function setScore($score)
+    public function setScore(Player $player)
     {
-        $this->score = $score;
+        $this->score[$player->getPosition()] = $player->getScore();
 
         return $this;
     }
@@ -120,12 +121,25 @@ class Box
     }
 
     /**
+     * Add life to box
+     * @param Player $player
+     *
+     * @return $this
+     */
+    public function setLife(Player $player)
+    {
+        $this->life[$player->getPosition()] = $player->getLife();
+
+        return $this;
+    }
+
+    /**
      * Set boat is sink
      * @param bool $sink Sink
      *
      * @return $this
      */
-    public function setIsSink($sink = true)
+    public function setSink($sink = true)
     {
         $this->isSink = $sink;
 
@@ -300,6 +314,12 @@ class Box
         }
         if ($this->isSink) {
             $infos['sink'] = $this->sinkInfo;
+        }
+        if (!empty($this->life)) {
+            $infos['life'] = $this->life;
+        }
+        if (!empty($this->score)) {
+            $infos['score'] = $this->score;
         }
 
         return $infos;

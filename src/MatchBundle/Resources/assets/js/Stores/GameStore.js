@@ -14,6 +14,14 @@ const state = {
     me: null,
     grid: [],
     options: {},
+    // @todo vuex module for weapon
+    weapons: {
+        modalOpen: false,
+        loaded: false,
+        list: [],
+        rotate: 0,
+        selected: null,
+    },
 }
 
 const mutations = {
@@ -58,13 +66,84 @@ const mutations = {
         state.tour = tour
     },
     UPDATE_GRID: (state, box) => {
-        state.grid[box.y][box.x] = box
+        // Update bubble
+        if (state.me) {
+            // Update life
+            if (box.life && box.life[state.me.position]) {
+                state.me.life = box.life[state.me.position]
+                delete box.life
+            }
+            // Update score
+            if (box.score && box.score[state.me.position]) {
+                state.me.score = box.score[state.me.position]
+                delete box.score
+            }
+        }
+
+        // Update grid and sink boat
+        Vue.set(state.grid[box.y], box.x, box)
         if (box.sink) {
             box.sink.forEach(function(b, i) {
                 state.grid[b.y][b.x] = b
             })
         }
     },
+    TOGGLE_WEAPON_MODAL: (state, status) => {
+        if (typeof status !== 'undefined') {
+            state.weapons.modalOpen = status
+        } else {
+            state.weapons.modalOpen = !state.weapons.modalOpen
+        }
+        console.info('[Weapons] display modal :', state.weapons.modalOpen)
+    },
+    LOAD_WEAPON: (state, list) => {
+        state.weapons.list = list.sort(function(o1, o2) {
+            return o1.price - o2.price
+        })
+        state.weapons.loaded = true
+    },
+    ROTATE_WEAPON: (state) => {
+        let rotate = state.weapons.rotate + 1
+        if (rotate > 3) {
+            rotate = rotate % 4
+        }
+        state.weapons.rotate = rotate
+        console.info('[Weapons] Rotate '+ rotate*90 + 'deg')
+
+        state.weapons.list.forEach(function(weapon, iW) {
+            if (!weapon.rotate) {
+                return true
+            }
+
+            let grid = weapon.grid
+
+            // Create new grid
+            let newGrid = []
+            newGrid.length = grid[0].length
+            for (let i=0; i<newGrid.length; i++) {
+                newGrid[i] = []
+                newGrid[i].length = grid.length
+            }
+
+            // Rotate
+            for (let i=0; i<grid.length; i++) {
+                for (let j=0; j<grid[i].length; j++) {
+                    newGrid[j][grid.length - i - 1] = grid[i][j]
+                }
+            }
+
+            // Apply
+            weapon.grid = newGrid
+        })
+    },
+    SELECT_WEAPON: (state, weapon) => {
+        if (weapon) {
+            state.weapons.selected = weapon.name
+            console.info('[Weapons] Select ' + weapon.name)
+        } else {
+            state.weapons.selected = null
+        }
+    }
 }
 
 const getters = {
@@ -83,6 +162,8 @@ const getters = {
         return null
     },
     me: (state) => state.me,
+    options: (state) => state.options,
+    weapons: (state) => state.weapons,
 }
 
 const actions = {
@@ -101,5 +182,5 @@ export default new Vuex.Store({
     mutations,
     getters,
     actions,
-    strict: true
+    strict: process.env.NODE_ENV !== 'production'
 })

@@ -12,6 +12,13 @@
   .box-shadow(fade(@topbar-bgcolor, 30%) 0 6px 10px);
   .gradient(lighten(@topbar-bgcolor, 20%), @topbar-bgcolor);
 
+  #btn-top {
+    float: right;
+    height: @topbar-height;
+    margin-right: 5px;
+    font-size: 24px;
+  }
+
   a {
     text-decoration: none;
     color: @topbar-color;
@@ -43,6 +50,35 @@
     h1 {
       font-size: 24px;
       line-height: @topbar-height;
+    }
+  }
+}
+
+.bubble {
+  display: inline-block;
+  float: left;
+  cursor: pointer;
+  margin-right: 5px;
+  i {
+    float: left;
+    line-height: 40px;
+    margin-left: 5px;
+    color: @topbar-color;
+    transition: color 900ms ease-out;
+  }
+  &:hover i {
+    color: darken(@topbar-color, 50%);
+  }
+  img {
+    width: 25px;
+    margin-top: 15px;
+    margin-left: -18px;
+    z-index: -2;
+  }
+  &.disabled {
+    cursor: default;
+    i {
+      color: darken(@topbar-color, 75%);
     }
   }
 }

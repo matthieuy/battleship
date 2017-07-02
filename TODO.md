@@ -4,13 +4,11 @@ TODO
 - [ ] Slidebars isn't compatible ! I do a [PR on the original project](https://github.com/adchsm/Slidebars/pull/264) but wait merge 
 - [ ] Write a changelog
 - [ ] Complete the [README.md](README) :
-    - [ ] Add [https://poser.pugx.org](badges)
-    - [ ] SensionLab
+    - [X] Add badges
     - [ ] Install documentation
     - [ ] Contribute documentation
     - [ ] Doc for add ammo
     - [ ] Doc for add bonus
-- [ ] Complete package.json, composer.json (keyword,...)
 - [ ] Make a Docker img for users want try or contribute easier
 - [ ] Translate :
     - [ ] Configure translate
@@ -55,10 +53,11 @@ TODO
     - [ ] Use promise for WS
     - [ ] Disable shoot if game is over
     - [ ] ISO view
+    - [ ] Display grid (optional)
 - [ ] Weapons :
-    - [ ] Weapon Registry
-    - [ ] Window in game for select weapon
-    - [ ] Make weapon
+    - [X] Weapon Registry
+    - [X] Window in game for select weapon
+    - [X] Make weapon
     - [ ] CSS helper for weapon
 - [ ] Mobile :
     - [ ] Helper for shoot

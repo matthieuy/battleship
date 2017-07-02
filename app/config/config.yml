@@ -9,6 +9,7 @@ imports:
     - { resource: bundles/gos_websocket.yml }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@MatchBundle/Resources/config/services.yml" }
+    - { resource: "@BonusBundle/Resources/config/services.yml" }
 
 # Parameters that don't need to change on each machine where the app is deployed
 #parameters:
@@ -57,6 +58,7 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        server_version: 5.6
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"

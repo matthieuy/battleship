@@ -10,3 +10,4 @@ maba_webpack:
             bower: "%kernel.root_dir%/Resources/bower"
             npm: "%kernel.root_dir%/../node_modules"
             vendor: "%kernel.root_dir%/../vendor"
+            web: "%kernel.root_dir%/../web"

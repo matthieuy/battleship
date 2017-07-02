@@ -1,6 +1,8 @@
 {
     "name": "matthieuy/battleship",
     "description": "Battleship game with multiplayer support",
+    "keywords": ["php", "game", "multiplayer", "battleship", "realtime"],
+    "homepage": "https://github.com/matthieuy/battleship",
     "license": "MIT",
     "type": "project",
     "authors": [
