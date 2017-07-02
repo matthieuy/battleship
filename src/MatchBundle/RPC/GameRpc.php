@@ -222,6 +222,7 @@ class GameRpc implements RpcInterface
         // Return and push
         $return = $this->returnBox->getReturnBox($game, $player);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+        $this->eventDispatcher->dispatch(MatchEvents::CHANGE_TOUR, new GameEvent($game));
 
         // Save
         $this->em->flush();

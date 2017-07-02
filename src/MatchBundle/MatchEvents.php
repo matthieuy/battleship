@@ -43,4 +43,10 @@ final class MatchEvents
      * Instance of MatchBundle\Event\GameEvent
      */
     const NEXT_TOUR = 'match.next_tour';
+
+    /**
+     * When the tour is modify
+     * Instance of MatchBundle\Event\GameEvent
+     */
+    const CHANGE_TOUR = 'match.change_tour';
 }
