@@ -2,6 +2,7 @@
 
 namespace AppBundle\Topic;
 
+use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
@@ -15,15 +16,15 @@ use Ratchet\Wamp\Topic;
  */
 class HomeTopic implements TopicInterface, PushableTopicInterface
 {
+    private $entityManager;
+
     /**
-     * @param Topic        $topic
-     * @param WampRequest  $request
-     * @param string|array $data
-     * @param string       $provider
+     * HomeTopic constructor.
+     * @param EntityManager $entityManager
      */
-    public function onPush(Topic $topic, WampRequest $request, $data, $provider)
+    public function __construct(EntityManager $entityManager)
     {
-        // TODO: Implement onPush() method.
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -33,7 +34,21 @@ class HomeTopic implements TopicInterface, PushableTopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        // TODO: Implement onSubscribe() method.
+        $repo = $this->entityManager->getRepository('MatchBundle:Game');
+        $list = $repo->getList();
+
+        $connection->event($topic->getId(), ['games' => $list]);
+    }
+
+    /**
+     * @param Topic        $topic
+     * @param WampRequest  $request
+     * @param string|array $data
+     * @param string       $provider
+     */
+    public function onPush(Topic $topic, WampRequest $request, $data, $provider)
+    {
+        $topic->broadcast($data);
     }
 
     /**
@@ -43,7 +58,6 @@ class HomeTopic implements TopicInterface, PushableTopicInterface
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        // TODO: Implement onUnSubscribe() method.
     }
 
     /**
@@ -56,7 +70,6 @@ class HomeTopic implements TopicInterface, PushableTopicInterface
      */
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
-        // TODO: Implement onPublish() method.
     }
 
     /**
