@@ -26,7 +26,7 @@ TODO
     - [ ] Score table
     - [ ] Penalty
     - [ ] Boat color
-    - [ ] Close modal when click outside
+    - [X] Close modal when click outside
     - [ ] Use promise for WS
     - [ ] ISO view
     - [ ] Display grid (optional)

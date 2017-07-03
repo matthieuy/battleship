@@ -2,9 +2,9 @@
     <div v-show="weapon.modal">
         <div class="modal-bg"></div>
         <div class="modal-wrap">
-            <div class="modal-container">
+            <div class="modal-container"v-on:click.stop.prevent="close()">
                 <div class="modal-content">
-                    <div id="modal-weapon">
+                    <div id="modal-weapon" v-on:click.stop.prevent="">
                         <div class="center">
                             <h1>Weapons</h1>
                             <div v-show="me"><strong>{{ score }}</strong> points</div>
@@ -73,9 +73,11 @@
             },
             // Select weapon
             select() {
-                store.commit(MUTATION.SELECT, this.selected)
-                store.commit(MUTATION.WEAPON_MODAL, false)
-                this.selected = null
+                if (this.selected) {
+                    store.commit(MUTATION.SELECT, this.selected)
+                    store.commit(MUTATION.WEAPON_MODAL, false)
+                    this.selected = null
+                }
             },
             // Rotate weapons
             rotate() {
