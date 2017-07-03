@@ -1,5 +1,5 @@
 <template>
-    <div title="Score" class="bubble">
+    <div title="Score" class="bubble" @click="toggleModal()">
         <i class="fa fa-bar-chart-o"></i>
         <img id="life-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -8,6 +8,7 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
+    import { MUTATION } from "../store/modules/score"
     import Favico from "@bower/favico.js/favico.js"
 
     let BubbleLife = null
@@ -15,8 +16,14 @@
     export default {
         computed: {
             ...mapState([
+                'score', // Score module
                 'me',
             ])
+        },
+        methods: {
+            toggleModal() {
+                store.commit(MUTATION.SCORE_MODAL)
+            },
         },
         watch: {
             // Update bubble when life change

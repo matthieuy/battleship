@@ -200,9 +200,6 @@
         max-width: 95%;
         margin: auto;
         vertical-align: middle;
-        .btn-action {
-            margin-top: 25px;
-        }
         .weapon {
             cursor: pointer;
             margin-top: 20px;
