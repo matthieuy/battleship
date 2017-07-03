@@ -295,11 +295,14 @@ class Game
 
     /**
      * Set lastShoot
-     * @param \DateTime $lastShoot
+     * @param \DateTime|null $lastShoot The last shoot or null for now
      * @return Game
      */
-    public function setLastShoot(\DateTime $lastShoot)
+    public function setLastShoot(\DateTime $lastShoot = null)
     {
+        if (!$lastShoot) {
+            $lastShoot = new \DateTime('now');
+        }
         $this->lastShoot = $lastShoot;
 
         return $this;

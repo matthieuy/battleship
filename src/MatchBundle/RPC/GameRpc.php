@@ -382,6 +382,9 @@ class GameRpc implements RpcInterface
             return false;
         }
 
+        // Last shoot
+        $game->setLastShoot();
+
         // Empty box
         if ($box->isEmpty()) {
             $box
@@ -496,7 +499,7 @@ class GameRpc implements RpcInterface
             // Update game
             $game
                 ->setStatus(Game::STATUS_END)
-                ->setLastShoot(new \DateTime('now'));
+                ->setLastShoot();
 
             // Event
             $event = new GameEvent($game);
