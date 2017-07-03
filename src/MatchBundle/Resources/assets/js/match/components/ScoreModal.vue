@@ -39,6 +39,22 @@
             close() {
                 store.commit(MUTATION.SCORE_MODAL, false)
             },
+            receive(obj) {
+
+            },
+        },
+        watch: {
+            // Subscribe/Unsubscribe WS when open/close modal
+            ['score.modal'](modal) {
+                let topicName = 'game/' + document.getElementById('slug').value + '/score'
+                if (modal) {
+                    WS.subscribeAction(topicName, 'scores', (obj) => {
+                        this.receive(obj)
+                    })
+                } else {
+                    WS.unsubscribe(topicName)
+                }
+            },
         },
     }
 </script>
