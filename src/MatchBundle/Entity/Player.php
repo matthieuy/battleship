@@ -336,6 +336,8 @@ class Player
             'position' => $this->position,
             'color' => $this->color,
             'team' => $this->team,
+            'life' => $this->life,
+            'score' => $this->score,
         ];
     }
 

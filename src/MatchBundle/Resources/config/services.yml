@@ -57,5 +57,7 @@ services:
     # Score topic
     game.score.topic:
         class: MatchBundle\Topic\ScoreTopic
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: gos_web_socket.topic }

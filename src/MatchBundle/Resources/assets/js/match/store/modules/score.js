@@ -4,11 +4,13 @@
 
 export const MUTATION = {
     SCORE_MODAL: 'SCORE_MODAL',
+    RECEIVE_LIST: 'RECEIVE_LIST',
 }
 
 export default {
     state: {
         modal: false,
+        list: [],
     },
     mutations: {
         // Toggle modal
@@ -18,6 +20,10 @@ export default {
             } else {
                 state.modal = !state.modal
             }
+        },
+        // Receive list from WS
+        [MUTATION.RECEIVE_LIST](state, list) {
+            state.list = list
         },
     },
     actions: {},
