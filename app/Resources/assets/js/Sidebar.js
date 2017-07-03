@@ -2,18 +2,16 @@
  * Sidebar module
  */
 var sidebar = {
-    slidebar: null,
     sidebar: null,
     init: function () {
         // Init Slidebar
-        this.slidebar = require('@bower/slidebars/dist/slidebars.js')
-        this.sidebar = new this.slidebar({
+        this.sidebar = new slidebars({
             speed: 1000,
             siteClose: true,
             disableOver: false,
             hideControlClasses: false
         })
-        this.sidebar.init();
+        this.sidebar.init()
 
         // Event listener
         let self = this;
