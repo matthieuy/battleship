@@ -5,9 +5,8 @@ TODO
 - [ ] Clear npm and bower package
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
-	- [ ] Slidebars isn't compatible ! 2 choices :
-		- [ ] Wait merge my [PR on the original project](https://github.com/adchsm/Slidebars/pull/264)
-		- [ ] Use [exports-loader](https://github.com/webpack-contrib/exports-loader) with Webpack
+	- [X] Slidebars isn't compatible :
+		- [X] Use [exports-loader](https://github.com/webpack-contrib/exports-loader) with Webpack
 - [ ] Documentations :
     - [X] Write [CHANGELOG.md](CHANGELOG)
 	- [X] Complete the [README.md](README)
