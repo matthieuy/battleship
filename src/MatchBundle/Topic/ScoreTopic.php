@@ -3,11 +3,9 @@
 namespace MatchBundle\Topic;
 
 use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
-use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
@@ -37,6 +35,10 @@ class ScoreTopic implements TopicInterface, PushableTopicInterface
      */
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
+        $list = $this->getPlayersList($request);
+        if ($list) {
+            $topic->broadcast(['scores' => $list]);
+        }
     }
 
     /**
@@ -47,10 +49,9 @@ class ScoreTopic implements TopicInterface, PushableTopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        $attributes = $request->getAttributes();
-        if ($attributes->has('slug')) {
-            $game = $this->entityManager->getRepository('MatchBundle:Game')->findOneBy(['slug' => $attributes->get('slug')]);
-            $connection->event($topic->getId(), ['scores' => $this->getPlayersList($game)]);
+        $list = $this->getPlayersList($request);
+        if ($list) {
+            $connection->event($topic->getId(), ['scores' => $list]);
         }
     }
 
@@ -88,14 +89,23 @@ class ScoreTopic implements TopicInterface, PushableTopicInterface
 
     /**
      * Get players as array
-     * @param Game $game
-     * @return array
+     * @param WampRequest $request
+     * @return array|null
      */
-    private function getPlayersList(Game $game)
+    private function getPlayersList(WampRequest $request)
     {
-        $list = [];
+        // Get slug
+        $attributes = $request->getAttributes();
+        if (!$attributes->has('slug')) {
+            return null;
+        }
+
+        // Get game
+        $game = $this->entityManager->getRepository('MatchBundle:Game')->findOneBy(['slug' => $attributes->get('slug')]);
         $players = $game->getPlayers();
         $tour = $game->getTour();
+
+        $list = [];
         foreach ($players as $player) {
             $list[] = array_merge(
                 $player->toArray(),
