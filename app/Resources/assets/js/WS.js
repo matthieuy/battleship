@@ -6,6 +6,19 @@ let WS = (function(uri) {
         this._listeners = {}
         this._subscribers = {}
         this._dataDefault = {}
+        this._onResult = function(topicName, result) {
+            let that = this
+            console.info('[Socket] Subscribe topic', topicName)
+            $.each(result, function(dataName, obj) {
+                if (typeof that._subscribers[topicName][dataName] !== 'undefined') {
+                    console.info('[Socket] Receive from '+topicName, '{'+ dataName+'}', obj)
+                    let listCb = that._subscribers[topicName][dataName]
+                    for (let i=0; i<listCb.length; i++) {
+                        listCb[i](obj)
+                    }
+                }
+            })
+        }
     }
 
     Socket.prototype.connect = function () {
@@ -15,16 +28,7 @@ let WS = (function(uri) {
         that.on('socket/connect', function() {
             $.each(that._subscribers, function(topicName, actions) {
                 that._session.subscribe(topicName, function(uri, result) {
-                    console.info('[Socket] Subscribe topic ', topicName)
-                    $.each(result, function(dataName, obj) {
-                        if (typeof that._subscribers[topicName][dataName] !== 'undefined') {
-                            console.info('[Socket] Receive from '+topicName, '{'+ dataName+'}', obj)
-                            let listCb = that._subscribers[topicName][dataName]
-                            for (let i=0; i<listCb.length; i++) {
-                                listCb[i](obj)
-                            }
-                        }
-                    })
+                    that._onResult(topicName, result)
                 })
             })
         })
@@ -135,6 +139,23 @@ let WS = (function(uri) {
     Socket.prototype.subscribe = function(topicName) {
         if (typeof this._subscribers[topicName] == 'undefined') {
             this._subscribers[topicName] = {}
+            if (this._session) {
+                let that = this
+                this._session.subscribe(topicName, function(uri, result) {
+                    that._onResult(topicName, result)
+                })
+            }
+        }
+        return this
+    }
+
+    Socket.prototype.unsubscribe = function(topicName) {
+        if (typeof this._subscribers[topicName] !== 'undefined') {
+            delete this._subscribers[topicName]
+            if (this._session && this._session._subscriptions[topicName]) {
+                console.info('[Socket] Unsubscribe topic', topicName)
+                this._session.unsubscribe(topicName)
+            }
         }
 
         return this
