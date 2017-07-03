@@ -23,7 +23,7 @@ TODO
     - [ ] Players avatar
     - [ ] Rocket img
     - [ ] Can change box size
-    - [ ] Score table
+    - [X] Score table
     - [ ] Penalty
     - [ ] Boat color
     - [X] Close modal when click outside
