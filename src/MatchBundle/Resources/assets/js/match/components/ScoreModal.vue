@@ -114,11 +114,25 @@
                     WS.subscribeAction(topicName, 'scores', (obj) => {
                         store.commit(MUTATION.RECEIVE_LIST, obj)
                     })
+                    $(window).on('keyup', escapeTouch)
                 } else {
                     WS.unsubscribe(topicName)
                 }
             },
         },
+    }
+
+    /**
+     * Press escape touch : close modal
+     * @param e
+     */
+    function escapeTouch(e) {
+        if (e.which == 27) {
+            if (store.state.score.modal) {
+                store.commit(MUTATION.SCORE_MODAL, false)
+            }
+            $(window).off('keyup', escapeTouch)
+        }
     }
 </script>
 <style lang="less">
