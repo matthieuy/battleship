@@ -8,7 +8,70 @@
                         <h1 class="center">Score</h1>
                         <div class="clear"></div>
 
+                        <div class="large-12 column">
+                            <div class="row">
+                                <div class="overflow">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Players</th>
+                                                <th width="80">Lifes</th>
+                                                <th width="100">Torpedo</th>
+                                                <th width="100">Destroyer</th>
+                                                <th width="100">Cruiser</th>
+                                                <th width="110">Aircraft</th>
+                                            </tr>
+                                        </thead>
+                                        <!--
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6" id="chrono"></td>
+                                            </tr>
+                                        </tfoot>
+                                        -->
+                                        <tbody>
+                                            <tr v-for="team in teams">
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">
+                                                            <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
+                                                            <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.life }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.boats[2] }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.boats[3] }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.boats[4] }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.boats[5] }}</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         <div class="clear"></div>
+
                         <div class="large-12 center">
                             <div class="row btn-action">
                                 <button class="close button alert small-10 large-3" @click="close()">
@@ -24,7 +87,7 @@
     </div>
 </template>
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     import store from "../store/GameStore"
     import { MUTATION } from "../store/modules/score"
 
@@ -33,6 +96,9 @@
             ...mapState([
                 'score',
             ]),
+            ...mapGetters([
+                'teams',
+            ])
         },
         methods: {
             // Close modal
@@ -61,5 +127,71 @@
         max-width: 95%;
         margin: auto;
         vertical-align: middle;
+
+        .overflow {
+            margin: 0 15px;
+            overflow: auto;
+        }
+
+        li {
+            margin-bottom: 10px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        table {
+            margin: 0 auto 15px auto;
+            width: 95%;
+            border: 1px solid #000;
+
+            th {
+                text-align: center;
+                display: table-cell;
+                background-color: #DDD;
+                padding: 10px;
+                border: 1px solid #000;
+                font-weight: bold;
+
+                &:first-child {
+                    min-width: 150px;
+                }
+            }
+
+            td {
+                background-color: #FFF;
+                border: 1px solid #000;
+                text-align: center;
+                padding: 10px;
+
+                &:first-child {
+                    text-align: right;
+                    padding-right: 10px;
+                }
+            }
+        }
+
+        .lbl {
+            background-color: #DDD;
+            color: #000;
+            padding: 1px 5px;
+            border-radius: 10px;
+
+            &.tour {
+                color: #FFF;
+                background-color: #5da423;
+            }
+            &.dead {
+                color: #FFF;
+                background-color: #c60f13;
+            }
+        }
+        .name.dead {
+            text-decoration: line-through;
+        }
+
+        #chrono {
+            text-align: center;
+        }
     }
 </style>

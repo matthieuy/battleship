@@ -338,6 +338,7 @@ class Player
             'team' => $this->team,
             'life' => $this->life,
             'score' => $this->score,
+            'boats' => $this->getNumberOfBoat(),
         ];
     }
 
@@ -360,5 +361,25 @@ class Player
         $this->boats = $boats;
 
         return $this;
+    }
+
+    /**
+     * Get list of boat by longer
+     * @return array
+     */
+    public function getNumberOfBoat()
+    {
+        $list = [];
+        foreach ($this->boats as $boat) {
+            if ($boat[1] > $boat[2]) {
+                if (isset($list[$boat[1]])) {
+                    $list[$boat[1]]++;
+                } else {
+                    $list[$boat[1]] = 1;
+                }
+            }
+        }
+
+        return $list;
     }
 }

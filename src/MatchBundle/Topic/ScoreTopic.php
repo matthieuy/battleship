@@ -95,8 +95,12 @@ class ScoreTopic implements TopicInterface, PushableTopicInterface
     {
         $list = [];
         $players = $game->getPlayers();
+        $tour = $game->getTour();
         foreach ($players as $player) {
-            $list[] = $player->toArray();
+            $list[] = array_merge(
+                $player->toArray(),
+                ['tour' => in_array($player->getPosition(), $tour)]
+            );
         }
 
         return $list;
