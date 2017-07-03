@@ -255,7 +255,16 @@ module.exports = function makeWebpackConfig(options) {
             'process.env': {
                 'NODE_ENV': JSON.stringify(NODE_ENV)
             }
-        })
+        }),
+
+        /**
+         * Fix slidebars
+         * https://github.com/adchsm/Slidebars/pull/264#issuecomment-310917431
+         */
+        new webpack.ProvidePlugin({
+            slidebars: 'exports-loader?slidebars!@bower/slidebars/dist/slidebars.js',
+            //slidebars: 'exports-loader?slidebars!slidebars/dist/slidebars',
+        }),
     ];
 
     config.plugins.push(new webpack.ProvidePlugin({
