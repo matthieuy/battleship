@@ -606,6 +606,8 @@ class Game
             'size' => $this->size,
             'date' => $this->createAt->getTimestamp(),
             'options' => $this->options,
+            'creatorId' => $this->getCreator()->getId(),
+            'creatorName' => $this->creator->getUsername(),
         ];
 
         // Informations depend status
@@ -614,7 +616,6 @@ class Game
                 $infos = array_merge($infos, [
                     'nb' => $this->players->count(),
                     'max' => $this->maxPlayer,
-                    'creatorName' => $this->creator->getUsername(),
                 ]);
                 break;
 
@@ -629,7 +630,6 @@ class Game
                 }
                 $infos = array_merge($infos, [
                     'tour' => $tour,
-                    'creatorName' => $this->creator->getUsername(),
                     'date' => $this->getRunAt()->getTimestamp(),
                     'last' => $this->getLastShoot()->getTimestamp(),
                 ]);

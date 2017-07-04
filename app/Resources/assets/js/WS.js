@@ -8,7 +8,6 @@ let WS = (function(uri) {
         this._dataDefault = {}
         this._onResult = function(topicName, result) {
             let that = this
-            console.info('[Socket] Subscribe topic', topicName)
             $.each(result, function(dataName, obj) {
                 if (typeof that._subscribers[topicName][dataName] !== 'undefined') {
                     console.info('[Socket] Receive from '+topicName, '{'+ dataName+'}', obj)
@@ -138,6 +137,7 @@ let WS = (function(uri) {
 
     Socket.prototype.subscribe = function(topicName) {
         if (typeof this._subscribers[topicName] == 'undefined') {
+            console.info('[Socket] Subscribe topic', topicName)
             this._subscribers[topicName] = {}
             if (this._session) {
                 let that = this

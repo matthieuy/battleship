@@ -172,6 +172,7 @@ class GameRpc implements RpcInterface
         }
 
         // Weapons
+        $this->returnBox = new ReturnBox();
         try {
             if (isset($params['weapon'])) {
                 $weapon = $this->weaponRegistry->getWeapon($params['weapon']);
@@ -206,7 +207,6 @@ class GameRpc implements RpcInterface
         $boxList = $this->getBoxesToShoot($game, $player, $x, $y, $weapon, $weaponRotate);
 
         // Do fire
-        $this->returnBox = new ReturnBox();
         foreach ($boxList as $box) {
             $result = $this->doFire($game, $box, $player);
 
@@ -355,9 +355,7 @@ class GameRpc implements RpcInterface
             return $noWeapon;
         }
         $player->removeScore($price);
-        if (!$player->isAi()) {
-            $this->returnBox->setUseWeapon();
-        }
+        $this->returnBox->setUseWeapon();
 
         return $weapon->getBoxes($game, $x, $y, $weaponRotate);
     }

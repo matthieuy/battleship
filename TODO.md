@@ -5,6 +5,8 @@ TODO
 - [ ] Clear npm and bower package
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
+	- [ ] Animation with scroll != 0
+	- [X] Update score after weapon use
 	- [X] Slidebars isn't compatible :
 		- [X] Use [exports-loader](https://github.com/webpack-contrib/exports-loader) with Webpack
 - [ ] Documentations :
@@ -30,6 +32,7 @@ TODO
     - [ ] Use promise for WS
     - [ ] ISO view
     - [ ] Display grid (optional)
+    - [ ] Shortcuts
 - [ ] Bonus :
     - [ ] Make Bonus registy
     - [ ] Add/Remove/Use bonus
