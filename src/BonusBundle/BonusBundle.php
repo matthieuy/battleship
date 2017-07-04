@@ -2,6 +2,7 @@
 
 namespace BonusBundle;
 
+use BonusBundle\DependencyInjection\Compiler\BonusCompilerPass;
 use BonusBundle\DependencyInjection\Compiler\WeaponCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -19,6 +20,8 @@ class BonusBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new WeaponCompilerPass());
+        $container
+            ->addCompilerPass(new WeaponCompilerPass())
+            ->addCompilerPass(new BonusCompilerPass());
     }
 }

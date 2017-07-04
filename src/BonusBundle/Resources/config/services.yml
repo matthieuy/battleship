@@ -6,6 +6,9 @@ services:
     weapon.registry:
         class: BonusBundle\Manager\WeaponRegistry
 
+    bonus.registry:
+        class: BonusBundle\Manager\BonusRegistry
+
 ####################
 ##### WEAPONS ######
 ####################
