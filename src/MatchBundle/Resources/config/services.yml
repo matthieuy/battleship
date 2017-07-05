@@ -45,6 +45,7 @@ services:
             - "@gos_web_socket.zmq.pusher"
             - "@event_dispatcher"
             - "@weapon.registry"
+            - "@bonus.registry"
         tags:
             - { name: gos_web_socket.rpc }
 
