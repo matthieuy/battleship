@@ -201,6 +201,9 @@
             WS.subscribeAction(topicName, 'data', (obj) => {
                 this.receive(obj)
             })
+
+            // Show/Hide boat
+            $(window).on('keyup', hideShowBoats)
         },
     }
 
@@ -224,5 +227,19 @@
             width: sizeCss,
             minWidth: sizeCss,
         })
+    }
+
+    /**
+     * Show / Hide boat
+     */
+    function hideShowBoats(e) {
+        if (e.which == 72) { // H key
+            if ($('.hide').length) {
+                $('.hide').removeClass('hide').addClass('boat')
+            } else {
+                $('.boat:not(.dead,.animated)').removeClass('boat').addClass('hide')
+            }
+        }
+
     }
 </script>
