@@ -2,6 +2,7 @@
 
 namespace MatchBundle\Entity;
 
+use BonusBundle\BonusConstant;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use UserBundle\Entity\User;
@@ -85,6 +86,12 @@ class Player
     protected $position;
 
     /**
+     * @var integer
+     * @ORM\Column(type="smallint")
+     */
+    protected $probability;
+
+    /**
      * Player constructor.
      */
     public function __construct()
@@ -92,6 +99,7 @@ class Player
         $this->ai = false;
         $this->score = 0;
         $this->life = 0;
+        $this->probability = BonusConstant::INITIAL_PROBABILITY;
     }
 
     /**
@@ -381,5 +389,27 @@ class Player
         }
 
         return $list;
+    }
+
+    /**
+     * Get the probability to catch bonus
+     * @return integer
+     */
+    public function getProbability()
+    {
+        return $this->probability;
+    }
+
+    /**
+     * Set probability to catch bonus
+     * @param integer $probability
+     *
+     * @return $this
+     */
+    public function setProbability($probability)
+    {
+        $this->probability = $probability;
+
+        return $this;
     }
 }
