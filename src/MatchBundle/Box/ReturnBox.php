@@ -85,10 +85,14 @@ class ReturnBox
     /**
      * Set Use Weapon
      * @param boolean $useWeapon
+     *
+     * @return $this
      */
     public function setUseWeapon($useWeapon = true)
     {
         $this->useWeapon = $useWeapon;
+
+        return $this;
     }
 
     /**

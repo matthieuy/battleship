@@ -2,6 +2,7 @@
 
 namespace MatchBundle\RPC;
 
+use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use BonusBundle\Weapons\WeaponInterface;
 use Doctrine\ORM\EntityManager;
@@ -32,6 +33,7 @@ class GameRpc implements RpcInterface
     private $em;
     private $eventDispatcher;
     private $weaponRegistry;
+    private $bonusRegistry;
     private $pusher;
 
     /** @var ReturnBox */
@@ -44,19 +46,22 @@ class GameRpc implements RpcInterface
      * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $eventDispatcher
      * @param WeaponRegistry             $weaponRegistry
+     * @param BonusRegistry              $bonusRegistry
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
         EventDispatcherInterface $eventDispatcher,
-        WeaponRegistry $weaponRegistry
+        WeaponRegistry $weaponRegistry,
+        BonusRegistry $bonusRegistry
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
         $this->weaponRegistry = $weaponRegistry;
+        $this->bonusRegistry = $bonusRegistry;
     }
 
     /**
