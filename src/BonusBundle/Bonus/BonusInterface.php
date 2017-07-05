@@ -13,4 +13,10 @@ interface BonusInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Get the bonus description
+     * @return string
+     */
+    public function getDescription();
 }
