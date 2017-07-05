@@ -34,7 +34,11 @@ TODO
     - [ ] Display grid (optional)
     - [ ] Shortcuts
 - [ ] Bonus :
-    - [ ] Make Bonus registy
+    - [X] Make Bonus registy
+    - [ ] Probability
+    - [X] Inventory
+        - [ ] Add bonus to inventory
+        - [ ] Catcher/Trigger/Hook in game for use bonus
     - [ ] Add/Remove/Use bonus
     - [ ] Make bonus
 	- [ ] IA use bonus
@@ -72,7 +76,8 @@ TODO
 	- [ ] Notifications registry
 	- [ ] Notifications manager
     - [ ] Transporter :
-        - [ ] SMS
+        - [ ] Hook
+        - [ ] SMS (via hooks)
         - [ ] IonicPush
         - [ ] Discord
         - [ ] Email

@@ -35,3 +35,12 @@ services:
         class: BonusBundle\Weapons\MortarWeapon
         tags:
             - { name: weapon.type }
+
+#################
+##### BONUS #####
+#################
+    # Point bonus
+    bonus.point:
+        class: BonusBundle\Bonus\PointBonus
+        tags:
+            - { name: bonus.type }
