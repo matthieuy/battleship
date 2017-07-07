@@ -412,4 +412,17 @@ class Player
 
         return $this;
     }
+
+    /**
+     * Add probability to catch bonus
+     * @param integer $increment
+     *
+     * @return $this
+     */
+    public function addProbability($increment)
+    {
+        $this->probability += $increment;
+
+        return $this;
+    }
 }
