@@ -454,6 +454,7 @@ class Player
      */
     public function addBonus(Inventory $inventory)
     {
+        $inventory->setPlayer($this);
         $this->bonus->add($inventory);
 
         return $this;
