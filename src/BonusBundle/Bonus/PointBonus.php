@@ -29,4 +29,24 @@ class PointBonus extends AbstractBonus
     {
         return 'Add points';
     }
+
+    /**
+     * Get the probability to catch this bonus
+     * @return integer
+     */
+    public function getProbabilityToCatch()
+    {
+        return 30;
+    }
+
+    /**
+     * Get options to add in inventory
+     * @return array
+     */
+    public function getOptions()
+    {
+        return [
+            'points' => rand(self::MIN_POINTS, self::MAX_POINTS),
+        ];
+    }
 }

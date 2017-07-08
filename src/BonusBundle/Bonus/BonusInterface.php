@@ -19,4 +19,16 @@ interface BonusInterface
      * @return string
      */
     public function getDescription();
+
+    /**
+     * Get the probability to catch this bonus
+     * @return integer
+     */
+    public function getProbabilityToCatch();
+
+    /**
+     * Get options to add in inventory
+     * @return array
+     */
+    public function getOptions();
 }
