@@ -347,6 +347,7 @@ class Player
             'life' => $this->life,
             'score' => $this->score,
             'boats' => $this->getNumberOfBoat(),
+            'probability' => $this->probability,
         ];
     }
 
