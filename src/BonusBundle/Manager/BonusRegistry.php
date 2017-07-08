@@ -48,6 +48,22 @@ class BonusRegistry
     }
 
     /**
+     * Get Bonus by name
+     * @param string $name
+     *
+     * @return BonusInterface
+     * @throws \Exception
+     */
+    public function getBonusByName($name)
+    {
+        if (!isset($this->bonusList[$name])) {
+            throw new \Exception("This bonus don't exist !");
+        }
+
+        return $this->bonusList[$name];
+    }
+
+    /**
      * Catch a bonus (or increment proba)
      * @param Player    $player
      * @param ReturnBox $returnBox

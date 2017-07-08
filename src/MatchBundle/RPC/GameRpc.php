@@ -125,6 +125,7 @@ class GameRpc implements RpcInterface
                 $infoPlayer = array_merge($infoPlayer, [
                     'me' => true,
                     'score' => $player->getScore(),
+                    'nbBonus' => $player->getNbBonus(),
                 ]);
                 $me = $player;
             }

@@ -357,7 +357,6 @@ class Player
             'score' => $this->score,
             'boats' => $this->getNumberOfBoat(),
             'probability' => $this->probability,
-            'nbBonus' => $this->bonus->count(),
         ];
     }
 
@@ -435,5 +434,14 @@ class Player
         $this->probability += $increment;
 
         return $this;
+    }
+
+    /**
+     * Get number of bonus
+     * @return integer
+     */
+    public function getNbBonus()
+    {
+        return $this->bonus->count();
     }
 }
