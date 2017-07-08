@@ -91,7 +91,10 @@ class BonusRegistry
         $random = rand(0, 100 - $probaPlayer);
         $listBonus = [];
         foreach ($this->bonusList as $bonus) {
-            if ($bonus->getProbabilityToCatch() <= $probaPlayer && $bonus->getProbabilityToCatch() > $random) {
+            if ($bonus->getProbabilityToCatch() <= $probaPlayer &&
+                $bonus->getProbabilityToCatch() > $random &&
+                $bonus->canWeGetIt($player)
+            ) {
                 $listBonus[] = $bonus;
             }
         }

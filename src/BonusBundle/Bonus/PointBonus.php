@@ -2,6 +2,8 @@
 
 namespace BonusBundle\Bonus;
 
+use MatchBundle\Entity\Player;
+
 /**
  * Class PointBonus
  * @package BonusBundle\Bonus
@@ -48,5 +50,16 @@ class PointBonus extends AbstractBonus
         return [
             'points' => rand(self::MIN_POINTS, self::MAX_POINTS),
         ];
+    }
+
+    /**
+     * All players can get this bonus
+     * @param Player $player
+     *
+     * @return boolean
+     */
+    public function canWeGetIt(Player $player)
+    {
+        return true;
     }
 }

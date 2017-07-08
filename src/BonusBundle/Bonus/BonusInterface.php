@@ -39,4 +39,12 @@ interface BonusInterface
      * @param Player $player
      */
     public function setProbabilityAfterCatch(Player $player);
+
+    /**
+     * Can the player get this bonus ?
+     * @param Player $player
+     *
+     * @return boolean
+     */
+    public function canWeGetIt(Player $player);
 }
