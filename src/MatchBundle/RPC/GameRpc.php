@@ -223,7 +223,7 @@ class GameRpc implements RpcInterface
         }
 
         // Bonus
-        if (!$this->returnBox->isDoTouch()) {
+        if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
             $this->bonusRegistry->catchBonus($player, $this->returnBox);
         }
 
@@ -718,7 +718,7 @@ class GameRpc implements RpcInterface
         }
 
         // Bonus
-        if (!$this->returnBox->isDoTouch()) {
+        if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
             $this->bonusRegistry->catchBonus($ai, $this->returnBox);
         }
     }

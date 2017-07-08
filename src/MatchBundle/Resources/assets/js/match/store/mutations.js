@@ -73,8 +73,13 @@ export default {
                 state.me.score = box.score[state.me.position]
                 delete box.score
             }
-        }
 
+            // Update inventory
+            if (box.bonus && box.bonus[state.me.position]) {
+                state.me.nbBonus = box.bonus[state.me.position]
+                delete box.bonus
+            }
+        }
 
         // Update grid and sink boat
         Vue.set(state.grid[box.y], box.x, box)

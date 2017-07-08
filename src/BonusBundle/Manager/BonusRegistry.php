@@ -71,7 +71,7 @@ class BonusRegistry
      *
      * @return boolean Catch or not
      */
-    public function catchBonus(Player &$player, ReturnBox $returnBox)
+    public function catchBonus(Player &$player, ReturnBox &$returnBox)
     {
         // Inventory full
         if ($player->getNbBonus() >= BonusConstant::INVENTORY_SIZE) {
@@ -112,8 +112,9 @@ class BonusRegistry
         $inventory = new Inventory();
         $inventory
             ->setName($bonus->getName())
-            ->setPlayer($player)
             ->setOptions($bonus->getOptions());
+        $player->addBonus($inventory);
+        $returnBox->setBonus($player);
 
         // RAZ probability
         $bonus->setProbabilityAfterCatch($player);
