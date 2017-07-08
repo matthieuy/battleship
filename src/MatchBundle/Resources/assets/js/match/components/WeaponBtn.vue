@@ -1,6 +1,6 @@
 <template>
     <div id="btn-weapon" title="Weapon" class="bubble" :class="{disabled: !weapon.enabled}" @click="toggleModal()">
-        <i class="fa fa-crosshairs" :class="{selected: weapon.select}"></i>
+        <i class="gi gi-crossed-sabres" :class="{selected: weapon.select}"></i>
         <img id="weapon-bubble" src="img/null.png" width="25" height="25">
     </div>
 </template>

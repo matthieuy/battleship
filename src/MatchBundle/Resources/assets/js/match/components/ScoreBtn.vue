@@ -1,6 +1,6 @@
 <template>
     <div title="Score" class="bubble" @click="toggleModal()">
-        <i class="fa fa-bar-chart-o"></i>
+        <i class="gi gi-heart-organ"></i>
         <img id="life-bubble" src="img/null.png" width="25" height="25">
     </div>
 </template>
