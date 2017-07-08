@@ -2,7 +2,9 @@
 
 namespace MatchBundle\Entity;
 
+use BonusBundle\Bonus\BonusInterface;
 use BonusBundle\BonusConstant;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use UserBundle\Entity\User;
@@ -79,6 +81,12 @@ class Player
     protected $boats;
 
     /**
+     * @var ArrayCollection|BonusInterface[]
+     * @ORM\OneToMany(targetEntity="BonusBundle\Entity\Inventory", mappedBy="player")
+     */
+    protected $bonus;
+
+    /**
      * @var int
      * @ORM\Column(type="smallint", length=1)
      * @Gedmo\SortablePosition()
@@ -100,6 +108,7 @@ class Player
         $this->score = 0;
         $this->life = 0;
         $this->probability = BonusConstant::INITIAL_PROBABILITY;
+        $this->bonus = new ArrayCollection();
     }
 
     /**
@@ -348,6 +357,7 @@ class Player
             'score' => $this->score,
             'boats' => $this->getNumberOfBoat(),
             'probability' => $this->probability,
+            'nbBonus' => $this->bonus->count(),
         ];
     }
 
