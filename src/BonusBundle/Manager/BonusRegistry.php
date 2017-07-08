@@ -3,6 +3,8 @@
 namespace BonusBundle\Manager;
 
 use BonusBundle\Bonus\BonusInterface;
+use BonusBundle\Entity\Inventory;
+use Doctrine\ORM\EntityManager;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Player;
 
@@ -18,10 +20,17 @@ class BonusRegistry
     protected $bonusList;
 
     /**
-     * BonusRegistry constructor.
+     * @var EntityManager
      */
-    public function __construct()
+    private $entityManager;
+
+    /**
+     * BonusRegistry constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->bonusList = [];
     }
 
@@ -39,11 +48,64 @@ class BonusRegistry
     }
 
     /**
+     * Catch a bonus (or increment proba)
+     * @param Player    $player
+     * @param ReturnBox $returnBox
+     *
+     * @return boolean Catch or not
+     */
+    public function catchBonus(Player &$player, ReturnBox $returnBox)
+    {
+        // Catch or not
+        $luck = rand(0, 100);
+        if ($luck >=  $player->getProbability()) {
+            $this->updateProbability($player, $returnBox);
+
+            return false;
+        }
+
+        // Get bonus catchable
+        $probaPlayer = 100 - $player->getProbability();
+        $random = rand(0, 100 - $probaPlayer);
+        $listBonus = [];
+        foreach ($this->bonusList as $bonus) {
+            if ($bonus->getProbabilityToCatch() <= $probaPlayer && $bonus->getProbabilityToCatch() > $random) {
+                $listBonus[] = $bonus;
+            }
+        }
+
+        // No bonus : increment proba
+        if (empty($listBonus)) {
+            $this->updateProbability($player, $returnBox);
+
+            return false;
+        }
+
+        // Get bonus
+        shuffle($listBonus);
+        /** @var BonusInterface $bonus */
+        $bonus = array_shift($listBonus);
+
+        // Add to inventory
+        $inventory = new Inventory();
+        $inventory
+            ->setName($bonus->getName())
+            ->setPlayer($player)
+            ->setOptions($bonus->getOptions());
+
+        // Persist
+        $this->entityManager->persist($inventory);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    /**
      * Update the probability to catch a bonus
      * @param Player    $player
      * @param ReturnBox $returnBox
      */
-    public function updateProbability(Player &$player, ReturnBox $returnBox)
+    protected function updateProbability(Player &$player, ReturnBox $returnBox)
     {
         // Calculate increment with life
         if ($player->getLife() >= 20) {

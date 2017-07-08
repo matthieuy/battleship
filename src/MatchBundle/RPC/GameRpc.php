@@ -223,7 +223,7 @@ class GameRpc implements RpcInterface
 
         // Bonus
         if (!$this->returnBox->isDoTouch()) {
-            $this->bonusRegistry->updateProbability($player, $this->returnBox);
+            $this->bonusRegistry->catchBonus($player, $this->returnBox);
         }
 
         // Next tour
@@ -718,7 +718,7 @@ class GameRpc implements RpcInterface
 
         // Bonus
         if (!$this->returnBox->isDoTouch()) {
-            $this->bonusRegistry->updateProbability($ai, $this->returnBox);
+            $this->bonusRegistry->catchBonus($ai, $this->returnBox);
         }
     }
 }

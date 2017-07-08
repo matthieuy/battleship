@@ -8,6 +8,8 @@ services:
 
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
+        arguments:
+            - "@doctrine.orm.entity_manager"
 
 ####################
 ##### WEAPONS ######
