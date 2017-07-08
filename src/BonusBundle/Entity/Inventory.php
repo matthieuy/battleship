@@ -3,6 +3,7 @@
 namespace BonusBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
@@ -21,8 +22,14 @@ class Inventory
     private $id;
 
     /**
+     * @var Game
+     * @ORM\ManyToOne(targetEntity="MatchBundle\Entity\Game")
+     */
+    protected $game;
+
+    /**
      * @var Player
-     * @ORM\ManyToOne(targetEntity="MatchBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="MatchBundle\Entity\Player", inversedBy="bonus")
      */
     protected $player;
 
@@ -40,7 +47,7 @@ class Inventory
 
     /**
      * @var array
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="json_array")
      */
     protected $options;
 
@@ -63,6 +70,15 @@ class Inventory
     }
 
     /**
+     * Get game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
      * Get player
      * @return Player
      */
@@ -77,8 +93,9 @@ class Inventory
      *
      * @return $this
      */
-    public function setPlayer($player)
+    public function setPlayer(Player $player)
     {
+        $this->game = $player->getGame();
         $this->player = $player;
 
         return $this;
