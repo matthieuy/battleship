@@ -143,16 +143,6 @@
 </script>
 <style lang="less">
     #modal-score {
-        background-color: #FFF;
-        max-width: 95%;
-        margin: auto;
-        vertical-align: middle;
-
-        .overflow {
-            margin: 0 15px;
-            overflow: auto;
-        }
-
         li {
             margin-bottom: 10px;
             &:last-child {
