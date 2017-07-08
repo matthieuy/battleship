@@ -20,6 +20,7 @@
                                                 <th width="100">Destroyer</th>
                                                 <th width="100">Cruiser</th>
                                                 <th width="110">Aircraft</th>
+                                                <th>Bonus</th>
                                             </tr>
                                         </thead>
                                         <!--
@@ -62,6 +63,11 @@
                                                 <td>
                                                     <ul>
                                                         <li v-for="player in team.players">{{ player.boats[5] }}</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        <li v-for="player in team.players">{{ player.probability }}%</li>
                                                     </ul>
                                                 </td>
                                             </tr>
