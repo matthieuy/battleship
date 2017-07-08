@@ -3,6 +3,7 @@
 namespace BonusBundle\Manager;
 
 use BonusBundle\Bonus\BonusInterface;
+use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Box\ReturnBox;
@@ -72,6 +73,11 @@ class BonusRegistry
      */
     public function catchBonus(Player &$player, ReturnBox $returnBox)
     {
+        // Inventory full
+        if ($player->getNbBonus() >= BonusConstant::INVENTORY_SIZE) {
+            return false;
+        }
+
         // Catch or not
         $luck = rand(0, 100);
         if ($luck >=  $player->getProbability()) {
@@ -135,7 +141,7 @@ class BonusRegistry
             $increment = 5;
         }
 
-        if ($returnBox->getWeapon() == null) {
+        if ($returnBox->getWeapon() === null) {
             // No weapon : add the standard increment
             $player->addProbability($increment);
         } else {
