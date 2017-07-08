@@ -9,6 +9,7 @@ import ScoreBtn from "./components/ScoreBtn.vue"
 import ScoreModal from "./components/ScoreModal.vue"
 import WeaponModal from "./components/WeaponModal.vue"
 import WeaponBtn from "./components/WeaponBtn.vue"
+import InventoryBtn from "./components/InventoryBtn.vue"
 import * as types from "./store/mutation-types"
 
 // App vue
@@ -29,6 +30,7 @@ new Vue({
     components: {
         ScoreBtn,
         WeaponBtn,
+        InventoryBtn,
     },
 })
 

@@ -6,6 +6,7 @@ import getters from "./getters"
 import actions from "./actions"
 import weaponModule from "./modules/weapons"
 import scoreModule from "./modules/score"
+import inventoryModule from "./modules/inventory"
 
 // Init
 Vue.use(Vuex)
@@ -33,6 +34,7 @@ export default new Vuex.Store({
     modules: {
         weapon: weaponModule,
         score: scoreModule,
+        inventory: inventoryModule,
     },
     strict: process.env.NODE_ENV !== 'production',
 })
