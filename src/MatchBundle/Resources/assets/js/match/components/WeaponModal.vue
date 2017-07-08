@@ -196,10 +196,6 @@
     }
 
     #modal-weapon {
-        background-color: #FFF;
-        max-width: 95%;
-        margin: auto;
-        vertical-align: middle;
         .weapon {
             cursor: pointer;
             margin-top: 20px;
