@@ -2,6 +2,8 @@
 
 namespace BonusBundle\Bonus;
 
+use MatchBundle\Entity\Player;
+
 /**
  * Interface BonusInterface
  * @package BonusBundle\Bonus
@@ -31,4 +33,10 @@ interface BonusInterface
      * @return array
      */
     public function getOptions();
+
+    /**
+     * Set the new probability after catch the bonus
+     * @param Player $player
+     */
+    public function setProbabilityAfterCatch(Player $player);
 }

@@ -93,6 +93,9 @@ class BonusRegistry
             ->setPlayer($player)
             ->setOptions($bonus->getOptions());
 
+        // RAZ probability
+        $bonus->setProbabilityAfterCatch($player);
+
         // Persist
         $this->entityManager->persist($inventory);
         $this->entityManager->flush();
