@@ -4,6 +4,7 @@ namespace MatchBundle\Entity;
 
 use BonusBundle\Bonus\BonusInterface;
 use BonusBundle\BonusConstant;
+use BonusBundle\Entity\Inventory;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -443,5 +444,18 @@ class Player
     public function getNbBonus()
     {
         return $this->bonus->count();
+    }
+
+    /**
+     * Add bonus to inventory
+     * @param Inventory $inventory
+     *
+     * @return $this
+     */
+    public function addBonus(Inventory $inventory)
+    {
+        $this->bonus->add($inventory);
+
+        return $this;
     }
 }
