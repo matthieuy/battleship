@@ -2,23 +2,23 @@
     <div class="title sb-close">Menu</div>
 
     <ul class="sidebar-menu">
-        <li><a href="{{ path('homepage') }}"><i class="fa fa-home"></i>Home</a></li>
+        <li><a href="{{ path('homepage') }}"><i class="gi gi-barn"></i>Home</a></li>
 
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <li><a href="{{ path('match.create') }}"><i class="fa fa-gamepad"></i>Create game</a></li>
+            <li><a href="{{ path('match.create') }}"><i class="gi gi-joystick"></i>Create game</a></li>
             {% if inGame|default(false) %}
                 <li>
                     <a id="link-delete-game" href="{{ path('match.delete', {'slug': game.slug}) }}" style="color: #F00" class="in">
-                        <i class="fa fa-trash-o"></i>
+                        <i class="gi gi-trash-can"></i>
                         Delete the game
                     </a>
                 </li>
             {% endif %}
-            <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-power-off"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+            <li><a href="{{ path('fos_user_security_logout') }}"><i class="gi gi-exit-door"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
         {% else %}
-            <li><a href="{{ path('fos_user_security_login') }}"><i class="fa fa-sign-in"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
-            <li><a href="{{ path('fos_user_registration_register') }}"><i class="fa fa-hand-o-right"></i>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
+            <li><a href="{{ path('fos_user_security_login') }}"><i class="gi gi-skeleton-key"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+            <li><a href="{{ path('fos_user_registration_register') }}"><i class="gi gi-shaking-hands"></i>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
         {% endif %}
-        <li><a href="javascript:void(0);" class="sb-close in"><i class="fa fa-times"></i>Close menu</a></li>
+        <li><a href="javascript:void(0);" class="sb-close in"><i class="gi gi-crossed-bones"></i>Close menu</a></li>
     </ul>
 </div>
