@@ -1,4 +1,15 @@
 services:
+#######################
+##### RPC & TOPIC #####
+#######################
+    # Bonus RPC
+    game.bonus.rpc:
+        class: BonusBundle\RPC\BonusRpc
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: gos_web_socket.rpc }
 ###############################
 ##### REGISTRY & MANAGER ######
 ###############################
@@ -6,6 +17,7 @@ services:
     weapon.registry:
         class: BonusBundle\Manager\WeaponRegistry
 
+    # The bonus registry
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
         arguments:
