@@ -1,0 +1,8 @@
+# Bonus RPC
+game.bonus.rpc:
+    channel: "rpc/bonus/{method}"
+    handler:
+        callback: 'game.bonus.rpc'
+    requirements:
+        method:
+            pattern: '[a-z_]+'
