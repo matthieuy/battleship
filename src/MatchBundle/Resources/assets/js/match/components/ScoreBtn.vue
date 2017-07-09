@@ -17,8 +17,7 @@
         computed: {
             ...mapState([
                 'score', // Score module
-                'me',
-            ])
+            ]),
         },
         methods: {
             toggleModal() {
@@ -27,7 +26,7 @@
         },
         watch: {
             // Update bubble when life change
-            'me.life': (life) => {
+            'score.life': (life) => {
                 let color = (life < 10) ? '#FF0000' : (life > 20) ? '#008200' : '#B7B700';
                 BubbleLife.badge(life, {bgColor: color })
             },
