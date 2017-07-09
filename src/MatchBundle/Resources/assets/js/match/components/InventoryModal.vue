@@ -49,7 +49,7 @@
 <script>
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION, ACTION } from "../store/modules/inventory"
+    import { MUTATION, ACTION } from "../store/mutation-types"
 
     export default {
         data() {
@@ -66,11 +66,11 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.BONUS_MODAL, false)
+                store.commit(MUTATION.INVENTORY.MODAL, false)
             },
             use() {
                 if (this.selected) {
-                    store.dispatch(ACTION.USE_BONUS, this.selected)
+                    store.dispatch(ACTION.INVENTORY.USE, this.selected)
                     this.selected = null
                 }
             },
@@ -87,7 +87,7 @@
             // Load inventory on open modal
             ['inventory.modal'](open) {
                 if (open) {
-                    store.dispatch(ACTION.LOAD_BONUS)
+                    store.dispatch(ACTION.INVENTORY.LOAD)
                     $('#container').css({
                         overflow: 'hidden',
                         position: 'fixed',
@@ -111,7 +111,7 @@
     function escapeTouch(e) {
         if (e.which == 27) {
             if (store.state.inventory.modal) {
-                store.commit(MUTATION.BONUS_MODAL, false)
+                store.commit(MUTATION.INVENTORY.MODAL, false)
             }
             $(window).off('keyup', escapeTouch)
         }

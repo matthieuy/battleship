@@ -8,7 +8,7 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/modules/inventory"
+    import { MUTATION } from "../store/mutation-types"
 
     //Bower
     import Favico from '@bower/favico.js/favico.js'
@@ -24,7 +24,7 @@
         methods: {
             toggleModal() {
                 if (this.inventory.enabled) {
-                    store.commit(MUTATION.BONUS_MODAL)
+                    store.commit(MUTATION.INVENTORY.MODAL)
                 }
             },
         },
