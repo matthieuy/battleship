@@ -2,10 +2,7 @@
  * Score module vuex store
  */
 
-export const MUTATION = {
-    SCORE_MODAL: 'SCORE_MODAL',
-    RECEIVE_LIST: 'RECEIVE_LIST',
-}
+import { MUTATION } from "../mutation-types"
 
 export default {
     state: {
@@ -14,7 +11,7 @@ export default {
     },
     mutations: {
         // Toggle modal
-        [MUTATION.SCORE_MODAL](state, status) {
+        [MUTATION.SCORE.MODAL](state, status) {
             if (typeof status !== "undefined") {
                 state.modal = status
             } else {
@@ -22,7 +19,7 @@ export default {
             }
         },
         // Receive list from WS
-        [MUTATION.RECEIVE_LIST](state, list) {
+        [MUTATION.SCORE.SET_LIST](state, list) {
             state.list = list
         },
     },

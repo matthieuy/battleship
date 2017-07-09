@@ -8,9 +8,9 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/modules/score"
-    import Favico from "@bower/favico.js/favico.js"
+    import { MUTATION } from "../store/mutation-types"
 
+    import Favico from "@bower/favico.js/favico.js"
     let BubbleLife = null
 
     export default {
@@ -22,7 +22,7 @@
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.SCORE_MODAL)
+                store.commit(MUTATION.SCORE.MODAL)
             },
         },
         watch: {

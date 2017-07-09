@@ -45,7 +45,7 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { ACTION, MUTATION } from "../store/modules/weapons"
+    import { ACTION, MUTATION } from "../store/mutation-types"
 
     export default {
         data() {
@@ -67,22 +67,22 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.WEAPON_MODAL, false)
-                store.commit(MUTATION.SELECT)
+                store.commit(MUTATION.WEAPON.MODAL, false)
+                store.commit(MUTATION.WEAPON.SELECT)
                 this.selected = null
             },
             // Select weapon
             select() {
                 if (this.selected) {
-                    store.commit(MUTATION.SELECT, this.selected)
-                    store.commit(MUTATION.WEAPON_MODAL, false)
+                    store.commit(MUTATION.WEAPON.SELECT, this.selected)
+                    store.commit(MUTATION.WEAPON.MODAL, false)
                     this.selected = null
                 }
             },
             // Rotate weapons
             rotate() {
-                store.commit(MUTATION.SELECT)
-                store.commit(MUTATION.ROTATE)
+                store.commit(MUTATION.WEAPON.SELECT)
+                store.commit(MUTATION.WEAPON.ROTATE)
             },
             // CSS class for weapon box
             classWeapon(weapon) {
@@ -109,11 +109,11 @@
             // Load weapons list on the first call
             ['weapon.modal'](open) {
                 if (open && !store.state.weapon.loaded) {
-                    store.dispatch(ACTION.LOAD, $('input#ajax-weapons').val()).then((list) => {
+                    store.dispatch(ACTION.WEAPON.LOAD, $('input#ajax-weapons').val()).then((list) => {
                         if (list.error) {
                             return Flash.error(list.error)
                         }
-                        store.commit(MUTATION.SET_LIST, list)
+                        store.commit(MUTATION.WEAPON.SET_LIST, list)
                     })
                 }
 
@@ -191,9 +191,9 @@
     function escapeTouch(e) {
         if (e.which == 27) {
             if (store.state.weapon.modal) {
-                store.commit(MUTATION.WEAPON_MODAL, false)
+                store.commit(MUTATION.WEAPON.MODAL, false)
             } else {
-                store.commit(MUTATION.SELECT)
+                store.commit(MUTATION.WEAPON.SELECT)
             }
             $(window).off('keyup', escapeTouch)
         }

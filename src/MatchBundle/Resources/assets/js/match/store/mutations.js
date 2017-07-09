@@ -3,16 +3,16 @@
  */
 
 import Vue from "vue"
-import * as types from "./mutation-types"
+import { MUTATION } from "./mutation-types"
 
 export default {
     // Set the userId
-    [types.MUTATION.SET_USERID] (state, userId) {
+    [MUTATION.SET_USERID] (state, userId) {
         state.userId = (userId != 0) ? parseInt(userId) : null
     },
 
     // First load
-    [types.MUTATION.LOAD] (state, obj) {
+    [MUTATION.LOAD] (state, obj) {
         // Get current player
         obj.players.some(function(player) {
             if (player.me) {
@@ -45,22 +45,12 @@ export default {
     },
 
     // Set text status
-    [types.MUTATION.SET_STATUS] (state, txt) {
+    [MUTATION.SET_STATUS] (state, txt) {
         state.status = txt
     },
 
-    // Set tour
-    [types.MUTATION.SET_TOUR] (state, tour) {
-        state.tour = tour
-    },
-
-    // Set gameover
-    [types.MUTATION.SET_GAMEOVER] (state) {
-        state.gameover = true
-    },
-
-    // Update grid (after animate)
-    [types.MUTATION.UPDATE_GRID] (state, box) {
+    // Update grid (after each rocket)
+    [MUTATION.AFTER_ROCKET] (state, box) {
         if (state.me) {
             // @todo Move into module
             // Update life
@@ -92,4 +82,15 @@ export default {
             })
         }
     },
+    [MUTATION.AFTER_ANIMATE] (state, box) {
+        // Finish game
+        if (obj.finished) {
+            state.gameover = true
+        }
+
+        // Update tour
+        if (obj.tour) {
+            state.tour = obj.tour
+        }
+    }
 }

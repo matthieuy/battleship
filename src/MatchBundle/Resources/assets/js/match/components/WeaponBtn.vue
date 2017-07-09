@@ -8,7 +8,7 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/modules/weapons"
+    import { MUTATION } from "../store/mutation-types"
 
     //Bower
     import Favico from '@bower/favico.js/favico.js'
@@ -23,7 +23,7 @@
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.WEAPON_MODAL)
+                store.commit(MUTATION.WEAPON.MODAL)
             },
         },
         watch: {

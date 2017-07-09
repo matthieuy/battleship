@@ -2,19 +2,7 @@
  * Weapon module
  */
 
-
-export const MUTATION = {
-    FIRST_LOAD: require('../mutation-types').MUTATION.LOAD,
-    WEAPON_MODAL: 'WEAPON_MODAL',
-    SET_LIST: 'SET_WEAPON_LIST',
-    SELECT: 'SELECT_WEAPON',
-    ROTATE: 'ROTATE_WEAPON',
-}
-
-export const ACTION = {
-    LOAD: 'LOAD_WEAPON',
-    BEFORE_SHOOT: require('../mutation-types').ACTION.BEFORE_SHOOT,
-}
+import { MUTATION, ACTION } from "../mutation-types"
 
 export default {
     state: {
@@ -27,12 +15,12 @@ export default {
     },
     mutations: {
         // On first load game
-        [MUTATION.FIRST_LOAD](state, obj) {
+        [MUTATION.LOAD](state, obj) {
             state.enabled = obj.options.weapon
         },
 
         // Toggle modal
-        [MUTATION.WEAPON_MODAL](state, status) {
+        [MUTATION.WEAPON.MODAL](state, status) {
             if (typeof status !== "undefined") {
                 state.modal = status
             } else {
@@ -41,7 +29,7 @@ export default {
         },
 
         // Set weapons list
-        [MUTATION.SET_LIST](state, list) {
+        [MUTATION.WEAPON.SET_LIST](state, list) {
             state.list = list.sort(function(o1, o2) {
                 return o1.price - o2.price
             })
@@ -49,7 +37,7 @@ export default {
         },
 
         // Select weapon
-        [MUTATION.SELECT](state, weapon) {
+        [MUTATION.WEAPON.SELECT](state, weapon) {
             if (weapon) {
                 state.select = weapon.name
             } else {
@@ -58,7 +46,7 @@ export default {
         },
 
         // Rotate weapon
-        [MUTATION.ROTATE](state) {
+        [MUTATION.WEAPON.ROTATE](state) {
             let rotate = state.rotate + 1
             if (rotate > 3) {
                 rotate = rotate % 4
@@ -93,7 +81,7 @@ export default {
     },
     actions: {
         // Load weapon
-        [ACTION.LOAD](context, url) {
+        [ACTION.WEAPON.LOAD](context, url) {
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: url,

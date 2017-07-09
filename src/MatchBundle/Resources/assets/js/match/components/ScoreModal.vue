@@ -95,7 +95,7 @@
 <script>
     import { mapState, mapGetters } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/modules/score"
+    import { MUTATION } from "../store/mutation-types"
 
     export default {
         computed: {
@@ -109,7 +109,7 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.SCORE_MODAL, false)
+                store.commit(MUTATION.SCORE.MODAL, false)
             },
         },
         watch: {
@@ -118,7 +118,7 @@
                 let topicName = 'game/' + document.getElementById('slug').value + '/score'
                 if (open) {
                     WS.subscribeAction(topicName, 'scores', (obj) => {
-                        store.commit(MUTATION.RECEIVE_LIST, obj)
+                        store.commit(MUTATION.SCORE.SET_LIST, obj)
                     })
                     $(window).on('keyup', escapeTouch)
                     $('#container').css({
@@ -140,7 +140,7 @@
     function escapeTouch(e) {
         if (e.which == 27) {
             if (store.state.score.modal) {
-                store.commit(MUTATION.SCORE_MODAL, false)
+                store.commit(MUTATION.SCORE.MODAL, false)
             }
             $(window).off('keyup', escapeTouch)
         }
