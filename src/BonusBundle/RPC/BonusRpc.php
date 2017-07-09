@@ -134,6 +134,11 @@ class BonusRpc implements RpcInterface
         } catch (\Exception $e) {
             return ['msg' => $e->getMessage()];
         }
+
+        return [
+            'bonus' => [$player->getPosition() => $player->getNbBonus()],
+            'score' => [$player->getPosition() => $player->getScore()],
+        ];
     }
 
     /**
