@@ -42,14 +42,6 @@ export default {
             state.size = obj.size
             state.nb = obj.list.length
         },
-        // After each rocket
-        [ACTION.AFTER_ROCKET](context, box) {
-            // Update inventory
-            if (box.bonus && box.bonus[context.rootState.me.position]) {
-                context.commit(MUTATION.INVENTORY.SET_NB, box.bonus[context.rootState.me.position])
-                delete box.life
-            }
-        },
     },
     actions: {
         // Load list
@@ -58,12 +50,23 @@ export default {
                 context.commit(MUTATION.INVENTORY.SET_LIST, obj)
             })
         },
+        // After each rocket
+        [ACTION.AFTER_ROCKET](context, box) {
+            console.log("AFter_rocket inventory", box)
+            // Update inventory
+            if (box.bonus && box.bonus[context.rootState.me.position]) {
+                context.commit(MUTATION.INVENTORY.SET_NB, box.bonus[context.rootState.me.position])
+                delete box.life
+            }
+        },
         // Use bonus
         [ACTION.INVENTORY.USE](context, bonusId) {
             WS.callRPC('bonus/useit', {id: bonusId}, (obj) => {
                 if (obj.msg) {
                     return alert(obj.msg)
                 }
+                context.commit(MUTATION.INVENTORY.MODAL, false)
+                context.dispatch(ACTION.AFTER_ROCKET, obj)
             })
         },
     },
