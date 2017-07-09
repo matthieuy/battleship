@@ -30,7 +30,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button success small-12 large-3" :class="{disabled: !selected }">
+                                <button class="button success small-12 large-3" :class="{disabled: !selected }" @click="use()">
                                     <i class="gi gi-round-star"></i>
                                     Use
                                 </button>
@@ -67,6 +67,12 @@
             // Close modal
             close() {
                 store.commit(MUTATION.BONUS_MODAL, false)
+            },
+            use() {
+                if (this.selected) {
+                    store.dispatch(ACTION.USE_BONUS, this.selected)
+                    this.selected = null
+                }
             },
             // highlight the bonus
             highlight(bonus) {

@@ -7,6 +7,7 @@ use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Box\ReturnBox;
+use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
@@ -127,6 +128,30 @@ class BonusRegistry
         $this->entityManager->flush();
 
         return true;
+    }
+
+    /**
+     * Trigger on event
+     * @param string         $event
+     * @param Inventory      $inventory
+     * @param BonusInterface $bonus
+     * @param Game           $game
+     * @param Player         $player
+     * @param array          $options
+     */
+    public function trigger($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, array $options = [])
+    {
+        // Call methods
+        $method = BonusConstant::TRIGGER_LIST[$event];
+        if (method_exists($bonus, $method)) {
+            call_user_func_array([$bonus, $method], [&$game, &$player, &$options]);
+        }
+
+        // Remove bonus
+        if ($bonus->isRemove()) {
+            $this->entityManager->remove($inventory);
+        }
+        $this->entityManager->flush();
     }
 
     /**

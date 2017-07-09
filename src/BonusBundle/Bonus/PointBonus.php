@@ -2,6 +2,7 @@
 
 namespace BonusBundle\Bonus;
 
+use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
@@ -73,5 +74,42 @@ class PointBonus extends AbstractBonus
     public function canWeGetIt(Player $player)
     {
         return true;
+    }
+
+    /**
+     * Can the player use this bonus now ?
+     * @param Game   $game
+     * @param Player $player
+     *
+     * @return boolean
+     */
+    public function canUseNow(Game $game, Player $player = null)
+    {
+        if (!$player) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Use bonus directly after catch
+     * @return boolean
+     */
+    public function directUse()
+    {
+        return true;
+    }
+
+    /**
+     * onCatch : get points
+     * @param Game   $game
+     * @param Player $player
+     * @param array  $options
+     */
+    public function onCatch(Game &$game, Player &$player, array &$options = [])
+    {
+        $player->addScore($options['points']);
+        $this->remove = true;
     }
 }
