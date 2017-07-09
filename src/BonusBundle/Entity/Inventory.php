@@ -193,4 +193,18 @@ class Inventory
     {
         return array_key_exists($name, $this->options);
     }
+
+    /**
+     * Convert to array
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'uniq' => $this->name,
+            'use' => $this->useIt,
+            'options' => $this->options,
+        ];
+    }
 }

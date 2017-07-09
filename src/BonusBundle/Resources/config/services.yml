@@ -8,6 +8,7 @@ services:
         arguments:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
+            - "@bonus.registry"
         tags:
             - { name: gos_web_socket.rpc }
 ###############################

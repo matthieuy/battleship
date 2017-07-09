@@ -114,15 +114,20 @@
         },
         watch: {
             // Subscribe/Unsubscribe WS when open/close modal
-            ['score.modal'](modal) {
+            ['score.modal'](open) {
                 let topicName = 'game/' + document.getElementById('slug').value + '/score'
-                if (modal) {
+                if (open) {
                     WS.subscribeAction(topicName, 'scores', (obj) => {
                         store.commit(MUTATION.RECEIVE_LIST, obj)
                     })
                     $(window).on('keyup', escapeTouch)
+                    $('#container').css({
+                        overflow: 'hidden',
+                        position: 'fixed',
+                    })
                 } else {
                     WS.unsubscribe(topicName)
+                    $('#container').removeAttr('style')
                 }
             },
         },

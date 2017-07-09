@@ -35,9 +35,9 @@ TODO
     - [ ] Shortcuts
 - [ ] Bonus :
     - [X] Make Bonus registy
-    - [ ] Probability
+    - [X] Probability
     - [X] Inventory
-        - [ ] Add bonus to inventory
+        - [X] Add bonus to inventory
         - [ ] Catcher/Trigger/Hook in game for use bonus
     - [ ] Add/Remove/Use bonus
     - [ ] Make bonus

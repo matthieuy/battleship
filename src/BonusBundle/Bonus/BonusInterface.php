@@ -11,7 +11,13 @@ use MatchBundle\Entity\Player;
 interface BonusInterface
 {
     /**
-     * Get the unique name of the bonus
+     * Get the unique id of the bonus
+     * @return string
+     */
+    public function getId();
+
+    /**
+     * Get the name of the bonus
      * @return string
      */
     public function getName();
