@@ -18,7 +18,6 @@
         computed: {
             ...mapState([
                 'weapon', // Weapon module
-                'me',
             ]),
         },
         methods: {
@@ -27,7 +26,7 @@
             },
         },
         watch: {
-            'me.score': (score) => {
+            'weapon.score': (score) => {
                 if (store.state.weapon.enabled) {
                     BubbleWeapon.badge(score)
                 }

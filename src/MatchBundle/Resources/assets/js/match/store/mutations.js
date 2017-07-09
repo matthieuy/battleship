@@ -51,27 +51,6 @@ export default {
 
     // Update grid (after each rocket)
     [MUTATION.AFTER_ROCKET] (state, box) {
-        if (state.me) {
-            // @todo Move into module
-            // Update life
-            if (box.life && box.life[state.me.position]) {
-                state.me.life = box.life[state.me.position]
-                delete box.life
-            }
-
-            // Update score
-            if (box.score && box.score[state.me.position]) {
-                state.me.score = box.score[state.me.position]
-                delete box.score
-            }
-
-            // Update inventory
-            if (box.bonus && box.bonus[state.me.position]) {
-                state.me.nbBonus = box.bonus[state.me.position]
-                delete box.bonus
-            }
-        }
-
         // Update grid and sink boat
         if (typeof box.x !== 'undefined') {
             Vue.set(state.grid[box.y], box.x, box)
@@ -82,7 +61,7 @@ export default {
             })
         }
     },
-    [MUTATION.AFTER_ANIMATE] (state, box) {
+    [MUTATION.AFTER_ANIMATE] (state, obj) {
         // Finish game
         if (obj.finished) {
             state.gameover = true

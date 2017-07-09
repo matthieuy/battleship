@@ -80,6 +80,7 @@
                                 // Update grid
                                 $box.addClass('animated')
                                 store.commit(MUTATION.AFTER_ROCKET, img)
+                                store.dispatch(ACTION.AFTER_ROCKET, img)
 
                                 // Next img
                                 next()

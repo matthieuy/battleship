@@ -2,14 +2,25 @@
  * Score module vuex store
  */
 
-import { MUTATION } from "../mutation-types"
+import { ACTION, MUTATION } from "../mutation-types"
 
 export default {
     state: {
         modal: false,
         list: [],
+        life: 0,
     },
     mutations: {
+        // On first load game
+        [MUTATION.LOAD](state, obj) {
+            // Score
+            obj.players.some(function(player) {
+                if (player.me) {
+                    state.life = player.life
+                }
+                return (typeof player.me != 'undefined')
+            })
+        },
         // Toggle modal
         [MUTATION.SCORE.MODAL](state, status) {
             if (typeof status !== "undefined") {
@@ -23,7 +34,16 @@ export default {
             state.list = list
         },
     },
-    actions: {},
+    actions: {
+        // After each rocket
+        [ACTION.AFTER_ROCKET](context, box) {
+            // Update life
+            if (box.life && box.life[context.rootState.me.position]) {
+                context.commit(MUTATION.SCORE.SET_LIFE, box.life[context.rootState.me.position])
+                delete box.life
+            }
+        },
+    },
     getters: {
         // Get teams (order by team life)
         teams: (state) => {

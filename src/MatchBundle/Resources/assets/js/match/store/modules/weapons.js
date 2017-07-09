@@ -12,11 +12,25 @@ export default {
         list: [],
         select: null,
         rotate: 0,
+        score: 0,
     },
     mutations: {
         // On first load game
         [MUTATION.LOAD](state, obj) {
             state.enabled = obj.options.weapon
+
+            // Score
+            obj.players.some(function(player) {
+                if (player.me) {
+                    state.score = player.score
+                }
+                return (typeof player.me != 'undefined')
+            })
+        },
+
+        // Set score
+        [MUTATION.WEAPON.SET_SCORE](state, score) {
+            state.score = score
         },
 
         // Toggle modal
@@ -104,6 +118,14 @@ export default {
             })
         },
 
+        // After each rocket
+        [ACTION.AFTER_ROCKET](context, box) {
+            // Update score
+            if (box.score && box.score[context.rootState.me.position]) {
+                context.commit(MUTATION.WEAPON.SET_SCORE, box.score[context.rootState.me.position])
+                delete box.score
+            }
+        },
     },
     getters: {
         // Get weapon

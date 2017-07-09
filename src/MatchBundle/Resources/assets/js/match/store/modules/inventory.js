@@ -10,12 +10,19 @@ export default {
         enabled: false,
         size: 0,
         select: null,
+        nb: 0,
         list: [],
     },
     mutations: {
         // On first load game
         [MUTATION.LOAD](state, obj) {
             state.enabled = obj.options.bonus
+            obj.players.some(function(player) {
+                if (player.me) {
+                    state.nb = player.nbBonus
+                }
+                return (typeof player.me != 'undefined')
+            })
         },
         // Toggle modal
         [MUTATION.INVENTORY.MODAL](state, status) {
@@ -25,10 +32,23 @@ export default {
                 state.modal = !state.modal
             }
         },
+        // Set number
+        [MUTATION.INVENTORY.SET_NB](state, nb) {
+            state.nb = nb
+        },
         // Set list
         [MUTATION.INVENTORY.SET_LIST](state, obj) {
             state.list = obj.list
             state.size = obj.size
+            state.nb = obj.list.length
+        },
+        // After each rocket
+        [ACTION.AFTER_ROCKET](context, box) {
+            // Update inventory
+            if (box.bonus && box.bonus[context.rootState.me.position]) {
+                context.commit(MUTATION.INVENTORY.SET_NB, box.bonus[context.rootState.me.position])
+                delete box.life
+            }
         },
     },
     actions: {
@@ -45,7 +65,7 @@ export default {
                     return alert(obj.msg)
                 }
             })
-        }
+        },
     },
     getters: {},
 }

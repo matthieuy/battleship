@@ -18,7 +18,6 @@
         computed: {
             ...mapState([
                 'inventory', // Inventory module
-                'me',
             ]),
         },
         methods: {
@@ -29,7 +28,7 @@
             },
         },
         watch: {
-            'me.nbBonus': (nb) => {
+            'inventory.nb': (nb) => {
                 BubbleInventory.badge(nb)
             },
         },

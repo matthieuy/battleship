@@ -7,7 +7,7 @@
                     <div id="modal-weapon" v-on:click.stop.prevent="">
                         <div class="center">
                             <h1>Weapons</h1>
-                            <div v-show="me"><strong>{{ score }}</strong> points</div>
+                            <div v-show="isUser"><strong>{{ score }}</strong> points</div>
                         </div>
                         <div class="clear"></div>
 
@@ -43,7 +43,7 @@
 </template>
 <script>
     // Import
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     import store from "../store/GameStore"
     import { ACTION, MUTATION } from "../store/mutation-types"
 
@@ -56,12 +56,15 @@
         computed: {
             ...mapState([
                 'weapon', // Weapon module
-                'me',
                 'boxSize',
                 'gameover',
             ]),
+            ...mapGetters([
+                'life',
+                'isUser'
+            ]),
             score() {
-                return (this.me && this.me.score) ? this.me.score : 0
+                return this.weapon.score
             }
         },
         methods: {
@@ -87,13 +90,13 @@
             // CSS class for weapon box
             classWeapon(weapon) {
                 return {
-                    disabled: weapon.price > this.score || this.gameover || (this.me && this.me.life <= 0),
+                    disabled: weapon.price > this.score || this.gameover || this.life <= 0,
                     selected: this.selected && weapon.name == this.selected.name,
                 }
             },
             // Highlight the weapon (on click)
             highlight(weapon) {
-                if (this.score >= weapon.price && !this.gameover && (this.me && this.me.life > 0)) {
+                if (this.score >= weapon.price && !this.gameover && this.life > 0) {
                     this.selected = weapon
                 }
             },
@@ -134,7 +137,7 @@
             },
             // on select : add helper on the grid
             ['weapon.select'](weapon) {
-                if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
+                if (this.gameover || this.life <= 0) {
                     return false;
                 }
 

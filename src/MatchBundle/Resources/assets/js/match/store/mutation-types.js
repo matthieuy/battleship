@@ -15,16 +15,19 @@ export const MUTATION = {
         SET_LIST: 'SET_WEAPON_LIST',
         SELECT: 'SELECT_WEAPON',
         ROTATE: 'ROTATE_WEAPON',
+        SET_SCORE: 'SET_SCORE_WEAPON',
     },
 
     INVENTORY: {
         MODAL: 'BONUS_MODAL',
         SET_LIST: 'SET_LIST_BONUS',
+        SET_NB: 'SET_NB_BONUS',
     },
 
     SCORE: {
         MODAL: 'SCORE_MODAL',
         SET_LIST: 'SET_LIST',
+        SET_LIFE: 'SET_LIFE',
     },
 }
 
@@ -33,6 +36,7 @@ export const ACTION = {
     LOAD_GAME: 'LOAD_GAME',
     SHOOT: 'SHOOT',
     BEFORE_SHOOT: 'BEFORE_SHOOT',
+    AFTER_ROCKET: 'AFTER_ROCKET',
 
     WEAPON: {
         LOAD: 'LOAD_WEAPON',
