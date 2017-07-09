@@ -117,6 +117,16 @@
                     })
                 }
 
+                // Fix scroll
+                if (open) {
+                    $('#container').css({
+                        overflow: 'hidden',
+                        position: 'fixed',
+                    })
+                } else {
+                    $('#container').removeAttr('style')
+                }
+
                 // Bind escape touch
                 if (open || store.state.weapon.modal || store.state.weapon.select) {
                     $(window).on('keyup', escapeTouch)

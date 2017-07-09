@@ -43,25 +43,25 @@ class BonusRegistry
      */
     public function addBonus(BonusInterface $bonus)
     {
-        $this->bonusList[$bonus->getName()] = $bonus;
+        $this->bonusList[$bonus->getId()] = $bonus;
 
         return $this;
     }
 
     /**
-     * Get Bonus by name
-     * @param string $name
+     * Get Bonus by id
+     * @param string $id
      *
      * @return BonusInterface
      * @throws \Exception
      */
-    public function getBonusByName($name)
+    public function getBonusById($id)
     {
-        if (!isset($this->bonusList[$name])) {
+        if (!isset($this->bonusList[$id])) {
             throw new \Exception("This bonus don't exist !");
         }
 
-        return $this->bonusList[$name];
+        return $this->bonusList[$id];
     }
 
     /**
@@ -114,7 +114,7 @@ class BonusRegistry
         // Add to inventory
         $inventory = new Inventory();
         $inventory
-            ->setName($bonus->getName())
+            ->setName($bonus->getId())
             ->setOptions($bonus->getOptions());
         $player->addBonus($inventory);
         $returnBox->setBonus($player);

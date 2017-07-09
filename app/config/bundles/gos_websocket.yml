@@ -15,4 +15,5 @@ gos_web_socket:
         router:
             resources:
                 - "@MatchBundle/Resources/config/rpc.yml"
+                - "@BonusBundle/Resources/config/rpc.yml"
                 - "@AppBundle/Resources/config/rpc.yml"

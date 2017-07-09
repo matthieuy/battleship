@@ -15,12 +15,21 @@ class PointBonus extends AbstractBonus
     const MAX_POINTS = 40;
 
     /**
+     * Get the id
+     * @return string
+     */
+    public function getId()
+    {
+        return 'bonus.point';
+    }
+
+    /**
      * Get the unique name of the bonus
      * @return string
      */
     public function getName()
     {
-        return 'bonus.point';
+        return 'Points';
     }
 
     /**
@@ -47,8 +56,11 @@ class PointBonus extends AbstractBonus
      */
     public function getOptions()
     {
+        $points = rand(self::MIN_POINTS, self::MAX_POINTS);
+
         return [
-            'points' => rand(self::MIN_POINTS, self::MAX_POINTS),
+            'points' => $points,
+            'label' => $points,
         ];
     }
 
