@@ -21,8 +21,8 @@ class BonusConstant
     /**
      * TRIGGER
      */
-    const WHEN_CATCH = 0;
+    const WHEN_USE = 0;
     const TRIGGER_LIST = [
-        self::WHEN_CATCH => 'onCatch',
+        self::WHEN_USE => 'onUse',
     ];
 }

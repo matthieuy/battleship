@@ -39,7 +39,7 @@ TODO
     - [X] Inventory
         - [X] Add bonus to inventory
         - [ ] Catcher/Trigger/Hook in game for use bonus
-    - [ ] Add/Remove/Use bonus
+    - [X] Add/Remove/Use bonus
     - [ ] Make bonus
 	- [ ] IA use bonus
 - [ ] Users :

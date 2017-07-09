@@ -52,7 +52,6 @@ export default {
         },
         // After each rocket
         [ACTION.AFTER_ROCKET](context, box) {
-            console.log("AFter_rocket inventory", box)
             // Update inventory
             if (box.bonus && box.bonus[context.rootState.me.position]) {
                 context.commit(MUTATION.INVENTORY.SET_NB, box.bonus[context.rootState.me.position])

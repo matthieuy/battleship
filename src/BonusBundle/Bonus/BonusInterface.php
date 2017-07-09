@@ -62,13 +62,7 @@ interface BonusInterface
      *
      * @return boolean
      */
-    public function canUseNow(Game $game, Player $player);
-
-    /**
-     * Use bonus directly after catch
-     * @return boolean
-     */
-    public function directUse();
+    public function canUseNow(Game $game, Player $player = null);
 
     /**
      * Remove the bonus ?
