@@ -6,31 +6,31 @@ use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
- * Class PointBonus
+ * Class PointTeamBonus
  * @package BonusBundle\Bonus
  */
-class PointBonus extends AbstractBonus
+class PointTeamBonus extends AbstractBonus
 {
     // Min and Max point to get
     const MIN_POINTS = 10;
-    const MAX_POINTS = 40;
+    const MAX_POINTS = 30;
 
     /**
-     * Get the id
+     * Get the unique id of the bonus
      * @return string
      */
     public function getId()
     {
-        return 'bonus.point';
+        return 'bonus.point.team';
     }
 
     /**
-     * Get the unique name of the bonus
+     * Get the name of the bonus
      * @return string
      */
     public function getName()
     {
-        return 'Points';
+        return 'Team points';
     }
 
     /**
@@ -39,7 +39,7 @@ class PointBonus extends AbstractBonus
      */
     public function getDescription()
     {
-        return 'Add points';
+        return 'Add points to all players in your team';
     }
 
     /**
@@ -48,7 +48,7 @@ class PointBonus extends AbstractBonus
      */
     public function getProbabilityToCatch()
     {
-        return 30;
+        return 25;
     }
 
     /**
@@ -65,7 +65,7 @@ class PointBonus extends AbstractBonus
     }
 
     /**
-     * All players can get this bonus
+     * All player can get it
      * @param Player $player
      *
      * @return boolean
@@ -84,22 +84,24 @@ class PointBonus extends AbstractBonus
      */
     public function canUseNow(Game $game, Player $player = null)
     {
-        if (!$player) {
-            return false;
-        }
-
-        return true;
+        return ($player !== null);
     }
 
     /**
-     * onUse : get points
+     * onUse : get points for all team
      * @param Game   $game
      * @param Player $player
      * @param array  $options
      */
     public function onUse(Game &$game, Player &$player, array &$options = [])
     {
-        $player->addScore($options['label']);
-        $this->remove = true;
+        $team = $player->getTeam();
+        foreach ($game->getPlayers() as $p) {
+            if ($p->getTeam() == $team) {
+                $p->addScore($options['label']);
+            }
+        }
+
+        //$this->remove = true;
     }
 }

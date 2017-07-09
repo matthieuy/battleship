@@ -59,3 +59,9 @@ services:
         class: BonusBundle\Bonus\PointBonus
         tags:
             - { name: bonus.type }
+
+    # Team point
+    bonus.team_point:
+        class: BonusBundle\Bonus\PointTeamBonus
+        tags:
+            - { name: bonus.type }

@@ -62,7 +62,7 @@ Credits
 =======
 
 - Lead developer : Matthieu YK
-- Graphism : Chabull, [Clint Bellanger](http://clintbellanger.net/), Static
+- Graphism : Chabull, [Clint Bellanger](http://clintbellanger.net/), Static, contributors of [Game-icons](http://game-icons.net/)
 - Beta testers : GeekaRiom team
 
 
