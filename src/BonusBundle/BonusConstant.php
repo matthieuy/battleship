@@ -17,4 +17,12 @@ class BonusConstant
      * Inventory size
      */
     const INVENTORY_SIZE = 9;
+
+    /**
+     * TRIGGER
+     */
+    const WHEN_CATCH = 0;
+    const TRIGGER_LIST = [
+        self::WHEN_CATCH => 'onCatch',
+    ];
 }

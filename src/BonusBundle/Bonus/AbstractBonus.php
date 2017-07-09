@@ -11,6 +11,17 @@ use MatchBundle\Entity\Player;
  */
 abstract class AbstractBonus implements BonusInterface
 {
+    protected $remove = false;
+
+    /**
+     * Remove the bonus ?
+     * @return boolean
+     */
+    public function isRemove()
+    {
+        return $this->remove;
+    }
+
     /**
      * Set the new probability after catch the bonus
      * @param Player $player

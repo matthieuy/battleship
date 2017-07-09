@@ -3,13 +3,14 @@
  */
 
 export const MUTATION = {
-    FIRST_LOAD: require('../mutation-types').MUTATION.LOAD,
+    ROOT: require('../mutation-types').MUTATION,
     BONUS_MODAL: 'BONUS_MODAL',
     SET_LIST: 'SET_LIST_BONUS',
 }
 
 export const ACTION = {
     LOAD_BONUS: 'LOAD_BONUS',
+    USE_BONUS: 'USE_BONUS',
 }
 
 export default {
@@ -22,7 +23,7 @@ export default {
     },
     mutations: {
         // On first load game
-        [MUTATION.FIRST_LOAD](state, obj) {
+        [MUTATION.ROOT.LOAD](state, obj) {
             state.enabled = obj.options.bonus
         },
         // Toggle modal
@@ -34,9 +35,10 @@ export default {
             }
         },
         // Set list
-        [MUTATION.SET_LIST](state, obj) {
+        [MUTATION.SET_LIST](state, obj, rootState) {
             state.list = obj.list
             state.size = obj.size
+            console.log(rootState.me)
         },
     },
     actions: {
@@ -46,6 +48,14 @@ export default {
                 context.commit(MUTATION.SET_LIST, obj)
             })
         },
+        // Use bonus
+        [ACTION.USE_BONUS](context, bonusId) {
+            WS.callRPC('bonus/useit', {id: bonusId}, (obj) => {
+                if (obj.msg) {
+                    return alert(obj.msg)
+                }
+            })
+        }
     },
     getters: {},
 }

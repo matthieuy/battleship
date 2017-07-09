@@ -62,6 +62,7 @@ export default {
     // Update grid (after animate)
     [types.MUTATION.UPDATE_GRID] (state, box) {
         if (state.me) {
+            // @todo Move into module
             // Update life
             if (box.life && box.life[state.me.position]) {
                 state.me.life = box.life[state.me.position]
@@ -82,7 +83,9 @@ export default {
         }
 
         // Update grid and sink boat
-        Vue.set(state.grid[box.y], box.x, box)
+        if (typeof box.x !== 'undefined') {
+            Vue.set(state.grid[box.y], box.x, box)
+        }
         if (box.sink) {
             box.sink.forEach(function(b, i) {
                 state.grid[b.y][b.x] = b

@@ -561,6 +561,23 @@ class Game
     }
 
     /**
+     * Get Player by user
+     * @param User $user
+     *
+     * @return Player|null
+     */
+    public function getPlayerByUser(User $user)
+    {
+        foreach ($this->players as $player) {
+            if ($player->getUser()->getId() == $user->getId()) {
+                return $player;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get players who had play
      * @return Player[]|array
      */

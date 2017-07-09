@@ -48,6 +48,7 @@ class BonusRpc implements RpcInterface
     }
 
     /**
+     * Load inventory
      * @param ConnectionInterface $connection
      * @param WampRequest         $request
      * @param array               $params
@@ -87,6 +88,52 @@ class BonusRpc implements RpcInterface
             'list' => $list,
             'size' => BonusConstant::INVENTORY_SIZE,
         ];
+    }
+
+    /**
+     * Use bonus
+     * @param ConnectionInterface $connection
+     * @param WampRequest         $request
+     * @param array               $params
+     *
+     * @return array
+     */
+    public function useit(ConnectionInterface $connection, WampRequest $request, array $params = [])
+    {
+        // Get user
+        $user = $this->clientManipulator->getClient($connection);
+        if (!$user instanceof User || !isset($params['slug'])) {
+            return ['error' => "Bad Request"];
+        }
+
+        // Get and check game
+        if (!isset($params['slug']) || null === $game = $this->getGame($params['slug'])) {
+            return ['error' => "Bad Request"];
+        }
+
+        // Get bonus
+        try {
+            $repo = $this->entityManager->getRepository('BonusBundle:Inventory');
+            if (!isset($params['id']) || null === $inventory = $repo->find($params['id'])) {
+                return ['error' => "Bad Request"];
+            }
+            $bonus = $this->bonusRegistry->getBonusById($inventory->getName());
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+
+        // Check if can use bonus now
+        $player = $game->getPlayerByUser($user);
+        if (!$player || !$bonus->canUseNow($game, $player)) {
+            return ['msg' => "Can't use this bonus now"];
+        }
+
+        // Trigger
+        try {
+            $this->bonusRegistry->trigger(BonusConstant::WHEN_CATCH, $inventory, $bonus, $game, $player, $inventory->getOptions());
+        } catch (\Exception $e) {
+            return ['msg' => $e->getMessage()];
+        }
     }
 
     /**
