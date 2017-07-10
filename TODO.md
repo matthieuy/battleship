@@ -1,8 +1,7 @@
 TODO
 ====
 
-- [ ] Error 404 and other system errors
-- [ ] Clear npm and bower package
+- [X] Error 404 and other system errors
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
@@ -13,7 +12,7 @@ TODO
 	- [ ] Add screenshot or gif
 - [ ] Waiting page :
     - [ ] Add console with action
-    - [ ] Add player avatar
+    - [X] Add player avatar
 - [ ] Game :
     - [X] Allow anon. viewer
     - [X] Players avatar
@@ -21,7 +20,6 @@ TODO
     - [ ] Can change box size
     - [ ] Penalty
     - [ ] Boat color
-    - [ ] Use promise for WS
     - [ ] ISO view
     - [ ] Display grid (optional)
     - [ ] Shortcuts
