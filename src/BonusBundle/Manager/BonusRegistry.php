@@ -6,6 +6,7 @@ use BonusBundle\Bonus\BonusInterface;
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use Doctrine\ORM\EntityManager;
+use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -20,19 +21,18 @@ class BonusRegistry
      * @var BonusInterface[]
      */
     protected $bonusList;
-
-    /**
-     * @var EntityManager
-     */
     private $entityManager;
+    private $pusher;
 
     /**
      * BonusRegistry constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManager   $entityManager
+     * @param PusherInterface $pusher
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, PusherInterface $pusher)
     {
         $this->entityManager = $entityManager;
+        $this->pusher = $pusher;
         $this->bonusList = [];
     }
 
@@ -81,7 +81,7 @@ class BonusRegistry
 
         // Catch or not
         $luck = rand(0, 100);
-        if ($luck >=  $player->getProbability()) {
+        if ($luck >= $player->getProbability()) {
             $this->updateProbability($player, $returnBox);
 
             return false;
@@ -144,7 +144,13 @@ class BonusRegistry
         // Call methods
         $method = BonusConstant::TRIGGER_LIST[$event];
         if (method_exists($bonus, $method)) {
-            call_user_func_array([$bonus, $method], [&$game, &$player, &$options]);
+            // Call method
+            $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$options]);
+
+            // WS push
+            if ($returnWS) {
+                $this->pusher->push($returnWS, 'game.bonus.topic', ['slug' => $game->getSlug()]);
+            }
         }
 
         // Remove bonus

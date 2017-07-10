@@ -59,7 +59,7 @@ class BonusRpc implements RpcInterface
     {
         // Get user
         $user = $this->clientManipulator->getClient($connection);
-        if (!$user instanceof User || !isset($params['slug'])) {
+        if (!$user instanceof User) {
             return ['error' => "Bad Request"];
         }
 
@@ -102,7 +102,7 @@ class BonusRpc implements RpcInterface
     {
         // Get user
         $user = $this->clientManipulator->getClient($connection);
-        if (!$user instanceof User || !isset($params['slug'])) {
+        if (!$user instanceof User) {
             return ['error' => "Bad Request"];
         }
 
@@ -127,17 +127,17 @@ class BonusRpc implements RpcInterface
         if (!$player || !$bonus->canUseNow($game, $player)) {
             return ['msg' => "Can't use this bonus now"];
         }
+        $inventory->setUse();
 
         // Trigger
         try {
-            $this->bonusRegistry->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player, $inventory->getOptions());
+            $this->bonusRegistry->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
         } catch (\Exception $e) {
             return ['msg' => $e->getMessage()];
         }
 
         return [
             'bonus' => [$player->getPosition() => $player->getNbBonus()],
-            'score' => [$player->getPosition() => $player->getScore()],
         ];
     }
 

@@ -163,6 +163,12 @@ let WS = (function(uri) {
 
     Socket.prototype.subscribeAction = function(topicName, dataName, cb) {
         this.subscribe(topicName)
+        this.addAction(topicName, dataName, cb)
+
+        return this
+    }
+
+    Socket.prototype.addAction = function(topicName, dataName, cb) {
         if (typeof this._subscribers[topicName][dataName] == 'undefined') {
             this._subscribers[topicName][dataName] = []
         }

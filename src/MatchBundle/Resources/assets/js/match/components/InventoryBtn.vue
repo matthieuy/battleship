@@ -8,13 +8,18 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/mutation-types"
+    import { ACTION, MUTATION } from "../store/mutation-types"
 
     //Bower
     import Favico from '@bower/favico.js/favico.js'
     let BubbleInventory = null
 
     export default {
+        data() {
+            return {
+                loaded: false,
+            }
+        },
         computed: {
             ...mapState([
                 'inventory', // Inventory module
@@ -28,8 +33,22 @@
             },
         },
         watch: {
-            'inventory.nb': (nb) => {
+            // Change number of bonus
+            ['inventory.nb'](nb) {
                 BubbleInventory.badge(nb)
+            },
+            // Websocket on first load
+            ['inventory.enabled'](enable) {
+                if (enable && !this.loaded) {
+                    this.loaded = true
+                    let topicName = 'game/' + document.getElementById('slug').value + '/bonus'
+                    WS.subscribeAction(topicName, 'score', (obj) => {
+                        store.dispatch(ACTION.AFTER_ROCKET, {score: obj })
+                    })
+                    WS.addAction(topicName, 'bonus', (obj) => {
+                        store.dispatch(ACTION.AFTER_ROCKET, {bonus: obj })
+                    })
+                }
             },
         },
         mounted() {

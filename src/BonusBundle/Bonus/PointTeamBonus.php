@@ -2,6 +2,7 @@
 
 namespace BonusBundle\Bonus;
 
+use BonusBundle\Entity\Inventory;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -89,19 +90,32 @@ class PointTeamBonus extends AbstractBonus
 
     /**
      * onUse : get points for all team
-     * @param Game   $game
-     * @param Player $player
-     * @param array  $options
+     * @param Game      $game
+     * @param Player    $player
+     * @param Inventory $inventory
+     * @param array     $options
+     *
+     * @return array Data to push to player
      */
-    public function onUse(Game &$game, Player &$player, array &$options = [])
+    public function onUse(Game &$game, Player &$player, Inventory $inventory, array &$options = [])
     {
         $team = $player->getTeam();
+        $returnWS = [];
+
         foreach ($game->getPlayers() as $p) {
             if ($p->getTeam() == $team) {
-                $p->addScore($options['label']);
+                $p->addScore($inventory->getOption('label'));
+
+                if (!$p->isAi()) {
+                    $returnWS[$p->getName()] = [
+                        'score' => [$p->getPosition() => $p->getScore()],
+                    ];
+                }
             }
         }
 
-        //$this->remove = true;
+        $this->remove = true;
+
+        return $returnWS;
     }
 }

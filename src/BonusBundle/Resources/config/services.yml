@@ -11,6 +11,14 @@ services:
             - "@bonus.registry"
         tags:
             - { name: gos_web_socket.rpc }
+
+    # Bonus Topic
+    game.bonus.topic:
+        class: BonusBundle\Topic\BonusTopic
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+        tags:
+            - { name: gos_web_socket.topic }
 ###############################
 ##### REGISTRY & MANAGER ######
 ###############################
@@ -23,6 +31,7 @@ services:
         class: BonusBundle\Manager\BonusRegistry
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
 
 ####################
 ##### WEAPONS ######
