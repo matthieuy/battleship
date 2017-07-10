@@ -2,6 +2,7 @@
 
 namespace MatchBundle\RPC;
 
+use BonusBundle\BonusConstant;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
@@ -264,6 +265,7 @@ class LaunchRpc implements RpcInterface
             $player
                 ->setBoats($boatInfo[$player->getPosition()])
                 ->setLife($life)
+                ->setProbability(BonusConstant::INITIAL_PROBABILITY)
                 ->setScore(0);
         }
 

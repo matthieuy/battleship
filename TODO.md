@@ -21,7 +21,7 @@ TODO
     - [ ] Add console with action
     - [ ] Add player avatar
 - [ ] Game :
-    - [ ] Allow anon. viewer
+    - [X] Allow anon. viewer
     - [ ] Players avatar
     - [ ] Rocket img
     - [ ] Can change box size

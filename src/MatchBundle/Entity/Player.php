@@ -83,7 +83,7 @@ class Player
 
     /**
      * @var ArrayCollection|BonusInterface[]
-     * @ORM\OneToMany(targetEntity="BonusBundle\Entity\Inventory", mappedBy="player")
+     * @ORM\OneToMany(targetEntity="BonusBundle\Entity\Inventory", mappedBy="player", cascade={"remove", "persist"})
      */
     protected $bonus;
 

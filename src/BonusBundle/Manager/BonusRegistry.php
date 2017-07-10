@@ -123,6 +123,12 @@ class BonusRegistry
         // RAZ probability
         $bonus->setProbabilityAfterCatch($player);
 
+        // Use it (AI)
+        if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
+            $game = $player->getGame();
+            $this->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
+        }
+
         // Persist
         $this->entityManager->persist($inventory);
         $this->entityManager->flush();
