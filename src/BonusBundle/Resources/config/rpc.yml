@@ -6,3 +6,12 @@ game.bonus.rpc:
     requirements:
         method:
             pattern: '[a-z_]+'
+
+# Bonus topic
+game.bonus.topic:
+    channel: 'game/{slug}/bonus'
+    handler:
+        callback: 'game.bonus'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'

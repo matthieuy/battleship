@@ -124,6 +124,19 @@ class Inventory
     }
 
     /**
+     * Set in use
+     * @param boolean $use
+     *
+     * @return $this
+     */
+    public function setUse($use = true)
+    {
+        $this->useIt = $use;
+
+        return $this;
+    }
+
+    /**
      * Use it in game
      * @return boolean
      */
