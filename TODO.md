@@ -16,7 +16,7 @@ TODO
     - [ ] Add player avatar
 - [ ] Game :
     - [X] Allow anon. viewer
-    - [ ] Players avatar
+    - [X] Players avatar
     - [ ] Rocket img
     - [ ] Can change box size
     - [ ] Penalty
@@ -28,16 +28,16 @@ TODO
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
+	- [ ] Add event (use, remove)
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
     - [X] Forgot password
     - [ ] Registration confirm by email
-    - [ ] Upload avatar on registration
-    - [ ] Profil page
-        - [ ] Change avatar
+    - [X] Profil page
+        - [X] Change avatar
         - [ ] Change email
         - [ ] Change password
-        - [ ] Display informations
+        - [X] Display informations
 	- [ ] IA :
 		- [ ] Add avatar
 - [ ] Mobile :

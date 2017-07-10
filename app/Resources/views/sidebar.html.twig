@@ -4,6 +4,7 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="block-avatar">
             <a href="{{ path('user.profil.show', { slug: app.user.slug }) }}">
+                <img src="{{ path('user.avatar', {id: app.user.id, size: 60 }) }}" class="avatar">
                 <div class="login">{{ app.user.username }}</div>
             </a>
         </div>

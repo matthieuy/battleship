@@ -6,6 +6,18 @@
 
     <div class="row">
     {{ form_start(form) }}
+        <fieldset>
+            <legend>Avatar</legend>
+            <div class="row">
+                <div class="column small-2">
+                    <img src="{{ path('user.avatar', { id: user.id}) }}" alt="{{ user.username }}" class="avatar60-round" width="60">
+                </div>
+                <div class="column small-10">
+                    {{ form_widget(form.avatar) }}
+                    <b>{{ form_errors(form.avatar) }}</b>
+                </div>
+            </div>
+        </fieldset>
 
         <div class="center">
             {{ form_rest(form) }}

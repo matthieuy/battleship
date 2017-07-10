@@ -23,7 +23,9 @@
                     >
                     <i class="fa" :class="[player.ai ? 'fa-gamepad' : 'fa-desktop']"></i>
                 </td>
-                <td></td>
+                <td>
+                    <img :src="'/user/'+player.userId+'-50.png'" :alt="player.name">
+                </td>
                 <td>
                     {{ player.name }}
                     <div class="color-div" v-show="isCreator || player.userId === userId">

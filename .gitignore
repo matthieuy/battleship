@@ -5,6 +5,9 @@
 /old/
 /phpunit.xml
 /var/*
+!/var/avatars
+/var/avatars/*
+!/var/avatars/.gitkeep
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep

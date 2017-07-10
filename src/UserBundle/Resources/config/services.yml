@@ -3,6 +3,12 @@ services:
     profil.form.type:
         class: UserBundle\Form\Type\ProfilType
         arguments:
-            - "%kernel.root_dir%"
+            - "%kernel.project_dir%"
         tags:
             - { name: form.type }
+
+    # Avatar helper
+    profil.avatar.helper:
+        class: UserBundle\Helper\AvatarHelper
+        arguments:
+            - "%kernel.project_dir%"

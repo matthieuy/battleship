@@ -6,6 +6,7 @@ Installation instructions
 You need :
 
 - PHP >= 5.5.9
+- Imagick (`sudo apt-get install php-imagick`)
 - MySQL
 - Composer ([see install instructions](https://getcomposer.org/download/))
 - NPM ([see install instructions](https://nodejs.org/en/download/package-manager/))

@@ -3,8 +3,12 @@
 namespace UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use UserBundle\Entity\User;
 
 /**
  * Class ProfilType
@@ -29,6 +33,18 @@ class ProfilType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('avatar', Type\FileType::class);
+
+        $rootPath = $this->rootPath;
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($rootPath) {
+            /** @var User $user */
+            $user = $event->getData();
+            if (null !== $uploadFile = $user->getAvatar()) {
+                $uploadDir = realpath($rootPath.'/var/avatars');
+                array_map('unlink', glob($uploadDir.'/'.$user->getId().'-*.png'));
+                $uploadFile->move($uploadDir, $user->getId());
+            }
+        });
     }
 
     /**

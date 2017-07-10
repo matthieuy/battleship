@@ -5,6 +5,8 @@ namespace UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Asset;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class User
@@ -35,6 +37,13 @@ class User extends BaseUser
      * @ORM\Column(name="ai", type="boolean")
      */
     protected $ai;
+
+    /**
+     * @var UploadedFile|null
+     * @Asset\Image(maxWidth="500", maxHeight="500")
+     */
+    protected $avatar;
+
 
     /**
      * User constructor
@@ -80,6 +89,28 @@ class User extends BaseUser
     public function setAi($ai)
     {
         $this->ai = $ai;
+
+        return $this;
+    }
+
+    /**
+     * Get avatar
+     * @return null|UploadedFile
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set avatar
+     * @param UploadedFile|null $avatar
+     *
+     * @return $this
+     */
+    public function setAvatar(UploadedFile $avatar = null)
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
