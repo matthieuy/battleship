@@ -61,7 +61,7 @@ class AvatarHelper
      */
     private function makeAvatar($source, $dest, $size)
     {
-        $manager = new ImageManager(['driver' => 'imagick']);
+        $manager = new ImageManager(['driver' => 'gd']);
         $image = $manager->make($source);
         $image
             ->fit($size, $size, function (Constraint $constraint) {
