@@ -1,14 +1,15 @@
 <div id="topbar">
     <div id="btn-menu" class="menu sb-open-left">
         <div>
-            <i class="fa fa-bars"></i>
+            <i class="gi gi-angler-fish"></i>
             <span class="hide-mobile"> Menu</span>
         </div>
     </div>
     <div id="btn-top">
         {% if inGame|default(false) %}
+            <inventory-btn></inventory-btn>
             <weapon-btn></weapon-btn>
-            <btn-score></btn-score>
+            <score-btn></score-btn>
         {% endif %}
     </div>
     <div class="title">

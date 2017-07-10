@@ -13,6 +13,11 @@ $(() => {
     // Sidebar
     let sidebar = require('./Sidebar')
     sidebar.init()
+
+    // Delete game link
+    $('#link-delete-game').click(function() {
+        return window.confirm('Are you sure to delete the game?');
+    });
 })
 
 /**

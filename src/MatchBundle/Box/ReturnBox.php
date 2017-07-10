@@ -2,6 +2,7 @@
 
 namespace MatchBundle\Box;
 
+use BonusBundle\Weapons\WeaponInterface;
 use MatchBundle\Boats;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -14,7 +15,9 @@ class ReturnBox
 {
     /** @var Box[]  */
     protected $listBox;
-    protected $useWeapon = false;
+    protected $weapon = null;
+    protected $doTouch = false;
+    protected $bonus;
 
     /**
      * ReturnBox constructor.
@@ -22,6 +25,7 @@ class ReturnBox
     public function __construct()
     {
         $this->listBox = [];
+        $this->bonus = [];
     }
 
     /**
@@ -74,21 +78,61 @@ class ReturnBox
     }
 
     /**
-     * Get useWeapon
-     * @return boolean
+     * Get Weapon
+     * @return WeaponInterface|null
      */
-    public function isUseWeapon()
+    public function getWeapon()
     {
-        return $this->useWeapon;
+        return $this->weapon;
     }
 
     /**
-     * Set Use Weapon
-     * @param boolean $useWeapon
+     * Set Weapon
+     * @param WeaponInterface|null $weapon
+     *
+     * @return $this
      */
-    public function setUseWeapon($useWeapon = true)
+    public function setWeapon(WeaponInterface $weapon = null)
     {
-        $this->useWeapon = $useWeapon;
+        $this->weapon = $weapon;
+
+        return $this;
+    }
+
+    /**
+     * Player do a touch (or more)
+     * @param boolean $doTouch
+     *
+     * @return $this
+     */
+    public function setDoTouch($doTouch = true)
+    {
+        $this->doTouch = $doTouch;
+
+        return $this;
+    }
+
+    /**
+     * Is the player do a touch
+     * @return boolean
+     */
+    public function isDoTouch()
+    {
+        return $this->doTouch;
+    }
+
+    /**
+     * Set bonus
+     * @param Player $player
+     *
+     * @return $this
+     */
+    public function setBonus(Player $player)
+    {
+        $box = end($this->listBox);
+        $box->setBonus($player);
+
+        return $this;
     }
 
     /**

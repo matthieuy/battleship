@@ -37,6 +37,7 @@ class HomepageListener implements EventSubscriberInterface
     {
         return [
             MatchEvents::CREATE => 'onUpdate',
+            MatchEvents::DELETE => 'onUpdate',
             MatchEvents::FINISH => 'onUpdate',
             MatchEvents::LAUNCH => 'onUpdate',
             MatchEvents::CHANGE_TOUR => 'onUpdate',

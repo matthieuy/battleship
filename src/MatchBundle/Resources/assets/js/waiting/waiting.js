@@ -48,4 +48,9 @@ $(() => {
 
     // Socket connect
     WS.connect()
+
+    // Delete button
+    $(document).on('click', '#btn-delete', function() {
+        return window.confirm('Are you sure to delete the game?');
+    });
 })

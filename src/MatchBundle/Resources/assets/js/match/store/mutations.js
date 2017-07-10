@@ -3,16 +3,16 @@
  */
 
 import Vue from "vue"
-import * as types from "./mutation-types"
+import { MUTATION } from "./mutation-types"
 
 export default {
     // Set the userId
-    [types.MUTATION.SET_USERID] (state, userId) {
+    [MUTATION.SET_USERID] (state, userId) {
         state.userId = (userId != 0) ? parseInt(userId) : null
     },
 
     // First load
-    [types.MUTATION.LOAD] (state, obj) {
+    [MUTATION.LOAD] (state, obj) {
         // Get current player
         obj.players.some(function(player) {
             if (player.me) {
@@ -45,43 +45,31 @@ export default {
     },
 
     // Set text status
-    [types.MUTATION.SET_STATUS] (state, txt) {
+    [MUTATION.SET_STATUS] (state, txt) {
         state.status = txt
     },
 
-    // Set tour
-    [types.MUTATION.SET_TOUR] (state, tour) {
-        state.tour = tour
-    },
-
-    // Set gameover
-    [types.MUTATION.SET_GAMEOVER] (state) {
-        state.gameover = true
-    },
-
-    // Update grid (after animate)
-    [types.MUTATION.UPDATE_GRID] (state, box) {
-        if (state.me) {
-            // Update life
-            if (box.life && box.life[state.me.position]) {
-                state.me.life = box.life[state.me.position]
-                delete box.life
-            }
-
-            // Update score
-            if (box.score && box.score[state.me.position]) {
-                state.me.score = box.score[state.me.position]
-                delete box.score
-            }
-        }
-
-
+    // Update grid (after each rocket)
+    [MUTATION.AFTER_ROCKET] (state, box) {
         // Update grid and sink boat
-        Vue.set(state.grid[box.y], box.x, box)
+        if (typeof box.x !== 'undefined') {
+            Vue.set(state.grid[box.y], box.x, box)
+        }
         if (box.sink) {
             box.sink.forEach(function(b, i) {
                 state.grid[b.y][b.x] = b
             })
         }
     },
+    [MUTATION.AFTER_ANIMATE] (state, obj) {
+        // Finish game
+        if (obj.finished) {
+            state.gameover = true
+        }
+
+        // Update tour
+        if (obj.tour) {
+            state.tour = obj.tour
+        }
+    }
 }

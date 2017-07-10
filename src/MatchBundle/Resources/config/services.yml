@@ -45,11 +45,20 @@ services:
             - "@gos_web_socket.zmq.pusher"
             - "@event_dispatcher"
             - "@weapon.registry"
+            - "@bonus.registry"
         tags:
             - { name: gos_web_socket.rpc }
 
     # Running game topic
     game.run.topic:
         class: MatchBundle\Topic\GameTopic
+        tags:
+            - { name: gos_web_socket.topic }
+
+    # Score topic
+    game.score.topic:
+        class: MatchBundle\Topic\ScoreTopic
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: gos_web_socket.topic }

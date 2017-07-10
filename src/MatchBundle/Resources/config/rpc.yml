@@ -42,3 +42,12 @@ game.run.topic:
     requirements:
         slug:
             pattern: '([0-9A-Za-z\-]+)'
+
+# Score topic
+game.score.topic:
+    channel: 'game/{slug}/score'
+    handler:
+        callback: 'game.score'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'

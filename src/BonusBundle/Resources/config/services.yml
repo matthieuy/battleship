@@ -1,10 +1,37 @@
 services:
+#######################
+##### RPC & TOPIC #####
+#######################
+    # Bonus RPC
+    game.bonus.rpc:
+        class: BonusBundle\RPC\BonusRpc
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+            - "@bonus.registry"
+        tags:
+            - { name: gos_web_socket.rpc }
+
+    # Bonus Topic
+    game.bonus.topic:
+        class: BonusBundle\Topic\BonusTopic
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+        tags:
+            - { name: gos_web_socket.topic }
 ###############################
 ##### REGISTRY & MANAGER ######
 ###############################
     # The weapon registry
     weapon.registry:
         class: BonusBundle\Manager\WeaponRegistry
+
+    # The bonus registry
+    bonus.registry:
+        class: BonusBundle\Manager\BonusRegistry
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
 
 ####################
 ##### WEAPONS ######
@@ -32,3 +59,18 @@ services:
         class: BonusBundle\Weapons\MortarWeapon
         tags:
             - { name: weapon.type }
+
+#################
+##### BONUS #####
+#################
+    # Point bonus
+    bonus.point:
+        class: BonusBundle\Bonus\PointBonus
+        tags:
+            - { name: bonus.type }
+
+    # Team point
+    bonus.team_point:
+        class: BonusBundle\Bonus\PointTeamBonus
+        tags:
+            - { name: bonus.type }

@@ -2,6 +2,10 @@
 
 namespace MatchBundle\Entity;
 
+use BonusBundle\Bonus\BonusInterface;
+use BonusBundle\BonusConstant;
+use BonusBundle\Entity\Inventory;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use UserBundle\Entity\User;
@@ -78,11 +82,23 @@ class Player
     protected $boats;
 
     /**
+     * @var ArrayCollection|BonusInterface[]
+     * @ORM\OneToMany(targetEntity="BonusBundle\Entity\Inventory", mappedBy="player", cascade={"remove", "persist"})
+     */
+    protected $bonus;
+
+    /**
      * @var int
      * @ORM\Column(type="smallint", length=1)
      * @Gedmo\SortablePosition()
      */
     protected $position;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="smallint")
+     */
+    protected $probability;
 
     /**
      * Player constructor.
@@ -92,6 +108,8 @@ class Player
         $this->ai = false;
         $this->score = 0;
         $this->life = 0;
+        $this->probability = BonusConstant::INITIAL_PROBABILITY;
+        $this->bonus = new ArrayCollection();
     }
 
     /**
@@ -336,6 +354,10 @@ class Player
             'position' => $this->position,
             'color' => $this->color,
             'team' => $this->team,
+            'life' => $this->life,
+            'score' => $this->score,
+            'boats' => $this->getNumberOfBoat(),
+            'probability' => $this->probability,
         ];
     }
 
@@ -356,6 +378,85 @@ class Player
     public function setBoats(array $boats)
     {
         $this->boats = $boats;
+
+        return $this;
+    }
+
+    /**
+     * Get list of boat by longer
+     * @return array
+     */
+    public function getNumberOfBoat()
+    {
+        $list = [];
+        foreach ($this->boats as $boat) {
+            if ($boat[1] > $boat[2]) {
+                if (isset($list[$boat[1]])) {
+                    $list[$boat[1]]++;
+                } else {
+                    $list[$boat[1]] = 1;
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * Get the probability to catch bonus
+     * @return integer
+     */
+    public function getProbability()
+    {
+        return $this->probability;
+    }
+
+    /**
+     * Set probability to catch bonus
+     * @param integer $probability
+     *
+     * @return $this
+     */
+    public function setProbability($probability)
+    {
+        $this->probability = $probability;
+
+        return $this;
+    }
+
+    /**
+     * Add probability to catch bonus
+     * @param integer $increment
+     *
+     * @return $this
+     */
+    public function addProbability($increment)
+    {
+        $this->probability += $increment;
+        $this->probability = min($this->probability, 90);
+
+        return $this;
+    }
+
+    /**
+     * Get number of bonus
+     * @return integer
+     */
+    public function getNbBonus()
+    {
+        return $this->bonus->count();
+    }
+
+    /**
+     * Add bonus to inventory
+     * @param Inventory $inventory
+     *
+     * @return $this
+     */
+    public function addBonus(Inventory $inventory)
+    {
+        $inventory->setPlayer($this);
+        $this->bonus->add($inventory);
 
         return $this;
     }

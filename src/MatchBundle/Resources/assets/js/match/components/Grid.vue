@@ -21,7 +21,7 @@
     // Import
     import Vue from "vue"
     import { mapState, mapGetters } from 'vuex'
-    import * as types from "../store/mutation-types"
+    import { ACTION, MUTATION } from "../store/mutation-types"
     import store from "../store/GameStore"
 
     // Bower require
@@ -58,7 +58,7 @@
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        store.commit(types.MUTATION.SET_STATUS, shooter.name + "'s shot")
+                        store.commit(MUTATION.SET_STATUS, shooter.name + "'s shot")
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'), {
@@ -79,7 +79,8 @@
 
                                 // Update grid
                                 $box.addClass('animated')
-                                store.commit(types.MUTATION.UPDATE_GRID, img)
+                                store.commit(MUTATION.AFTER_ROCKET, img)
+                                store.dispatch(ACTION.AFTER_ROCKET, img)
 
                                 // Next img
                                 next()
@@ -87,14 +88,7 @@
                         })
                     },
                     function() { // End of animate
-                        if (obj.finished) {
-                            store.commit(types.MUTATION.SET_GAMEOVER)
-                        }
-
-                        // Update tour
-                        if (obj.tour) {
-                            store.commit(types.MUTATION.SET_TOUR, obj.tour)
-                        }
+                        store.commit(MUTATION.AFTER_ANIMATE, obj)
                     }
                 )
             },
@@ -110,9 +104,9 @@
                 }
 
                 // Add weapon
-                store.dispatch(types.ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
+                store.dispatch(ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
                     // Send data
-                    store.dispatch(types.ACTION.SHOOT, dataSend)
+                    store.dispatch(ACTION.SHOOT, dataSend)
                 })
             },
             // CSS for box
@@ -177,9 +171,9 @@
                     players.push(self.playerById(playerId).name)
                 })
                 if (this.gameover) {
-                    store.commit(types.MUTATION.SET_STATUS, "Winner : " + players.join(', '))
+                    store.commit(MUTATION.SET_STATUS, "Winner : " + players.join(', '))
                 } else {
-                    store.commit(types.MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
+                    store.commit(MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
                 }
             },
             // grid size => update CSS
@@ -201,6 +195,9 @@
             WS.subscribeAction(topicName, 'data', (obj) => {
                 this.receive(obj)
             })
+
+            // Show/Hide boat
+            $(window).on('keyup', hideShowBoats)
         },
     }
 
@@ -224,5 +221,19 @@
             width: sizeCss,
             minWidth: sizeCss,
         })
+    }
+
+    /**
+     * Show / Hide boat
+     */
+    function hideShowBoats(e) {
+        if (e.which == 72) { // H key
+            if ($('.hide').length) {
+                $('.hide').removeClass('hide').addClass('boat')
+            } else {
+                $('.boat:not(.dead,.animated)').removeClass('boat').addClass('hide')
+            }
+        }
+
     }
 </script>

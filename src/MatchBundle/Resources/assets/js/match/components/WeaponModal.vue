@@ -2,12 +2,12 @@
     <div v-show="weapon.modal">
         <div class="modal-bg"></div>
         <div class="modal-wrap">
-            <div class="modal-container">
+            <div class="modal-container"v-on:click.stop.prevent="close()">
                 <div class="modal-content">
-                    <div id="modal-weapon">
+                    <div id="modal-weapon" v-on:click.stop.prevent="">
                         <div class="center">
                             <h1>Weapons</h1>
-                            <div v-show="me"><strong>{{ score }}</strong> points</div>
+                            <div v-show="isUser"><strong>{{ score }}</strong> points</div>
                         </div>
                         <div class="clear"></div>
 
@@ -43,9 +43,9 @@
 </template>
 <script>
     // Import
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     import store from "../store/GameStore"
-    import { ACTION, MUTATION } from "../store/modules/weapons"
+    import { ACTION, MUTATION } from "../store/mutation-types"
 
     export default {
         data() {
@@ -56,42 +56,47 @@
         computed: {
             ...mapState([
                 'weapon', // Weapon module
-                'me',
                 'boxSize',
                 'gameover',
             ]),
+            ...mapGetters([
+                'life',
+                'isUser'
+            ]),
             score() {
-                return (this.me && this.me.score) ? this.me.score : 0
+                return this.weapon.score
             }
         },
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.WEAPON_MODAL, false)
-                store.commit(MUTATION.SELECT)
+                store.commit(MUTATION.WEAPON.MODAL, false)
+                store.commit(MUTATION.WEAPON.SELECT)
                 this.selected = null
             },
             // Select weapon
             select() {
-                store.commit(MUTATION.SELECT, this.selected)
-                store.commit(MUTATION.WEAPON_MODAL, false)
-                this.selected = null
+                if (this.selected) {
+                    store.commit(MUTATION.WEAPON.SELECT, this.selected)
+                    store.commit(MUTATION.WEAPON.MODAL, false)
+                    this.selected = null
+                }
             },
             // Rotate weapons
             rotate() {
-                store.commit(MUTATION.SELECT)
-                store.commit(MUTATION.ROTATE)
+                store.commit(MUTATION.WEAPON.SELECT)
+                store.commit(MUTATION.WEAPON.ROTATE)
             },
             // CSS class for weapon box
             classWeapon(weapon) {
                 return {
-                    disabled: weapon.price > this.score || this.gameover || (this.me && this.me.life <= 0),
+                    disabled: weapon.price > this.score || this.gameover || this.life <= 0,
                     selected: this.selected && weapon.name == this.selected.name,
                 }
             },
             // Highlight the weapon (on click)
             highlight(weapon) {
-                if (this.score >= weapon.price && !this.gameover && (this.me && this.me.life > 0)) {
+                if (this.score >= weapon.price && !this.gameover && this.life > 0) {
                     this.selected = weapon
                 }
             },
@@ -107,12 +112,22 @@
             // Load weapons list on the first call
             ['weapon.modal'](open) {
                 if (open && !store.state.weapon.loaded) {
-                    store.dispatch(ACTION.LOAD, $('input#ajax-weapons').val()).then((list) => {
+                    store.dispatch(ACTION.WEAPON.LOAD, $('input#ajax-weapons').val()).then((list) => {
                         if (list.error) {
                             return Flash.error(list.error)
                         }
-                        store.commit(MUTATION.SET_LIST, list)
+                        store.commit(MUTATION.WEAPON.SET_LIST, list)
                     })
+                }
+
+                // Fix scroll
+                if (open) {
+                    $('#container').css({
+                        overflow: 'hidden',
+                        position: 'fixed',
+                    })
+                } else {
+                    $('#container').removeAttr('style')
                 }
 
                 // Bind escape touch
@@ -122,7 +137,7 @@
             },
             // on select : add helper on the grid
             ['weapon.select'](weapon) {
-                if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
+                if (this.gameover || this.life <= 0) {
                     return false;
                 }
 
@@ -179,9 +194,9 @@
     function escapeTouch(e) {
         if (e.which == 27) {
             if (store.state.weapon.modal) {
-                store.commit(MUTATION.WEAPON_MODAL, false)
+                store.commit(MUTATION.WEAPON.MODAL, false)
             } else {
-                store.commit(MUTATION.SELECT)
+                store.commit(MUTATION.WEAPON.SELECT)
             }
             $(window).off('keyup', escapeTouch)
         }
@@ -192,62 +207,8 @@
     #grid span.target {
         background-color: rgba(255, 0, 0, 0.75);
     }
-    .modal-bg {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1042;
-        overflow: hidden;
-        position: absolute;
-        background: #0b0b0b;
-        opacity: 0.8;
-    }
-    .modal-wrap {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1043;
-        position: fixed;
-        outline: none !important;
-        -webkit-backface-visibility: hidden;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-    .modal-container {
-        text-align: center;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        padding: 0 8px;
-        box-sizing: border-box;
-        &:before {
-             content: '';
-             display: inline-block;
-             height: 100%;
-             vertical-align: middle;
-        }
-    }
-    .modal-content {
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0 auto;
-        text-align: left;
-        z-index: 1045;
-        width: 100%;
-    }
+
     #modal-weapon {
-        background-color: #FFF;
-        max-width: 95%;
-        margin: auto;
-        vertical-align: middle;
-        .btn-action {
-            margin-top: 25px;
-        }
         .weapon {
             cursor: pointer;
             margin-top: 20px;

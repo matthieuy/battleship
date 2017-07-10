@@ -2,6 +2,7 @@
 
 namespace MatchBundle\RPC;
 
+use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use BonusBundle\Weapons\WeaponInterface;
 use Doctrine\ORM\EntityManager;
@@ -32,6 +33,7 @@ class GameRpc implements RpcInterface
     private $em;
     private $eventDispatcher;
     private $weaponRegistry;
+    private $bonusRegistry;
     private $pusher;
 
     /** @var ReturnBox */
@@ -44,19 +46,22 @@ class GameRpc implements RpcInterface
      * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $eventDispatcher
      * @param WeaponRegistry             $weaponRegistry
+     * @param BonusRegistry              $bonusRegistry
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
         EventDispatcherInterface $eventDispatcher,
-        WeaponRegistry $weaponRegistry
+        WeaponRegistry $weaponRegistry,
+        BonusRegistry $bonusRegistry
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
         $this->weaponRegistry = $weaponRegistry;
+        $this->bonusRegistry = $bonusRegistry;
     }
 
     /**
@@ -120,6 +125,7 @@ class GameRpc implements RpcInterface
                 $infoPlayer = array_merge($infoPlayer, [
                     'me' => true,
                     'score' => $player->getScore(),
+                    'nbBonus' => $player->getNbBonus(),
                 ]);
                 $me = $player;
             }
@@ -172,6 +178,7 @@ class GameRpc implements RpcInterface
         }
 
         // Weapons
+        $this->returnBox = new ReturnBox();
         try {
             if (isset($params['weapon'])) {
                 $weapon = $this->weaponRegistry->getWeapon($params['weapon']);
@@ -206,14 +213,18 @@ class GameRpc implements RpcInterface
         $boxList = $this->getBoxesToShoot($game, $player, $x, $y, $weapon, $weaponRotate);
 
         // Do fire
-        $this->returnBox = new ReturnBox();
-        foreach ($boxList as $box) {
-            $result = $this->doFire($game, $box, $player);
+        foreach ($boxList as $i => $box) {
+            $result = $this->doFire($game, $box, $player, $i == 0);
 
             // Error ?
             if (is_array($result)) {
                 return $result;
             }
+        }
+
+        // Bonus
+        if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
+            $this->bonusRegistry->catchBonus($player, $this->returnBox);
         }
 
         // Next tour
@@ -222,6 +233,7 @@ class GameRpc implements RpcInterface
         // Return and push
         $return = $this->returnBox->getReturnBox($game, $player);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push([], 'game.score.topic', ['slug' => $game->getSlug()]);
         $this->eventDispatcher->dispatch(MatchEvents::CHANGE_TOUR, new GameEvent($game));
 
         // Save
@@ -252,6 +264,7 @@ class GameRpc implements RpcInterface
         if (!$game || $game->getStatus() == Game::STATUS_WAIT) {
             return null;
         }
+        $this->em->refresh($game);
 
         return $game;
     }
@@ -343,6 +356,8 @@ class GameRpc implements RpcInterface
      */
     private function getBoxesToShoot(Game $game, Player $player, $x, $y, WeaponInterface $weapon = null, $weaponRotate = 0)
     {
+        $this->returnBox->setDoTouch(false);
+        $this->returnBox->setWeapon(null);
         $noWeapon = [$game->getBox($x, $y)];
         if (!$weapon) {
             return $noWeapon;
@@ -354,33 +369,34 @@ class GameRpc implements RpcInterface
             return $noWeapon;
         }
         $player->removeScore($price);
-        if (!$player->isAi()) {
-            $this->returnBox->setUseWeapon();
-        }
+        $this->returnBox->setWeapon($weapon);
 
         return $weapon->getBoxes($game, $x, $y, $weaponRotate);
     }
 
     /**
      * Do fire on a box
-     * @param Game   $game The game
-     * @param Box    $box The box to shoot
-     * @param Player $shooter The shooter
+     * @param Game    $game The game
+     * @param Box     $box The box to shoot
+     * @param Player  $shooter The shooter
+     * @param boolean $firstBox The first box of shoot
      *
      * @return bool|array Shoot done or error
      */
-    private function doFire(Game &$game, Box &$box, Player $shooter)
+    private function doFire(Game &$game, Box &$box, Player $shooter, $firstBox = false)
     {
         // Use weapon : add score on first shoot
-        if ($this->returnBox->isUseWeapon()) {
+        if ($firstBox && $this->returnBox->getWeapon()) {
             $box->setScore($shooter);
-            $this->returnBox->setUseWeapon(false);
         }
 
         // Some check
         if (($shooter && $box->isSameTeam($shooter)) || $box->isAlreadyShoot() || $box->isOffzone($game->getSize())) {
             return false;
         }
+
+        // Last shoot
+        $game->setLastShoot();
 
         // Empty box
         if ($box->isEmpty()) {
@@ -461,6 +477,7 @@ class GameRpc implements RpcInterface
             ->setLife($victim);
         $victim->setBoats($victimBoats);
         $this->returnBox->addBox($game, $box);
+        $this->returnBox->setDoTouch();
 
         // Dispatch event
         $event
@@ -496,7 +513,7 @@ class GameRpc implements RpcInterface
             // Update game
             $game
                 ->setStatus(Game::STATUS_END)
-                ->setLastShoot(new \DateTime('now'));
+                ->setLastShoot();
 
             // Event
             $event = new GameEvent($game);
@@ -697,8 +714,13 @@ class GameRpc implements RpcInterface
 
         // Fire !!!
         $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy, $weapon);
-        foreach ($boxes as $box) {
-            $this->doFire($game, $box, $ai);
+        foreach ($boxes as $i => $box) {
+            $this->doFire($game, $box, $ai, $i == 0);
+        }
+
+        // Bonus
+        if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
+            $this->bonusRegistry->catchBonus($ai, $this->returnBox);
         }
     }
 }

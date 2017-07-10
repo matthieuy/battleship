@@ -1,67 +1,34 @@
 TODO
 ====
 
-- [ ] Slidebars isn't compatible ! I do a [PR on the original project](https://github.com/adchsm/Slidebars/pull/264) but wait merge 
-- [ ] Write a changelog
-- [ ] Complete the [README.md](README) :
-    - [ ] Install documentation
-    - [ ] Contribute documentation
-    - [ ] Doc for add ammo
-    - [ ] Doc for add bonus
-- [ ] Make a Docker img for users want try or contribute easier
-- [ ] Translate :
-    - [ ] Configure translate
-    - [ ] Translate in French
-    - [ ] Make doc
 - [ ] Error 404 and other system errors
-- [ ] Modernizr
-- [ ] Script for debian service (init.d)
-- [ ] Unit test
-- [ ] Admin :
-    - [ ] List of websocket with page name
 - [ ] Clear npm and bower package
-- [ ] Session with redis or other system (vs MySQL)
 - [ ] Bugfix :
-    - [ ] FlashError : scrollTop
-- [ ] Personal TODO : 
-    - [ ] Envoy (or other script to deploy easier with git hook) 
-- [ ] Use promise for WS
-- [ ] Homepage :
-    - [X] List game
-    - [X] Button create
-    - [ ] Update page on :
-        - [X] Create game
-        - [ ] Delete game
-        - [X] Change status
-        - [X] Change tour (in game)
-        - [X] Change number of player (in waiting page)
+	- [ ] FlashError : scrollTop
+	- [ ] Animation with scroll != 0
+- [ ] Documentations :
+	- [ ] HowTo add a weapon
+	- [ ] Howto add a bonus
+	- [ ] Add screenshot or gif
 - [ ] Waiting page :
     - [ ] Add console with action
-    - [ ] Delete game
     - [ ] Add player avatar
 - [ ] Game :
-    - [ ] Allow anon. viewer
-    - [ ] Players image
+    - [X] Allow anon. viewer
+    - [ ] Players avatar
     - [ ] Rocket img
     - [ ] Can change box size
-    - [ ] Score table
     - [ ] Penalty
     - [ ] Boat color
-    - [ ] Delete game
     - [ ] Use promise for WS
     - [ ] ISO view
     - [ ] Display grid (optional)
-- [ ] Mobile :
-    - [ ] Helper for shoot
-    - [ ] Helper for weapon
-    - [ ] Battery API
-    - [ ] Offline API
-- [ ] Stats :
-    - [ ] Register stats on event
-    - [ ] Display user stats on profil
-    - [ ] Display stats on game
+    - [ ] Shortcuts
+- [ ] Bonus :
+    - [ ] Make more bonus
+	- [ ] Add some trigger for bonus
 - [ ] Users :
-    - [ ] Bugfix : register
+	- [ ] Session with redis or other system (vs MySQL)
     - [ ] Forgot password
     - [ ] Registration confirm by email
     - [ ] Upload avatar on registration
@@ -70,7 +37,19 @@ TODO
         - [ ] Change email
         - [ ] Change password
         - [ ] Display informations
+	- [ ] IA :
+		- [ ] Add avatar
+- [ ] Mobile :
+    - [ ] Helper for shoot
+    - [ ] Helper for weapon
+    - [ ] Battery/Offline API
+- [ ] Stats :
+    - [ ] Register stats on event
+    - [ ] Display user stats on profil
+    - [ ] Display stats on game
 - [ ] Chat room :
+	- [ ] Send/Receive message
+	- [ ] Bubble / read system
     - [ ] Use BBcode
     - [ ] notification
     - [ ] General's room
@@ -79,21 +58,31 @@ TODO
     - [ ] System message
 - [ ] Notifications :
     - [ ] Config per type on profil page
-    - [ ] System :
-        - [ ] SMS
+	- [ ] Notifications registry
+	- [ ] Notifications manager
+    - [ ] Transporter :
+        - [ ] Hook
+        - [ ] SMS (via hooks)
         - [ ] IonicPush
         - [ ] Discord
         - [ ] Email
         - [ ] Push Navigator
         - [ ] Chat
     - [ ] Type :
-        - [ ] Friend connect
+        - [ ] User connect
         - [ ] Tour
         - [ ] Messages
-- [ ] IA :
-    - [ ] Add avatar
-    - [ ] Use bonus
-- [ ] Bonus :
-    - [ ] Make Bonus registy
-    - [ ] Add/Remove/Use bonus
-    - [ ] Make bonus
+- [ ] Translate :
+	- [ ] Configure translate :
+		- [ ] Symfony
+		- [ ] VueJS
+	- [ ] Translate in French
+	- [ ] Write howto translate
+- [ ] Tests/Dev :
+	- [ ] Make a dockerfile for users want try or contribute
+	- [ ] Script for Debian service (init.d)
+	- [ ] Unit tests
+	- [ ] Script for deploy on git hook (personal TODO)
+	- [ ] Page with websocket client
+	- [ ] ESLint and others checks tools
+	- [ ] Catch console.log and make a graphic console

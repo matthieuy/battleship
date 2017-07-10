@@ -8,14 +8,23 @@ Work in progress
 [![License](https://poser.pugx.org/matthieuy/battleship/license)](https://packagist.org/packages/matthieuy/battleship)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3/mini.png)](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3)
 
+This is a battleship game in real time.
+You can play up to 12 players or AI on the same grid.
+A weapon system is integrated in the game for more fun.
 
-Requirements
-============
+It use the awesome [WebSocketBundle](https://github.com/GeniusesOfSymfony/WebSocketBundle) with Ratchet and AutoBahn.
 
-- PHP >= 5.5.9
-- MySQL
-- Composer
-- NPM
+
+Features
+========
+
+- Generate grid
+- Real time (WebSocket)
+- Play up to 12 players on the same grid
+- AI players
+- Weapons
+- Bonus and inventory
+- Animate shot
 
 
 Installation
@@ -27,8 +36,7 @@ See [Installation instructions](app/Resources/docs/install.md)
 Contribute or bug report
 ========================
 
-Open a [issue](https://github.com/geekariom/battleship/issues) for question or bug report
-Create a [pull request](https://github.com/geekariom/battleship/pull) on the develop branch if you want to contrib
+See the [guideline](CONTRIBUTING.md)
 
 
 Tests
@@ -39,14 +47,26 @@ Tests
 ./bin/phpunit
 ```
 
+
 TODO
 ====
 
-See [TODO](TODO.md)
+- Translate
+- Chat room
+- Notifications system
+
+See the complete [TODO](TODO.md)
+See the [CHANGELOG](CHANGELOG.md)
 
 Credits
 =======
 
 - Lead developer : Matthieu YK
-- Graphism : Chabull, [Clint Bellanger](http://clintbellanger.net/), Static
+- Graphism : Chabull, [Clint Bellanger](http://clintbellanger.net/), Static, contributors of [Game-icons](http://game-icons.net/)
 - Beta testers : GeekaRiom team
+
+
+License
+=======
+
+Battleship is licensed under the MIT License - see the [LICENSE file](LICENSE) for details

@@ -5,9 +5,12 @@ require('@app/js/tooltips.js')
 import Vue from "vue"
 import store from "./store/GameStore"
 import Grid from "./components/Grid.vue"
-import BtnScore from "./components/BtnScore.vue"
+import ScoreBtn from "./components/ScoreBtn.vue"
+import ScoreModal from "./components/ScoreModal.vue"
 import WeaponModal from "./components/WeaponModal.vue"
 import WeaponBtn from "./components/WeaponBtn.vue"
+import InventoryModal from "./components/InventoryModal.vue"
+import InventoryBtn from "./components/InventoryBtn.vue"
 import * as types from "./store/mutation-types"
 
 // App vue
@@ -17,6 +20,8 @@ new Vue({
     components: {
         Grid,
         WeaponModal,
+        ScoreModal,
+        InventoryModal,
     },
 })
 
@@ -25,8 +30,9 @@ new Vue({
     el: '#btn-top',
     store,
     components: {
-        BtnScore,
+        ScoreBtn,
         WeaponBtn,
+        InventoryBtn,
     },
 })
 

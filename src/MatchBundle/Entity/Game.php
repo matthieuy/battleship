@@ -295,11 +295,14 @@ class Game
 
     /**
      * Set lastShoot
-     * @param \DateTime $lastShoot
+     * @param \DateTime|null $lastShoot The last shoot or null for now
      * @return Game
      */
-    public function setLastShoot(\DateTime $lastShoot)
+    public function setLastShoot(\DateTime $lastShoot = null)
     {
+        if (!$lastShoot) {
+            $lastShoot = new \DateTime('now');
+        }
         $this->lastShoot = $lastShoot;
 
         return $this;
@@ -558,6 +561,23 @@ class Game
     }
 
     /**
+     * Get Player by user
+     * @param User $user
+     *
+     * @return Player|null
+     */
+    public function getPlayerByUser(User $user)
+    {
+        foreach ($this->players as $player) {
+            if ($player->getUser()->getId() == $user->getId()) {
+                return $player;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get players who had play
      * @return Player[]|array
      */
@@ -603,6 +623,8 @@ class Game
             'size' => $this->size,
             'date' => $this->createAt->getTimestamp(),
             'options' => $this->options,
+            'creatorId' => $this->getCreator()->getId(),
+            'creatorName' => $this->creator->getUsername(),
         ];
 
         // Informations depend status
@@ -611,7 +633,6 @@ class Game
                 $infos = array_merge($infos, [
                     'nb' => $this->players->count(),
                     'max' => $this->maxPlayer,
-                    'creatorName' => $this->creator->getUsername(),
                 ]);
                 break;
 
@@ -626,7 +647,6 @@ class Game
                 }
                 $infos = array_merge($infos, [
                     'tour' => $tour,
-                    'creatorName' => $this->creator->getUsername(),
                     'date' => $this->getRunAt()->getTimestamp(),
                     'last' => $this->getLastShoot()->getTimestamp(),
                 ]);

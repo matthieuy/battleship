@@ -1,6 +1,6 @@
 <template>
     <div id="btn-weapon" title="Weapon" class="bubble" :class="{disabled: !weapon.enabled}" @click="toggleModal()">
-        <i class="fa fa-crosshairs" :class="{selected: weapon.select}"></i>
+        <i class="gi gi-crossed-sabres" :class="{selected: weapon.select}"></i>
         <img id="weapon-bubble" src="img/null.png" width="25" height="25">
     </div>
 </template>
@@ -8,7 +8,7 @@
     // Import
     import { mapState } from 'vuex'
     import store from "../store/GameStore"
-    import { MUTATION } from "../store/modules/weapons"
+    import { MUTATION } from "../store/mutation-types"
 
     //Bower
     import Favico from '@bower/favico.js/favico.js'
@@ -18,16 +18,15 @@
         computed: {
             ...mapState([
                 'weapon', // Weapon module
-                'me',
             ]),
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.WEAPON_MODAL)
+                store.commit(MUTATION.WEAPON.MODAL)
             },
         },
         watch: {
-            'me.score': (score) => {
+            'weapon.score': (score) => {
                 if (store.state.weapon.enabled) {
                     BubbleWeapon.badge(score)
                 }
