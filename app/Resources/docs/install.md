@@ -59,10 +59,4 @@ Launch the websocket server :
 php bin/console gos:websocket:server --env=prod
 ```
 
-If you don't have a web server (apache/nginx), you can start a server with this command :
-
-```
-php bin/console server:run --env=prod
-```
-
 See [ssl configuration](ssl.md) if you want to use secure connection to websocket.
