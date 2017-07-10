@@ -23,6 +23,7 @@ Features
 - Play up to 12 players on the same grid
 - AI players
 - Weapons
+- Bonus and inventory
 - Animate shot
 
 
@@ -51,7 +52,6 @@ TODO
 ====
 
 - Translate
-- Bonus / Inventory
 - Chat room
 - Notifications system
 

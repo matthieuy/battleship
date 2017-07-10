@@ -38,10 +38,10 @@ TODO
     - [X] Probability
     - [X] Inventory
         - [X] Add bonus to inventory
-        - [ ] Catcher/Trigger/Hook in game for use bonus
+        - [X] Catcher/Trigger/Hook in game for use bonus
     - [X] Add/Remove/Use bonus
     - [ ] Make bonus
-	- [ ] IA use bonus
+	- [X] IA use bonus
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
     - [ ] Forgot password
