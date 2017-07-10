@@ -14,7 +14,7 @@ use UserBundle\Entity\User;
 class InventoryRepository extends EntityRepository
 {
     /**
-     * Get the inventory (not in use)
+     * Get the inventory
      * @param Game $game
      * @param User $user
      *
@@ -28,7 +28,7 @@ class InventoryRepository extends EntityRepository
             ->where('inventory.game=:game')
             ->innerJoin('inventory.player', 'player')
             ->andWhere('player.user=:user')
-            ->andWhere('inventory.useIt=false')
+            ->orderBy('inventory.useIt', 'ASC')
             ->setParameters([
                 'game' => $game,
                 'user' => $user,

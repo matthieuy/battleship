@@ -11,6 +11,7 @@ export default {
         size: 0,
         select: null,
         nb: 0,
+        team: null,
         list: [],
     },
     mutations: {
@@ -20,6 +21,7 @@ export default {
             obj.players.some(function(player) {
                 if (player.me) {
                     state.nb = player.nbBonus
+                    state.team = player.team
                 }
                 return (typeof player.me != 'undefined')
             })
@@ -59,8 +61,17 @@ export default {
             }
         },
         // Use bonus
-        [ACTION.INVENTORY.USE](context, bonusId) {
-            WS.callRPC('bonus/useit', {id: bonusId}, (obj) => {
+        [ACTION.INVENTORY.USE](context, bonus) {
+            // Get data to send
+            let dataSend = { id: bonus.id }
+            if (bonus.options.player) {
+                Object.assign(dataSend, {
+                    player: bonus.options.player,
+                })
+            }
+
+            // send RPC
+            WS.callRPC('bonus/useit', dataSend, (obj) => {
                 if (obj.msg) {
                     return alert(obj.msg)
                 }

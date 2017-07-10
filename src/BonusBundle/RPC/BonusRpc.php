@@ -122,6 +122,11 @@ class BonusRpc implements RpcInterface
             return ['error' => $e->getMessage()];
         }
 
+        // Add options
+        if (isset($params['player'])) {
+            $inventory->addOption('player', $params['player']);
+        }
+
         // Check if can use bonus now
         $player = $game->getPlayerByUser($user);
         if (!$player || !$bonus->canUseNow($game, $player)) {

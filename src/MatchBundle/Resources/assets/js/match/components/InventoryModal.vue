@@ -8,11 +8,11 @@
                         <h1 class="center">Inventory</h1>
                         <div class="clear"></div>
 
-                        <div class="row overflow">
+                        <div class="row">
                             <div class="large-6 push-3 column">
                                 <div class="container-bonus">
                                     <div class="large-4 column" v-for="bonus in inventory.list" @click="highlight(bonus)">
-                                        <div class="bonus-box opentip" :class="{selected: (selected == bonus.id) }" :data-tip="'<strong>'+bonus.name+' :</strong> '+bonus.description">
+                                        <div class="bonus-box opentip" :class="{selected: (selected && selected.id == bonus.id), use: bonus.use }" :data-tip="'<strong>'+bonus.name+' :</strong> '+bonus.description">
                                             <img :src="'img/bonus/'+bonus.uniq+'.png'" width="80">
                                             <span class="label" v-show="bonus.options.label">{{ bonus.options.label }}</span>
                                         </div>
@@ -28,9 +28,18 @@
                         </div>
                         <div class="clear"></div>
 
+                        <div class="row center" v-show="showSelectPlayer">
+                            <div class="large-4 push-4">
+                                <label for="player">Select target :</label>
+                                <select id="player" v-model="selectPlayer">
+                                    <option v-for="player in playersList" :value="player.position">{{ player.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button success small-12 large-3" :class="{disabled: !selected }" @click="use()">
+                                <button class="button success small-12 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
                                     <i class="gi gi-round-star"></i>
                                     Use
                                 </button>
@@ -55,11 +64,15 @@
         data() {
             return {
                 selected: null,
+                showSelectPlayer: false,
+                selectPlayer: null,
+                playersList: [],
             }
         },
         computed: {
             ...mapState([
                 'inventory',
+                'players',
                 'gameover',
             ]),
         },
@@ -68,22 +81,61 @@
             close() {
                 store.commit(MUTATION.INVENTORY.MODAL, false)
             },
+            // Use bonus
             use() {
-                if (this.selected) {
-                    store.dispatch(ACTION.INVENTORY.USE, this.selected)
-                    this.selected = null
+                if (!this.selected || (this.selected.options.select && !this.selectPlayer)) {
+                    return false;
+                } else if (this.selected.options.select && this.selectPlayer) {
+                    this.selected.options.player = this.selectPlayer
                 }
+
+                store.dispatch(ACTION.INVENTORY.USE, this.selected)
+                this.raz()
             },
             // highlight the bonus
             highlight(bonus) {
-                if (bonus == null || this.gameover) {
-                    this.selected = null;
+                if (bonus == null || bonus.use || this.gameover) {
+                    this.raz()
                 } else {
-                    this.selected = bonus.id
+                    this.selected = bonus
+                    this.showSelectPlayer = bonus.options.select
                 }
+            },
+            // RAZ select
+            raz() {
+                this.selected = null;
+                this.showSelectPlayer = false
+                this.selectPlayer = null
             },
         },
         watch: {
+            // Select a bonus : update players list
+            ['selected'](bonus) {
+                // No bonus
+                if (!bonus) {
+                    return this.playersList = [];
+                }
+
+                switch (bonus.options.select) {
+                    // All players (except himself)
+                    case 'all':
+                        this.playersList = this.players.filter((player) => !player.me)
+                        break
+
+                    // Players in same team
+                    case 'friends':
+                        this.playersList = this.players.filter((player) => player.team == this.inventory.team && !player.me)
+                        break
+
+                    // Enemy
+                    case 'enemy':
+                        this.playersList = this.players.filter((player) => player.team != this.inventory.team)
+                        break
+
+                    default:
+                        this.playersList = []
+                }
+            },
             // Load inventory on open modal
             ['inventory.modal'](open) {
                 if (open) {
@@ -131,7 +183,11 @@
     
         &.selected {
             box-shadow: 2px 2px #000;
-             background-color: #646464;
+            background-color: #646464;
+        }
+        &.use {
+             background-color: #690101;
+             cursor: default;
         }
 
         .label {
