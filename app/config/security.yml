@@ -31,8 +31,12 @@ security:
                 path: fos_user_security_logout
                 target: /
             remember_me:
+                name: "%session_name%-remember"
                 secret: "%secret%"
-                lifetime: 86400
+                secure: "%use_ssl%"
+                lifetime: 604800 # 1 week
+                path: /
+                user_provider: main_provider
 
     access_control:
         - { path: ^/login(\.html)?$, role: IS_AUTHENTICATED_ANONYMOUSLY }

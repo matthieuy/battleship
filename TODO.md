@@ -6,6 +6,7 @@ TODO
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
+	- [ ] Shot while a animation
 - [ ] Documentations :
 	- [ ] HowTo add a weapon
 	- [ ] Howto add a bonus
@@ -67,7 +68,6 @@ TODO
         - [ ] Discord
         - [ ] Email
         - [ ] Push Navigator
-        - [ ] Chat
     - [ ] Type :
         - [ ] User connect
         - [ ] Tour
