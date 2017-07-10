@@ -28,7 +28,7 @@ class BonusConstant
     /**
      * TRIGGER
      */
-    const WHEN_USE = 0;
+    const WHEN_USE = 'use';
     const TRIGGER_LIST = [
         self::WHEN_USE => 'onUse',
     ];

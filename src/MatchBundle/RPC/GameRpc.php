@@ -264,6 +264,7 @@ class GameRpc implements RpcInterface
         if (!$game || $game->getStatus() == Game::STATUS_WAIT) {
             return null;
         }
+        $this->em->refresh($game);
 
         return $game;
     }
