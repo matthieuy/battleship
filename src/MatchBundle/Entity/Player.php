@@ -433,6 +433,7 @@ class Player
     public function addProbability($increment)
     {
         $this->probability += $increment;
+        $this->probability = min($this->probability, 90);
 
         return $this;
     }

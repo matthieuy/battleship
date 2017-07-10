@@ -176,13 +176,11 @@ class BonusRegistry
             $increment = 5;
         }
 
-        if ($returnBox->getWeapon() === null) {
-            // No weapon : add the standard increment
-            $player->addProbability($increment);
-        } else {
-            // Weapon : calculate with weapon price
-            $proba = $returnBox->getWeapon()->getPrice() / 10 + $increment;
-            $player->addProbability($proba);
+        // Weapon : calculate with weapon price
+        if ($returnBox->getWeapon()) {
+            $increment += $returnBox->getWeapon()->getPrice() / 10;
         }
+
+        $player->addProbability($increment);
     }
 }
