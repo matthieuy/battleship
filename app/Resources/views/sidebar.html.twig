@@ -1,6 +1,14 @@
 <div class="sidebar" off-canvas="sidebar left push">
     <div class="title sb-close">Menu</div>
 
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="block-avatar">
+            <a href="{{ path('user.profil.show', { slug: app.user.slug }) }}">
+                <div class="login">{{ app.user.username }}</div>
+            </a>
+        </div>
+    {% endif %}
+
     <ul class="sidebar-menu">
         <li><a href="{{ path('homepage') }}"><i class="gi gi-barn"></i>Home</a></li>
 

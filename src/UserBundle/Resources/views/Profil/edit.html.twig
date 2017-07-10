@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+{% block title %}Edit profil{% if not isMe %} of {{ user.username }}{% endif %} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="center">Edit profil{% if not isMe %} of {{ user.username }}{% endif %}</h1>
+
+    <div class="row">
+    {{ form_start(form) }}
+
+        <div class="center">
+            {{ form_rest(form) }}
+            <input type="submit" value="Save" class="button success">
+            <a href="{{ path('user.profil.show', {'slug': user.slug}) }}" class="button">Show profil</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

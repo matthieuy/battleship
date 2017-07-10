@@ -1,0 +1,12 @@
+{% extends "::base.html.twig" %}
+{% block title %}Profil of {{ user.username }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ user.username }}</h1>
+
+    {% if isMe or is_granted('ROLE_ADMIN') %}
+        <div class="center">
+            <a href="{{ path('user.profil.edit', { slug: user.slug }) }}" class="button success">Edit profil</a>
+        </div>
+    {% endif %}
+{% endblock %}
