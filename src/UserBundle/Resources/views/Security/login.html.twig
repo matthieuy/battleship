@@ -30,6 +30,8 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
             <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="button round success small-12 large-5">
             <a href="{{ path('fos_user_registration_register') }}" class="button round small-12 large-5">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+            <br>
+            <a href="{{ path('fos_user_resetting_request') }}"><em>{{ 'resetting.request.submit'|trans }}</em></a>
         </div>
     </form>
 {% endblock %}

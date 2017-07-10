@@ -30,7 +30,7 @@ TODO
 	- [ ] Add some trigger for bonus
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
-    - [ ] Forgot password
+    - [X] Forgot password
     - [ ] Registration confirm by email
     - [ ] Upload avatar on registration
     - [ ] Profil page

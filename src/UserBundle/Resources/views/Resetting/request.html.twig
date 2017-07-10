@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}{{ 'resetting.request.submit'|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ 'resetting.request.submit'|trans }}</h1>
+    <form method="post" action="{{ path('fos_user_resetting_send_email') }}" class="small-12 large-5 large-centered column">
+        <label for="email">{{ 'form.email'|trans }} :</label>
+        <input type="email" id="email" name="username" required="required">
+
+        <div class="center">
+            <input type="submit" value="{{ 'resetting.request.submit'|trans }}" class="button success round small-12 large-5">
+            <a href="{{ path('fos_user_security_login') }}" class="button round small-12 large-5">{{ 'security.login.submit'|trans }}</a>
+        </div>
+    </form>
+{% endblock %}

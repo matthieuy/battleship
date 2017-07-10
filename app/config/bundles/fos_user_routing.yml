@@ -27,5 +27,30 @@ fos_user_registration_confirmed:
     path: /confirmed
     defaults: { _controller: UserBundle:Registration:confirmed }
 
+# Forgot password
+fos_user_resetting_request:
+    path: /login/password.html
+    defaults: { _controller: UserBundle:Resetting:request }
+    methods: [GET]
+
+# Forgot password (POST)
+fos_user_resetting_send_email:
+    path: /login/password.html
+    defaults: { _controller: UserBundle:Resetting:sendEmail }
+    methods: [POST]
+
+# Forgot password (link in mail)
+fos_user_resetting_reset:
+    path: /login/reset-password/{token}
+    defaults: { _controller: UserBundle:Resetting:reset }
+    methods: [GET, POST]
+
+# Forgot : send mail
+fos_user_resetting_check_email:
+    path: /login/password-email
+    defaults: { _controller: UserBundle:Resetting:checkEmail }
+    methods: [GET]
+
+
 fos_user_profile_show:
     path: /

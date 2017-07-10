@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block title %}{{ 'change_password.submit'|trans }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ 'change_password.submit'|trans }}</h1>
+    <form method="post" action="{{ path('fos_user_resetting_reset', {'token': token}) }}" class="column small-12 large-5 large-centered">
+        {{ form_widget(form) }}
+
+        <div class="center">
+            <input type="submit" value="{{ 'change_password.submit'|trans }}" class="button small-12 large-5 round">
+        </div>
+    </form>
+{% endblock %}
