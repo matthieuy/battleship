@@ -14,7 +14,9 @@
                 </span>
             </div>
         </div>
-        <div id="rocket"></div>
+        <span>
+            <div class="rocket" v-for="player in players" :id="'rocket'+player.position"></div>
+        </span>
     </div>
 </template>
 <script>
@@ -33,6 +35,7 @@
             // State from store
             ...mapState([
                 'status',
+                'players',
                 'grid',
                 'boxSize',
                 'me',
@@ -60,9 +63,9 @@
                         store.commit(MUTATION.SET_STATUS, shooter.name + "'s shot")
 
                         // Rocket animate
-                        Velocity(document.getElementById('rocket'), {
+                        Velocity(document.getElementById('rocket'+img.shoot), {
                             top: $box.getTop() - (self.boxSize / 2),
-                            left: $box.getLeft() + (self.boxSize / 2),
+                            left: $box.getLeft() + (self.boxSize / 4),
                         }, {
                             duration: 5 * ($box.getTop() + 20),
                             easing: 'linear',
@@ -74,7 +77,7 @@
                                 })
                             },
                             complete: function(rocket) {
-                                $(rocket).css('top', '-20px')
+                                $(rocket).css('top', '-40px')
 
                                 // Update grid
                                 $box.addClass('animated')

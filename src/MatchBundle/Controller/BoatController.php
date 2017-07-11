@@ -2,6 +2,7 @@
 
 namespace MatchBundle\Controller;
 
+use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use MatchBundle\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -73,7 +74,65 @@ class BoatController extends Controller
 
         // Create img
         if (!file_exists($destPath)) {
-            $this->changeColor($sourcePath, $destPath, $color, $size);
+            $img = $this->changeColor($sourcePath, [255, 255, 255], $color);
+
+            // Resize
+            $manager = new ImageManager(['driver' => 'gd']);
+            $image = $manager->make($img);
+            $image
+                ->resize(8 * $size, 7 * $size) // 8x7 : number of sprite in source img
+                ->save($destPath)
+                ->destroy();
+        }
+
+        // Response
+        $response = new BinaryFileResponse($destPath);
+        $filemtime = new \DateTime();
+        $filemtime->setTimestamp(filemtime($destPath));
+        $response
+            ->setLastModified($filemtime)
+            ->setEtag(md5_file($destPath))
+            ->isNotModified($request);
+
+        return $response;
+    }
+
+    /**
+     * Get the rocket image
+     * @param Request $request
+     * @param string  $color
+     * @param integer $size
+     *
+     * @Route(
+     *     name="match.rocket.img",
+     *     path="/img/rocket/{color}-{size}.png",
+     *     methods={"GET"},
+     *     requirements={"color": "([0-9A-F]{6})", "size": "([2-6]0)"},
+     *     defaults={"size": "60"})
+     * @return Response
+     */
+    public function rocketImageAction(Request $request, $color, $size = 60)
+    {
+        // Path
+        $rootDir = $this->get('kernel')->getRootDir();
+        $sourcePath = realpath($rootDir.'/../web/img/rocket.png');
+
+        $destDir = realpath($rootDir.'/../var/boats');
+        $destPath = "$destDir/rocket-$color-$size.png";
+
+        // Create img
+        if (true || !file_exists($destPath)) {
+            $img = $this->changeColor($sourcePath, [255, 0, 0], $color);
+
+            // Resize
+            $manager = new ImageManager(['driver' => 'gd']);
+            $image = $manager->make($img);
+            $image
+                ->resize($size / 2, null, function (Constraint $constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save($destPath)
+                ->destroy();
         }
 
         // Response
@@ -97,7 +156,7 @@ class BoatController extends Controller
      *     name="match.explose.img",
      *     path="/img/explose-{size}.png",
      *     methods={"GET"},
-     *     requirements={"size": "(^[2-6]0$)"},
+     *     requirements={"size": "([2-6]0)"},
      *     defaults={"size": "60"})
      * @return Response
      */
@@ -134,29 +193,24 @@ class BoatController extends Controller
 
     /**
      * Change color and resize
-     * @param string $source Source path img
-     * @param string $destPath Dest path img
-     * @param string $color Color
-     * @param integer $size Size of box
+     * @param string $sourcePath
+     * @param array  $colorInit RGB values
+     * @param string $colorDest Hexa color
+     *
+     * @return resource
      */
-    private function changeColor($source, $destPath, $color, $size)
+    private function changeColor($sourcePath, $colorInit, $colorDest)
     {
         // Dest color
-        $red = hexdec(substr($color, 0, 2));
-        $green = hexdec(substr($color, 2, 2));
-        $blue = hexdec(substr($color, 4, 2));
+        $red = hexdec(substr($colorDest, 0, 2));
+        $green = hexdec(substr($colorDest, 2, 2));
+        $blue = hexdec(substr($colorDest, 4, 2));
 
         // Change color
-        $img = imagecreatefrompng($source);
-        $white = imagecolorclosest($img, 255, 255, 255);
+        $img = imagecreatefrompng($sourcePath);
+        $white = imagecolorclosest($img, $colorInit[0], $colorInit[1], $colorInit[2]);
         imagecolorset($img, $white, $red, $green, $blue);
 
-        // Resize
-        $manager = new ImageManager(['driver' => 'gd']);
-        $image = $manager->make($img);
-        $image
-            ->resize(8 * $size, 7 * $size) // 8x7 : number of sprite in source img
-            ->save($destPath)
-            ->destroy();
+        return $img;
     }
 }

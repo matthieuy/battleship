@@ -5,7 +5,7 @@ TODO
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
-	- [ ] Shot while a animation
+	- [X] Shot while a animation
 - [ ] Documentations :
 	- [ ] HowTo add a weapon
 	- [ ] Howto add a bonus
@@ -16,7 +16,7 @@ TODO
 - [ ] Game :
     - [X] Allow anon. viewer
     - [X] Players avatar
-    - [ ] Rocket img
+    - [X] Rocket img
     - [X] Can change box size
     - [ ] Penalty
     - [X] Boat color

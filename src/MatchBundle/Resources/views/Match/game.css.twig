@@ -22,9 +22,17 @@
 .explose { background-image: url('{{ path('match.explose.img', { size: widthBox })|raw }}'); }
 .miss { background-position: {{ widthBox * -11 }}px 0; }
 .hit { background-position: {{ widthBox * 6 }}px {{ widthBox }}px; }
+.rocket {
+    position: absolute;
+    top: -{{ widthBox }}px;
+    left: 20px;
+    width: {{ widthBox / 2 }}px;
+    height: {{ widthBox }}px;
+}
 
 {% for player in game.players %}
-    .player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox })|raw }}'); }
+    .boat.player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox })|raw }}'); }
+    #rocket{{ player.position }} { background-image: url('{{ path('match.rocket.img', {color: player.color, size: widthBox })|raw }}'); }
 {% endfor %}
 
 @keyframes explose-ice {
