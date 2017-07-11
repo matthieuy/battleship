@@ -29,15 +29,20 @@ class BoatController extends Controller
      */
     public function cssAction(Game $game)
     {
-        // Set text/css response
-        $response = new Response();
+        // Box size
+        $boxSize = 20;
+        if ($this->getUser()) {
+            $boxSize = $this->getUser()->getOption('boxSize', $boxSize);
+        }
+
+        // View (CSS content)
+        $response = $this->render('@Match/Match/game.css.twig', [
+            'widthBox' => $boxSize,
+            'game' => $game,
+        ]);
         $response->headers->set('Content-Type', 'text/css');
 
-        // View with CSS response
-        return $this->render('@Match/Match/game.css.twig', [
-            'widthBox' => 20,
-            'game' => $game,
-        ], $response);
+        return $response;
     }
 
     /**

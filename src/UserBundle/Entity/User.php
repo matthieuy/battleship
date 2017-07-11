@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class User extends BaseUser
 {
+    const OPTIONS_NAME = ['boxSize'];
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")
@@ -58,6 +59,37 @@ class User extends BaseUser
         parent::__construct();
         $this->ai = false;
         $this->options = [];
+    }
+
+    /**
+     * Get option
+     * @param string $name
+     *
+     * @return mixed|null
+     */
+    public function __get($name)
+    {
+        if (in_array($name, self::OPTIONS_NAME)) {
+            return $this->getOption($name, null);
+        }
+
+        return null;
+    }
+
+    /**
+     * Set option
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function __set($name, $value)
+    {
+        if (in_array($name, self::OPTIONS_NAME)) {
+            return $this->setOption($name, $value);
+        }
+
+        return $this;
     }
 
     /**

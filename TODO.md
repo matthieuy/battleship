@@ -17,7 +17,7 @@ TODO
     - [X] Allow anon. viewer
     - [X] Players avatar
     - [ ] Rocket img
-    - [ ] Can change box size
+    - [X] Can change box size
     - [ ] Penalty
     - [X] Boat color
     - [ ] ISO view

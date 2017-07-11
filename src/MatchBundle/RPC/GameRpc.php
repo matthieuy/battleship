@@ -86,9 +86,11 @@ class GameRpc implements RpcInterface
      */
     public function load(ConnectionInterface $connection, WampRequest $request, array $params = [])
     {
-        // Get user
+        // Get user (refresh)
         $user = $this->clientManipulator->getClient($connection);
-        if (!$user instanceof User) {
+        if ($user instanceof User) {
+            $user = $this->em->find('UserBundle:User', $user->getId());
+        } else {
             $user = null;
         }
 
@@ -100,6 +102,7 @@ class GameRpc implements RpcInterface
         // Global infos
         $infos = [
             'size' => $game->getSize(),
+            'boxSize' => ($user) ? $user->getOption('boxSize', 20) : 20,
             'tour' => $game->getTour(),
             'options' => $game->getOptions(),
             'players' => [],

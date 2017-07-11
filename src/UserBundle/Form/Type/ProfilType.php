@@ -33,7 +33,17 @@ class ProfilType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('avatar', Type\FileType::class);
+        $builder
+            ->add('avatar', Type\FileType::class)
+            ->add('boxSize', Type\ChoiceType::class, [
+                'choices' => [
+                    '20px' => 20,
+                    '30px' => 30,
+                    '40px' => 40,
+                    '50px' => 50,
+                    '60px' => 60,
+                ],
+            ]);
 
         $rootPath = $this->rootPath;
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($rootPath) {
