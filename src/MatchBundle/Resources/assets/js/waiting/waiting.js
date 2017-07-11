@@ -16,6 +16,7 @@ import BtnRun from "./components/BtnRun.vue"
 import GameInfo from "./components/GameInfo.vue"
 import GameOptions from "./components/GameOptions.vue"
 import PlayersList from "./components/PlayersList.vue"
+import Console from "./components/Console.vue"
 
 // App vue
 new Vue({
@@ -28,6 +29,7 @@ new Vue({
         GameInfo,
         GameOptions,
         PlayersList,
+        Console,
     },
 })
 
@@ -43,8 +45,12 @@ $(() => {
 
     // Socket subscribe
     WS.subscribeAction(topicName, 'players', (players) => store.commit(types.MUTATION.SET_PLAYERS, players))
-    WS.subscribeAction(topicName, 'infos', (infos) => store.commit(types.MUTATION.SET_GAMEINFO, infos))
-    WS.subscribeAction(topicName, 'reload', () => window.location.reload())
+    WS.addAction(topicName, 'infos', (infos) => store.commit(types.MUTATION.SET_GAMEINFO, infos))
+    WS.addAction(topicName, 'reload', function() {
+        window.setTimeout(function() {
+            window.location.reload()
+        }, 5000)
+    })
 
     // Socket connect
     WS.connect()

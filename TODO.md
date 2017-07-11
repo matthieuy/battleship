@@ -10,8 +10,8 @@ TODO
 	- [ ] HowTo add a weapon
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
-- [ ] Waiting page :
-    - [ ] Add console with action
+- [X] Waiting page :
+    - [X] Add console with action
     - [X] Add player avatar
 - [ ] Game :
     - [X] Allow anon. viewer

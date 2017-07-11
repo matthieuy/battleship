@@ -78,10 +78,12 @@ class WaitingRpc implements RpcInterface
             // Join
             $ai = ($game->isCreator($user) && isset($params['ai'])) ? $params['ai'] : false;
             $result = $repo->joinGame($game, $user, $ai);
+            $console = ($ai) ? "AI join the game" : $user->getUsername()." join the game";
         } else {
             // Leave
             $playerId = ($game->isCreator($user) && isset($params['id'])) ? $params['id'] : null;
             $result = $repo->quitGame($game, $user, $playerId);
+            $console = "User leave the game";
         }
 
         // Msg Error ?
@@ -95,6 +97,7 @@ class WaitingRpc implements RpcInterface
         // Success
         if ($result) {
             $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+            $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
             // Update homepage
             $list = $this->em->getRepository('MatchBundle:Game')->getList();
@@ -129,12 +132,15 @@ class WaitingRpc implements RpcInterface
         // Change size
         if ($this->getParam($params, 'type', 'size') == 'size') {
             $game->setSize($this->getParam($params, 'size', 25));
+            $console = "Grid size :".$game->getSize();
         } else {
             $game->setMaxPlayer($this->getParam($params, 'size', 4));
             $game->setSizeFromPlayers();
+            $console = "Max players :".$game->getMaxPlayer();
         }
         $this->em->flush();
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -165,6 +171,7 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['console' => $player->getName().' change team :'.$player->getTeam()], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -204,6 +211,7 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['console' => $player->getName().' change color'], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -244,6 +252,7 @@ class WaitingRpc implements RpcInterface
 
             // Push
             $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+            $this->pusher->push(['console' => $player->getName().' change position to '.($player->getPosition()+1)], 'game.wait.topic', ['slug' => $game->getSlug()]);
         }
 
         return ['success' => true];
@@ -290,6 +299,7 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['console' => 'Change option "'.$optionName.'" => '.$value], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }

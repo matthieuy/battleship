@@ -110,6 +110,7 @@ class Player
         $this->life = 0;
         $this->probability = BonusConstant::INITIAL_PROBABILITY;
         $this->bonus = new ArrayCollection();
+        $this->boats = [];
     }
 
     /**
@@ -389,12 +390,14 @@ class Player
     public function getNumberOfBoat()
     {
         $list = [];
-        foreach ($this->boats as $boat) {
-            if ($boat[1] > $boat[2]) {
-                if (isset($list[$boat[1]])) {
-                    $list[$boat[1]]++;
-                } else {
-                    $list[$boat[1]] = 1;
+        if (is_array($this->boats)) {
+            foreach ($this->boats as $boat) {
+                if ($boat[1] > $boat[2]) {
+                    if (isset($list[$boat[1]])) {
+                        $list[$boat[1]]++;
+                    } else {
+                        $list[$boat[1]] = 1;
+                    }
                 }
             }
         }
