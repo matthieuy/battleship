@@ -13,6 +13,7 @@
     {% webpack css '@match/less/game.less.js' %}
         <link rel="stylesheet" href="{{ asset_url }}">
     {% end_webpack %}
+    <link rel="stylesheet" href="{{ path('match.css', { slug: game.slug }) }}">
 {% endblock %}
 
 {% block body %}

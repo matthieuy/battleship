@@ -19,7 +19,7 @@ TODO
     - [ ] Rocket img
     - [ ] Can change box size
     - [ ] Penalty
-    - [ ] Boat color
+    - [X] Boat color
     - [ ] ISO view
     - [ ] Display grid (optional)
     - [ ] Shortcuts

@@ -34,7 +34,6 @@
             ...mapState([
                 'status',
                 'grid',
-                'size',
                 'boxSize',
                 'me',
                 'tour',
@@ -176,14 +175,6 @@
                     store.commit(MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
                 }
             },
-            // grid size => update CSS
-            size(size) {
-                updateGridSize(size, this.boxSize)
-            },
-            // box size => update CSS
-            boxSize(size) {
-                updateGridSize(this.size, size)
-            },
         },
         mounted() {
             // Disable select
@@ -199,28 +190,6 @@
             // Show/Hide boat
             $(window).on('keyup', hideShowBoats)
         },
-    }
-
-    /**
-     * Update the grid CSS with new size
-     * @param gridSize
-     * @param boxSize
-     */
-    function updateGridSize(gridSize, boxSize) {
-        // Grid CSS
-        let sizeCss = (gridSize * boxSize) + 'px'
-        $('#grid').css({
-            width: sizeCss,
-            height: sizeCss,
-            minWidth: sizeCss,
-            minHeight: sizeCss,
-        })
-
-        // Row CSS
-        $('.grid-line').css({
-            width: sizeCss,
-            minWidth: sizeCss,
-        })
     }
 
     /**

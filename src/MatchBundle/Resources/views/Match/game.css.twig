@@ -1,0 +1,92 @@
+{% set size = game.size * widthBox %}
+#grid {
+    width: {{ size }}px;
+    height: {{ size }}px;
+    min-width: {{ size }}px;
+    min-height: {{ size }}px;
+}
+.grid-line {
+    width: {{ size }}px;
+    min-width: {{ size }}px;
+}
+.grid .box { width: {{ widthBox }}px; height: {{ widthBox }}px; }
+.boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox })|raw }}'); }
+.explose { background-image: url('{{ path('match.explose.img', { size: widthBox })|raw }}'); }
+.miss { background-position: {{ widthBox * -11 }}px 0; }
+.hit { background-position: {{ widthBox * 6 }}px {{ widthBox }}px; }
+
+{% for player in game.players %}
+    .player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox })|raw }}'); }
+{% endfor %}
+
+@keyframes explose-ice {
+    0% { background-position: 0 0; }
+    100% { background-position: {{ widthBox * -12 }}px 0; }
+}
+@keyframes explose-fire {
+    0% { background-position: 0 {{ widthBox }}px; }
+    100% { background-position: {{ widthBox * 12 }}px {{ widthBox }}px; }
+}
+
+.img1 { background-position: 0 0; }
+.img2 { background-position: {{ widthBox * -1 }}px 0; }
+.img3 { background-position: {{ widthBox * -2 }}px 0; }
+.img4 { background-position: {{ widthBox * -3 }}px 0; }
+.img5 { background-position: {{ widthBox * -4 }}px 0; }
+.img6 { background-position: {{ widthBox * -5 }}px 0; }
+.img7 { background-position: {{ widthBox * -6 }}px 0; }
+.img8 { background-position: {{ widthBox * -7 }}px 0; }
+
+.img9 { background-position: 0 {{ widthBox * -1 }}px; }
+.img10 { background-position: {{ widthBox * -1 }}px {{ widthBox * -1 }}px; }
+.img11 { background-position: {{ widthBox * -2 }}px {{ widthBox * -1 }}px; }
+.img12 { background-position: {{ widthBox * -3 }}px {{ widthBox * -1 }}px; }
+.img13 { background-position: {{ widthBox * -4 }}px {{ widthBox * -1 }}px; }
+.img14 { background-position: {{ widthBox * -5 }}px {{ widthBox * -1 }}px; }
+.img15 { background-position: {{ widthBox * -6 }}px {{ widthBox * -1 }}px; }
+.img16 { background-position: {{ widthBox * -7 }}px {{ widthBox * -1 }}px; }
+
+.img17 { background-position: 0 {{ widthBox * -2 }}px; }
+.img18 { background-position: {{ widthBox * -1 }}px {{ widthBox * -2 }}px; }
+.img19 { background-position: {{ widthBox * -2 }}px {{ widthBox * -2 }}px; }
+.img20 { background-position: {{ widthBox * -3 }}px {{ widthBox * -2 }}px; }
+.img21 { background-position: {{ widthBox * -4 }}px {{ widthBox * -2 }}px; }
+.img22 { background-position: {{ widthBox * -5 }}px {{ widthBox * -2 }}px; }
+.img23 { background-position: {{ widthBox * -6 }}px {{ widthBox * -2 }}px; }
+.img24 { background-position: {{ widthBox * -7 }}px {{ widthBox * -2 }}px; }
+
+.img25 { background-position: 0 {{ widthBox * -3 }}px; }
+.img26 { background-position: {{ widthBox * -1 }}px {{ widthBox * -3 }}px; }
+.img27 { background-position: {{ widthBox * -2 }}px {{ widthBox * -3 }}px; }
+.img28 { background-position: {{ widthBox * -3 }}px {{ widthBox * -3 }}px; }
+.img29 { background-position: {{ widthBox * -4 }}px {{ widthBox * -3 }}px; }
+.img30 { background-position: {{ widthBox * -5 }}px {{ widthBox * -3 }}px; }
+.img31 { background-position: {{ widthBox * -6 }}px {{ widthBox * -3 }}px; }
+.img32 { background-position: {{ widthBox * -7 }}px {{ widthBox * -3 }}px; }
+
+.img33 { background-position: 0 {{ widthBox * -4 }}px; }
+.img34 { background-position: {{ widthBox * -1 }}px {{ widthBox * -4 }}px; }
+.img35 { background-position: {{ widthBox * -2 }}px {{ widthBox * -4 }}px; }
+.img36 { background-position: {{ widthBox * -3 }}px {{ widthBox * -4 }}px; }
+.img37 { background-position: {{ widthBox * -4 }}px {{ widthBox * -4 }}px; }
+.img38 { background-position: {{ widthBox * -5 }}px {{ widthBox * -4 }}px; }
+.img39 { background-position: {{ widthBox * -6 }}px {{ widthBox * -4 }}px; }
+.img40 { background-position: {{ widthBox * -7 }}px {{ widthBox * -4 }}px; }
+
+.img41 { background-position: 0 {{ widthBox * -5 }}px; }
+.img42 { background-position: {{ widthBox * -1 }}px {{ widthBox * -5 }}px; }
+.img43 { background-position: {{ widthBox * -2 }}px {{ widthBox * -5 }}px; }
+.img44 { background-position: {{ widthBox * -3 }}px {{ widthBox * -5 }}px; }
+.img45 { background-position: {{ widthBox * -4 }}px {{ widthBox * -5 }}px; }
+.img46 { background-position: {{ widthBox * -5 }}px {{ widthBox * -5 }}px; }
+.img47 { background-position: {{ widthBox * -6 }}px {{ widthBox * -5 }}px; }
+.img48 { background-position: {{ widthBox * -7 }}px {{ widthBox * -5 }}px; }
+
+.img49 { background-position: 0 {{ widthBox * -6 }}px; }
+.img50 { background-position: {{ widthBox * -1 }}px {{ widthBox * -6 }}px; }
+.img51 { background-position: {{ widthBox * -2 }}px {{ widthBox * -6 }}px; }
+.img52 { background-position: {{ widthBox * -3 }}px {{ widthBox * -6 }}px; }
+.img53 { background-position: {{ widthBox * -4 }}px {{ widthBox * -6 }}px; }
+.img54 { background-position: {{ widthBox * -5 }}px {{ widthBox * -6 }}px; }
+.img55 { background-position: {{ widthBox * -6 }}px {{ widthBox * -6 }}px; }
+.img56 { background-position: {{ widthBox * -7 }}px {{ widthBox * -6 }}px; }
