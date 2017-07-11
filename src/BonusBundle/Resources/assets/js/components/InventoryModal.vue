@@ -57,8 +57,8 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from "../store/GameStore"
-    import { MUTATION, ACTION } from "../store/mutation-types"
+    import store from "@match/js/match/store/GameStore"
+    import { MUTATION, ACTION } from "@match/js/match/store/mutation-types"
 
     export default {
         data() {

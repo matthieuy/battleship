@@ -1,8 +1,6 @@
 TODO
 ====
 
-- [ ] Error 404 and other system errors
-- [ ] Clear npm and bower package
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
@@ -10,33 +8,20 @@ TODO
 	- [ ] HowTo add a weapon
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
-- [ ] Waiting page :
-    - [ ] Add console with action
-    - [ ] Add player avatar
 - [ ] Game :
-    - [X] Allow anon. viewer
-    - [ ] Players avatar
-    - [ ] Rocket img
-    - [ ] Can change box size
     - [ ] Penalty
-    - [ ] Boat color
-    - [ ] Use promise for WS
     - [ ] ISO view
-    - [ ] Display grid (optional)
     - [ ] Shortcuts
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
+	- [ ] Add event (use, remove)
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
-    - [ ] Forgot password
     - [ ] Registration confirm by email
-    - [ ] Upload avatar on registration
-    - [ ] Profil page
-        - [ ] Change avatar
+    - [X] Profil page
         - [ ] Change email
         - [ ] Change password
-        - [ ] Display informations
 	- [ ] IA :
 		- [ ] Add avatar
 - [ ] Mobile :
@@ -67,7 +52,6 @@ TODO
         - [ ] Discord
         - [ ] Email
         - [ ] Push Navigator
-        - [ ] Chat
     - [ ] Type :
         - [ ] User connect
         - [ ] Tour

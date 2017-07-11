@@ -4,9 +4,9 @@ import Vuex from "vuex"
 import mutations from "./mutations"
 import getters from "./getters"
 import actions from "./actions"
-import weaponModule from "./modules/weapons"
+import weaponModule from "@bonus/js/store-modules/weapons"
+import inventoryModule from "@bonus/js/store-modules/inventory"
 import scoreModule from "./modules/score"
-import inventoryModule from "./modules/inventory"
 
 // Init
 Vue.use(Vuex)

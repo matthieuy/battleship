@@ -7,7 +7,9 @@ $loader = require __DIR__.'/../app/autoload.php';
 include_once __DIR__.'/../var/bootstrap.php.cache';
 
 $kernel = new AppKernel('prod', false);
-$kernel->loadClassCache();
+if (\PHP_VERSION_ID < 70000) {
+    $kernel->loadClassCache();
+}
 $kernel = new AppCache($kernel);
 
 // When using the HttpCache, you need to call the method in your front controller instead of relying on the configuration parameter

@@ -1,0 +1,37 @@
+{% extends "::base.html.twig" %}
+{% block title %}Edit profil{% if not isMe %} of {{ user.username }}{% endif %} - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h1 class="center">Edit profil{% if not isMe %} of {{ user.username }}{% endif %}</h1>
+
+    <div class="row">
+    {{ form_start(form) }}
+        <fieldset>
+            <legend>Avatar</legend>
+            <div class="row">
+                <div class="column small-2">
+                    <img src="{{ path('user.avatar', { id: user.id}) }}" alt="{{ user.username }}" class="avatar60-round" width="60">
+                </div>
+                <div class="column small-10">
+                    {{ form_widget(form.avatar) }}
+                    <b>{{ form_errors(form.avatar) }}</b>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Game</legend>
+            <label>
+                Display grid: {{ form_widget(form.displayGrid) }}
+            </label>
+            {{ form_row(form.boxSize) }}
+        </fieldset>
+
+        <div class="center">
+            {{ form_rest(form) }}
+            <input type="submit" value="Save" class="button success">
+            <a href="{{ path('user.profil.show', {'slug': user.slug}) }}" class="button">Show profil</a>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

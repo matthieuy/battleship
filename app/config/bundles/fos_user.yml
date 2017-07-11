@@ -7,4 +7,4 @@ fos_user:
         address: "%mailer_sender_address%"
         sender_name: "%mailer_sender_name%"
     resetting:
-        token_ttl: 3600
+        token_ttl: 7200

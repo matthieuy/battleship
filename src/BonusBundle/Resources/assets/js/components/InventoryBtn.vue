@@ -7,8 +7,8 @@
 <script>
     // Import
     import { mapState } from 'vuex'
-    import store from "../store/GameStore"
-    import { ACTION, MUTATION } from "../store/mutation-types"
+    import store from "@match/js/match/store/GameStore"
+    import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
     //Bower
     import Favico from '@bower/favico.js/favico.js'

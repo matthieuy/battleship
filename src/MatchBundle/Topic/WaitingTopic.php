@@ -60,6 +60,7 @@ class WaitingTopic implements TopicInterface, PushableTopicInterface
             $connection->event($topic->getId(), [
                 'players' => ($game) ? $this->getPlayersArray($game) : [],
                 'infos' => ($game) ? $this->getGameArray($game) : [],
+                'console' => 'Game loaded',
             ]);
         }
     }

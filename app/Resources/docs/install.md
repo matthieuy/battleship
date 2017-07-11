@@ -6,6 +6,7 @@ Installation instructions
 You need :
 
 - PHP >= 5.5.9
+- GD (`sudo apt-get install php-gd`)
 - MySQL
 - Composer ([see install instructions](https://getcomposer.org/download/))
 - NPM ([see install instructions](https://nodejs.org/en/download/package-manager/))
@@ -57,12 +58,6 @@ php bin/console doctrine:fixtures:load --env=prod
 Launch the websocket server :
 ```
 php bin/console gos:websocket:server --env=prod
-```
-
-If you don't have a web server (apache/nginx), you can start a server with this command :
-
-```
-php bin/console server:run --env=prod
 ```
 
 See [ssl configuration](ssl.md) if you want to use secure connection to websocket.

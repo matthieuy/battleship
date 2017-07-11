@@ -37,6 +37,7 @@ export default {
 
         // Update state
         state.size = obj.size
+        state.boxSize = obj.boxSize
         state.tour = obj.tour
         state.players = obj.players
         state.options = obj.options

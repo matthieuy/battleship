@@ -114,7 +114,10 @@ class LaunchRpc implements RpcInterface
         $this->eventDispatcher->dispatch(MatchEvents::LAUNCH, $event);
 
         // Push
-        $this->pusher->push(['reload' => true], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push([
+            'reload' => true,
+            'console' => 'Game is ready in 5 seconds',
+        ], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         // Return
         return ['success' => true];
@@ -137,6 +140,7 @@ class LaunchRpc implements RpcInterface
     private function generateGrid(Game $game)
     {
         // Create a empty grid
+        $this->pusher->push(['console' => 'Generate empty grid'], 'game.wait.topic', ['slug' => $game->getSlug()]);
         $gridSize = $game->getSize();
         $grid = [];
         for ($y = 0; $y < $gridSize; $y++) {
@@ -239,6 +243,7 @@ class LaunchRpc implements RpcInterface
                     $currentY = $y;
 
                     // Put the boat on the grid
+                    $this->pusher->push(['console' => 'Place '.$boatType['name'].' of '.$player->getName().' ('.($iBoat+1).'/'.$boatType['nb'].') after '.$try.'try'], 'game.wait.topic', ['slug' => $game->getSlug()]);
                     for ($iLength = 0; $iLength < $lengthBoat; $iLength++) {
                         $grid[$currentY][$currentX] = [
                             'img' => $boatType['img'][$direction][$iLength],
@@ -279,6 +284,7 @@ class LaunchRpc implements RpcInterface
      */
     private function clearGrid(Game $game)
     {
+        $this->pusher->push(['console' => 'Clear grid'], 'game.wait.topic', ['slug' => $game->getSlug()]);
         $gridSize = $game->getSize();
         $grid = $game->getGrid();
         $clearGrid = [];
