@@ -44,6 +44,11 @@ class User extends BaseUser
      */
     protected $avatar;
 
+    /**
+     * @var array
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    protected $options;
 
     /**
      * User constructor
@@ -52,6 +57,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->ai = false;
+        $this->options = [];
     }
 
     /**
@@ -111,6 +117,54 @@ class User extends BaseUser
     public function setAvatar(UploadedFile $avatar = null)
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get options
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set options
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get option value
+     * @param string $name
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getOption($name, $default)
+    {
+        return (key_exists($name, $this->options)) ? $this->options[$name] : $default;
+    }
+
+    /**
+     * Set option value
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return $this
+     */
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
 
         return $this;
     }
