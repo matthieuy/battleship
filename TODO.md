@@ -1,27 +1,16 @@
 TODO
 ====
 
-- [X] Error 404 and other system errors
 - [ ] Bugfix :
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
-	- [X] Shot while a animation
 - [ ] Documentations :
 	- [ ] HowTo add a weapon
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
-- [X] Waiting page :
-    - [X] Add console with action
-    - [X] Add player avatar
 - [ ] Game :
-    - [X] Allow anon. viewer
-    - [X] Players avatar
-    - [X] Rocket img
-    - [X] Can change box size
     - [ ] Penalty
-    - [X] Boat color
     - [ ] ISO view
-    - [X] Display grid (optional)
     - [ ] Shortcuts
 - [ ] Bonus :
     - [ ] Make more bonus
@@ -29,13 +18,10 @@ TODO
 	- [ ] Add event (use, remove)
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
-    - [X] Forgot password
     - [ ] Registration confirm by email
     - [X] Profil page
-        - [X] Change avatar
         - [ ] Change email
         - [ ] Change password
-        - [X] Display informations
 	- [ ] IA :
 		- [ ] Add avatar
 - [ ] Mobile :
