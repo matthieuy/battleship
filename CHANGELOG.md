@@ -1,5 +1,17 @@
 # CHANGELOG
 
+### v0.2.5 (2017-07-11)
+  * User :
+    * "Remember me" on logon
+    * Forgot pasword
+    * Profil page
+    * Upload and show avatar
+    * User can change box size
+  * Error 404
+  * Boat color
+  * Bugfix : Rocket animation
+
+
 ### v0.2 (2017-07-10)
   * Bonus manager :
     * Modal with inventory
