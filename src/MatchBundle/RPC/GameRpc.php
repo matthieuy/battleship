@@ -817,5 +817,8 @@ class GameRpc implements RpcInterface
         $player = $this->getPlayer($game, null, $user->getId());
         $return = $this->returnBox->getReturnBox($game, $player);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+
+        // Persist
+        $this->em->flush();
     }
 }

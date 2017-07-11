@@ -9,7 +9,7 @@ TODO
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
 - [ ] Game :
-    - [ ] Penalty
+    - [X] Penalty
     - [ ] ISO view
     - [ ] Shortcuts
 - [ ] Bonus :

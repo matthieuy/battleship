@@ -63,6 +63,7 @@ class ReturnBox
         $return = [
             'img' => [],
             'tour' => $game->getTour(),
+            'chrono' => $game->getChrono(),
         ];
 
         // Game over ?

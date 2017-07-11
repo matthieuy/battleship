@@ -23,13 +23,15 @@
                                                 <th>Bonus</th>
                                             </tr>
                                         </thead>
-                                        <!--
                                         <tfoot>
                                             <tr>
-                                                <td colspan="6" id="chrono"></td>
+                                                <td colspan="7" id="chrono">
+                                                    <span v-show="score.penalty">Penalty in</span>
+                                                    <span v-show="!score.penalty">Last shoot :</span>
+                                                    <span :title="datePenalty"></span>
+                                                </td>
                                             </tr>
                                         </tfoot>
-                                        -->
                                         <tbody>
                                             <tr v-for="team in teams">
                                                 <td>
@@ -98,14 +100,29 @@
     import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
+    require('@app/js/jquery.timeago.js')
+
     export default {
+        props: {
+            time: {type: String},
+        },
+        data() {
+            return {
+                latency: 0,
+            }
+        },
         computed: {
             ...mapState([
                 'score',
             ]),
             ...mapGetters([
                 'teams',
-            ])
+            ]),
+            datePenalty() {
+                let date = new Date((this.score.chrono + this.latency) * 1000)
+                $('#chrono span').timeago('updateFromDOM')
+                return date.toISOString()
+            },
         },
         methods: {
             // Close modal
@@ -126,11 +143,20 @@
                         overflow: 'hidden',
                         position: 'fixed',
                     })
+                    $('#chrono span').timeago('updateFromDOM')
                 } else {
                     WS.unsubscribe(topicName)
                     $('#container').removeAttr('style')
+                    $('#chrono span').timeago('dispose')
                 }
             },
+            // Update chrono
+            ['score.chrono'](chrono) {
+                $('#chrono span').timeago('updateFromDOM')
+            },
+        },
+        mounted() {
+            this.latency = parseInt(parseInt(this.time) - (Date.now() / 1000))
         },
     }
 

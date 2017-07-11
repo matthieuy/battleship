@@ -49,11 +49,11 @@
                 prefixAgo: null,
                 prefixFromNow: null,
                 suffixAgo: "ago",
-                suffixFromNow: "from now",
+                suffixFromNow: "",
                 inPast: 'any moment now',
                 lessMinute: "less than a minute",
-                seconds: "seconds",
-                second: "second",
+                seconds: "%d seconds",
+                second: "%d second",
                 minute: "about a minute",
                 minutes: "%d minutes",
                 hour: "about an hour",
@@ -173,7 +173,7 @@
 
                 // Seconds
                 if (this.settings.showSec && 1 <= distanceMillis) {
-                    seconds = Math.floor((distanceMillis));
+                    seconds = Math.floor(distanceMillis);
                     if (seconds == 1) {
                         words.push(substitute($l.second, 1));
                     } else {
