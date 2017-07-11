@@ -2,7 +2,7 @@
  * Inventory module
  */
 
-import { ACTION, MUTATION } from "../mutation-types"
+import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
 export default {
     state: {

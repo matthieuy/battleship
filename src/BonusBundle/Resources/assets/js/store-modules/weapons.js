@@ -2,7 +2,7 @@
  * Weapon module
  */
 
-import { MUTATION, ACTION } from "../mutation-types"
+import { MUTATION, ACTION } from "@match/js/match/store/mutation-types"
 
 export default {
     state: {
