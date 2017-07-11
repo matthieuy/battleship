@@ -594,6 +594,24 @@ class Game
     }
 
     /**
+     * Get players from team number
+     * @param integer $team
+     *
+     * @return Player[]
+     */
+    public function getPlayersByTeam($team)
+    {
+        $list = [];
+        foreach ($this->players as $player) {
+            if ($player->getTeam() == $team) {
+                $list[] = $player;
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Get a box of the grid
      * @param integer $x X coord
      * @param integer $y Y coord
@@ -606,6 +624,22 @@ class Game
         $box->populateFromGrid($this->getGrid());
 
         return $box;
+    }
+
+    /**
+     * Get the timestamp of penalty or the last shoot (if disabled)
+     * @return integer
+     */
+    public function getChrono()
+    {
+        $penalty = $this->getOption('penalty', 0);
+
+        $timestamp = $this->lastShoot->getTimestamp();
+        if ($penalty) {
+            $timestamp += 3600 * $penalty;
+        }
+
+        return $timestamp;
     }
 
     /**

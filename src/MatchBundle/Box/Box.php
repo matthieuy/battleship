@@ -288,7 +288,7 @@ class Box
         if ($this->dead) {
             $infos['dead'] = $this->dead;
         }
-        if (!$this->dead && $this->shoot && $this->img > 0) {
+        if (!$this->dead && $this->shoot !== null && $this->img > 0) {
             $infos['explose'] = true;
         }
 
@@ -316,7 +316,7 @@ class Box
             'img' => $img,
             'shoot' => $this->shoot,
         ];
-        if (!$this->dead && $this->shoot && $this->img > 0) {
+        if (!$this->dead && $this->shoot !== null && $this->img > 0) {
             $infos['explose'] = true;
         }
 

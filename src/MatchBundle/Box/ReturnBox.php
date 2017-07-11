@@ -58,7 +58,7 @@ class ReturnBox
      *
      * @return array
      */
-    public function getReturnBox(Game $game, Player $player)
+    public function getReturnBox(Game $game, Player $player = null)
     {
         $return = [
             'img' => [],

@@ -2,6 +2,7 @@
 
 namespace MatchBundle\RPC;
 
+use BonusBundle\BonusConstant;
 use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use BonusBundle\Weapons\WeaponInterface;
@@ -106,6 +107,7 @@ class GameRpc implements RpcInterface
             'tour' => $game->getTour(),
             'options' => $game->getOptions(),
             'players' => [],
+            'chrono' => $game->getChrono(),
         ];
         if ($game->getStatus() == Game::STATUS_END) {
             $infos['finished'] = true;
@@ -137,6 +139,11 @@ class GameRpc implements RpcInterface
 
         // Get grid
         $infos['grid'] = $this->getGrid($game, $me);
+
+        // Penalty
+        if ($this->checkPenalty($game)) {
+            $this->doPenalty($game, $user);
+        }
 
         return $infos;
     }
@@ -229,6 +236,9 @@ class GameRpc implements RpcInterface
         if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
             $this->bonusRegistry->catchBonus($player, $this->returnBox);
         }
+
+        // Last shoot
+        $game->setLastShoot();
 
         // Next tour
         $this->nextTour($game, $player);
@@ -398,9 +408,6 @@ class GameRpc implements RpcInterface
             return false;
         }
 
-        // Last shoot
-        $game->setLastShoot();
-
         // Empty box
         if ($box->isEmpty()) {
             $box
@@ -417,13 +424,14 @@ class GameRpc implements RpcInterface
 
     /**
      * Touch a boat
-     * @param Game   $game
-     * @param Box    $box
-     * @param Player $shooter
+     * @param Game    $game
+     * @param Box     $box
+     * @param Player  $shooter
+     * @param boolean $penalty Penalty (don't scoring)
      *
      * @return array|bool Error or true
      */
-    private function touch(Game &$game, Box $box, Player $shooter)
+    private function touch(Game &$game, Box $box, Player $shooter, $penalty = false)
     {
         // Update box
         $box->setShooter($shooter);
@@ -468,9 +476,11 @@ class GameRpc implements RpcInterface
             $event->setType(TouchEvent::TOUCH);
         }
 
-        $shooter->addScore($points);
-        if (!$shooter->isAi()) {
-            $box->setScore($shooter);
+        if (!$penalty) {
+            $shooter->addScore($points);
+            if (!$shooter->isAi()) {
+                $box->setScore($shooter);
+            }
         }
 
         // Save
@@ -725,5 +735,87 @@ class GameRpc implements RpcInterface
         if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
             $this->bonusRegistry->catchBonus($ai, $this->returnBox);
         }
+    }
+
+    /**
+     * Check if is penalty
+     * @param Game $game
+     *
+     * @return boolean
+     */
+    private function checkPenalty(Game $game)
+    {
+        // Penalty only on running game and penalty enabled
+        if ($game->getStatus() !== Game::STATUS_RUN || !$game->getOption('penalty', 0)) {
+            return false;
+        }
+
+        return (time() >= $game->getChrono());
+    }
+
+    /**
+     * Do a penalty
+     * @param Game $game
+     * @param User $user
+     */
+    private function doPenalty(Game &$game, User $user = null)
+    {
+        $game->setLastShoot();
+
+        // Get player
+        $players = $game->getPlayersTour();
+        if (!$players || !isset($players[0])) {
+            return;
+        }
+        $player = $players[0];
+
+        // Get one player on the same team
+        $players = $game->getPlayersByTeam($player->getTeam());
+        shuffle($players);
+        foreach ($players as $p) {
+            if ($p->getLife() > 0 && !$p->isAi()) {
+                $player = $p;
+            }
+        }
+
+        // Get boats and select a boat without touch (if it is possible)
+        $boats = array_reverse($player->getBoats());
+        $selectBoat = null;
+        foreach ($boats as $boat) {
+            if ($boat[2] == 0) {
+                $selectBoat = $boat;
+                break;
+            }
+        }
+
+        // Parse the grid
+        $grid = $game->getGrid();
+        $sizeGrid = $game->getSize();
+        for ($x = 0; $x < $sizeGrid; $x++) {
+            for ($y = 0; $y < $sizeGrid; $y++) {
+                if ($selectBoat && isset($grid[$y][$x]['boat']) && $grid[$y][$x]['boat'] == $selectBoat[0]) {
+                    // Selected boat => the same boat number
+                    break 2;
+                } elseif (!$selectBoat && isset($grid[$y][$x]['player']) && $grid[$y][$x]['player'] == $player->getPosition()) {
+                    // Else the boat player
+                    break 2;
+                }
+            }
+        }
+
+        // Get box and reset score
+        $this->returnBox = new ReturnBox();
+        $box = $game->getBox($x, $y);
+        $player->setScore(0)->setProbability(BonusConstant::INITIAL_PROBABILITY);
+        $box->setScore($player);
+
+        // Do stuff
+        $this->touch($game, $box, $player, true);
+        $this->nextTour($game, $player);
+
+        // Return
+        $player = $this->getPlayer($game, null, $user->getId());
+        $return = $this->returnBox->getReturnBox($game, $player);
+        $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
     }
 }
