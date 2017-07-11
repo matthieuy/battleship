@@ -29,15 +29,18 @@ class BoatController extends Controller
      */
     public function cssAction(Game $game)
     {
-        // Box size
+        // Personal options
         $boxSize = 20;
+        $displayGrid = false;
         if ($this->getUser()) {
             $boxSize = $this->getUser()->getOption('boxSize', $boxSize);
+            $displayGrid = $this->getUser()->getOption('displayGrid', $displayGrid);
         }
 
         // View (CSS content)
         $response = $this->render('@Match/Match/game.css.twig', [
             'widthBox' => $boxSize,
+            'displayGrid' => $displayGrid,
             'game' => $game,
         ]);
         $response->headers->set('Content-Type', 'text/css');

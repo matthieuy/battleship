@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class User extends BaseUser
 {
-    const OPTIONS_NAME = ['boxSize'];
+    const OPTIONS_NAME = ['boxSize', 'displayGrid'];
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")
@@ -184,7 +184,7 @@ class User extends BaseUser
      */
     public function getOption($name, $default)
     {
-        return (key_exists($name, $this->options)) ? $this->options[$name] : $default;
+        return (array_key_exists($name, $this->options)) ? $this->options[$name] : $default;
     }
 
     /**

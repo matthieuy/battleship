@@ -21,7 +21,7 @@ TODO
     - [ ] Penalty
     - [X] Boat color
     - [ ] ISO view
-    - [ ] Display grid (optional)
+    - [X] Display grid (optional)
     - [ ] Shortcuts
 - [ ] Bonus :
     - [ ] Make more bonus

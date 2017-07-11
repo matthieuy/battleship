@@ -35,6 +35,7 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('avatar', Type\FileType::class)
+            ->add('displayGrid', Type\CheckboxType::class)
             ->add('boxSize', Type\ChoiceType::class, [
                 'choices' => [
                     '20px' => 20,

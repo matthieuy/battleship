@@ -9,7 +9,15 @@
     width: {{ size }}px;
     min-width: {{ size }}px;
 }
-.grid .box { width: {{ widthBox }}px; height: {{ widthBox }}px; }
+.grid .box {
+    width: {{ widthBox }}px;
+    height: {{ widthBox }}px;
+    {% if displayGrid %}
+        border-style: solid;
+        border-color: rgba(128, 128, 128, 0.3);
+        border-width: 0 1px 1px 0;
+    {% endif %}
+}
 .boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox })|raw }}'); }
 .explose { background-image: url('{{ path('match.explose.img', { size: widthBox })|raw }}'); }
 .miss { background-position: {{ widthBox * -11 }}px 0; }
