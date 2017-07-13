@@ -16,6 +16,7 @@ use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 use MatchBundle\Event\GameEvent;
+use MatchBundle\Event\PenaltyEvent;
 use MatchBundle\Event\TouchEvent;
 use MatchBundle\ImagesConstant;
 use MatchBundle\MatchEvents;
@@ -768,6 +769,7 @@ class GameRpc implements RpcInterface
             return;
         }
         $player = $players[0];
+        $event = new PenaltyEvent($game, $player);
 
         // Get one player on the same team
         $players = $game->getPlayersByTeam($player->getTeam());
@@ -775,6 +777,8 @@ class GameRpc implements RpcInterface
         foreach ($players as $p) {
             if ($p->getLife() > 0 && !$p->isAi()) {
                 $player = $p;
+                $event->setVictim($player);
+                break;
             }
         }
 
@@ -812,6 +816,9 @@ class GameRpc implements RpcInterface
         // Do stuff
         $this->touch($game, $box, $player, true);
         $this->nextTour($game, $player);
+
+        // Event
+        $this->eventDispatcher->dispatch(MatchEvents::PENALTY, $event);
 
         // Return
         $player = $this->getPlayer($game, null, $user->getId());
