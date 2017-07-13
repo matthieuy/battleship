@@ -5,7 +5,10 @@
             <div class="grid-line" v-for="row in grid">
                 <span
                     v-for="box in row"
-                    @click="shoot(box)"
+                    @click="click(box)"
+                    @mousemove="mousemove()"
+                    @mousedown="mousedown()"
+                    @mouseup="mouseup(box)"
                     :id="'g_' + box.y + '_' + box.x"
                     class="box"
                     :class="cssBox(box)"
@@ -29,6 +32,11 @@
     // Bower require
     let async = require('@bower/async/dist/async.min.js')
     let Velocity = require('@bower/velocity/velocity.js')
+
+    // Mobile shoot
+    let pressTimer = null
+    let longPress = false
+    let mobile = window.isMobile()
 
     export default {
         computed: {
@@ -94,6 +102,44 @@
                     }
                 )
             },
+            // On click : shoot if not mobile
+            click(box) {
+                if (!mobile) {
+                    this.shoot(box)
+                }
+            },
+            // On mouse move : reset long press
+            mousemove() {
+                if (mobile) {
+                    clearTimeout(pressTimer)
+                    pressTimer = null
+                    longPress = false
+                    $('#grid').removeAttr('style')
+                }
+            },
+            // On mouse down : prepare longpress
+            mousedown() {
+                if (mobile) {
+                    pressTimer = setTimeout(function() {
+                        longPress = true
+                        if (pressTimer) {
+                            $('#grid').css({ backgroundColor: '#BD2626' })
+                        }
+                    }, 1000)
+                }
+            },
+            // On mouse up : if long press => shoot
+            mouseup(box) {
+                if (mobile) {
+                    clearTimeout(pressTimer)
+                    pressTimer = null
+                    if (longPress) {
+                        longPress = false
+                        this.shoot(box)
+                    }
+                }
+            },
+            // Do a shoot
             shoot(box) {
                 if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
                     return false;

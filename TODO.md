@@ -25,7 +25,7 @@ TODO
 	- [ ] IA :
 		- [ ] Add avatar
 - [ ] Mobile :
-    - [ ] Helper for shoot
+    - [X] Helper for shoot
     - [ ] Helper for weapon
     - [ ] Battery/Offline API
 - [ ] Stats :
