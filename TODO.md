@@ -15,7 +15,7 @@ TODO
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
-	- [ ] Add event (use, remove)
+	- [X] Add event (use, remove)
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
     - [ ] Registration confirm by email

@@ -4,12 +4,15 @@ namespace BonusBundle\Manager;
 
 use BonusBundle\Bonus\BonusInterface;
 use BonusBundle\BonusConstant;
+use BonusBundle\BonusEvents;
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class BonusRegistry
@@ -23,16 +26,19 @@ class BonusRegistry
     protected $bonusList;
     private $entityManager;
     private $pusher;
+    private $eventDispatcher;
 
     /**
      * BonusRegistry constructor.
-     * @param EntityManager   $entityManager
-     * @param PusherInterface $pusher
+     * @param EntityManager            $entityManager
+     * @param PusherInterface          $pusher
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(EntityManager $entityManager, PusherInterface $pusher)
+    public function __construct(EntityManager $entityManager, PusherInterface $pusher, EventDispatcherInterface $eventDispatcher)
     {
         $this->entityManager = $entityManager;
         $this->pusher = $pusher;
+        $this->eventDispatcher = $eventDispatcher;
         $this->bonusList = [];
     }
 
@@ -122,6 +128,11 @@ class BonusRegistry
 
         // RAZ probability
         $bonus->setProbabilityAfterCatch($player);
+
+        // Event
+        $event = new BonusEvent($player, $bonus, $inventory);
+        $this->eventDispatcher->dispatch(BonusEvents::CATCH_ONE, $event);
+
 
         // Use it (AI)
         if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
