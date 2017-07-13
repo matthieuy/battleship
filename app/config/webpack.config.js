@@ -95,7 +95,7 @@ module.exports = function makeWebpackConfig(options) {
             // VUE LOADER
             {
                 test: /\.vue$/,
-                loaders: ['vue-loader'],
+                loader: 'vue-loader',
             },
             /**
              * Compiles ES6 and ES7 into ES5 code
@@ -305,7 +305,7 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: https://webpack.js.org/configuration/devtool/
      */
     if (BUILD) {
-        //config.devtool = 'source-map';
+        config.devtool = 'source-map';
     } else {
         config.devtool = 'eval';
     }
