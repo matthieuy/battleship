@@ -24,7 +24,7 @@ fos_user_registration_register:
 
 # Confirme register
 fos_user_registration_confirmed:
-    path: /confirmed
+    path: /register/confirmed
     defaults: { _controller: UserBundle:Registration:confirmed }
 
 # Forgot password
@@ -50,7 +50,6 @@ fos_user_resetting_check_email:
     path: /login/password-email
     defaults: { _controller: UserBundle:Resetting:checkEmail }
     methods: [GET]
-
 
 fos_user_profile_show:
     path: /

@@ -18,7 +18,7 @@ TODO
 	- [X] Add event (use, remove)
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
-    - [ ] Registration confirm by email
+    - [X] Registration confirm by email
     - [X] Profil page
         - [ ] Change email
         - [ ] Change password

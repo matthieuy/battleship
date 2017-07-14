@@ -8,3 +8,6 @@ fos_user:
         sender_name: "%mailer_sender_name%"
     resetting:
         token_ttl: 7200
+    registration:
+        confirmation:
+            enabled: true
