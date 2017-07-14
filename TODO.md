@@ -27,7 +27,7 @@ TODO
 - [ ] Mobile :
     - [X] Helper for shoot
     - [ ] Helper for weapon
-    - [ ] Battery/Offline API
+    - [X] Battery/Offline API
 - [ ] Stats :
     - [ ] Register stats on event
     - [ ] Display user stats on profil
