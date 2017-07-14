@@ -67,7 +67,7 @@ window.isMobile = function() {
 if (typeof navigator.onLine !== 'undefined') {
     let addOfflineWarn = () => { $('body').prepend('<div id="offline"><div id="offline-msg"><i class="gi gi-aerial-signal"></i> Your device is offline !</div><div id="offline-disable"></div></div>') }
     $(window).on('offline', addOfflineWarn)
-    $(window).on('online', function() { $('offline').remove() })
+    $(window).on('online', function() { $('#offline').remove() })
     if (!navigator.onLine) {
         addOfflineWarn()
     }
