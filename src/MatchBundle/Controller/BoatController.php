@@ -86,15 +86,7 @@ class BoatController extends Controller
         }
 
         // Response
-        $response = new BinaryFileResponse($destPath);
-        $filemtime = new \DateTime();
-        $filemtime->setTimestamp(filemtime($destPath));
-        $response
-            ->setLastModified($filemtime)
-            ->setEtag(md5_file($destPath))
-            ->isNotModified($request);
-
-        return $response;
+        $this->getResponse($request, $destPath);
     }
 
     /**
@@ -121,7 +113,7 @@ class BoatController extends Controller
         $destPath = "$destDir/rocket-$color-$size.png";
 
         // Create img
-        if (true || !file_exists($destPath)) {
+        if (!file_exists($destPath)) {
             $img = $this->changeColor($sourcePath, [255, 0, 0], $color);
 
             // Resize
@@ -136,15 +128,7 @@ class BoatController extends Controller
         }
 
         // Response
-        $response = new BinaryFileResponse($destPath);
-        $filemtime = new \DateTime();
-        $filemtime->setTimestamp(filemtime($destPath));
-        $response
-            ->setLastModified($filemtime)
-            ->setEtag(md5_file($destPath))
-            ->isNotModified($request);
-
-        return $response;
+        return $this->getResponse($request, $destPath);
     }
 
     /**
@@ -180,15 +164,7 @@ class BoatController extends Controller
         }
 
         // Response
-        $response = new BinaryFileResponse($destPath);
-        $filemtime = new \DateTime();
-        $filemtime->setTimestamp(filemtime($destPath));
-        $response
-            ->setLastModified($filemtime)
-            ->setEtag(md5_file($destPath))
-            ->isNotModified($request);
-
-        return $response;
+        return $this->getResponse($request, $destPath);
     }
 
     /**
@@ -212,5 +188,26 @@ class BoatController extends Controller
         imagecolorset($img, $white, $red, $green, $blue);
 
         return $img;
+    }
+
+    /**
+     * Get binary response
+     * @param Request $request
+     * @param string  $destPath
+     *
+     * @return BinaryFileResponse
+     */
+    private function getResponse(Request $request, $destPath)
+    {
+        // Response
+        $response = new BinaryFileResponse($destPath);
+        $filemtime = new \DateTime();
+        $filemtime->setTimestamp(filemtime($destPath));
+        $response
+            ->setLastModified($filemtime)
+            ->setEtag(md5_file($destPath))
+            ->isNotModified($request);
+
+        return $response;
     }
 }
