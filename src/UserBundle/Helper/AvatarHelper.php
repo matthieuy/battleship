@@ -38,7 +38,12 @@ class AvatarHelper
         $outPath = $uploadDir.'/'.$filename;
 
         if (!file_exists($outPath)) {
-            $sourcePath = $uploadDir.'/'.$user->getId();
+            if ($user->isAi()) {
+                $filename = str_replace('@ai', '', $user->getEmail()).'.png';
+                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars').'/'.$filename;
+            } else {
+                $sourcePath = $uploadDir.'/'.$user->getId();
+            }
             if (!file_exists($sourcePath)) {
                 $sourcePath = $this->rootPath.'/web/img/noimg.png';
             }

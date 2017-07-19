@@ -14,17 +14,17 @@ use UserBundle\Entity\User;
 class AiFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     private $aiList = [
-        ['name' => 'Alan Turing', 'email' => 'a.turing'],
+        ['name' => 'Alan Turing', 'email' => 'turing'],
         ['name' => 'Tim Berners-Lee', 'email' => 'www'],
         ['name' => 'Nolan Bushnell', 'email' => 'pong'],
         ['name' => 'Alan Cox', 'email' => 'cox'],
-        ['name' => 'François Gernelle', 'email' => 'f.gernelle'],
+        ['name' => 'François Gernelle', 'email' => 'gernelle'],
         ['name' => 'Rasmus Lerdorf', 'email' => 'php'],
         ['name' => 'Ian Murdock', 'email' => 'debian'],
         ['name' => 'Werner Koch', 'email' => 'gpg'],
         ['name' => 'Shigeru Miyamoto', 'email' => 'nintendo'],
         ['name' => 'Vint Cerf', 'email' => 'tcp'],
-        ['name' => 'John McCarthy', 'email' => 'ai'],
+        ['name' => 'John McCarthy', 'email' => 'mccarthy'],
         ['name' => 'Ken Thompson', 'email' => 'unix'],
         ['name' => 'Linus Torvald', 'email' => 'linux'],
         ['name' => 'Ronald Rivest', 'email' => 'rsa'],

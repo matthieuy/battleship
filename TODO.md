@@ -22,8 +22,8 @@ TODO
     - [X] Profil page
         - [ ] Change email
         - [ ] Change password
-	- [ ] IA :
-		- [ ] Add avatar
+	- [X] IA :
+		- [X] Add avatar
 - [ ] Mobile :
     - [X] Helper for shoot
     - [ ] Helper for weapon
