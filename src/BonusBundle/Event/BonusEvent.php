@@ -29,4 +29,31 @@ class BonusEvent extends Event
         $this->bonus = $bonus;
         $this->inventory = $inventory;
     }
+
+    /**
+     * Get the player
+     * @return Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
+     * Get the bonus
+     * @return BonusInterface
+     */
+    public function getBonus()
+    {
+        return $this->bonus;
+    }
+
+    /**
+     * Get the inventory
+     * @return Inventory
+     */
+    public function getInventory()
+    {
+        return $this->inventory;
+    }
 }

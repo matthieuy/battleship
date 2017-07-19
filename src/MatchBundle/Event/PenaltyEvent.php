@@ -40,4 +40,31 @@ class PenaltyEvent extends Event
 
         return $this;
     }
+
+    /**
+     * Get the game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * Get the player trigger the penalty
+     * @return Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
+     * Get the player get the penalty
+     * @return Player
+     */
+    public function getVictim()
+    {
+        return $this->victim;
+    }
 }
