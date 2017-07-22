@@ -18,7 +18,7 @@ TODO
 	- [ ] Session with redis or other system (vs MySQL)
     - [X] Profil page
         - [X] Change email
-        - [ ] Change password
+        - [X] Change password
 - [ ] Mobile :
     - [ ] Helper for weapon
 - [ ] Stats :

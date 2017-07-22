@@ -34,7 +34,6 @@ class ProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', Type\EmailType::class)
             ->add('avatar', Type\FileType::class)
             ->add('displayGrid', Type\CheckboxType::class)
             ->add('boxSize', Type\ChoiceType::class, [
