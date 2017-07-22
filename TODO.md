@@ -17,7 +17,7 @@ TODO
 - [ ] Users :
 	- [ ] Session with redis or other system (vs MySQL)
     - [X] Profil page
-        - [ ] Change email
+        - [X] Change email
         - [ ] Change password
 - [ ] Mobile :
     - [ ] Helper for weapon

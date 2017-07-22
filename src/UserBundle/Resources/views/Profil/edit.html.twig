@@ -27,6 +27,12 @@
             {{ form_row(form.boxSize) }}
         </fieldset>
 
+        <fieldset>
+            <legend>Personal informations</legend>
+
+            {{ form_row(form.email) }}
+        </fieldset>
+
         <div class="center">
             {{ form_rest(form) }}
             <input type="submit" value="Save" class="button success">
