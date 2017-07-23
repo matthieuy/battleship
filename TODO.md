@@ -14,11 +14,6 @@ TODO
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
-- [ ] Users :
-	- [ ] Session with redis or other system (vs MySQL)
-    - [X] Profil page
-        - [X] Change email
-        - [X] Change password
 - [ ] Mobile :
     - [ ] Helper for weapon
 - [ ] Stats :
@@ -57,7 +52,7 @@ TODO
 	- [ ] Write howto translate
 - [ ] Tests/Dev :
 	- [ ] Make a dockerfile for users want try or contribute
-	- [X] Script for Debian service (init.d)
+	- [ ] Use yarn instead bower with webpack
 	- [ ] Unit tests
 	- [ ] Script for deploy on git hook (personal TODO)
 	- [ ] Page with websocket client
