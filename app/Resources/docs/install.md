@@ -16,7 +16,7 @@ You need :
 You can install ZeroMQ with this command (on ubuntu/debian like) :
 
 ```
-sudo apt-get install libzmq3-dev php5-zmq
+sudo apt-get install libzmq3-dev php-zmq
 ```
 
 Reload apache/nginx after install it
