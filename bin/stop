@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# This script stop the battleship websocket
+#
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+source $SCRIPTPATH/vars
+
+if [ -e $PIDFILE ]; then
+    echo "Stop websocket"
+    kill -9 $(cat $PIDFILE)
+    rm $PIDFILE
+    exit 0
+else
+    echo "The websocket server seem don't run"
+    exit 1
+fi

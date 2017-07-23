@@ -57,7 +57,7 @@ TODO
 	- [ ] Write howto translate
 - [ ] Tests/Dev :
 	- [ ] Make a dockerfile for users want try or contribute
-	- [ ] Script for Debian service (init.d)
+	- [X] Script for Debian service (init.d)
 	- [ ] Unit tests
 	- [ ] Script for deploy on git hook (personal TODO)
 	- [ ] Page with websocket client

@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# This script update the battleship with the last version
+#
+BRANCH="master"
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+source $SCRIPTPATH/vars
+cd $ROOTPATH
+
+echo "Update git"
+git pull --rebase origin $BRANCH
+
+echo "Composer"
+composer install --quiet -o
+
+# Stop websocket
+./$SCRIPTPATH/stop
+
+echo "Cache"
+./bin/console cache:clear --env=prod
+
+echo "Assets"
+./bin/console maba:webpack:compile --env=prod
+
+# Start websocket
+./$SCRIPTPATH/start
+
+exit 0
