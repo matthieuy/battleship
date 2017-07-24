@@ -44,7 +44,7 @@ class AiFixtures extends AbstractFixture implements OrderedFixtureInterface
                 ->setAi(true)
                 ->setUsername($data['name'])
                 ->setEmail($data['email'].'@ai')
-                ->setLocked(true)
+                ->setEnabled(false)
                 ->setPassword($data['name']);
 
             $manager->persist($ai);
