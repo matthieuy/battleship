@@ -86,7 +86,7 @@ class BoatController extends Controller
         }
 
         // Response
-        $this->getResponse($request, $destPath);
+        return $this->getResponse($request, $destPath);
     }
 
     /**
