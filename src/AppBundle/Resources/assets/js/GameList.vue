@@ -80,7 +80,9 @@
             </tbody>
         </table>
 
-        <strong v-show="loaded && !list.length">Any game</strong>
+        <div class="center" v-show="loaded && !list.length">
+            <strong >Any game</strong>
+        </div>
     </div>
 </template>
 <script>
