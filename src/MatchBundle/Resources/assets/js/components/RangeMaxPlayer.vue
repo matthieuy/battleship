@@ -11,7 +11,6 @@
         props: ['trans'],
         data() {
             return {
-                label: '',
                 error: false,
                 nb_player: 4
             }
@@ -31,3 +30,8 @@
         }
     }
 </script>
+<style lang="less">
+    input[type=range] {
+        border: 1px solid white;
+    }
+</style>
