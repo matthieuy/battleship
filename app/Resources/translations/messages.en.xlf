@@ -14,6 +14,27 @@
                 <source>Game delete successful!</source>
                 <target>Game delete successful!</target>
             </trans-unit>
+            <trans-unit id="4" resname="ask_delete_game">
+                <source>Are you sure to delete the game?</source>
+                <target>Are you sure to delete the game?</target>
+            </trans-unit>
+            <trans-unit id="43792dd1aa12859d7a716d5ef7aabd1cc4fb99da" resname="Name of the game">
+                <source>Name of the game</source>
+                <target>Name of the game</target>
+                <jms:reference-file line="46">/../src/MatchBundle/Form/Type/GameType.php</jms:reference-file>
+            </trans-unit>
+            <trans-unit id="5" resname="enabled">
+                <source>enabled</source>
+                <target>enabled</target>
+            </trans-unit>
+            <trans-unit id="6" resname="disabled">
+                <source>disabled</source>
+                <target>disabled</target>
+            </trans-unit>
+            <trans-unit id="7" resname="loading">
+                <source>Loading...</source>
+                <target>Loading...</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

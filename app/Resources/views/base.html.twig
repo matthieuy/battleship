@@ -46,6 +46,7 @@
             {% webpack js '@app/js/app.js' %}
                 <script src="{{ asset_url }}"></script>
             {% end_webpack %}
+            <script src="{{ path('bazinga_jstranslation_js') }}"></script>
         {% endblock %}
     </body>
 </html>

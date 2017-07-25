@@ -11,6 +11,7 @@ TODO
 - [ ] Game :
     - [ ] ISO view
     - [ ] Shortcuts
+    - [ ] Update status on waiting page
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
@@ -45,7 +46,7 @@ TODO
         - [ ] Tour
         - [ ] Messages
 - [ ] Translate :
-	- [ ] Configure translate :
+	- [X] Configure translate :
 		- [X] Symfony
 		- [X] VueJS
 	- [ ] Translate in French

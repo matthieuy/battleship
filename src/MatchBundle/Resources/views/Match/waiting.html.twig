@@ -14,6 +14,7 @@
     {% webpack js '@match/js/waiting/waiting.js' %}
         <script src="{{ asset_url }}"></script>
     {% end_webpack %}
+    <script src="{{ path('bazinga_jstranslation_js', {domain: 'form'}) }}"></script>
 {% endblock %}
 
 {% block body %}

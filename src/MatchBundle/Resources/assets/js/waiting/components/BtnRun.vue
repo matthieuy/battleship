@@ -15,14 +15,12 @@
     import * as types from "../store/mutation-types"
 
     export default {
-        props: {
-            name: {type: String, default: 'Start'},
-            desc: {type: String, default: 'Once everyone is ready<br>and configured options: you can start the game!'},
-        },
         data() {
             return {
                 loading: false,
                 disabled: true,
+                name: Translator.trans('btn_run'),
+                tip: `<strong>${this.name} :</strong>${Translator.trans('btn_run_tip').replace('\n', '<br>')}`,
             }
         },
         computed: {
@@ -32,9 +30,6 @@
                 'players',
                 'loaded',
             ]),
-            tip() {
-                return `<strong>${this.name} :</strong>${this.desc}`
-            },
             btnClass() {
                 this.disabled = this.players.length < 2 || this.game.max < this.players.length || this.loading
                 return {
@@ -57,21 +52,21 @@
 
                 // Check team
                 if (nbTeam <= 1) {
-                    return Flash.error('The game must consist with SEVERAL teams')
+                    return Flash.error('error_team')
                 }
                 for(let i=1; i<=nbTeam; i++) {
                     if (typeof teamList[i] == 'undefined') {
-                        return Flash.error('Nobody in team #'+i+' !')
+                        return Flash.error(Translator.trans('error_empty_team', {team: i}))
                     }
                 }
 
                 // Any human player ?
                 if ($('#playerlist tbody .fa-gamepad').length === 0) {
-                    return Flash.error('Game contains only AI!')
+                    return Flash.error('error_ai')
                 }
 
                 // Confirm ?
-                if (!window.confirm('Are you sure to start the game ?')) {
+                if (!window.confirm(Translator.trans('confirm_start'))) {
                     return false
                 }
 

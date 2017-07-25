@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th>
-                    Console
+                    {{ trans('Console') }}
                     <div class="fa caret"></div>
                 </th>
             </tr>
@@ -25,10 +25,13 @@
         data() {
             return {
                 list: [],
+                trans() {
+                    return Translator.trans(...arguments)
+                },
             }
         },
         mounted() {
-            this.list.unshift('Loading game...')
+            this.list.unshift(Translator.trans('loading'))
             let topicName = 'game/' + document.getElementById('slug').value + '/wait'
             WS.subscribeAction(topicName, 'console', (txt) => this.list.unshift(txt))
         },

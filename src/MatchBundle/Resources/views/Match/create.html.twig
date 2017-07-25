@@ -5,7 +5,7 @@
     <h1 class="center">{{ 'Create game'|trans({}, 'menu') }}</h1>
     {{ form_start(form, {attr: {class: 'column small-12 large-5 large-centered'}}) }}
         {{ form_rest(form) }}
-        <maxplayer trans="{{ '%d players'|trans({}, 'form') }}"></maxplayer>
+        <maxplayer trans="{{ 'nb_players'|trans({}, 'form') }}"></maxplayer>
         <div class="center">
             <input type="submit" value="{{ 'Create game'|trans({}, 'menu') }}" class="button success round small-12 large-5">
         </div>
@@ -17,4 +17,5 @@
     {% webpack js '@match/js/create.js' %}
         <script src="{{ asset_url }}"></script>
     {% end_webpack %}
+    <script src="{{ path('bazinga_jstranslation_js', {domain: 'form'}) }}"></script>
 {% endblock %}

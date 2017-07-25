@@ -6,9 +6,9 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
-      <trans-unit id="bec60623dde16de1416db70370d9e4fcb3708b1c" resname="%d players">
-        <source>%d players</source>
-        <target>%d players</target>
+      <trans-unit id="bec60623dde16de1416db70370d9e4fcb3708b1c" resname="nb_players">
+        <source>%nb% players</source>
+        <target>%nb% players</target>
         <jms:reference-file line="8">/../src/MatchBundle/Resources/views/Match/create.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="43792dd1aa12859d7a716d5ef7aabd1cc4fb99da" resname="Name of the game">
