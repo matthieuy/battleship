@@ -52,7 +52,7 @@ TODO
 	- [ ] Write howto translate
 - [ ] Tests/Dev :
 	- [X] Make a dockerfile for users want try or contribute
-	- [ ] Use yarn instead bower with webpack
+	- [X] Use yarn instead bower with webpack
 	- [ ] Unit tests
 	- [ ] Script for deploy on git hook (personal TODO)
 	- [ ] Page with websocket client

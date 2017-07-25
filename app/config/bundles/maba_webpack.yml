@@ -7,7 +7,6 @@ maba_webpack:
             dev_server_public_path: "http://%socket_uri%:8080/compiled/"
     aliases:
         additional:
-            bower: "%kernel.root_dir%/Resources/bower"
             npm: "%kernel.root_dir%/../node_modules"
             vendor: "%kernel.root_dir%/../vendor"
             web: "%kernel.root_dir%/../web"

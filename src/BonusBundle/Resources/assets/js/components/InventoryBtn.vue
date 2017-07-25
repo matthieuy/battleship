@@ -11,7 +11,7 @@
     import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
     //Bower
-    import Favico from '@bower/favico.js/favico.js'
+    import Favico from '@npm/favico.js/favico.js'
     let BubbleInventory = null
 
     export default {

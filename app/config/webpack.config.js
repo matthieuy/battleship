@@ -262,8 +262,7 @@ module.exports = function makeWebpackConfig(options) {
          * https://github.com/adchsm/Slidebars/pull/264#issuecomment-310917431
          */
         new webpack.ProvidePlugin({
-            slidebars: 'exports-loader?slidebars!@bower/slidebars/dist/slidebars.js',
-            //slidebars: 'exports-loader?slidebars!slidebars/dist/slidebars',
+            slidebars: 'exports-loader?slidebars!@npm/slidebars/dist/slidebars.js',
         }),
     ];
 

@@ -10,7 +10,7 @@
     import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
-    import Favico from "@bower/favico.js/favico.js"
+    import Favico from "@npm/favico.js/favico.js"
     let BubbleLife = null
 
     export default {

@@ -1,10 +1,10 @@
 // Require JS libs
 require('@app/js/table.js')
 require('@app/js/tooltips.js')
-require('@bower/jquery-ui/ui/core.js')
-require('@bower/jquery-ui/ui/widget.js')
-require('@bower/jquery-ui/ui/widgets/mouse.js')
-require('@bower/jquery-ui/ui/widgets/sortable.js')
+require('@npm/jquery-ui/ui/core.js')
+require('@npm/jquery-ui/ui/widget.js')
+require('@npm/jquery-ui/ui/widgets/mouse.js')
+require('@npm/jquery-ui/ui/widgets/sortable.js')
 
 // Imports
 import Vue from "vue"

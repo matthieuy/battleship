@@ -30,8 +30,8 @@
     import store from "../store/GameStore"
 
     // Bower require
-    let async = require('@bower/async/dist/async.min.js')
-    let Velocity = require('@bower/velocity/velocity.js')
+    let async = require('@npm/async/dist/async.min.js')
+    let Velocity = require('@npm/velocity-animate/velocity.js')
 
     // Mobile shoot
     let pressTimer = null

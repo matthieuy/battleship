@@ -40,7 +40,6 @@ Reload apache/nginx after install it
 ```
 composer install -o
 yarn install
-bower install
 php bin/console maba:webpack:compile --env=prod
 ```
 
