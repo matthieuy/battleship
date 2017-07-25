@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
-    <body>
-      <trans-unit id="1" resname="error_ws">
-        <source>Error connecting Websocket!</source>
-        <target>Error connecting Websocket!</target>
-      </trans-unit>
-    </body>
-  </file>
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="1" resname="error_ws">
+                <source>Error connecting Websocket!</source>
+                <target>Error connecting Websocket!</target>
+            </trans-unit>
+            <trans-unit id="2" resname="Bad request">
+                <source>Bad request</source>
+                <target>Bad request</target>
+            </trans-unit>
+            <trans-unit id="3" resname="Game delete successful!">
+                <source>Game delete successful!</source>
+                <target>Game delete successful!</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>
