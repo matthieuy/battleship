@@ -94,7 +94,7 @@
             },
             // highlight the bonus
             highlight(bonus) {
-                if (bonus == null || bonus.use || this.gameover) {
+                if (bonus === null || bonus.use || this.gameover) {
                     this.raz()
                 } else {
                     this.selected = bonus
@@ -119,17 +119,17 @@
                 switch (bonus.options.select) {
                     // All players (except himself)
                     case 'all':
-                        this.playersList = this.players.filter((player) => !player.me)
+                        this.playersList = this.players.filter((player) => !player.me && player.life > 0)
                         break
 
                     // Players in same team
                     case 'friends':
-                        this.playersList = this.players.filter((player) => player.team == this.inventory.team && !player.me)
+                        this.playersList = this.players.filter((player) => player.team == this.inventory.team && !player.me && player.life > 0)
                         break
 
                     // Enemy
                     case 'enemy':
-                        this.playersList = this.players.filter((player) => player.team != this.inventory.team)
+                        this.playersList = this.players.filter((player) => player.team != this.inventory.team && player.life > 0)
                         break
 
                     default:
