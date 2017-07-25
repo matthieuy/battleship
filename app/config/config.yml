@@ -7,6 +7,7 @@ imports:
     - { resource: bundles/doctrine_migrate.yml }
     - { resource: bundles/maba_webpack.yml }
     - { resource: bundles/gos_websocket.yml }
+    - { resource: bundles/translate.yml }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@MatchBundle/Resources/config/services.yml" }
@@ -19,6 +20,7 @@ imports:
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
+    default_locale:  "%locale%"
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"

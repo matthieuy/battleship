@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
+            new JMS\TranslationBundle\JMSTranslationBundle(),
 
             // Bundle
             new AppBundle\AppBundle(),
@@ -40,6 +41,8 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new \Symfony\Bundle\WebServerBundle\WebServerBundle();
+            $bundles[] = new JMS\DiExtraBundle\JMSDiExtraBundle($this);
+            $bundles[] = new JMS\AopBundle\JMSAopBundle();
         }
 
         return $bundles;
