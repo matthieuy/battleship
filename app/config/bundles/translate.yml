@@ -5,3 +5,9 @@ jms_translation:
             output_dir: "%kernel.root_dir%/Resources/translations"
             ignored_domains: [FOSUserBundle]
             excluded_names: ["User.php"]
+
+bazinga_js_translation:
+    default_domain: messages
+    locale_fallback: "en"
+    active_locales:
+            - en

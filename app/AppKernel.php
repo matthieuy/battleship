@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new JMS\TranslationBundle\JMSTranslationBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
 
             // Bundle
             new AppBundle\AppBundle(),

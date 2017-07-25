@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}{{ 'app_name'|trans({}, 'app') }}{% endblock %}</title>

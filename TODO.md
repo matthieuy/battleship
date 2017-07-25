@@ -47,7 +47,7 @@ TODO
 - [ ] Translate :
 	- [ ] Configure translate :
 		- [X] Symfony
-		- [ ] VueJS
+		- [X] VueJS
 	- [ ] Translate in French
 	- [ ] Write howto translate
 - [ ] Tests/Dev :

@@ -1,5 +1,6 @@
 // Require
 require('jquery')
+window.Translator = require('bazinga-translator')
 
 // Flash message
 var FlashSystem = require('./Flash')
