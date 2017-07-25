@@ -3,3 +3,5 @@ jms_translation:
         app:
             dirs: ["%kernel.root_dir%", "%kernel.root_dir%/../src"]
             output_dir: "%kernel.root_dir%/Resources/translations"
+            ignored_domains: [FOSUserBundle]
+            excluded_names: ["User.php"]

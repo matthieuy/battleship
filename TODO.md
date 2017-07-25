@@ -46,7 +46,7 @@ TODO
         - [ ] Messages
 - [ ] Translate :
 	- [ ] Configure translate :
-		- [ ] Symfony
+		- [X] Symfony
 		- [ ] VueJS
 	- [ ] Translate in French
 	- [ ] Write howto translate

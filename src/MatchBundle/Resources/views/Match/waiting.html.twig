@@ -1,3 +1,4 @@
+{% trans_default_domain 'waiting' %}
 {% extends "::base.html.twig" %}
 {% block title %}{{ game.name }} - {{ parent() }}{% endblock %}
 
@@ -46,41 +47,41 @@
                     <thead>
                     <tr>
                         <th colspan="2">
-                            Score
+                            {{ 'Score'|trans({}, 'menu') }}
                             <div class="fa caret"></div>
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Discovery
-                            <span class="fa opentip" data-tip="<strong>Discovery :</strong>The first hit on the boat."></span> :
+                        <td>{{ 'Discovery'|trans }}
+                            <span class="fa opentip" data-tip="<strong>{{ 'Discovery'|trans }} :</strong>{{ 'The first hit on the boat.'|trans }}"></span> :
                         </td>
-                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DISCOVERY") }}</strong> points</td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DISCOVERY") }}</strong> {{ 'points'|trans }}</td>
                     </tr>
                     <tr>
-                        <td>Direction
-                            <span class="fa opentip" data-tip="<strong>Direction :</strong>The second hit on the boat"></span> :
+                        <td>{{ 'Direction'|trans }}
+                            <span class="fa opentip" data-tip="<strong>{{ 'Direction'|trans }} :</strong>{{ 'The second hit on the boat.'|trans }}"></span> :
                         </td>
-                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DIRECTION") }}</strong> points</td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_DIRECTION") }}</strong> {{ 'points'|trans }}</td>
                     </tr>
                     <tr>
-                        <td>Touch
-                            <span class="fa opentip" data-tip="<strong>Touch :</strong>Touch a boat."></span> :
+                        <td>{{ 'Touch'|trans }}
+                            <span class="fa opentip" data-tip="<strong>{{ 'Touch'|trans }} :</strong>{{ 'Touch a boat.'|trans }}"></span> :
                         </td>
-                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_TOUCH") }}</strong> points</td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_TOUCH") }}</strong> {{ 'points'|trans }}</td>
                     </tr>
                     <tr>
-                        <td>Sink
-                            <span class="fa opentip" data-tip="<strong>Sink :</strong>Last shot on a boat."></span> :
+                        <td>{{ 'Sink'|trans }}
+                            <span class="fa opentip" data-tip="<strong>{{ 'Sink'|trans }} :</strong>{{ 'Last shot on a boat.'|trans }}"></span> :
                         </td>
-                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_SINK") }}</strong> points</td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_SINK") }}</strong> {{ 'points'|trans }}</td>
                     </tr>
                     <tr>
-                        <td>Blow
-                            <span class="fa opentip" data-tip="<strong>Blow :</strong>Sink the last boat of your enemy."></span> :
+                        <td>{{ 'Blow'|trans }}
+                            <span class="fa opentip" data-tip="<strong>{{ 'Blow'|trans }} :</strong>{{ 'Sink the last boat of your enemy.'|trans }}"></span> :
                         </td>
-                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_FATAL") }}</strong> points</td>
+                        <td><strong>{{ constant("MatchBundle\\PointsConstant::SCORE_FATAL") }}</strong> {{ 'points'|trans }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -104,7 +105,7 @@
                 <table class="small-12">
                     <thead>
                         <tr>
-                            <th>Actions</th>
+                            <th>{{ 'Actions'|trans }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,7 +115,7 @@
                                 <btn-ai></btn-ai>
                                 <btn-run></btn-run>
                                 {% if isCreator %}
-                                    <a id="btn-delete" href="{{ path('match.delete', {slug: game.slug}) }}" class="button alert round small-12 large-2 opentip" data-tip="<strong>Delete :</strong> delete the game">Delete</a>
+                                    <a id="btn-delete" href="{{ path('match.delete', {slug: game.slug}) }}" class="button alert round small-12 large-2 opentip" data-tip="<strong>{{ 'Delete'|trans({}, 'menu') }} :</strong> {{ 'Delete the game'|trans({}, 'menu') }}">{{ 'Delete'|trans({}, 'menu') }}</a>
                                 {% endif %}
                             </td>
                         </tr>

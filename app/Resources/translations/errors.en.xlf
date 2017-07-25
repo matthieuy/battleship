@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="d12ca650871335dade46b2052d0b2d3c5613b502" resname="error_code">
+        <source>error_code</source>
+        <target>Error %code%</target>
+        <jms:reference-file line="3">/Resources/TwigBundle/views/Exception/error.html.twig</jms:reference-file>
+        <jms:reference-file line="7">/Resources/TwigBundle/views/Exception/error.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b6e13ad53d8ec41b034c49f131c64e99cf25207a" resname="javascript">
+        <source>javascript</source>
+        <target>This game require javascript enable !</target>
+        <jms:reference-file line="35">/Resources/views/base.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

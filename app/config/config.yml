@@ -31,7 +31,6 @@ framework:
     #serializer:      { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
     trusted_hosts:   ~
     session:
         name: "%session_name%"

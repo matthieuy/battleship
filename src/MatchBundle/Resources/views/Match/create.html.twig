@@ -2,12 +2,12 @@
 {% block title %}Create game - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1 class="center">Create game</h1>
+    <h1 class="center">{{ 'Create game'|trans({}, 'menu') }}</h1>
     {{ form_start(form, {attr: {class: 'column small-12 large-5 large-centered'}}) }}
         {{ form_rest(form) }}
-        <maxplayer trans="%d players"></maxplayer>
+        <maxplayer trans="{{ '%d players'|trans({}, 'form') }}"></maxplayer>
         <div class="center">
-            <input type="submit" value="Create game" class="button success round small-12 large-5">
+            <input type="submit" value="{{ 'Create game'|trans({}, 'menu') }}" class="button success round small-12 large-5">
         </div>
     {{ form_end(form) }}
 {% endblock %}
