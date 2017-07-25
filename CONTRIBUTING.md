@@ -9,7 +9,7 @@ Open a [issue](https://github.com/matthieuy/battleship/issues) for question or b
 
     git clone git@github.com:your-username/battleship.git
 
-- Make your change
+- Make your change (you can use the [docker image](app/Resources/docs/docker.md))
 - Check code with :
     ```shell
     ./bin/coke

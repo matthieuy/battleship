@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+    db:
+        image: mariadb
+        volumes:
+            - "../../var/docker/db:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    php:
+        build: php
+        volumes:
+            - "../../:/var/www/battleship:rw"
+        ports:
+            - ${WEBSOCKET_PORT}:8080
+
+    nginx:
+        build: nginx
+        volumes:
+            - "../../var/logs:/var/log/nginx"
+        volumes_from:
+            - php
+        ports:
+            - ${WEB_PORT_LISTEN}:80

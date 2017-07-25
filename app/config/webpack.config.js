@@ -34,7 +34,7 @@ module.exports = function makeWebpackConfig(options) {
     } else if (options.parameters.public_path) {
         publicPath = options.parameters.public_path;
     } else {
-        publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/compiled/';
+        publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/assets/';
     }
 
     /**

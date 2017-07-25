@@ -9,4 +9,4 @@ source $SCRIPTPATH/vars
 cd $ROOTPATH
 
 echo "Start Websocket"
-./bin/console gos:websocket:server --env=prod & echo $! > $PIDFILE
+./bin/console gos:websocket:server --env=prod $@ & echo $! > $PIDFILE
