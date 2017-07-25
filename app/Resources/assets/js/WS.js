@@ -44,7 +44,7 @@ let WS = (function(uri) {
                 that._session = false
                 console.error('[Socket] Error : ' + reason + ' (code:' + code + ')')
                 if (code === 3) {
-                    return Flash.error("Error connecting Websocket!")
+                    return Flash.error(Translator.trans("error_ws"))
                 }
                 that.fire({
                     type: "socket/disconnect",

@@ -14,7 +14,7 @@
       <trans-unit id="0e7ae92c73441f43604a6fa214f3620c46742b52" resname="Create game">
         <source>Create game</source>
         <target>Create game</target>
-        <jms:reference-file line="23">/../src/AppBundle/Resources/views/homepage/homepage.html.twig</jms:reference-file>
+        <jms:reference-file line="24">/../src/AppBundle/Resources/views/homepage/homepage.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/MatchBundle/Resources/views/Match/create.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/MatchBundle/Resources/views/Match/create.html.twig</jms:reference-file>
         <jms:reference-file line="18">/Resources/views/sidebar.html.twig</jms:reference-file>
