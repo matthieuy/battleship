@@ -1,79 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
-    <header>
-      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
-      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
-    </header>
     <body>
       <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
         <source>Actions</source>
         <target>Actions</target>
-        <jms:reference-file line="108">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="45461202537a9ee95ad4d538f09250f871c2429e" resname="Blow">
         <source>Blow</source>
         <target>Blow</target>
-        <jms:reference-file line="81">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="82">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fd8e45bac7d354790ec0a82d8a61341bf8acd055" resname="Direction">
         <source>Direction</source>
         <target>Direction</target>
-        <jms:reference-file line="63">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="64">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3b3290c7fa38e8995548177b7dc6f6f38a686a22" resname="Discovery">
         <source>Discovery</source>
         <target>Discovery</target>
-        <jms:reference-file line="57">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="58">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a87d6df2cb394ce24dd6ec032f09712af4ce7092" resname="Last shot on a boat.">
         <source>Last shot on a boat.</source>
         <target>Last shot on a boat.</target>
-        <jms:reference-file line="76">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e53e8d5300c878019a997d4cfb7201c7ed2ee003" resname="Sink">
         <source>Sink</source>
         <target>Sink</target>
-        <jms:reference-file line="75">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="76">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3d60d9cae0c08d91b8e982574a0919fc87bfebb9" resname="Sink the last boat of your enemy.">
         <source>Sink the last boat of your enemy.</source>
         <target>Sink the last boat of your enemy.</target>
-        <jms:reference-file line="82">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3ce4775684b53d7ef6231f14af5a5c336f411ee" resname="The first hit on the boat.">
         <source>The first hit on the boat.</source>
         <target>The first hit on the boat.</target>
-        <jms:reference-file line="58">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="735ce1f4aadb6a9e213d81b7cf8816a206d05cdf" resname="The second hit on the boat.">
         <source>The second hit on the boat.</source>
         <target>The second hit on the boat.</target>
-        <jms:reference-file line="64">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e3f139abb7a549a1210b36f7dbf89215ad6c9902" resname="Touch">
         <source>Touch</source>
         <target>Touch</target>
-        <jms:reference-file line="69">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="70">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="613c96d8e23ce610cee7f34861c948adbe448b58" resname="Touch a boat.">
         <source>Touch a boat.</source>
         <target>Touch a boat.</target>
-        <jms:reference-file line="70">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="819f41f058379eb51168ff0ad732be993fa49610" resname="points">
         <source>points</source>
         <target>points</target>
-        <jms:reference-file line="60">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="66">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="72">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="78">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="84">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>

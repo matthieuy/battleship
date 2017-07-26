@@ -1,51 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
-    <header>
-      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
-      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
-    </header>
     <body>
       <trans-unit id="6c9fc990898478022834278db2a52594773d2b71" resname="Close menu">
         <source>Close menu</source>
         <target>Close menu</target>
-        <jms:reference-file line="32">/Resources/views/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0e7ae92c73441f43604a6fa214f3620c46742b52" resname="Create game">
         <source>Create game</source>
         <target>Create game</target>
-        <jms:reference-file line="24">/../src/AppBundle/Resources/views/homepage/homepage.html.twig</jms:reference-file>
-        <jms:reference-file line="10">/../src/MatchBundle/Resources/views/Match/create.html.twig</jms:reference-file>
-        <jms:reference-file line="5">/../src/MatchBundle/Resources/views/Match/create.html.twig</jms:reference-file>
-        <jms:reference-file line="18">/Resources/views/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
         <target>Delete</target>
-        <jms:reference-file line="118">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d93988b3e244d78fb45b6770ef39d4df5e3d6fdf" resname="Delete the game">
         <source>Delete the game</source>
         <target>Delete the game</target>
-        <jms:reference-file line="118">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
-        <jms:reference-file line="23">/Resources/views/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="489f4877244a299131d309f0ca10733c1a41251c" resname="Score">
         <source>Score</source>
         <target>Score</target>
-        <jms:reference-file line="50">/../src/MatchBundle/Resources/views/Match/waiting.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e83249bd3ba79932e16fb1fb5100dafade9954c2" resname="home">
         <source>home</source>
         <target>Home</target>
-        <jms:reference-file line="10">/Resources/TwigBundle/views/Exception/error.html.twig</jms:reference-file>
-        <jms:reference-file line="15">/Resources/views/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="252a25667dc7c65fe0e9bf62d474bbab9bab4068" resname="menu">
         <source>menu</source>
         <target>Menu</target>
-        <jms:reference-file line="3">/Resources/views/sidebar.html.twig</jms:reference-file>
-        <jms:reference-file line="5">/Resources/views/topbar.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>

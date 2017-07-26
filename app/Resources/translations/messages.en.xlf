@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
         <body>
             <trans-unit id="1" resname="error_ws">
@@ -21,7 +21,6 @@
             <trans-unit id="43792dd1aa12859d7a716d5ef7aabd1cc4fb99da" resname="Name of the game">
                 <source>Name of the game</source>
                 <target>Name of the game</target>
-                <jms:reference-file line="46">/../src/MatchBundle/Form/Type/GameType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="5" resname="enabled">
                 <source>enabled</source>
