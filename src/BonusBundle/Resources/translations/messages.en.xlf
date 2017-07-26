@@ -30,6 +30,18 @@
                 <source>Flash</source>
                 <target>Flash</target>
             </trans-unit>
+            <trans-unit id="bonus8" resname="Inventory">
+                <source>Inventory</source>
+                <target>Inventory</target>
+            </trans-unit>
+            <trans-unit id="bonus9" resname="use_it">
+                <source>Use it</source>
+                <target>Use it</target>
+            </trans-unit>
+            <trans-unit id="bonus10" resname="select_target">
+                <source>Select target</source>
+                <target>Select target</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
