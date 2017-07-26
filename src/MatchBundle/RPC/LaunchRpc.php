@@ -154,7 +154,6 @@ class LaunchRpc implements RpcInterface
                 $grid[$y][$x] = [];
             }
         }
-        sleep(1);
 
         $boatList = Boats::getList();
         $players = $game->getPlayers();
@@ -268,7 +267,6 @@ class LaunchRpc implements RpcInterface
                         $currentX += $dx;
                         $currentY += $dy;
                     }
-                    sleep(1);
 
                     // Boat info [number, length, touch]
                     $boatInfo[$player->getPosition()][] = [$boatNumber, $lengthBoat, 0];
@@ -311,7 +309,6 @@ class LaunchRpc implements RpcInterface
         }
 
         $game->setGrid($clearGrid);
-        sleep(1);
     }
 
     /**
