@@ -25,6 +25,7 @@ Features
 - Weapons
 - Bonus and inventory
 - Animate shot
+- Translations
 
 
 Installation
@@ -51,7 +52,6 @@ Tests
 TODO
 ====
 
-- Translate
 - Chat room
 - Notifications system
 
