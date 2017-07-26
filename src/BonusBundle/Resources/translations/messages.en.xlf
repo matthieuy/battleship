@@ -42,6 +42,22 @@
                 <source>Select target</source>
                 <target>Select target</target>
             </trans-unit>
+            <trans-unit id="bonus11" resname="bonus.point">
+                <source>Points</source>
+                <target>Points</target>
+            </trans-unit>
+            <trans-unit id="bonus12" resname="bonus.point.desc">
+                <source>Add points</source>
+                <target>Add points</target>
+            </trans-unit>
+            <trans-unit id="bonus13" resname="bonus.point.team">
+                <source>Team points</source>
+                <target>Team points</target>
+            </trans-unit>
+            <trans-unit id="bonus14" resname="bonus.point.team.desc">
+                <source>Add points to all players in your team</source>
+                <target>Add points to all players in your team</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
