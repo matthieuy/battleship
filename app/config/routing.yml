@@ -1,8 +1,3 @@
-bonus:
-    resource: "@BonusBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 # AppBundle
 app:
     resource: "@AppBundle/Controller/"
@@ -20,6 +15,16 @@ fos:
 # MatchBundle
 match:
     resource: "@MatchBundle/Controller/"
+    type:     annotation
+
+# BonusBundle
+bonus:
+    resource: "@BonusBundle/Controller/"
+    type:     annotation
+
+# ChatBundle
+chat:
+    resource: "@ChatBundle/Controller/"
     type:     annotation
 
 # JS Translation

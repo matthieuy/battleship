@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new MatchBundle\MatchBundle(),
             new BonusBundle\BonusBundle(),
+            new ChatBundle\ChatBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
