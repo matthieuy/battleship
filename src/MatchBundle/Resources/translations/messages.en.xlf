@@ -150,6 +150,38 @@
                 <source>Error while generate grid</source>
                 <target>Error while generate grid</target>
             </trans-unit>
+            <trans-unit id="match38" resname="gameover">
+                <source>Game is over</source>
+                <target>Game is over</target>
+            </trans-unit>
+            <trans-unit id="match39" resname="error_shoot">
+                <source>You can't shoot here</source>
+                <target>You can't shoot here</target>
+            </trans-unit>
+            <trans-unit id="match40" resname="error_tour">
+                <source>You can't play now!</source>
+                <target>You can't play now!</target>
+            </trans-unit>
+            <trans-unit id="match41" resname="already_shoot">
+                <source>Someone already shoot here!</source>
+                <target>Someone already shoot here!</target>
+            </trans-unit>
+            <trans-unit id="match42" resname="own_boat">
+                <source>Unable to shoot own boats!</source>
+                <target>Unable to shoot own boats!</target>
+            </trans-unit>
+            <trans-unit id="match43" resname="team_shoot">
+                <source>Team shoot is forbidden!</source>
+                <target>Team shoot is forbidden!</target>
+            </trans-unit>
+            <trans-unit id="match44" resname="error_player404">
+                <source>Player not found</source>
+                <target>Player not found</target>
+            </trans-unit>
+            <trans-unit id="match45" resname="error_boat404">
+                <source>The boat not found</source>
+                <target>The boat not found</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
