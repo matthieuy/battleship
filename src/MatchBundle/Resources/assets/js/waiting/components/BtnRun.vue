@@ -20,7 +20,7 @@
                 loading: false,
                 disabled: true,
                 name: Translator.trans('btn_run'),
-                tip: `<strong>${this.name} :</strong>${Translator.trans('btn_run_tip').replace('\n', '<br>')}`,
+                tip: `<strong>${Translator.trans('btn_run')} :</strong>${Translator.trans('btn_run_tip').replace('\n', '<br>')}`,
             }
         },
         computed: {
