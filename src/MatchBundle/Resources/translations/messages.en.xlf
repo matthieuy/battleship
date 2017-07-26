@@ -182,6 +182,30 @@
                 <source>The boat not found</source>
                 <target>The boat not found</target>
             </trans-unit>
+            <trans-unit id="match46" resname="shoot_of">
+                <source>Shot of %name%</source>
+                <target>Shot of %name%</target>
+            </trans-unit>
+            <trans-unit id="match47" resname="boat_of">
+                <source>Boat of %name%</source>
+                <target>Boat of %name%</target>
+            </trans-unit>
+            <trans-unit id="match48" resname="your_boat">
+                <source>Your boat</source>
+                <target>Your boat</target>
+            </trans-unit>
+            <trans-unit id="match49" resname="your_shot">
+                <source>Your shot</source>
+                <target>Your shot</target>
+            </trans-unit>
+            <trans-unit id="match50" resname="winner_list">
+                <source>Winner : %list%</source>
+                <target>Winner : %list%</target>
+            </trans-unit>
+            <trans-unit id="match51" resname="waiting_list">
+                <source>Waiting shot of %list%</source>
+                <target>Waiting shot of %list%</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

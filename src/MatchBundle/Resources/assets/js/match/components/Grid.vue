@@ -68,7 +68,7 @@
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        store.commit(MUTATION.SET_STATUS, shooter.name + "'s shot")
+                        store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'+img.shoot), {
@@ -187,11 +187,11 @@
                 // Victim or same team
                 if (box.player != null) {
                     if (this.me && this.me.position == box.player) {
-                        tooltip.push("Your boat")
+                        tooltip.push(Translator.trans('your_boat'))
                     } else {
                         let victim = this.playerById(box.player)
                         if (victim) {
-                            tooltip.push("Boat of " + victim.name)
+                            tooltip.push(Translator.trans('boat_of', {name: victim.name}))
                         }
                     }
                 }
@@ -199,11 +199,11 @@
                 // Shooter
                 if (box.shoot != null) {
                     if (this.me && this.me.position == box.shoot) {
-                        tooltip.push("Your shot")
+                        tooltip.push(Translator.trans('your_shot'))
                     } else {
                         let shooter = this.playerById(box.shoot)
                         if (shooter) {
-                            tooltip.push("Shot of " + shooter.name)
+                            tooltip.push(Translator.trans('shoot_of', {name: shooter.name}))
                         }
                     }
                 }
@@ -219,9 +219,9 @@
                     players.push(self.playerById(playerId).name)
                 })
                 if (this.gameover) {
-                    store.commit(MUTATION.SET_STATUS, "Winner : " + players.join(', '))
+                    store.commit(MUTATION.SET_STATUS, Translator.trans('winner_list', {list: players.join(', ')}))
                 } else {
-                    store.commit(MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
+                    store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
                 }
             },
         },

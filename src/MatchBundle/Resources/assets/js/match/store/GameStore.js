@@ -21,7 +21,7 @@ const state = {
     options: {},
     me: null,
     grid: [],
-    status: 'Loading game...',
+    status: Translator.trans('loading'),
     gameover: false,
 }
 
