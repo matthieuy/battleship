@@ -5,7 +5,7 @@ TODO
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
 - [ ] Documentations :
-	- [ ] HowTo add a weapon
+	- [X] HowTo add a weapon
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
 - [ ] Game :

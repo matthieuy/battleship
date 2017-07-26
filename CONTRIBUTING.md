@@ -34,3 +34,8 @@ How to translate (ex: in IT) :
 - Translate file (the `target` balise)
 - Edit the `app/config/bundles/translate.yml` file and add `it` in `bazinga_js_translation.active_locales` parameter
 - Do a [Pull request](https://github.com/matthieuy/battleship/pulls) on `develop` branch
+
+
+# Add weapon
+
+If you want more weapons, read the guide how to [create weapon](src/BonusBundle/Resources/docs/weapon.md)
