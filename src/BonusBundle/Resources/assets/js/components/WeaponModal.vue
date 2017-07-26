@@ -6,8 +6,8 @@
                 <div class="modal-content">
                     <div id="modal-weapon" v-on:click.stop.prevent="">
                         <div class="center">
-                            <h1>Weapons</h1>
-                            <div v-show="isUser"><strong>{{ score }}</strong> points</div>
+                            <h1>{{ trans('weapon_name') }}</h1>
+                            <div v-show="isUser"><strong>{{ transChoice('points_plurial', score, {nb: score}) }}</strong></div>
                         </div>
                         <div class="clear"></div>
 
@@ -15,8 +15,8 @@
                             <div class="row">
                                 <div class="large-3 column" v-for="w in weapon.list">
                                     <div class="center weapon" :class="classWeapon(w)" @click="highlight(w)">
-                                        <h3>{{ w.name }}</h3>
-                                        <em>Price: {{ w.price }} points</em>
+                                        <h3>{{ trans(w.name) }}</h3>
+                                        <em>{{ trans('Price') }} : {{ transChoice('points_plurial', w.price, {nb: w.price}) }}</em>
                                         <div class="grid weapon-model" :style="styleModel(w)">
                                             <div class="clear row" v-for="row in w.grid">
                                                 <span class="box" v-for="box in row" :class="{'explose hit animated': box }"></span>
@@ -30,9 +30,9 @@
                         <div class="clear"></div>
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button primary small-10 large-3" @click="rotate()">Rotate</button>
-                                <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">Select</button>
-                                <button class="button alert small-10 large-3" @click="close()">Cancel</button>
+                                <button class="button primary small-10 large-3" @click="rotate()">{{ trans('Rotate') }}</button>
+                                <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">{{ trans('Select') }}</button>
+                                <button class="button alert small-10 large-3" @click="close()">{{ trans('Close') }}</button>
                             </div>
                         </div>
                     </div>
@@ -51,6 +51,12 @@
         data() {
             return {
                 selected: null,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+                transChoice() {
+                    return Translator.transChoice(...arguments)
+                },
             }
         },
         computed: {

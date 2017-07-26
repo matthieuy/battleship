@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="bonus1" resname="Price">
+                <source>Price</source>
+                <target>Price</target>
+            </trans-unit>
+            <trans-unit id="bonus2" resname="Rotate">
+                <source>Rotate</source>
+                <target>Rotate</target>
+            </trans-unit>
+            <trans-unit id="bonus3" resname="Select">
+                <source>Select</source>
+                <target>Select</target>
+            </trans-unit>
+            <trans-unit id="bonus4" resname="weapon.bomber">
+                <source>Bomber</source>
+                <target>Bomber</target>
+            </trans-unit>
+            <trans-unit id="bonus5" resname="weapon.gust">
+                <source>Gust</source>
+                <target>Gust</target>
+            </trans-unit>
+            <trans-unit id="bonus6" resname="weapon.mortar">
+                <source>Mortar</source>
+                <target>Mortar</target>
+            </trans-unit>
+            <trans-unit id="bonus7" resname="weapon.flash">
+                <source>Flash</source>
+                <target>Flash</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
