@@ -1,0 +1,8 @@
+# Chat topic
+chat.topic:
+    channel: 'chat/{slug}'
+    handler:
+        callback: 'chat'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'

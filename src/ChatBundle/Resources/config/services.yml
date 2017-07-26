@@ -1,1 +1,9 @@
 services:
+    # Chat topic
+    chat.topic:
+        class: ChatBundle\Topic\ChatTopic
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: gos_web_socket.topic }
