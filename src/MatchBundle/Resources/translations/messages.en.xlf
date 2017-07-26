@@ -226,6 +226,14 @@
                 <source>Aircraft</source>
                 <target>Aircraft</target>
             </trans-unit>
+            <trans-unit id="match57" resname="game_full">
+                <source>Game is full</source>
+                <target>Game is full</target>
+            </trans-unit>
+            <trans-unit id="match58" resname="waiting_player">
+                <source>Waiting players</source>
+                <target>Waiting players</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

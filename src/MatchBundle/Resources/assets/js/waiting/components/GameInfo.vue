@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <td>{{ trans('Status') }} :</td>
-                <td></td>
+                <td>{{ status }}</td>
             </tr>
         </tbody>
     </table>
@@ -79,6 +79,10 @@
                 'isCreator',
                 'loaded',
             ]),
+            // Status
+            status() {
+                return (this.players.length < this.game.max) ? Translator.trans('waiting_player') : Translator.trans('game_full')
+            },
             // Get create date
             date() {
                 return moment.unix(this.game.date).format('LLL')

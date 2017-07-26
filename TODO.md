@@ -11,7 +11,7 @@ TODO
 - [ ] Game :
     - [ ] ISO view
     - [ ] Shortcuts
-    - [ ] Update status on waiting page
+    - [X] Update status on waiting page
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
