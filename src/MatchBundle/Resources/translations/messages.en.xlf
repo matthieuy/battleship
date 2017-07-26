@@ -78,9 +78,9 @@
                 <source>Options</source>
                 <target>Options</target>
             </trans-unit>
-            <trans-unit id="match20" resname="Penalty">
-                <source>Penalty</source>
-                <target>Penalty</target>
+            <trans-unit id="match20" resname="penalty_in">
+                <source>Penalty in</source>
+                <target>Penalty in</target>
             </trans-unit>
             <trans-unit id="match21" resname="penalty_name">
                 <source>Penalty</source>
@@ -205,6 +205,10 @@
             <trans-unit id="match51" resname="waiting_list">
                 <source>Waiting shot of %list%</source>
                 <target>Waiting shot of %list%</target>
+            </trans-unit>
+            <trans-unit id="match52" resname="Lifes">
+                <source>Lifes</source>
+                <target>Lifes</target>
             </trans-unit>
         </body>
     </file>

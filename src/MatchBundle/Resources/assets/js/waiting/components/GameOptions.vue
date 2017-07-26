@@ -11,7 +11,7 @@
         <tbody>
             <tr>
                 <td>
-                    {{ trans('Penalty') }}
+                    {{ trans('penalty_name') }}
                     <span class="fa opentip" :data-tip="tips('penalty')"></span> :
                 </td>
                 <td>
