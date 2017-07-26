@@ -248,13 +248,6 @@ class LaunchRpc implements RpcInterface
                     $currentY = $y;
 
                     // Put the boat on the grid
-                    $this->translateAndSend($game, 'place_boat', [
-                        '%boat%' => $boatType['name'],
-                        '%user%' => $player->getName(),
-                        '%i%' => ($iBoat+1),
-                        '%nb_boat%' => $boatType['nb'],
-                        '%try%' => $try,
-                    ]);
                     for ($iLength = 0; $iLength < $lengthBoat; $iLength++) {
                         $grid[$currentY][$currentX] = [
                             'img' => $boatType['img'][$direction][$iLength],
@@ -267,6 +260,15 @@ class LaunchRpc implements RpcInterface
                         $currentX += $dx;
                         $currentY += $dy;
                     }
+
+                    // Console
+                    $this->translateAndSend($game, 'place_boat', [
+                        '%boat%' => $this->translator->trans($boatType['name']),
+                        '%user%' => $player->getName(),
+                        '%i%' => ($iBoat+1),
+                        '%nb_boat%' => $boatType['nb'],
+                        '%try%' => $try,
+                    ]);
 
                     // Boat info [number, length, touch]
                     $boatInfo[$player->getPosition()][] = [$boatNumber, $lengthBoat, 0];

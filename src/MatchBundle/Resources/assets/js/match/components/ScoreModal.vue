@@ -16,10 +16,10 @@
                                             <tr>
                                                 <th>{{ trans('Players') }}</th>
                                                 <th width="80">{{ trans('Lifes') }}</th>
-                                                <th width="100">Torpedo</th>
-                                                <th width="100">Destroyer</th>
-                                                <th width="100">Cruiser</th>
-                                                <th width="110">Aircraft</th>
+                                                <th width="100">{{ trans('Torpedo') }}</th>
+                                                <th width="100">{{ trans('Destroyer') }}</th>
+                                                <th width="100">{{ trans('Cruiser') }}</th>
+                                                <th width="110">{{ trans('Aircraft') }}</th>
                                                 <th>{{ trans('bonus_name') }}</th>
                                             </tr>
                                         </thead>

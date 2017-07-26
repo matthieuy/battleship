@@ -210,6 +210,22 @@
                 <source>Lifes</source>
                 <target>Lifes</target>
             </trans-unit>
+            <trans-unit id="match53" resname="Torpedo">
+                <source>Torpedo</source>
+                <target>Torpedo</target>
+            </trans-unit>
+            <trans-unit id="match54" resname="Destroyer">
+                <source>Destroyer</source>
+                <target>Destroyer</target>
+            </trans-unit>
+            <trans-unit id="match55" resname="Cruiser">
+                <source>Cruiser</source>
+                <target>Cruiser</target>
+            </trans-unit>
+            <trans-unit id="match56" resname="Aircraft">
+                <source>Aircraft</source>
+                <target>Aircraft</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
