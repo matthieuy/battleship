@@ -1,5 +1,5 @@
 <template>
-    <div title="Inventory" class="bubble" :class="{disabled: !inventory.enabled}" @click="toggleModal()">
+    <div :title="trans('Inventory')" class="bubble" :class="{disabled: !inventory.enabled}" @click="toggleModal()">
         <i class="gi gi-backpack"></i>
         <img id="inventory-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -18,6 +18,9 @@
         data() {
             return {
                 loaded: false,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
             }
         },
         computed: {

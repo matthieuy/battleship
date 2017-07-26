@@ -1,12 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}Error {{ status_code }} - {{ parent() }}{% endblock %}
+{% block title %}{{ 'error_code'|trans({'%code%': status_code}, 'errors') }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="center">
-        <h1>Error {{ status_code }}</h1>
-        <h4>{{ status_text }}</h4>
+        <h1>{{ 'error_code'|trans({'%code%': status_code}, 'errors') }}</h1>
+        <h4>{{ status_text|trans({}, 'errors') }}</h4>
         <br>
-        <a href="{{ path('homepage') }}" class="button round small-12 large-2">Home</a>
+        <a href="{{ path('homepage') }}" class="button round small-12 large-2">{{ 'home'|trans({}, 'menu') }}</a>
     </div>
 {% endblock %}

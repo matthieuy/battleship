@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="7631b26ea80b1b601c313b15cc4e2ab03faedf30" resname="Avatar">
+        <source>Avatar</source>
+        <target>Avatar</target>
+      </trans-unit>
+      <trans-unit id="15bcb049bdc27f8a02a35d6c7ed9377007a26f7a" resname="Display grid">
+        <source>Display grid</source>
+        <target>Display grid</target>
+      </trans-unit>
+      <trans-unit id="efc007a393f66cdb14d57d385822a3d9e36ef873" resname="Save">
+        <source>Save</source>
+        <target>Save</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

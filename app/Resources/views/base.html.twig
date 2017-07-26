@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale|split('_')[0] }}">
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Battleship{% endblock %}</title>
+        <title>{% block title %}{{ 'app_name'|trans({}, 'app') }}{% endblock %}</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <base href="{{ url('homepage') }}">
@@ -21,18 +21,18 @@
             {# Flash Message #}
             <div id="flash-container">
                 {% for msg in app.session.flashbag.get('success') %}
-                    <div class="flash-msg success"><div class="close">&times;</div>{{ msg }}</div>
+                    <div class="flash-msg success"><div class="close">&times;</div>{{ msg|trans }}</div>
                 {% endfor %}
                 {% for msg in app.session.flashbag.get('info') %}
-                    <div class="flash-msg info"><div class="close">&times;</div>{{ msg }}</div>
+                    <div class="flash-msg info"><div class="close">&times;</div>{{ msg|trans }}</div>
                 {% endfor %}
                 {% for msg in app.session.flashbag.get('error') %}
-                    <div class="flash-msg error"><div class="close">&times;</div>{{ msg }}</div>
+                    <div class="flash-msg error"><div class="close">&times;</div>{{ msg|trans }}</div>
                 {% endfor %}
                 {% block flash %}{% endblock %}
 
                 <noscript>
-                    <div class="flash-msg error">This game require javascript enable !</div>
+                    <div class="flash-msg error">{{ 'javascript'|trans({}, 'errors') }}</div>
                 </noscript>
             </div>
             {% block body %}{% endblock %}
@@ -46,6 +46,7 @@
             {% webpack js '@app/js/app.js' %}
                 <script src="{{ asset_url }}"></script>
             {% end_webpack %}
+            <script src="{{ path('bazinga_jstranslation_js') }}"></script>
         {% endblock %}
     </body>
 </html>

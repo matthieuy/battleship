@@ -1,14 +1,14 @@
 <template>
     <div class="table-list">
-        <h3 class="center" v-show="!loaded">Loading list...</h3>
+        <h3 class="center" v-show="!loaded">{{ trans('Loading list...') }}</h3>
         <table class="large-6 large-centered small-11" v-show="waiting.length">
             <thead>
                 <tr>
-                    <th colspan="2">Game don't start</th>
+                    <th colspan="2">{{ trans('Waiting games') }}</th>
                 </tr>
                 <tr>
-                    <th>Game</th>
-                    <th width="100">Players</th>
+                    <th>{{ trans('Games') }}</th>
+                    <th width="100">{{ trans('Players') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -16,7 +16,7 @@
                     <td>
                         <div class="name">{{ game.name }}</div>
                         <div class="infos">
-                            <span class="date">Create <span class="datetime" :title="convertTimestamp(game.date)"></span> by {{ game.creatorName }}</span>
+                            <span class="date">{{ trans('create_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span> {{ trans('by_author', { author: game.creatorName }) }}</span>
                         </div>
                     </td>
                     <td :style="{color: (game.nb >= game.max) ? '#FF0000' : '#009933'}">
@@ -29,11 +29,11 @@
         <table class="large-6 large-centered small-11" v-show="running.length">
             <thead>
                 <tr>
-                    <th colspan="2">Games in progress</th>
+                    <th colspan="2">{{ trans('Games in progress') }}</th>
                 </tr>
                 <tr>
-                    <th>Games</th>
-                    <th width="100">Tour</th>
+                    <th>{{ trans('Games') }}</th>
+                    <th width="100">{{ trans('Tour') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,8 +41,8 @@
                     <td>
                         <div class="name">{{ game.name }}</div>
                         <div class="infos">
-                            <div class="date">Start <span class="datetime" :title="convertTimestamp(game.date)"></span> by {{ game.creatorName }}</div>
-                            Last shoot <span class="datetime" :title="convertTimestamp(game.last)"></span>
+                            <div class="date">{{ trans('start_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span> {{ trans('by_author', { author: game.creatorName }) }}</div>
+                            {{ trans('shoot_on') }} <span class="datetime" :title="convertTimestamp(game.last)"></span>
                         </div>
                     </td>
                     <td>
@@ -55,11 +55,11 @@
         <table class="large-6 large-centered small-11" v-show="end.length">
             <thead>
                 <tr>
-                    <th colspan="2">Game over</th>
+                    <th colspan="2">{{ trans('Games over') }}</th>
                 </tr>
                 <tr>
-                    <th>Game</th>
-                    <th width="100">Winner</th>
+                    <th>{{ trans('Games') }}</th>
+                    <th width="100">{{ trans('Winners') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,8 +68,8 @@
                         <div class="name">{{ game.name }}</div>
                         <div class="infos">
                             <span class="date">
-                                Start <span class="datetime" :title="convertTimestamp(game.date)"></span> and
-                                finish <span class="datetime" :title="convertTimestamp(game.enddate)"></span>
+                                {{ trans('start_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span>,
+                                {{ trans('finish_on') }} <span class="datetime" :title="convertTimestamp(game.enddate)"></span>
                             </span>
                         </div>
                     </td>
@@ -81,7 +81,7 @@
         </table>
 
         <div class="center" v-show="loaded && !list.length">
-            <strong >Any game</strong>
+            <strong>{{ trans('no_game') }}</strong>
         </div>
     </div>
 </template>
@@ -97,6 +97,9 @@
             return {
                 list: [],
                 loaded: false,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
             }
         },
         computed: {

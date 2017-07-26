@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="bec60623dde16de1416db70370d9e4fcb3708b1c" resname="nb_players">
+        <source>%nb% players</source>
+        <target>%nb% players</target>
+      </trans-unit>
+      <trans-unit id="43792dd1aa12859d7a716d5ef7aabd1cc4fb99da" resname="Name of the game">
+        <source>Name of the game</source>
+        <target>Name of the game</target>
+      </trans-unit>
+      <trans-unit id="6ae999552a0d2dca14d62e2bc8b764d377b1dd6c" resname="name">
+        <source>name</source>
+        <target>name</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

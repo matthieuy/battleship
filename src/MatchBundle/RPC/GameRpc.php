@@ -75,7 +75,7 @@ class GameRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
-        return ['error' => "Bad Request ($name)"];
+        return ['error' => "Bad request"];
     }
 
     /**
@@ -98,7 +98,7 @@ class GameRpc implements RpcInterface
 
         // Get game
         if (!isset($params['slug']) || null === $game = $this->getGame($params['slug'])) {
-            return ['error' => "Bad Request"];
+            return ['error' => "Bad request"];
         }
 
         // Global infos
@@ -167,17 +167,17 @@ class GameRpc implements RpcInterface
 
         // Get and check game
         if (!isset($params['slug']) || null === $game = $this->getGame($params['slug'])) {
-            return ['error' => "Bad Request"];
+            return ['error' => "Bad request"];
         }
         if ($game->getStatus() !== Game::STATUS_RUN) {
-            return ['error' => "Game is over"];
+            return ['error' => "gameover"];
         }
 
         // Get and check coord
         $x = (isset($params['x'])) ? intval($params['x']) : null;
         $y = (isset($params['y'])) ? intval($params['y']) : null;
         if ($x === null || $y === null || $x < 0 || $y < 0 || $x >= $game->getSize() || $y >= $game->getSize()) {
-            return ['error' => "You can't shoot here"];
+            return ['error' => "error_shoot"];
         }
 
         // Get player
@@ -185,7 +185,7 @@ class GameRpc implements RpcInterface
         if (!$player instanceof Player) {
             return $player;
         } elseif (!in_array($player->getPosition(), $game->getTour())) {
-            return ['error' => 'You can\'t play now!'];
+            return ['error' => 'error_tour'];
         }
 
         // Weapons
@@ -206,17 +206,17 @@ class GameRpc implements RpcInterface
         if (!$box->isEmpty() && $weapon === null) {
             // Already shoot
             if ($box->isAlreadyShoot()) {
-                return ['error' => 'Someone already shoot here!'];
+                return ['error' => 'already_shoot'];
             }
 
             // Himself
             if ($box->isOwn($player)) {
-                return ['error' => 'Unable to shoot own boats!'];
+                return ['error' => 'own_boat'];
             }
 
             // Same team
             if ($box->isSameTeam($player)) {
-                return ['error' => 'Team shoot is forbidden!'];
+                return ['error' => 'team_shoot'];
             }
         }
 
@@ -351,7 +351,7 @@ class GameRpc implements RpcInterface
         }
 
         if (!$player) {
-            return ['error' => 'Player not found'];
+            return ['error' => 'error_player404'];
         }
 
         return $player;
@@ -447,7 +447,7 @@ class GameRpc implements RpcInterface
         $victimBoats = $victim->getBoats();
         $boatIndex = array_search($box->getBoat(), array_column($victimBoats, 0)); // Index 0 => boat number
         if ($boatIndex === false || !isset($victimBoats[$boatIndex])) {
-            return ['error' => 'The boat is not found'];
+            return ['error' => 'error_boat404'];
         }
         $boat = $victimBoats[$boatIndex];
 

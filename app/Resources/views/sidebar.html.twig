@@ -1,5 +1,6 @@
+{% trans_default_domain 'menu' %}
 <div class="sidebar" off-canvas="sidebar left push">
-    <div class="title sb-close">Menu</div>
+    <div class="title sb-close">{{ 'menu'|trans }}</div>
 
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="block-avatar">
@@ -11,15 +12,15 @@
     {% endif %}
 
     <ul class="sidebar-menu">
-        <li><a href="{{ path('homepage') }}"><i class="gi gi-barn"></i>Home</a></li>
+        <li><a href="{{ path('homepage') }}"><i class="gi gi-barn"></i>{{ 'home'|trans }}</a></li>
 
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <li><a href="{{ path('match.create') }}"><i class="gi gi-joystick"></i>Create game</a></li>
+            <li><a href="{{ path('match.create') }}"><i class="gi gi-joystick"></i>{{ 'Create game'|trans }}</a></li>
             {% if inGame|default(false) %}
                 <li>
                     <a id="link-delete-game" href="{{ path('match.delete', {'slug': game.slug}) }}" style="color: #F00" class="in">
                         <i class="gi gi-trash-can"></i>
-                        Delete the game
+                        {{ 'Delete the game'|trans }}
                     </a>
                 </li>
             {% endif %}
@@ -28,6 +29,6 @@
             <li><a href="{{ path('fos_user_security_login') }}"><i class="gi gi-skeleton-key"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
             <li><a href="{{ path('fos_user_registration_register') }}"><i class="gi gi-shaking-hands"></i>{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
         {% endif %}
-        <li><a href="javascript:void(0);" class="sb-close in"><i class="gi gi-crossed-bones"></i>Close menu</a></li>
+        <li><a href="javascript:void(0);" class="sb-close in"><i class="gi gi-crossed-bones"></i>{{ 'Close menu'|trans }}</a></li>
     </ul>
 </div>

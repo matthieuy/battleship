@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th colspan="2">
-                    {{ name }}
+                    {{ trans('Options') }}
                     <div class="fa caret"></div>
                 </th>
             </tr>
@@ -11,12 +11,12 @@
         <tbody>
             <tr>
                 <td>
-                    {{ penalty_name }}
+                    {{ trans('penalty_name') }}
                     <span class="fa opentip" :data-tip="tips('penalty')"></span> :
                 </td>
                 <td>
-                    <span @click="changeOption('penalty', 0)" v-show="penalty" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.penalty, 'fa-spin fa-spinner': loading.penalty}"></i> {{ enabled }}</span>
-                    <span @click="changeOption('penalty', 20)" v-show="!penalty" :class="{cursor: isCreator}" style="color: red;"><i class="fa" :class="{'fa-square-o': !loading.penalty, 'fa-spin fa-spinner': loading.penalty}"></i> {{ disabled }}</span>
+                    <span @click="changeOption('penalty', 0)" v-show="penalty" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.penalty, 'fa-spin fa-spinner': loading.penalty}"></i> {{ trans('enabled') }}</span>
+                    <span @click="changeOption('penalty', 20)" v-show="!penalty" :class="{cursor: isCreator}" style="color: red;"><i class="fa" :class="{'fa-square-o': !loading.penalty, 'fa-spin fa-spinner': loading.penalty}"></i> {{ trans('disabled') }}</span>
                     <span v-show="penalty">
                         <span v-if="isCreator">
                             <input @change="changeOption('penalty', $event.target.value)" type="number" min="1" max="72" :value="penalty"> hour(s)
@@ -29,22 +29,22 @@
             </tr>
         <tr>
             <td>
-                {{ weapon_name }}
+                {{ trans('weapon_name') }}
                 <span class="fa opentip" :data-tip="tips('weapon')"></span> :
             </td>
             <td>
-                <span @click="changeOption('weapon', false)" v-show="isWeapon" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.weapon, 'fa-spin fa-spinner': loading.weapon}"></i> {{ enabled }}</span>
-                <span @click="changeOption('weapon', true)" v-show="!isWeapon" :class="{cursor: isCreator}" style="color: red;"><i  class="fa" :class="{'fa-square-o': !loading.weapon, 'fa-spin fa-spinner': loading.weapon}"></i> {{ disabled }} </span>
+                <span @click="changeOption('weapon', false)" v-show="isWeapon" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.weapon, 'fa-spin fa-spinner': loading.weapon}"></i> {{ trans('enabled') }}</span>
+                <span @click="changeOption('weapon', true)" v-show="!isWeapon" :class="{cursor: isCreator}" style="color: red;"><i  class="fa" :class="{'fa-square-o': !loading.weapon, 'fa-spin fa-spinner': loading.weapon}"></i> {{ trans('disabled') }} </span>
             </td>
         </tr>
         <tr>
             <td>
-                {{ bonus_name }}
+                {{ trans('bonus_name') }}
                 <span class="fa opentip" :data-tip="tips('bonus')"></span> :
             </td>
             <td>
-                <span @click="changeOption('bonus', false)" v-show="isBonus" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.bonus, 'fa-spin fa-spinner': loading.bonus}"></i> {{ enabled }}</span>
-                <span @click="changeOption('bonus', true)" v-show="!isBonus" :class="{cursor: isCreator}" style="color: red;"><i class="fa" :class="{'fa-square-o': !loading.bonus, 'fa-spin fa-spinner': loading.bonus}"></i> {{ disabled }}</span>
+                <span @click="changeOption('bonus', false)" v-show="isBonus" :class="{cursor: isCreator}" style="color: green;"><i class="fa" :class="{'fa-check-square-o': !loading.bonus, 'fa-spin fa-spinner': loading.bonus}"></i> {{ trans('enabled') }}</span>
+                <span @click="changeOption('bonus', true)" v-show="!isBonus" :class="{cursor: isCreator}" style="color: red;"><i class="fa" :class="{'fa-square-o': !loading.bonus, 'fa-spin fa-spinner': loading.bonus}"></i> {{ trans('disabled') }}</span>
             </td>
         </tr>
         </tbody>
@@ -63,19 +63,14 @@
                     penalty: false,
                     weapon: false,
                     bonus: false,
+                },
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+                tips(type) {
+                    return `<strong>${Translator.trans(type+'_name')} :</strong>${Translator.trans(type+'_desc')}`
                 }
             }
-        },
-        props: {
-            name: {type: String, default: 'Options'},
-            enabled: {type: String, default: 'Enabled'},
-            disabled: {type: String, default: 'Disabled'},
-            penalty_name: {type: String, default: 'Penalty'},
-            penalty_desc: {type: String, default: 'Over a certain time without playing,<br>the player takes a shot on one of his boats.'},
-            weapon_name: {type: String, default: 'Weapons'},
-            weapon_desc: {type: String, default: 'Players can use their points <br>for use special weapon.<br><br>(see points table)'},
-            bonus_name: {type: String, default: 'Bonus'},
-            bonus_desc: {type: String, default: 'Players can catch bonus'},
         },
         computed: {
             ...mapState([
@@ -93,9 +88,6 @@
             },
         },
         methods: {
-            tips(type) {
-                return `<strong>${this[type+'_name']} :</strong>${this[type+'_desc']}`
-            },
             changeOption(name, value) {
                 if (!this.isCreator) {
                     return false

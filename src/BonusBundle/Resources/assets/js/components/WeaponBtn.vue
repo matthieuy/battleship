@@ -1,5 +1,5 @@
 <template>
-    <div id="btn-weapon" title="Weapon" class="bubble" :class="{disabled: !weapon.enabled}" @click="toggleModal()">
+    <div id="btn-weapon" :title="trans('weapon_name')" class="bubble" :class="{disabled: !weapon.enabled}" @click="toggleModal()">
         <i class="gi gi-crossed-sabres" :class="{selected: weapon.select}"></i>
         <img id="weapon-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -15,6 +15,13 @@
     let BubbleWeapon = null
 
     export default {
+        data() {
+            return {
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'weapon', // Weapon module

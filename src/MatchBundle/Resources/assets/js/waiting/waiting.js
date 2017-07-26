@@ -57,6 +57,6 @@ $(() => {
 
     // Delete button
     $(document).on('click', '#btn-delete', function() {
-        return window.confirm('Are you sure to delete the game?');
+        return window.confirm(Translator.trans('ask_delete_game'));
     });
 })

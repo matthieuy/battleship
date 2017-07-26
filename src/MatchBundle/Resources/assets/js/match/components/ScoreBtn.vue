@@ -1,5 +1,5 @@
 <template>
-    <div title="Score" class="bubble" @click="toggleModal()">
+    <div :title="trans('Score')" class="bubble" @click="toggleModal()">
         <i class="gi gi-heart-organ"></i>
         <img id="life-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -14,6 +14,13 @@
     let BubbleLife = null
 
     export default {
+        data() {
+            return {
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'score', // Score module

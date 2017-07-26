@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file date="2017-07-25T18:26:13Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="e3e82846c32567811615378f30240185871e08e5" resname="Game">
+        <source>Game</source>
+        <target>Game</target>
+      </trans-unit>
+      <trans-unit id="f36adbb7b096ceeb6f3e80ad14c0a54776ddfb60" resname="app_name">
+        <source>app_name</source>
+        <target>Battleship</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

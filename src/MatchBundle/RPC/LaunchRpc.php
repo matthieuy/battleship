@@ -14,6 +14,7 @@ use MatchBundle\Event\GameEvent;
 use MatchBundle\MatchEvents;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use UserBundle\Entity\User;
 
 /**
@@ -26,6 +27,7 @@ class LaunchRpc implements RpcInterface
     private $em;
     private $pusher;
     private $eventDispatcher;
+    private $translator;
 
     /**
      * LaunchRpc constructor (DI)
@@ -33,17 +35,20 @@ class LaunchRpc implements RpcInterface
      * @param EntityManager              $em
      * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $eventDispatcher
+     * @param TranslatorInterface        $translator
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        TranslatorInterface $translator
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
+        $this->translator = $translator;
     }
 
     /**
@@ -55,7 +60,7 @@ class LaunchRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
-        return ['error' => "Bad Request ($name)"];
+        return ['error' => "Bad request"];
     }
 
     /**
@@ -71,7 +76,7 @@ class LaunchRpc implements RpcInterface
         // Get user
         $user = $this->clientManipulator->getClient($connection);
         if (!$user instanceof User || !isset($params['slug'])) {
-            return ['error' => "Bad Request"];
+            return ['error' => "Bad request"];
         }
 
         // Get game
@@ -86,9 +91,9 @@ class LaunchRpc implements RpcInterface
             $this->clearGrid($game);
         } catch (\Exception $e) {
             if ($e->getCode() == 10) {
-                return ['error' => 'Unable to place all boats : try again or take a larger grid!'];
+                return ['error' => 'error_generate'];
             } else {
-                return ['error' => 'Error while generate grid'];
+                return ['error' => 'error_generate2'];
             }
         }
 
@@ -116,7 +121,7 @@ class LaunchRpc implements RpcInterface
         // Push
         $this->pusher->push([
             'reload' => true,
-            'console' => 'Game is ready in 5 seconds',
+            'console' => $this->translator->trans('game_ready', [], 'console'),
         ], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         // Return
@@ -140,7 +145,7 @@ class LaunchRpc implements RpcInterface
     private function generateGrid(Game $game)
     {
         // Create a empty grid
-        $this->pusher->push(['console' => 'Generate empty grid'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->translateAndSend($game, 'generate_empty');
         $gridSize = $game->getSize();
         $grid = [];
         for ($y = 0; $y < $gridSize; $y++) {
@@ -243,7 +248,6 @@ class LaunchRpc implements RpcInterface
                     $currentY = $y;
 
                     // Put the boat on the grid
-                    $this->pusher->push(['console' => 'Place '.$boatType['name'].' of '.$player->getName().' ('.($iBoat+1).'/'.$boatType['nb'].') after '.$try.'try'], 'game.wait.topic', ['slug' => $game->getSlug()]);
                     for ($iLength = 0; $iLength < $lengthBoat; $iLength++) {
                         $grid[$currentY][$currentX] = [
                             'img' => $boatType['img'][$direction][$iLength],
@@ -256,6 +260,15 @@ class LaunchRpc implements RpcInterface
                         $currentX += $dx;
                         $currentY += $dy;
                     }
+
+                    // Console
+                    $this->translateAndSend($game, 'place_boat', [
+                        '%boat%' => $this->translator->trans($boatType['name']),
+                        '%user%' => $player->getName(),
+                        '%i%' => ($iBoat+1),
+                        '%nb_boat%' => $boatType['nb'],
+                        '%try%' => $try,
+                    ]);
 
                     // Boat info [number, length, touch]
                     $boatInfo[$player->getPosition()][] = [$boatNumber, $lengthBoat, 0];
@@ -284,7 +297,7 @@ class LaunchRpc implements RpcInterface
      */
     private function clearGrid(Game $game)
     {
-        $this->pusher->push(['console' => 'Clear grid'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->translateAndSend($game, 'Clear grid');
         $gridSize = $game->getSize();
         $grid = $game->getGrid();
         $clearGrid = [];
@@ -313,11 +326,23 @@ class LaunchRpc implements RpcInterface
         /** @var Game $game */
         $game = $repo->findOneBy(['slug' => $slugGame]);
         if (!$game || !$game->isCreator($user)) {
-            return ['error' => "Bad Request"];
+            return ['error' => "Bad request"];
         } elseif ($game->getStatus() !== Game::STATUS_WAIT) {
-            return ['error' => 'The game has already started'];
+            return ['error' => 'error_already_start'];
         }
 
         return $game;
+    }
+
+    /**
+     * Translate and send to console
+     * @param Game   $game
+     * @param string $string
+     * @param array  $parameters
+     */
+    private function translateAndSend(Game $game, $string, array $parameters = [])
+    {
+        $msg = $this->translator->trans($string, $parameters, 'console');
+        $this->pusher->push(['console' => $msg], 'game.wait.topic', ['slug' => $game->getSlug()]);
     }
 }

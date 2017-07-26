@@ -14,6 +14,7 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
+            - "@translator"
         tags:
             - { name: gos_web_socket.rpc }
 
@@ -22,6 +23,7 @@ services:
         class: MatchBundle\Topic\WaitingTopic
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@translator"
         tags:
             - { name: gos_web_socket.topic }
 
@@ -33,6 +35,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
             - "@event_dispatcher"
+            - "@translator"
         tags:
             - { name: gos_web_socket.rpc }
 

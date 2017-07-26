@@ -5,14 +5,14 @@
             <div class="modal-container"v-on:click.stop.prevent="close()">
                 <div class="modal-content">
                     <div id="modal-bonus" v-on:click.stop.prevent="">
-                        <h1 class="center">Inventory</h1>
+                        <h1 class="center">{{ trans('Inventory') }}</h1>
                         <div class="clear"></div>
 
                         <div class="row">
                             <div class="large-6 push-3 column">
                                 <div class="container-bonus">
                                     <div class="large-4 column" v-for="bonus in inventory.list" @click="highlight(bonus)">
-                                        <div class="bonus-box opentip" :class="{selected: (selected && selected.id == bonus.id), use: bonus.use }" :data-tip="'<strong>'+bonus.name+' :</strong> '+bonus.description">
+                                        <div class="bonus-box opentip" :class="{selected: (selected && selected.id == bonus.id), use: bonus.use }" :data-tip="'<strong>'+trans(bonus.name)+' :</strong> '+trans(bonus.description)">
                                             <img :src="'img/bonus/'+bonus.uniq+'.png'" width="80">
                                             <span class="label" v-show="bonus.options.label">{{ bonus.options.label }}</span>
                                         </div>
@@ -30,7 +30,7 @@
 
                         <div class="row center" v-show="showSelectPlayer">
                             <div class="large-4 push-4">
-                                <label for="player">Select target :</label>
+                                <label for="player">{{ trans('select_target') }} :</label>
                                 <select id="player" v-model="selectPlayer">
                                     <option v-for="player in playersList" :value="player.position">{{ player.name }}</option>
                                 </select>
@@ -41,11 +41,11 @@
                             <div class="row btn-action">
                                 <button class="button success small-12 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
                                     <i class="gi gi-round-star"></i>
-                                    Use
+                                    {{ trans('use_it') }}
                                 </button>
                                 <button class="close button alert small-10 large-3" @click="close()">
                                     <i class="fa fa-close"></i>
-                                    Close
+                                    {{ trans('Close') }}
                                 </button>
                             </div>
                         </div>
@@ -67,6 +67,9 @@
                 showSelectPlayer: false,
                 selectPlayer: null,
                 playersList: [],
+                trans() {
+                    return Translator.trans(...arguments)
+                },
             }
         },
         computed: {

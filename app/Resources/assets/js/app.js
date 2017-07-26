@@ -1,5 +1,6 @@
 // Require
 require('jquery')
+window.Translator = require('bazinga-translator')
 
 // Flash message
 var FlashSystem = require('./Flash')
@@ -16,7 +17,7 @@ $(() => {
 
     // Delete game link
     $('#link-delete-game').click(function() {
-        return window.confirm('Are you sure to delete the game?');
+        return window.confirm(Translator.trans('ask_delete_game'));
     });
 })
 

@@ -5,7 +5,7 @@
             <div class="modal-container"v-on:click.stop.prevent="close()">
                 <div class="modal-content">
                     <div id="modal-score" v-on:click.stop.prevent="">
-                        <h1 class="center">Score</h1>
+                        <h1 class="center">{{ trans('Score') }}</h1>
                         <div class="clear"></div>
 
                         <div class="large-12 column">
@@ -14,20 +14,20 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Players</th>
-                                                <th width="80">Lifes</th>
-                                                <th width="100">Torpedo</th>
-                                                <th width="100">Destroyer</th>
-                                                <th width="100">Cruiser</th>
-                                                <th width="110">Aircraft</th>
-                                                <th>Bonus</th>
+                                                <th>{{ trans('Players') }}</th>
+                                                <th width="80">{{ trans('Lifes') }}</th>
+                                                <th width="100">{{ trans('Torpedo') }}</th>
+                                                <th width="100">{{ trans('Destroyer') }}</th>
+                                                <th width="100">{{ trans('Cruiser') }}</th>
+                                                <th width="110">{{ trans('Aircraft') }}</th>
+                                                <th>{{ trans('bonus_name') }}</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <td colspan="7" id="chrono">
-                                                    <span v-show="score.penalty">Penalty in</span>
-                                                    <span v-show="!score.penalty">Last shoot :</span>
+                                                    <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
+                                                    <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
                                                     <span :title="datePenalty"></span>
                                                 </td>
                                             </tr>
@@ -85,7 +85,7 @@
                             <div class="row btn-action">
                                 <button class="close button alert small-10 large-3" @click="close()">
                                     <i class="fa fa-close"></i>
-                                    Close
+                                    {{ trans('Close') }}
                                 </button>
                             </div>
                         </div>
@@ -109,6 +109,9 @@
         data() {
             return {
                 latency: 0,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
             }
         },
         computed: {

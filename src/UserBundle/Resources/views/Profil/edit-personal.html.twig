@@ -1,25 +1,24 @@
+{% trans_default_domain 'profil' %}
 {% extends "::base.html.twig" %}
-{% block title %}Edit personal informations{% if not isMe %} of {{ user.username }}{% endif %} - {{ parent() }}{% endblock %}
+{% block title %}{{ "Edit connexion's informations"|trans }} - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h1 class="center">Edit personal informations{% if not isMe %} of {{ user.username }}{% endif %}</h1>
+    <h1 class="center">{{ "Edit connexion's informations"|trans }}{% if not isMe %} ({{ user.username }}){% endif %}</h1>
 
     <div class="row">
     {{ form_start(form) }}
         <fieldset>
-            <legend>E-mail</legend>
-
+            <legend>{{ 'form.email'|trans({}, 'FOSUserBundle') }}</legend>
             {{ form_row(form.email) }}
         </fieldset>
         <fieldset>
-            <legend>Password</legend>
+            <legend>{{ 'form.password'|trans({}, 'FOSUserBundle') }}</legend>
             {{ form_rest(form) }}
         </fieldset>
 
         <div class="center">
-
-            <input type="submit" value="Save" class="button success">
-            <a href="{{ path('user.profil.show', {'slug': user.slug}) }}" class="button">Show profil</a>
+            <input type="submit" value="{{ 'Save'|trans({}, 'form') }}" class="button success">
+            <a href="{{ path('user.profil.show', {'slug': user.slug}) }}" class="button">{{ 'Show profil'|trans }}</a>
         </div>
         {{ form_end(form) }}
     </div>

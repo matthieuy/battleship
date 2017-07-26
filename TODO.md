@@ -11,6 +11,7 @@ TODO
 - [ ] Game :
     - [ ] ISO view
     - [ ] Shortcuts
+    - [ ] Update status on waiting page
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
@@ -45,14 +46,8 @@ TODO
         - [ ] Tour
         - [ ] Messages
 - [ ] Translate :
-	- [ ] Configure translate :
-		- [ ] Symfony
-		- [ ] VueJS
 	- [ ] Translate in French
-	- [ ] Write howto translate
 - [ ] Tests/Dev :
-	- [X] Make a dockerfile for users want try or contribute
-	- [X] Use yarn instead bower with webpack
 	- [ ] Unit tests
 	- [ ] Script for deploy on git hook (personal TODO)
 	- [ ] Page with websocket client

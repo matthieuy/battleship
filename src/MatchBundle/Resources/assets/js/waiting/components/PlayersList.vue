@@ -3,22 +3,22 @@
         <thead>
         <tr>
             <th colspan="4">
-                Players
+                {{ trans('Players') }}
                 <div class="fa caret"></div>
             </th>
         </tr>
         <tr>
-            <th class="center" width="50">Color</th>
+            <th class="center" width="50">{{ trans('Color') }}</th>
             <th width="50"></th>
-            <th class="center">Player</th>
-            <th class="center" width="100">Team</th>
+            <th class="center">{{ trans('Player') }}</th>
+            <th class="center" width="100">{{ trans('Team') }}</th>
         </tr>
         </thead>
         <tbody id="sortable-players">
             <tr v-for="player in players" class="player-line" :data-id="player.id" :key="player.id">
                 <td class="opentip"
                     :class="{move: isSortable}"
-                    :data-tip="(player.ai) ? 'IA' : 'Player'"
+                    :data-tip="(player.ai) ? trans('AI') : trans('Player')"
                     :style="txtColor(player.color)"
                     >
                     <i class="fa" :class="[player.ai ? 'fa-gamepad' : 'fa-desktop']"></i>
@@ -29,7 +29,7 @@
                 <td>
                     {{ player.name }}
                     <div class="color-div" v-show="isCreator || player.userId === userId">
-                        <input type="color" class="color" title="Change color" :value="'#' + player.color" @change="changeColor($event, player)">
+                        <input type="color" class="color" :title="trans('Change color')" :value="'#' + player.color" @change="changeColor($event, player)">
                     </div>
                 </td>
                 <td>
@@ -44,10 +44,10 @@
                 </td>
             </tr>
             <tr v-show="!loaded">
-                <td colspan="4" class="center">Loading...</td>
+                <td colspan="4" class="center">{{ trans('loading') }}</td>
             </tr>
             <tr v-show="players.length == 0 && loaded">
-                <td colspan="4" class="center">No players</td>
+                <td colspan="4" class="center">{{ trans('no_player') }}</td>
             </tr>
         </tbody>
     </table>
@@ -59,6 +59,13 @@
     import * as types from "../store/mutation-types"
 
     export default {
+        data() {
+            return {
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'players',

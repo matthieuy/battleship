@@ -14,14 +14,12 @@
     import * as types from "../store/mutation-types"
 
     export default{
-        props: {
-            name: {type: String, default: 'Add a AI'},
-            desc: {type: String, default: 'Add a player managed by the computer.'},
-        },
         data() {
             return {
                 loading: false,
                 disabled: true,
+                name: Translator.trans('btn_ai'),
+                tip: `<strong>${Translator.trans('btn_ai')} :</strong> ${Translator.trans('btn_ai_tip')}`,
             }
         },
         computed: {
@@ -31,9 +29,6 @@
                 'players',
                 'isCreator',
             ]),
-            tip() {
-                return `<strong>${this.name} :</strong> ${this.desc}`
-            },
             btnClass() {
                 this.disabled = (!this.isCreator || this.players.length >= this.game.max)
                 return {

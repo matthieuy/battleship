@@ -31,7 +31,7 @@ class PointBonus extends AbstractBonus
      */
     public function getName()
     {
-        return 'Points';
+        return $this->getId();
     }
 
     /**
@@ -40,7 +40,7 @@ class PointBonus extends AbstractBonus
      */
     public function getDescription()
     {
-        return 'Add points';
+        return $this->getId().'.desc';
     }
 
     /**

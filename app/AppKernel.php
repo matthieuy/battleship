@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
 
             // Bundle
             new AppBundle\AppBundle(),
