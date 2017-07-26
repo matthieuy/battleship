@@ -134,6 +134,22 @@
                 <source>Console</source>
                 <target>Console</target>
             </trans-unit>
+            <trans-unit id="match34" resname="Wrong color">
+                <source>Wrong color</source>
+                <target>Wrong color</target>
+            </trans-unit>
+            <trans-unit id="match35" resname="error_already_start">
+                <source>The game has already started</source>
+                <target>The game has already started</target>
+            </trans-unit>
+            <trans-unit id="match36" resname="error_generate">
+                <source>Unable to place all boats : try again or take a larger grid!</source>
+                <target>Unable to place all boats : try again or take a larger grid!</target>
+            </trans-unit>
+            <trans-unit id="match37" resname="error_generate2">
+                <source>Error while generate grid</source>
+                <target>Error while generate grid</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
