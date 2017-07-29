@@ -14,7 +14,7 @@
                                     <div class="tab">
                                         <ul>
                                             <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab('general')"><div>{{ trans('General') }}</div></li>
-                                            <li :class="{selected: chat.active_tab == 'team'}" @click="change_tab('team')"><div>{{ trans('Team') }}</div></li>
+                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab('team')"><div>{{ trans('Team') }}</div></li>
                                             <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab(tab.id)">
                                                 <div>{{ tab.name }}<span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
                                             </li>
@@ -53,6 +53,9 @@
     let store = null
 
     export default {
+        props: {
+            team: {type: String, default: 'true' },
+        },
         data() {
             return {
                 message: '',
