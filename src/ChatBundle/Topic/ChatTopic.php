@@ -49,6 +49,7 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        $connection->event($topic->getId(), ['messages' => []]);
     }
 
     /**

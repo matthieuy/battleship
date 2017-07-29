@@ -6,6 +6,7 @@ export default {
         unread: 0,
         modal: true,
         active_tab: 'general',
+        messages: [],
         open_tab: [{id:1, name:'User1'}, {id:25, name:'User2'}]
     },
     mutations: {
@@ -34,6 +35,10 @@ export default {
                 }
             })
             state.open_tab = open_tab
+        },
+        // Receive message
+        [MUTATION.CHAT.RECEIVE](state, messages) {
+            state.messages = messages
         },
     },
     getters: {},

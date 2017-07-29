@@ -111,6 +111,12 @@
             },
         },
         mounted() {
+            // Websocket subscribe
+            let topicName = 'chat/' + document.getElementById('slug').value
+            WS.subscribeAction(topicName, 'messages', (obj) => {
+                this.$store.commit(MUTATION.CHAT.RECEIVE, obj)
+            })
+
             store = this.$store
         },
     }
