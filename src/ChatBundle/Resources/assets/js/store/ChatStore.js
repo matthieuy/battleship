@@ -4,7 +4,7 @@ import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 export default {
     state: {
         unread: 0,
-        modal: false,
+        modal: true,
     },
     mutations: {
         // Toggle modal

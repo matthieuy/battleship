@@ -6,6 +6,10 @@
                 <source>Chat</source>
                 <target>Chat</target>
             </trans-unit>
+            <trans-unit id="chat2" resname="General">
+                <source>General</source>
+                <target>General</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
