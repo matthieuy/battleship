@@ -22,6 +22,8 @@
                                     </div>
                                     <div class="messages">
                                     </div>
+
+                                    <input id="input-msg" type="text" autocomplete="off" v-model="message" autofocus />
                                 </div>
                             </div>
                         </div>
@@ -29,7 +31,11 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="close button alert small-10 large-3 round" @click="close()">
+                                <button class="button success small-10 large-3 round">
+                                    <i class="gi gi-square-bottle"></i>
+                                    {{ trans('Send') }}
+                                </button>
+                                <button class="button alert small-10 large-3 round" @click="close()">
                                     <i class="fa fa-close"></i>
                                     {{ trans('Close') }}
                                 </button>
@@ -49,6 +55,7 @@
     export default {
         data() {
             return {
+                message: '',
                 trans() {
                     return Translator.trans(...arguments)
                 },
@@ -77,6 +84,7 @@
             ['chat.modal'](open) {
                 if (open) {
                     $(window).on('keyup', escapeTouch)
+                    $('#input-msg').focus()
                 }
             },
         },
@@ -156,7 +164,7 @@
             }
         }
     }
-    .messages {
+    .messages, #input-msg {
         margin: 0;
         position: relative;
         z-index: 1;
@@ -166,5 +174,11 @@
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0,0,0,.5);
         background: #fff;
+    }
+
+    #input-msg {
+        padding: 0 5px;
+        margin-top: 10px;
+        min-height: auto;
     }
 </style>
