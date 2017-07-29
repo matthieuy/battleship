@@ -7,7 +7,6 @@
 <script>
     // Import
     import { mapState } from 'vuex'
-    import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
     import Favico from "@npm/favico.js/favico.js"
@@ -28,7 +27,7 @@
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.SCORE.MODAL)
+                this.$store.commit(MUTATION.SCORE.MODAL)
             },
         },
         watch: {

@@ -27,7 +27,6 @@
     import Vue from "vue"
     import { mapState, mapGetters } from 'vuex'
     import { ACTION, MUTATION } from "../store/mutation-types"
-    import store from "../store/GameStore"
 
     // Bower require
     let async = require('@npm/async/dist/async.min.js')
@@ -68,7 +67,7 @@
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+                        self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'+img.shoot), {
@@ -89,8 +88,8 @@
 
                                 // Update grid
                                 $box.addClass('animated')
-                                store.commit(MUTATION.AFTER_ROCKET, img)
-                                store.dispatch(ACTION.AFTER_ROCKET, img)
+                                self.$store.commit(MUTATION.AFTER_ROCKET, img)
+                                self.$store.dispatch(ACTION.AFTER_ROCKET, img)
 
                                 // Next img
                                 next()
@@ -98,7 +97,7 @@
                         })
                     },
                     function() { // End of animate
-                        store.commit(MUTATION.AFTER_ANIMATE, obj)
+                        self.$store.commit(MUTATION.AFTER_ANIMATE, obj)
                     }
                 )
             },
@@ -152,9 +151,10 @@
                 }
 
                 // Add weapon
-                store.dispatch(ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
+                let self = this
+                self.$store.dispatch(ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
                     // Send data
-                    store.dispatch(ACTION.SHOOT, dataSend)
+                    self.$store.dispatch(ACTION.SHOOT, dataSend)
                 })
             },
             // CSS for box
@@ -219,9 +219,9 @@
                     players.push(self.playerById(playerId).name)
                 })
                 if (this.gameover) {
-                    store.commit(MUTATION.SET_STATUS, Translator.trans('winner_list', {list: players.join(', ')}))
+                    this.$store.commit(MUTATION.SET_STATUS, Translator.trans('winner_list', {list: players.join(', ')}))
                 } else {
-                    store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
+                    this.$store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
                 }
             },
         },
@@ -252,6 +252,5 @@
                 $('.boat:not(.dead,.animated)').removeClass('boat').addClass('hide')
             }
         }
-
     }
 </script>

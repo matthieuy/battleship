@@ -9,7 +9,6 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default {
@@ -54,11 +53,11 @@
                 this.loading = true
                 this.loaded = false
 
-                store.dispatch(types.ACTION.JOIN_LEAVE, !this.joined).then((obj) => {
+                this.$store.dispatch(types.ACTION.JOIN_LEAVE, !this.joined).then((obj) => {
                     this.loading = false
                     if (obj.success) {
                         let mutation = (this.joined) ? types.MUTATION.LEAVE : types.MUTATION.JOIN
-                        store.commit(mutation)
+                        this.$store.commit(mutation)
                     }
 
                     if (obj.msg) {

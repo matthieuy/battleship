@@ -55,7 +55,6 @@
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default {
@@ -90,7 +89,7 @@
             // Change player team
             changeTeam(e, player) {
                 this.loaded = false
-                store.dispatch(types.ACTION.CHANGE_TEAM, {
+                this.$store.dispatch(types.ACTION.CHANGE_TEAM, {
                     playerId: player.id,
                     team: e.target.value,
                 })
@@ -98,7 +97,7 @@
             // Change player color
             changeColor(e, player) {
                 this.loaded = false
-                store.dispatch(types.ACTION.CHANGE_COLOR, {
+                this.$store.dispatch(types.ACTION.CHANGE_COLOR, {
                     playerId: player.id,
                     color: e.target.value,
                 })
@@ -107,7 +106,7 @@
             remove(e, player) {
                 this.loaded = false
                 e.target.innerHTML = '<i class="fa fa-spin fa-spinner"></i>'
-                store.dispatch(types.ACTION.REMOVE_PLAYER, player.id).then((obj) => {
+                this.$store.dispatch(types.ACTION.REMOVE_PLAYER, player.id).then((obj) => {
                     e.target.innerHTML = '&times;'
                     if (obj.msg) {
                         return Flash.error(obj.msg)
@@ -126,6 +125,7 @@
             },
         },
         mounted() {
+            let self = this
             $('#playerlist tbody').sortable({
                 axis: "y",
                 forceHelperSize: true,
@@ -144,7 +144,7 @@
                     $('.ui-placeholder').height($(ui.item).height())
                 },
                 update: function(e, ui) {
-                    store.dispatch(types.ACTION.UPDATE_ORDER, {
+                    self.$store.dispatch(types.ACTION.UPDATE_ORDER, {
                         playerId: ui.item.data('id'),
                         position: ui.item.index('#playerlist tbody tr:visible')
                     })

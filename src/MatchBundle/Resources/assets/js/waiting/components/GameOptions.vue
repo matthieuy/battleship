@@ -53,7 +53,6 @@
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default {
@@ -94,7 +93,7 @@
                 }
 
                 this.loading[name] = true
-                store.dispatch(types.ACTION.CHANGE_OPTION, {
+                this.$store.dispatch(types.ACTION.CHANGE_OPTION, {
                     option: name,
                     value: value,
                 }).then((obj) => {

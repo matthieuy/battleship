@@ -11,7 +11,6 @@
 
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default {
@@ -55,7 +54,7 @@
                     return Flash.error('error_team')
                 }
                 for(let i=1; i<=nbTeam; i++) {
-                    if (typeof teamList[i] == 'undefined') {
+                    if (typeof teamList[i] === 'undefined') {
                         return Flash.error(Translator.trans('error_empty_team', {team: i}))
                     }
                 }
@@ -71,7 +70,7 @@
                 }
 
                 this.loading = true
-                store.dispatch(types.ACTION.RUN).then((obj) => {
+                this.$store.dispatch(types.ACTION.RUN).then((obj) => {
                     this.loading = false
                 })
             }

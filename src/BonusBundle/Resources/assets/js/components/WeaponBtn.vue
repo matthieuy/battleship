@@ -7,7 +7,6 @@
 <script>
     // Import
     import { mapState } from 'vuex'
-    import store from "@match/js/match/store/GameStore"
     import { MUTATION } from "@match/js/match/store/mutation-types"
 
     //Bower
@@ -29,12 +28,12 @@
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.WEAPON.MODAL)
+                this.$store.commit(MUTATION.WEAPON.MODAL)
             },
         },
         watch: {
             'weapon.score': (score) => {
-                if (store.state.weapon.enabled) {
+                if (this.$store.state.weapon.enabled) {
                     BubbleWeapon.badge(score)
                 }
             },

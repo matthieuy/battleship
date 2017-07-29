@@ -60,7 +60,6 @@
 <script>
     // Imports
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
     import moment from 'moment'
 
@@ -95,7 +94,7 @@
                 set(size) {
                     if (this.isCreator) {
                         size = Math.min(50, Math.max(15, size))
-                        store.dispatch(types.ACTION.CHANGE_SIZE, size)
+                        this.$store.dispatch(types.ACTION.CHANGE_SIZE, size)
                     }
                 }
             },
@@ -107,7 +106,7 @@
                 set(max) {
                     if (this.isCreator) {
                         max = Math.min(12, Math.max(2, max))
-                        store.dispatch(types.ACTION.CHANGE_MAX, max)
+                        this.$store.dispatch(types.ACTION.CHANGE_MAX, max)
                     }
                 }
             },

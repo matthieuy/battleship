@@ -7,7 +7,6 @@
 <script>
     // Import
     import { mapState } from 'vuex'
-    import store from "@match/js/match/store/GameStore"
     import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
     //Bower
@@ -31,7 +30,7 @@
         methods: {
             toggleModal() {
                 if (this.inventory.enabled) {
-                    store.commit(MUTATION.INVENTORY.MODAL)
+                    this.$store.commit(MUTATION.INVENTORY.MODAL)
                 }
             },
         },
@@ -46,10 +45,10 @@
                     this.loaded = true
                     let topicName = 'game/' + document.getElementById('slug').value + '/bonus'
                     WS.subscribeAction(topicName, 'score', (obj) => {
-                        store.dispatch(ACTION.AFTER_ROCKET, {score: obj })
+                        this.$store.dispatch(ACTION.AFTER_ROCKET, {score: obj })
                     })
                     WS.addAction(topicName, 'bonus', (obj) => {
-                        store.dispatch(ACTION.AFTER_ROCKET, {bonus: obj })
+                        this.$store.dispatch(ACTION.AFTER_ROCKET, {bonus: obj })
                     })
                 }
             },

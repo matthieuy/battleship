@@ -10,7 +10,6 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default{
@@ -46,7 +45,7 @@
                 this.loading = true
                 this.loaded = false
 
-                store.dispatch(types.ACTION.ADD_AI).then((obj) => {
+                this.$store.dispatch(types.ACTION.ADD_AI).then((obj) => {
                     this.loading = false
                     if (obj.msg) {
                         return Flash.error(obj.msg)
