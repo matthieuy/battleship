@@ -32,6 +32,8 @@ export const MUTATION = {
 
     CHAT: {
         MODAL: 'CHAT_MODAL',
+        CHANGE_TABS: 'CHAT_TABS',
+        CLOSE_TABS: 'CHAT_CLOSE_TABS',
     },
 }
 

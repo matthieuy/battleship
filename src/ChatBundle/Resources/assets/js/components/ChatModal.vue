@@ -13,13 +13,14 @@
                                 <div class="overflow">
                                     <div class="tab">
                                         <ul>
-                                            <li class="selected"><div>{{ trans('General') }}</div></li>
-                                            <li><div>{{ trans('Team') }}</div></li>
-                                            <li v-for="i in 3"><div>User {{ i }}<span class="close">&times;</span></div></li>
+                                            <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab('general')"><div>{{ trans('General') }}</div></li>
+                                            <li :class="{selected: chat.active_tab == 'team'}" @click="change_tab('team')"><div>{{ trans('Team') }}</div></li>
+                                            <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab(tab.id)">
+                                                <div>{{ tab.name }}<span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="messages">
-                                        dsdssdsdsds
                                     </div>
                                 </div>
                             </div>
@@ -56,12 +57,20 @@
         computed: {
             ...mapState([
                 'chat', // Chat module
-            ])
+            ]),
         },
         methods: {
             // Close modal
             close() {
                 this.$store.commit(MUTATION.CHAT.MODAL, false)
+            },
+            // Change active tab
+            change_tab(tabName) {
+                this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tabName)
+            },
+            // Close a tab
+            close_tab(tabName) {
+                this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabName)
             },
         },
         watch: {
@@ -143,6 +152,7 @@
             .close {
                 margin-left: 5px;
                 font-size: 80%;
+                cursor: pointer;
             }
         }
     }
