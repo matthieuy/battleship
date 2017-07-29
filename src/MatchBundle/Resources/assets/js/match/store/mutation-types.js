@@ -29,6 +29,10 @@ export const MUTATION = {
         SET_LIST: 'SET_LIST',
         SET_LIFE: 'SET_LIFE',
     },
+
+    CHAT: {
+        MODAL: 'CHAT_MODAL',
+    },
 }
 
 // Actions

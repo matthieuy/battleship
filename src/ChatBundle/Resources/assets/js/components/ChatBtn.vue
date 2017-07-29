@@ -1,5 +1,5 @@
 <template>
-    <div :title="trans('Chat')" class="bubble">
+    <div :title="trans('Chat')" class="bubble" @click="toggleModal()">
         <i class="gi gi-conversation"></i>
         <img id="chat-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -7,6 +7,7 @@
 <script>
     // Import
     import { mapState } from 'vuex'
+    import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
     //Bower
     import Favico from '@npm/favico.js/favico.js'
@@ -24,6 +25,11 @@
             ...mapState([
                 'chat', // Chat module
             ]),
+        },
+        methods: {
+            toggleModal() {
+                this.$store.commit(MUTATION.CHAT.MODAL)
+            },
         },
         watch: {
             // Change number of unread message
