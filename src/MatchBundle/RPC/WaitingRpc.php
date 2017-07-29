@@ -306,7 +306,7 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
-        $console = $this->translate('change_options', ['%name%' => $optionName, '%value%' => $value]);
+        $console = $this->translate('change_options', ['%name%' => $optionName, '%value%' => intval($value)]);
         $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
