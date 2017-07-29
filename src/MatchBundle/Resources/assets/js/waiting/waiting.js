@@ -17,6 +17,8 @@ import GameInfo from "./components/GameInfo.vue"
 import GameOptions from "./components/GameOptions.vue"
 import PlayersList from "./components/PlayersList.vue"
 import Console from "./components/Console.vue"
+import ChatBtn from "@chat/js/components/ChatBtn.vue"
+import ChatModal from "@chat/js/components/ChatModal.vue"
 
 // App vue
 new Vue({
@@ -30,6 +32,16 @@ new Vue({
         GameOptions,
         PlayersList,
         Console,
+        ChatModal,
+    },
+})
+
+// Top button
+new Vue({
+    el: '#btn-top',
+    store,
+    components: {
+        ChatBtn,
     },
 })
 

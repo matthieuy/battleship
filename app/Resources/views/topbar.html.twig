@@ -6,6 +6,9 @@
         </div>
     </div>
     <div id="btn-top">
+        {% if game is defined %}
+            <chat-btn></chat-btn>
+        {% endif %}
         {% if inGame|default(false) %}
             <inventory-btn></inventory-btn>
             <weapon-btn></weapon-btn>
