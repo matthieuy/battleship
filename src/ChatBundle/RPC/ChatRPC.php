@@ -3,12 +3,15 @@
 
 namespace ChatBundle\RPC;
 
+use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
+use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
+use UserBundle\Entity\User;
 
 /**
  * Class ChatRPC
@@ -58,6 +61,56 @@ class ChatRPC implements RpcInterface
      */
     public function send(ConnectionInterface $connection, WampRequest $request, array $params = [])
     {
+        try {
+            // Get game
+            $game = $this->getGame($params['slug']);
+            if (!$game instanceof Game) {
+                return $game;
+            }
+
+            // Get user (refresh)
+            $user = $this->clientManipulator->getClient($connection);
+            if (!$user instanceof User) {
+                throw new \Exception();
+            }
+            $user = $this->em->find('UserBundle:User', $user->getId());
+
+            // Get params
+            $msg = (isset($params['msg'])) ? $params['msg'] : '';
+            if (empty($msg)) {
+                throw new \Exception();
+            }
+
+            // Create message
+            $message = new Message();
+            $message
+                ->setAuthor($user)
+                ->setGame($game)
+                ->setText($msg);
+
+            // Set recipient and channel
+            $chan = (isset($params['chan'])) ? $params['chan'] : 'general';
+            if ($chan == 'team') {
+                // Team message
+                $player = $game->getPlayerByUser($user);
+                $message
+                    ->setChannel(Message::CHANNEL_TEAM)
+                    ->setRecipient($player->getTeam());
+            } elseif (preg_match('/^([0-9]+)$/', $chan)) {
+                // Private message
+                $message
+                    ->setChannel(Message::CHANNEL_PRIVATE)
+                    ->setRecipient($chan);
+            }
+
+            // Persist
+            $this->em->persist($message);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            return ['success' => false];
+        }
+
+        return ['success' => true];
     }
 
     /**
@@ -66,5 +119,22 @@ class ChatRPC implements RpcInterface
     public function getName()
     {
         return 'chat.rpc';
+    }
+
+    /**
+     * Get the game
+     * @param string $slug Slug game
+     *
+     * @return array|Game The game or array for RPC return
+     */
+    private function getGame($slug)
+    {
+        $repo = $this->em->getRepository('MatchBundle:Game');
+        $game = $repo->findOneBy(['slug' => $slug]);
+        if (!$game instanceof Game) {
+            return ['error' => 'Bad request'];
+        }
+
+        return $game;
     }
 }

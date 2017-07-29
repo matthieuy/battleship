@@ -26,9 +26,9 @@ TODO
 	- [ ] Bubble / read system
     - [ ] Use BBcode
     - [ ] notification
-    - [ ] General's room
-    - [ ] Game's room
-    - [ ] Team's room
+    - [X] General's room
+    - [X] Game's room
+    - [X] Team's room
     - [ ] System message
 - [ ] Notifications :
     - [ ] Config per type on profil page

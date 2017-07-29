@@ -23,7 +23,7 @@
                                     <div class="messages">
                                     </div>
 
-                                    <input id="input-msg" type="text" autocomplete="off" v-model="message" autofocus />
+                                    <input id="input-msg" type="text" autocomplete="off" v-model="message" autofocus @keyup="keyup($event)"/>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button success small-10 large-3 round">
+                                <button class="button success small-10 large-3 round" @click="send()">
                                     <i class="gi gi-square-bottle"></i>
                                     {{ trans('Send') }}
                                 </button>
@@ -81,6 +81,25 @@
             // Close a tab
             close_tab(tabName) {
                 this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabName)
+            },
+            // Key up in input msg
+            keyup(e) {
+                if (e.which === 13) {
+                    this.send()
+                }
+            },
+            // Send a message
+            send() {
+                if (this.message == '') {
+                    return false
+                }
+
+                let self = this
+                WS.callRPC('chat/send', {msg: this.message, chan: this.chat.active_tab}, function(obj) {
+                    if (obj.success) {
+                        self.message = ''
+                    }
+                })
             },
         },
         watch: {
