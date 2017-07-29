@@ -7,3 +7,13 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: gos_web_socket.topic }
+
+    # Chat RPC
+    chat.rpc:
+        class: ChatBundle\RPC\ChatRPC
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+        tags:
+            - { name: gos_web_socket.rpc }
