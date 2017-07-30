@@ -36,7 +36,7 @@
                                             <tr v-for="team in teams">
                                                 <td>
                                                     <ul>
-                                                        <li v-for="player in team.players">
+                                                        <li class="player-line" v-for="player in team.players">
                                                             <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
                                                             <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
                                                             <div class="avatar-content" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
@@ -179,7 +179,7 @@
 <style lang="less">
     @avatar-size: 50px;
     #modal-score {
-        li {
+        li.player-line {
             margin-bottom: 10px;
             line-height: @avatar-size;
             &:last-child {
