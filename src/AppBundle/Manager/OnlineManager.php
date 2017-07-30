@@ -7,6 +7,7 @@ use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
+use UserBundle\Entity\User;
 
 /**
  * Class OnlineManager
@@ -96,32 +97,37 @@ class OnlineManager
      */
     private function updateSessionList(ConnectionInterface $connection, Topic $topic, Game $game = null, $addToList = true)
     {
-        try {
-            $user = $this->clientManipulator->getClient($connection);
+        // Get sessionId
+        $user = $this->clientManipulator->getClient($connection);
+        if ($user instanceof User) {
             $client = $this->clientManipulator->findByUsername($topic, $user->getUsername());
             $sessionId = $client['connection']->WAMP->sessionId;
+        } elseif (is_string($user)) {
+            $sessionId = $user;
+        } else {
+            return;
+        }
 
-            if ($addToList) {
-                $infos = [
-                    'user' => $user,
-                    'topic' => $topic->getId(),
-                ];
-                if ($game && $user) {
-                    $player = $game->getPlayerByUser($user);
-                    if ($player) {
-                        $infos = array_merge($infos, [
-                            'player' => $player,
-                            'team' => $player->getTeam(),
-                            'game_id' => $game->getId(),
-                        ]);
-                    }
-                }
-
-                $this->sessionList[$sessionId] = $infos;
-            } else {
-                unset($this->sessionList[$sessionId]);
+        if ($addToList) {
+            // Get infos to add in array
+            $infos = [
+                'topic' => $topic->getId(),
+                'user' => $user,
+            ];
+            if ($game) {
+                $infos['game_id'] = $game->getId();
             }
-        } catch (\Exception $e) {
+            if ($user instanceof User) {
+                $player = $game->getPlayerByUser($user);
+                $infos['player'] = $player;
+                $infos['team'] = $player->getTeam();
+            }
+
+            // Add into list
+            $this->sessionList[$sessionId] = $infos;
+        } else {
+            // Remove item
+            unset($this->sessionList[$sessionId]);
         }
     }
 }

@@ -110,7 +110,39 @@ class ChatRPC implements RpcInterface
             return ['success' => false];
         }
 
+        // Push message
+        $this->pusher->push(['messages' => [$message->toArray()]], 'chat.topic', ['slug' => $game->getSlug()]);
+
         return ['success' => true];
+    }
+
+    /**
+     * Get messages
+     * @param ConnectionInterface $connection
+     * @param WampRequest         $request
+     * @param array               $params
+     *
+     * @return array
+     */
+    public function get(ConnectionInterface $connection, WampRequest $request, array $params = [])
+    {
+        // Get game
+        $game = $this->getGame($params['slug']);
+        if (!$game instanceof Game || !isset($params['timestamp'])) {
+            return $game;
+        }
+
+        // Get user
+        $user = $this->clientManipulator->getClient($connection);
+
+        // Get messages
+        $list = $this->em->getRepository('ChatBundle:Message')->getMessages($game, $params['timestamp'], $user);
+        $messages = [];
+        foreach ($list as $message) {
+            $messages[] = $message->toArray();
+        }
+
+        return ['messages' => $messages];
     }
 
     /**

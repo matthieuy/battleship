@@ -5,9 +5,8 @@ export default {
     state: {
         disabled: (typeof localStorage === 'undefined' || typeof indexedDB === 'undefined'),
         unread: 0,
-        modal: true,
+        modal: false,
         active_tab: 'general',
-        messages: [],
         open_tab: [{id:1, name:'User1'}, {id:25, name:'User2'}]
     },
     mutations: {
@@ -39,7 +38,8 @@ export default {
         },
         // Receive message
         [MUTATION.CHAT.RECEIVE](state, messages) {
-            state.messages = messages
+            let timestamp = localStorage.getItem('chat_' + document.getElementById('slug').value + '_timestamp') || 0
+            console.log('Message', messages)
         },
     },
     getters: {},

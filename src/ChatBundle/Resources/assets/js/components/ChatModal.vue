@@ -118,10 +118,17 @@
         },
         mounted() {
             if (!this.chat.disabled) {
+                let slug = document.getElementById('slug').value
+                let timestamp = localStorage.getItem('chat_'+slug+'_timestamp') || 0
+
+                // RPC Call
+                WS.callRPC('chat/get', {timestamp: timestamp}, (obj) => {
+                    this.$store.commit(MUTATION.CHAT.RECEIVE, obj.messages)
+                })
+
                 // Websocket subscribe
-                let topicName = 'chat/' + document.getElementById('slug').value
-                WS.subscribeAction(topicName, 'messages', (obj) => {
-                    this.$store.commit(MUTATION.CHAT.RECEIVE, obj)
+                WS.subscribeAction('chat/' + slug, 'messages', (messages) => {
+                    this.$store.commit(MUTATION.CHAT.RECEIVE, messages)
                 })
 
             }
@@ -216,6 +223,6 @@
     #input-msg {
         padding: 0 5px;
         margin-top: 10px;
-        min-height: auto;
+        min-height: 1em;
     }
 </style>
