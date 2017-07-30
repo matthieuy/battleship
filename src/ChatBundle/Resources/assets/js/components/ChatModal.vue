@@ -107,6 +107,12 @@
                 if (open) {
                     $(window).on('keyup', escapeTouch)
                     $('#input-msg').focus()
+                    $('#container').css({
+                        overflow: 'hidden',
+                        position: 'fixed',
+                    })
+                } else {
+                    $('#container').removeAttr('style')
                 }
             },
         },
