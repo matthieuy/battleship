@@ -2,11 +2,13 @@
 
 namespace ChatBundle\Topic;
 
+use AppBundle\Manager\OnlineManager;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
+use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
@@ -18,16 +20,19 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
 {
     private $clientManipulator;
     private $entityManager;
+    private $onlineManager;
 
     /**
      * ChatTopic constructor.
      * @param ClientManipulatorInterface $clientManipulator
      * @param EntityManager              $entityManager
+     * @param OnlineManager              $onlineManager
      */
-    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager)
+    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager, OnlineManager $onlineManager)
     {
         $this->clientManipulator = $clientManipulator;
         $this->entityManager = $entityManager;
+        $this->onlineManager = $onlineManager;
     }
 
     /**
@@ -49,7 +54,12 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        $connection->event($topic->getId(), ['messages' => []]);
+        // Get game
+        $slug = $request->getAttributes()->get('slug');
+        $game = $this->getGame($slug);
+
+        // Update online
+        $this->onlineManager->onSubscribe($connection, $topic, $game);
     }
 
     /**
@@ -60,6 +70,8 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        // Update online
+        $this->onlineManager->onUnSubscribe($connection, $topic);
     }
 
     /**
@@ -82,5 +94,24 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
     public function getName()
     {
         return 'chat';
+    }
+
+    /**
+     * Get game
+     * @param string $slug
+     *
+     * @return Game|null
+     */
+    private function getGame($slug)
+    {
+        if ($slug) {
+            $repo = $this->entityManager->getRepository('MatchBundle:Game');
+            $game = $repo->findOneBy(['slug' => $slug]);
+            if ($game instanceof Game) {
+                return $game;
+            }
+        }
+
+        return null;
     }
 }
