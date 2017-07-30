@@ -3,6 +3,7 @@ import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
 export default {
     state: {
+        disabled: (typeof localStorage === 'undefined' || typeof indexedDB === 'undefined'),
         unread: 0,
         modal: true,
         active_tab: 'general',

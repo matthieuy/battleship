@@ -2,7 +2,7 @@
     <div v-show="chat.modal">
         <div class="modal-bg"></div>
         <div class="modal-wrap">
-            <div class="modal-container"v-on:click.stop.prevent="close()">
+            <div class="modal-container" v-on:click.stop.prevent="close()">
                 <div class="modal-content">
                     <div id="modal-score" v-on:click.stop.prevent="">
                         <h1 class="center">{{ trans('Chat') }}</h1>
@@ -90,7 +90,7 @@
             },
             // Send a message
             send() {
-                if (this.message == '') {
+                if (this.message === '') {
                     return false
                 }
 
@@ -117,11 +117,14 @@
             },
         },
         mounted() {
-            // Websocket subscribe
-            let topicName = 'chat/' + document.getElementById('slug').value
-            WS.subscribeAction(topicName, 'messages', (obj) => {
-                this.$store.commit(MUTATION.CHAT.RECEIVE, obj)
-            })
+            if (!this.chat.disabled) {
+                // Websocket subscribe
+                let topicName = 'chat/' + document.getElementById('slug').value
+                WS.subscribeAction(topicName, 'messages', (obj) => {
+                    this.$store.commit(MUTATION.CHAT.RECEIVE, obj)
+                })
+
+            }
 
             store = this.$store
         },

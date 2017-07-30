@@ -1,5 +1,5 @@
 <template>
-    <div :title="trans('Chat')" class="bubble" @click="toggleModal()">
+    <div :title="trans('Chat')" class="bubble" :class="{disabled: chat.disabled}" @click="toggleModal()">
         <i class="gi gi-conversation"></i>
         <img id="chat-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -28,7 +28,9 @@
         },
         methods: {
             toggleModal() {
-                this.$store.commit(MUTATION.CHAT.MODAL)
+                if (!this.chat.disabled) {
+                    this.$store.commit(MUTATION.CHAT.MODAL)
+                }
             },
         },
         watch: {
