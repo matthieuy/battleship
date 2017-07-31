@@ -15,5 +15,6 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
+            - "@event_dispatcher"
         tags:
             - { name: gos_web_socket.rpc }
