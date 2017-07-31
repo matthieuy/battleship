@@ -52,10 +52,6 @@ Tests
 TODO
 ====
 
-- Chat room
-- Notifications system
-
-
 See the complete [TODO](TODO.md)
 
 See the [CHANGELOG](CHANGELOG.md)
