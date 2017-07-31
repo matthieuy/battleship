@@ -508,33 +508,14 @@ class GameRpc implements RpcInterface
      * @param Game   $game The game
      * @param Player $fromPlayer The player just play before
      *
-     * @return bool
+     * @return bool Game is over
      */
     private function nextTour(Game &$game, Player $fromPlayer)
     {
         // Get players and teams alive
-        $teamsList = [];
-        foreach ($game->getPlayers() as $player) {
-            if ($player->getLife() > 0) {
-                if (!isset($teamsList[$player->getTeam()])) {
-                    $teamsList[$player->getTeam()] = [];
-                }
-                $teamsList[$player->getTeam()][] = $player->getPosition();
-            }
-        }
-
-        // Game is over
-        if (count($teamsList) == 1) {
-            // Update game
-            $game
-                ->setStatus(Game::STATUS_END)
-                ->setLastShoot();
-
-            // Event
-            $event = new GameEvent($game);
-            $this->eventDispatcher->dispatch(MatchEvents::FINISH, $event);
-
-            return true;
+        $teamsList = $this->checkFinish($game);
+        if ($teamsList === false) {
+            return false;
         }
 
         // Next
@@ -581,6 +562,11 @@ class GameRpc implements RpcInterface
                     $okTour = false;
                     $fromPlayer = $player;
                     $this->shootAI($game, $fromPlayer);
+
+                    // Check if AI win
+                    if ($this->checkFinish($game) === false) {
+                        return false;
+                    }
                 }
             }
         } while (!$okTour);
@@ -828,5 +814,41 @@ class GameRpc implements RpcInterface
 
         // Persist
         $this->em->flush();
+    }
+
+    /**
+     * Check if game is over and get Teams alive
+     * @param Game $game
+     *
+     * @return array|bool teams list or false (if over)
+     */
+    private function checkFinish(Game &$game)
+    {
+        // Get players and teams alive
+        $teamsList = [];
+        foreach ($game->getPlayers() as $player) {
+            if ($player->getLife() > 0) {
+                if (!isset($teamsList[$player->getTeam()])) {
+                    $teamsList[$player->getTeam()] = [];
+                }
+                $teamsList[$player->getTeam()][] = $player->getPosition();
+            }
+        }
+
+        // Game is over
+        if (count($teamsList) == 1) {
+            // Update game
+            $game
+                ->setStatus(Game::STATUS_END)
+                ->setLastShoot();
+
+            // Event
+            $event = new GameEvent($game);
+            $this->eventDispatcher->dispatch(MatchEvents::FINISH, $event);
+
+            return false;
+        }
+
+        return $teamsList;
     }
 }
