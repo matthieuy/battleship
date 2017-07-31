@@ -55,7 +55,7 @@ export default {
         // After each rocket
         [ACTION.AFTER_ROCKET](context, box) {
             // Update inventory
-            if (box.bonus && box.bonus[context.rootState.me.position]) {
+            if (typeof box.bonus !== 'undefined' && typeof box.bonus[context.rootState.me.position] !== 'undefined') {
                 context.commit(MUTATION.INVENTORY.SET_NB, box.bonus[context.rootState.me.position])
                 delete box.life
             }
