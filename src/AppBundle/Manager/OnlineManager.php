@@ -30,16 +30,36 @@ class OnlineManager
 
     /**
      * Get all session of a user
-     * @param integer $userId User Id
+     * @param integer      $userId User Id
+     * @param integer|null $gameId Filter by game
      *
      * @return array Sessions ID
      */
-    public function getSessionsByUserId($userId)
+    public function getSessionsByUserId($userId, $gameId = null)
+    {
+        $sessionsId = [];
+        foreach ($this->sessionList as $sessionId => $infos) {
+            if ($infos['user'] instanceof User && $infos['user']->getId() === $userId && ($gameId === null || (isset($infos['game_id']) && $infos['game_id'] == $gameId))) {
+                $sessionsId[] = $sessionId;
+                dump($sessionId);
+            }
+        }
+
+        return $sessionsId;
+    }
+
+    /**
+     * Get sessions by game id
+     * @param integer $gameId
+     *
+     * @return array Sessions ID
+     */
+    public function getSessionByGameId($gameId)
     {
         $sessionsId = [];
 
         foreach ($this->sessionList as $sessionId => $infos) {
-            if ($infos['user']->getId() === $userId) {
+            if (isset($infos['game_id']) && $infos['game_id'] === $gameId) {
                 $sessionsId[] = $sessionId;
             }
         }
@@ -48,18 +68,18 @@ class OnlineManager
     }
 
     /**
-     * Get sessions by team
-     * @param Game    $game
-     * @param integer $team Team number
+     * Get Sessions by team
+     * @param integer $gameId Game id
+     * @param integer $team   Team number
      *
      * @return array Sessions ID
      */
-    public function getSessionsByTeam(Game $game, $team)
+    public function getSessionsByTeam($gameId, $team)
     {
         $sessionsId = [];
 
         foreach ($this->sessionList as $sessionId => $infos) {
-            if (isset($infos['team'], $infos['game_id']) && $infos['game_id'] === $game->getId() && $infos['team'] === $team) {
+            if (isset($infos['team'], $infos['game_id']) && $infos['game_id'] === $gameId && $infos['team'] === $team) {
                 $sessionsId[] = $sessionId;
             }
         }

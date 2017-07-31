@@ -3,6 +3,7 @@
 namespace ChatBundle\Topic;
 
 use AppBundle\Manager\OnlineManager;
+use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
@@ -41,9 +42,25 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
      * @param WampRequest  $request
      * @param string|array $data
      * @param string       $provider
+     *
+     * @return Topic
      */
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
+        $message = $data['message'];
+
+        // Public message
+        if (!isset($message['channel'])) {
+            return $topic->broadcast($data, [], $this->onlineManager->getSessionByGameId($message['game']));
+        }
+
+        // Team message
+        if ($message['channel'] == Message::CHANNEL_TEAM) {
+            return $topic->broadcast($data, [], $this->onlineManager->getSessionsByTeam($message['game'], $message['recipient']));
+        }
+
+        // Private message
+        return $topic->broadcast($data, [], $this->onlineManager->getSessionsByUserId($message['recipient'], $message['game']));
     }
 
     /**

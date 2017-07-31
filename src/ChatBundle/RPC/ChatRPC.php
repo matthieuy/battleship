@@ -111,7 +111,7 @@ class ChatRPC implements RpcInterface
         }
 
         // Push message
-        $this->pusher->push(['messages' => [$message->toArray()]], 'chat.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['message' => $message->toArray()], 'chat.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }

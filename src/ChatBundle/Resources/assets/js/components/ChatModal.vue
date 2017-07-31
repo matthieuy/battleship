@@ -165,8 +165,8 @@
                 })
 
                 // Websocket subscribe
-                WS.subscribeAction('chat/' + slug, 'messages', (messages) => {
-                    this.$store.commit(MUTATION.CHAT.RECEIVE, messages)
+                WS.subscribeAction('chat/' + slug, 'message', (message) => {
+                    this.$store.commit(MUTATION.CHAT.RECEIVE, [message])
                 })
             }
         },
@@ -240,6 +240,11 @@
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0,0,0,.5);
         background: #fff;
+    }
+
+    .messages {
+        max-height: 200px;
+        overflow-y: auto;
     }
 
     #input-msg {

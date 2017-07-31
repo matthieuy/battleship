@@ -21,7 +21,7 @@ TODO
     - [ ] Display stats on game
 - [ ] Chat room :
 	- [ ] Bubble / read system
-	- [ ] Dispatch push message
+	- [X] Dispatch push message
 	- [ ] Open private tab on receive private msg
 - [ ] Notifications :
     - [ ] Config per type on profil page
