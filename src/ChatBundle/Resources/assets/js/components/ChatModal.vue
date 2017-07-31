@@ -4,7 +4,7 @@
         <div class="modal-wrap">
             <div class="modal-container" v-on:click.stop.prevent="close()">
                 <div class="modal-content">
-                    <div id="modal-score" v-on:click.stop.prevent="">
+                    <div id="modal-chat" v-on:click.stop.prevent="">
                         <h1 class="center">{{ trans('Chat') }}</h1>
                         <div class="clear"></div>
 
@@ -176,7 +176,7 @@
     }
 </script>
 <style lang="less">
-    #modal-score .overflow {
+    #modal-chat .overflow {
         padding: 5px;
     }
     .tab {
@@ -263,13 +263,13 @@
         margin-top: 10px;
         min-height: 1em;
     }
-    
+
     .message {
         .msg-system {
             font-style: italic;
             color: #067a1b;
         }
-        
+
         .author {
             text-decoration: underline;
             cursor: pointer;

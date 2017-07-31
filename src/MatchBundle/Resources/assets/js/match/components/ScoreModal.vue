@@ -176,7 +176,7 @@
 <style lang="less">
     @avatar-size: 50px;
     #modal-score {
-        li.player-line {
+        li {
             margin-bottom: 10px;
             line-height: @avatar-size;
             &:last-child {
