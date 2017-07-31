@@ -266,7 +266,10 @@ class Message
         ];
 
         if ($this->author !== null) {
-            $infos['username'] = $this->author->getUsername();
+            $infos['author'] = [
+                'id' => $this->author->getId(),
+                'name' => $this->author->getUsername(),
+            ];
         } elseif ($this->context !== null) {
             $infos['context'] = $this->context;
         }

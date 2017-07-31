@@ -5,6 +5,7 @@
   "dependencies": {
     "async": "^2.5.0",
     "bazinga-translator": "^2.6.5",
+    "dexie": "^1.5.1",
     "exports-loader": "^0.6.4",
     "favico.js": "^0.3.10",
     "font-awesome": "^4.7.0",

@@ -1,5 +1,6 @@
 // Imports
 import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
+import db from "../database"
 
 export default {
     state: {
@@ -7,7 +8,8 @@ export default {
         unread: 0,
         modal: false,
         active_tab: 'general',
-        open_tab: [{id:1, name:'User1'}, {id:25, name:'User2'}]
+        open_tab: [],
+        messages: [],
     },
     mutations: {
         // Toggle modal
@@ -20,7 +22,10 @@ export default {
         },
         // Change active tab
         [MUTATION.CHAT.CHANGE_TABS](state, tab) {
-            state.active_tab = tab
+            if (tab.name && !state.open_tab.filter((t) => t.id === tab.id).length) {
+                state.open_tab.push(tab)
+            }
+            state.active_tab = tab.id
         },
         // Close tab
         [MUTATION.CHAT.CLOSE_TABS](state, tabId) {
@@ -38,10 +43,65 @@ export default {
         },
         // Receive message
         [MUTATION.CHAT.RECEIVE](state, messages) {
-            let timestamp = localStorage.getItem('chat_' + document.getElementById('slug').value + '_timestamp') || 0
-            console.log('Message', messages)
+            let localKey = 'chat_' + document.getElementById('slug').value + '_id'
+            let lastId = localStorage.getItem(localKey) || 0
+
+            messages.forEach(function(message) {
+                // Message infos
+                let infos = {
+                    id_message: message.id,
+                    game:  message.game,
+                    timestamp: message.timestamp,
+                    text: message.text,
+                }
+
+                // Author
+                if (typeof message.author !== 'undefined') {
+                    infos = Object.assign(infos, {
+                        author_id: message.author.id,
+                        author_name: message.author.name,
+                    })
+                } else if (typeof message.context !== 'undefined') {
+                    infos = Object.assign(infos, { context: message.context })
+                }
+
+                // Channel and recipient
+                if (typeof message.channel !== 'undefined') {
+                    infos = Object.assign(infos, {
+                        channel: message.channel,
+                        recipient: message.recipient,
+                    })
+                }
+
+                // Add message into DB
+                db.messages.add(infos)
+                state.messages.push(infos)
+
+                // Update last ID
+                if (message.id > lastId) {
+                    lastId = message.id
+                    localStorage.setItem(localKey, lastId)
+                }
+            })
+        },
+        // Add message
+        [MUTATION.CHAT.ADD_MESSAGE](state, message) {
+            state.messages.push(message)
         },
     },
     getters: {},
-    actions: {},
+    actions: {
+        // Load chat
+        [ACTION.CHAT.LOAD](context) {
+            db.messages
+                .where('game')
+                .equals(Number(document.getElementById('game-id').value))
+                .sortBy('timestamp', function(messages) {
+                    messages.forEach(function(message) {
+                        context.commit(MUTATION.CHAT.ADD_MESSAGE, message)
+                    })
+                })
+
+        },
+    },
 }

@@ -13,14 +13,19 @@
                                 <div class="overflow">
                                     <div class="tab">
                                         <ul>
-                                            <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab('general')"><div>{{ trans('General') }}</div></li>
-                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab('team')"><div>{{ trans('Team') }}</div></li>
-                                            <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab(tab.id)">
+                                            <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab({id: 'general'})"><div>{{ trans('General') }}</div></li>
+                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab({id:'team'})"><div>{{ trans('Team') }}</div></li>
+                                            <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab({id: tab.id})">
                                                 <div>{{ tab.name }}<span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="messages">
+                                        <div class="message" v-for="msg in messages" :class="{system: !msg.author_id}">
+                                            <span v-if="msg.author_id" class="author" @click="change_tab({id: msg.author_id, name: msg.author_name})">{{ msg.author_name }}</span> :
+                                            <span v-if="msg.author_id" class="msg-content">{{ msg.text }}</span>
+                                            <span v-if="!msg.author_id" class="msg-content">{{ trans(msg.text, msg.context) }}</span>
+                                        </div>
                                     </div>
 
                                     <input id="input-msg" type="text" autocomplete="off" v-model="message" autofocus @keyup="keyup($event)"/>
@@ -50,7 +55,6 @@
 <script>
     import { mapState } from 'vuex'
     import { MUTATION, ACTION } from "@match/js/match/store/mutation-types"
-    let store = null
 
     export default {
         props: {
@@ -67,7 +71,22 @@
         computed: {
             ...mapState([
                 'chat', // Chat module
+                'userId',
             ]),
+            // Get message (for the current tab)
+            messages() {
+                if (this.chat.active_tab === 'general') {
+                    return this.chat.messages.filter((message) => typeof message.channel === 'undefined')
+                } else if (this.chat.active_tab === 'team') {
+                    return this.chat.messages.filter((message) => message.channel === 1)
+                } else {
+                    return this.chat.messages.filter((message) => {
+                        return message.channel === 2 &&
+                            ((message.author_id === this.userId && message.recipient === this.chat.active_tab) ||
+                                (message.author_id === this.chat.active_tab && message.recipient === this.userId))
+                    })
+                }
+            },
         },
         methods: {
             // Close modal
@@ -75,12 +94,14 @@
                 this.$store.commit(MUTATION.CHAT.MODAL, false)
             },
             // Change active tab
-            change_tab(tabName) {
-                this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tabName)
+            change_tab(tab) {
+                if (tab.id !== this.chat.active_tab && tab.id !== this.userId) {
+                    this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tab)
+                }
             },
             // Close a tab
-            close_tab(tabName) {
-                this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabName)
+            close_tab(tabId) {
+                this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabId)
             },
             // Key up in input msg
             keyup(e) {
@@ -105,6 +126,16 @@
         watch: {
             ['chat.modal'](open) {
                 if (open) {
+                    let self = this
+                    let escapeTouch = function(e) {
+                        if (e.which === 27) {
+                            if (self.$store.state.chat.modal) {
+                                self.$store.commit(MUTATION.CHAT.MODAL, false)
+                            }
+                            $(window).off('keyup', escapeTouch)
+                        }
+                    }
+
                     $(window).on('keyup', escapeTouch)
                     $('#input-msg').focus()
                     $('#container').css({
@@ -119,10 +150,13 @@
         mounted() {
             if (!this.chat.disabled) {
                 let slug = document.getElementById('slug').value
-                let timestamp = localStorage.getItem('chat_'+slug+'_timestamp') || 0
+                let lastId = localStorage.getItem('chat_'+slug+'_id') || 0
+
+                // Load local message
+                this.$store.dispatch(ACTION.CHAT.LOAD)
 
                 // RPC Call
-                WS.callRPC('chat/get', {timestamp: timestamp}, (obj) => {
+                WS.callRPC('chat/get', {last: lastId}, (obj) => {
                     this.$store.commit(MUTATION.CHAT.RECEIVE, obj.messages)
                 })
 
@@ -130,24 +164,8 @@
                 WS.subscribeAction('chat/' + slug, 'messages', (messages) => {
                     this.$store.commit(MUTATION.CHAT.RECEIVE, messages)
                 })
-
             }
-
-            store = this.$store
         },
-    }
-
-    /**
-     * Press escape touch : close modal
-     * @param e
-     */
-    function escapeTouch(e) {
-        if (e.which == 27) {
-            if (store.state.chat.modal) {
-                store.commit(MUTATION.CHAT.MODAL, false)
-            }
-            $(window).off('keyup', escapeTouch)
-        }
     }
 </script>
 <style lang="less">

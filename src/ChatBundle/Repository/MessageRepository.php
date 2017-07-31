@@ -16,20 +16,20 @@ class MessageRepository extends EntityRepository
     /**
      * Get messages
      * @param Game      $game
-     * @param integer   $timestamp
+     * @param integer   $lastId
      * @param User|null $user
      *
      * @return Message[]
      */
-    public function getMessages(Game $game, $timestamp, User $user = null)
+    public function getMessages(Game $game, $lastId, User $user = null)
     {
         $builder = $this->createQueryBuilder('message');
         $builder
             ->select('message')
             ->where('message.game=:game')
             ->setParameter('game', $game)
-            ->andWhere('message.date > :date')
-            ->setParameter('date', $timestamp)
+            ->andWhere('message.id > :lastId')
+            ->setParameter('lastId', $lastId)
             ->orderBy('message.date', 'DESC');
 
         if ($user) {

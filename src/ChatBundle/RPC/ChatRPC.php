@@ -128,7 +128,7 @@ class ChatRPC implements RpcInterface
     {
         // Get game
         $game = $this->getGame($params['slug']);
-        if (!$game instanceof Game || !isset($params['timestamp'])) {
+        if (!$game instanceof Game || !isset($params['last'])) {
             return $game;
         }
 
@@ -136,7 +136,7 @@ class ChatRPC implements RpcInterface
         $user = $this->clientManipulator->getClient($connection);
 
         // Get messages
-        $list = $this->em->getRepository('ChatBundle:Message')->getMessages($game, $params['timestamp'], $user);
+        $list = $this->em->getRepository('ChatBundle:Message')->getMessages($game, intval($params['last']), $user);
         $messages = [];
         foreach ($list as $message) {
             $messages[] = $message->toArray();

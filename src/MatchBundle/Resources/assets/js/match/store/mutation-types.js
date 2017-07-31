@@ -35,6 +35,7 @@ export const MUTATION = {
         CHANGE_TABS: 'CHAT_TABS',
         CLOSE_TABS: 'CHAT_CLOSE_TABS',
         RECEIVE: 'CHAT_RECEIVE_MSG',
+        ADD_MESSAGE: 'CHAT_ADD_MESSAGE',
     },
 }
 
@@ -52,5 +53,9 @@ export const ACTION = {
     INVENTORY: {
         LOAD: 'LOAD_BONUS',
         USE: 'USE_BONUS',
+    },
+
+    CHAT: {
+        LOAD: 'CHAT_LOAD',
     },
 }

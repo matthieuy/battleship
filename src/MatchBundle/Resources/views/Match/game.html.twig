@@ -28,5 +28,6 @@
     </div>
     <input type="hidden" id="user-id" value="{{ app.user.id|default('0') }}">
     <input type="hidden" id="slug" value="{{ game.slug }}">
+    <input type="hidden" id="game-id" value="{{ game.id }}">
     <input type="hidden" id="ajax-weapons" value="{{ path('ajax.weapon') }}">
 {% endblock %}
