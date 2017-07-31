@@ -13,10 +13,14 @@
                                 <div class="overflow">
                                     <div class="tab">
                                         <ul>
-                                            <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab({id: 'general'})"><div>{{ trans('General') }}</div></li>
-                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab({id:'team'})"><div>{{ trans('Team') }}</div></li>
+                                            <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab({id: 'general'})">
+                                                <div>{{ trans('General') }} <span class="label" v-show="chat.unread_tab.general > 0">{{ chat.unread_tab.general }}</span></div>
+                                            </li>
+                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab({id:'team'})">
+                                                <div>{{ trans('Team') }} <span class="label" v-show="chat.unread_tab.team > 0">{{ chat.unread_tab.team }}</span></div>
+                                            </li>
                                             <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab({id: tab.id})">
-                                                <div>{{ tab.name }}<span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
+                                                <div>{{ tab.name }} <span class="label" v-show="chat.unread_tab[tab.id] > 0">{{ chat.unread_tab[tab.id] }}</span> <span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
                                             </li>
                                         </ul>
                                     </div>
@@ -79,17 +83,7 @@
             ]),
             // Get message (for the current tab)
             messages() {
-                if (this.chat.active_tab === 'general') {
-                    return this.chat.messages.filter((message) => typeof message.channel === 'undefined')
-                } else if (this.chat.active_tab === 'team') {
-                    return this.chat.messages.filter((message) => message.channel === 1)
-                } else {
-                    return this.chat.messages.filter((message) => {
-                        return message.channel === 2 &&
-                            ((message.author_id === this.userId && message.recipient === this.chat.active_tab) ||
-                                (message.author_id === this.chat.active_tab && message.recipient === this.userId))
-                    })
-                }
+                return this.chat.messages.filter((message) => message.tab === this.chat.active_tab)
             },
         },
         methods: {
@@ -115,16 +109,14 @@
             },
             // Send a message
             send() {
-                if (this.message === '') {
-                    return false
+                if (this.message !== '') {
+                    let self = this
+                    WS.callRPC('chat/send', {msg: this.message, chan: this.chat.active_tab}, function(obj) {
+                        if (obj.success) {
+                            self.message = ''
+                        }
+                    })
                 }
-
-                let self = this
-                WS.callRPC('chat/send', {msg: this.message, chan: this.chat.active_tab}, function(obj) {
-                    if (obj.success) {
-                        self.message = ''
-                    }
-                })
             },
         },
         watch: {
@@ -169,12 +161,12 @@
 
                 // RPC Call
                 WS.callRPC('chat/get', {last: lastId}, (obj) => {
-                    this.$store.commit(MUTATION.CHAT.RECEIVE, obj.messages)
+                    this.$store.dispatch(ACTION.CHAT.RECEIVE, obj.messages)
                 })
 
                 // Websocket subscribe
                 WS.subscribeAction('chat/' + slug, 'message', (message) => {
-                    this.$store.commit(MUTATION.CHAT.RECEIVE, [message])
+                    this.$store.dispatch(ACTION.CHAT.RECEIVE, [message])
                 })
             }
         },
@@ -217,6 +209,14 @@
                 text-align: center;
                 text-decoration: none;
                 cursor: pointer;
+            }
+
+            .label {
+                border-radius: 50%;
+                background-color: #656363;
+                color: #FFFFFF;
+                padding: 1px 5px;
+                margin-top: -1px;
             }
 
             &.selected {

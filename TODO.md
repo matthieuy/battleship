@@ -22,7 +22,7 @@ TODO
 - [ ] Chat room :
 	- [ ] Bubble / read system
 	- [X] Dispatch push message
-	- [ ] Open private tab on receive private msg
+	- [X] Open private tab on receive private msg
 - [ ] Notifications :
     - [ ] Config per type on profil page
 	- [ ] Notifications registry

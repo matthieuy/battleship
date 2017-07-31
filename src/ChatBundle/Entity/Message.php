@@ -270,7 +270,7 @@ class Message
                 'id' => $this->author->getId(),
                 'name' => $this->author->getUsername(),
             ];
-        } elseif ($this->context !== null) {
+        } elseif ($this->context !== null && !empty($this->context)) {
             $infos['context'] = $this->context;
         }
 

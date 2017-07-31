@@ -3,7 +3,7 @@ import Dexie from 'dexie'
 const db = new Dexie('chat')
 
 db.version(1).stores({
-    messages: '++id, &id_message, game, timestamp, author_id, author_name, channel, recipient, text, *context',
+    messages: '++id, &id_message, game, timestamp, author_id, author_name, tab, text, *context, unread',
 })
 
 db.open().catch(err => {

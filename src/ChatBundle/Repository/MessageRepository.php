@@ -30,7 +30,7 @@ class MessageRepository extends EntityRepository
             ->setParameter('game', $game)
             ->andWhere('message.id > :lastId')
             ->setParameter('lastId', $lastId)
-            ->orderBy('message.date', 'DESC');
+            ->orderBy('message.date', 'ASC');
 
         if ($user) {
             $orX = $builder->expr()->orX();

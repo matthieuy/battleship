@@ -6,6 +6,10 @@ export default {
     state: {
         disabled: (typeof localStorage === 'undefined' || typeof indexedDB === 'undefined'),
         unread: 0,
+        unread_tab: {
+            general: 0,
+            team: 0,
+        },
         modal: false,
         active_tab: 'general',
         open_tab: [],
@@ -41,8 +45,42 @@ export default {
             })
             state.open_tab = open_tab
         },
+        // Add message
+        [MUTATION.CHAT.ADD_MESSAGE](state, message) {
+            state.messages.push(message)
+            if (message.unread) {
+                // Increase unread number
+                state.unread++
+                if (typeof state.unread_tab[message.tab] === 'undefined') {
+                    state.unread_tab = Object.assign({}, state.unread_tab, {[message.tab]: 0})
+                }
+                state.unread_tab[message.tab]++
+
+                // Open tab
+                if (message.tab !== 'general' && message.tab !== 'team' && !state.open_tab.filter((t) => t.id === message.tab).length) {
+                    state.open_tab.push({
+                        id: message.tab,
+                        name: message.author_name,
+                    })
+                }
+            }
+        },
+    },
+    getters: {},
+    actions: {
+        // Load chat : add message from indexedDB
+        [ACTION.CHAT.LOAD](context) {
+            db.messages
+                .where('game')
+                .equals(Number(document.getElementById('game-id').value))
+                .sortBy('timestamp', function(messages) {
+                    messages.forEach(function(message) {
+                        context.commit(MUTATION.CHAT.ADD_MESSAGE, message)
+                    })
+                })
+        },
         // Receive message
-        [MUTATION.CHAT.RECEIVE](state, messages) {
+        [ACTION.CHAT.RECEIVE](context, messages) {
             let localKey = 'chat_' + document.getElementById('slug').value + '_id'
             let lastId = localStorage.getItem(localKey) || 0
 
@@ -53,29 +91,34 @@ export default {
                     game:  message.game,
                     timestamp: message.timestamp,
                     text: message.text,
+                    tab: 'general',
                 }
 
                 // Author
+                let isSender = false
                 if (typeof message.author !== 'undefined') {
                     infos = Object.assign(infos, {
                         author_id: message.author.id,
                         author_name: message.author.name,
                     })
+                    isSender = (context.rootState.userId === message.author.id)
                 } else if (typeof message.context !== 'undefined') {
-                    infos = Object.assign(infos, { context: message.context })
+                    infos.context = message.context
                 }
 
                 // Channel and recipient
                 if (typeof message.channel !== 'undefined') {
-                    infos = Object.assign(infos, {
-                        channel: message.channel,
-                        recipient: message.recipient,
-                    })
+                    infos.tab = (message.channel === 1) ? 'team' : (isSender) ? message.recipient : message.author.id
                 }
 
-                // Add message into DB
+                // Unread
+                if (!isSender && message.author && (!context.state.modal || (context.state.modal && context.state.active_tab !== infos.tab))) {
+                    infos.unread = true
+                }
+
+                // Add message into DB and chatbox
                 db.messages.add(infos)
-                state.messages.push(infos)
+                context.commit(MUTATION.CHAT.ADD_MESSAGE, infos)
 
                 // Update last ID
                 if (message.id > lastId) {
@@ -83,25 +126,6 @@ export default {
                     localStorage.setItem(localKey, lastId)
                 }
             })
-        },
-        // Add message
-        [MUTATION.CHAT.ADD_MESSAGE](state, message) {
-            state.messages.push(message)
-        },
-    },
-    getters: {},
-    actions: {
-        // Load chat
-        [ACTION.CHAT.LOAD](context) {
-            db.messages
-                .where('game')
-                .equals(Number(document.getElementById('game-id').value))
-                .sortBy('timestamp', function(messages) {
-                    messages.forEach(function(message) {
-                        context.commit(MUTATION.CHAT.ADD_MESSAGE, message)
-                    })
-                })
-
         },
     },
 }

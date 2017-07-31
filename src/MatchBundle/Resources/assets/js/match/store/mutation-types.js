@@ -34,7 +34,6 @@ export const MUTATION = {
         MODAL: 'CHAT_MODAL',
         CHANGE_TABS: 'CHAT_TABS',
         CLOSE_TABS: 'CHAT_CLOSE_TABS',
-        RECEIVE: 'CHAT_RECEIVE_MSG',
         ADD_MESSAGE: 'CHAT_ADD_MESSAGE',
     },
 }
@@ -57,5 +56,6 @@ export const ACTION = {
 
     CHAT: {
         LOAD: 'CHAT_LOAD',
+        RECEIVE: 'CHAT_RECEIVE_MSG',
     },
 }
