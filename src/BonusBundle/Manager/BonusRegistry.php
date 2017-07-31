@@ -159,10 +159,15 @@ class BonusRegistry
     public function trigger($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, array $options = [])
     {
         // Call methods
-        $method = BonusConstant::TRIGGER_LIST[$event];
+        $method = BonusConstant::$triggerList[$event];
         if (method_exists($bonus, $method)) {
             // Call method
             $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$options]);
+
+            // Use it : dispatch event
+            if ($event == BonusConstant::WHEN_USE) {
+                $this->eventDispatcher->dispatch(BonusEvents::USE_IT, new BonusEvent($player, $bonus, $inventory));
+            }
 
             // WS push
             if ($returnWS) {
