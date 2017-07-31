@@ -29,13 +29,14 @@ class Message
     /**
      * @var User|null User or system
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     protected $author;
 
     /**
      * @var Game
      * @ORM\ManyToOne(targetEntity="MatchBundle\Entity\Game")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $game;
 
