@@ -1,5 +1,19 @@
 # CHANGELOG
 
+### v0.3.0 (2017-07-31)
+
+  * Penalty
+  * Translations
+  * Chat
+  * Mobile : 
+    * Long press to do a shoot
+    * Detect online/offline event
+  * AI avatars
+  * Update SF v3.3.5
+  * User can change email and password
+  * Remove bower and replace it with yarn
+  * Docker images
+
 ### v0.2.5 (2017-07-11)
   * User :
     * "Remember me" on logon
