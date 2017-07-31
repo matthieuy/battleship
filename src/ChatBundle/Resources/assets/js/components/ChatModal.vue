@@ -20,7 +20,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="messages">
+                                    <div class="messages" id="messages">
                                         <div class="message" v-for="msg in messages">
                                             <div v-if="!msg.author_id">
                                                 <span class="msg-system">{{ trans(msg.text, msg.context) }}</span>
@@ -128,6 +128,14 @@
             },
         },
         watch: {
+            // Update messages list : scroll bottom
+            messages() {
+                setTimeout(function() {
+                let element = document.getElementById('messages')
+                element.scrollTop = element.scrollHeight
+                }, 50)
+            },
+            // Open/Close modal
             ['chat.modal'](open) {
                 if (open) {
                     let self = this
