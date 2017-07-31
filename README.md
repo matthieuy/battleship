@@ -26,6 +26,7 @@ Features
 - Bonus and inventory
 - Animate shot
 - Translations
+- Chat
 
 
 Installation
