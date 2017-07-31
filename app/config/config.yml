@@ -8,6 +8,7 @@ imports:
     - { resource: bundles/maba_webpack.yml }
     - { resource: bundles/gos_websocket.yml }
     - { resource: bundles/translate.yml }
+    - { resource: bundles/snc_redis.yml }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@MatchBundle/Resources/config/services.yml" }

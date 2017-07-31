@@ -30,3 +30,10 @@ services:
             - "%session_name%"
         tags:
             - { name: kernel.event_listener, event: gos_web_socket.server_launched, method: "onServerStart" }
+
+    # WS : Redis storage
+    websocket.storage.predis:
+        class: Gos\Bundle\WebSocketBundle\Client\Driver\PredisDriver
+        arguments:
+            - "@snc_redis.ws_client"
+            - "%session_name%"

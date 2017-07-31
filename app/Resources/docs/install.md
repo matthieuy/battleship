@@ -12,6 +12,7 @@ You need :
 - NPM ([see install instructions](https://nodejs.org/en/download/package-manager/))
 - Yarn (`npm install -g yarn`)
 - ZeroMQ
+- Redis (`sudo apt-get install redis-server`)
 
 You can install ZeroMQ with this command (on ubuntu/debian like) :
 

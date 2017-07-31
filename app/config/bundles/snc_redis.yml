@@ -1,0 +1,10 @@
+snc_redis:
+    clients:
+        ws_client:
+            type: predis
+            alias: ws_client #snc_redis.ws_client
+            dsn: "redis://%redis_host%/2"
+            options:
+                profile: 2.2
+                connection_timeout: 10
+                read_write_timeout: 30

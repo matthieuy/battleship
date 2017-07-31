@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         lsb-release \
         sudo \
         unzip \
+        redis-server \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP extension

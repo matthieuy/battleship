@@ -46,7 +46,9 @@
         "twig/extensions": "^1.4",
         "react/zmq": "^0.3.0",
         "intervention/image": "^2.4",
-        "willdurand/js-translation-bundle": "^2.6"
+        "willdurand/js-translation-bundle": "^2.6",
+        "predis/predis": "^1.1",
+        "snc/redis-bundle": "2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
