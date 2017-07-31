@@ -32,7 +32,7 @@
             },
         },
         watch: {
-            'weapon.score': (score) => {
+            ['weapon.score'](score) {
                 if (this.$store.state.weapon.enabled) {
                     BubbleWeapon.badge(score)
                 }
