@@ -18,3 +18,13 @@ services:
             - "@event_dispatcher"
         tags:
             - { name: gos_web_socket.rpc }
+
+    # Chat listener
+    chat.listener:
+        class: ChatBundle\EventListener\ChatListener
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@gos_web_socket.zmq.pusher"
+            - "@translator"
+        tags:
+            - { name: kernel.event_subscriber }

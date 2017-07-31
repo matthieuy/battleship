@@ -458,6 +458,7 @@ class GameRpc implements RpcInterface
 
         // Prepare event
         $event = new TouchEvent($game);
+        $event->setBoat($boat);
 
         // Calcul points
         if ($victim->getLife() == 0) { // Fatal
