@@ -21,10 +21,14 @@
                                         </ul>
                                     </div>
                                     <div class="messages">
-                                        <div class="message" v-for="msg in messages" :class="{system: !msg.author_id}">
-                                            <span v-if="msg.author_id" class="author" @click="change_tab({id: msg.author_id, name: msg.author_name})">{{ msg.author_name }}</span> :
-                                            <span v-if="msg.author_id" class="msg-content">{{ msg.text }}</span>
-                                            <span v-if="!msg.author_id" class="msg-content">{{ trans(msg.text, msg.context) }}</span>
+                                        <div class="message" v-for="msg in messages">
+                                            <div v-if="!msg.author_id">
+                                                <span class="msg-system">{{ trans(msg.text, msg.context) }}</span>
+                                            </div>
+                                            <div v-if="msg.author_id">
+                                                <span class="author" @click="change_tab({id: msg.author_id, name: msg.author_name})">{{ msg.author_name }}</span> :
+                                                <span class="msg-content">{{ msg.text }}</span>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -232,7 +236,7 @@
         z-index: 1;
         clear: both;
         min-height: 200px;
-        padding: 20px;
+        padding: 5px 10px;
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0,0,0,.5);
         background: #fff;
@@ -242,5 +246,17 @@
         padding: 0 5px;
         margin-top: 10px;
         min-height: 1em;
+    }
+    
+    .message {
+        .msg-system {
+            font-style: italic;
+            color: #067a1b;
+        }
+        
+        .author {
+            text-decoration: underline;
+            cursor: pointer;
+        }
     }
 </style>

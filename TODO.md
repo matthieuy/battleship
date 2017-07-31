@@ -5,13 +5,11 @@ TODO
 	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
 - [ ] Documentations :
-	- [X] HowTo add a weapon
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif
 - [ ] Game :
     - [ ] ISO view
     - [ ] Shortcuts
-    - [X] Update status on waiting page
 - [ ] Bonus :
     - [ ] Make more bonus
 	- [ ] Add some trigger for bonus
@@ -22,14 +20,9 @@ TODO
     - [ ] Display user stats on profil
     - [ ] Display stats on game
 - [ ] Chat room :
-	- [ ] Send/Receive message
 	- [ ] Bubble / read system
-    - [ ] Use BBcode
-    - [ ] notification
-    - [X] General's room
-    - [X] Game's room
-    - [X] Team's room
-    - [ ] System message
+	- [ ] Dispatch push message
+	- [ ] Open private tab on receive private msg
 - [ ] Notifications :
     - [ ] Config per type on profil page
 	- [ ] Notifications registry
