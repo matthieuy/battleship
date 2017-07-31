@@ -42,25 +42,21 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
      * @param WampRequest  $request
      * @param string|array $data
      * @param string       $provider
-     *
-     * @return Topic
      */
     public function onPush(Topic $topic, WampRequest $request, $data, $provider)
     {
         $message = $data['message'];
 
-        // Public message
         if (!isset($message['channel'])) {
-            return $topic->broadcast($data, [], $this->onlineManager->getSessionByGameId($message['game']));
+            // Public message
+            $topic->broadcast($data, [], $this->onlineManager->getSessionByGameId($message['game']));
+        } elseif ($message['channel'] == Message::CHANNEL_TEAM) {
+            // Team message
+            $topic->broadcast($data, [], $this->onlineManager->getSessionsByTeam($message['game'], $message['recipient']));
+        } else {
+            // Private message
+            $topic->broadcast($data, [], $this->onlineManager->getSessionsByUserId($message['recipient'], $message['game']));
         }
-
-        // Team message
-        if ($message['channel'] == Message::CHANNEL_TEAM) {
-            return $topic->broadcast($data, [], $this->onlineManager->getSessionsByTeam($message['game'], $message['recipient']));
-        }
-
-        // Private message
-        return $topic->broadcast($data, [], $this->onlineManager->getSessionsByUserId($message['recipient'], $message['game']));
     }
 
     /**
