@@ -57,7 +57,6 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from "@match/js/match/store/GameStore"
     import { MUTATION, ACTION } from "@match/js/match/store/mutation-types"
 
     export default {
@@ -82,7 +81,7 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.INVENTORY.MODAL, false)
+                this.$store.commit(MUTATION.INVENTORY.MODAL, false)
             },
             // Use bonus
             use() {
@@ -92,7 +91,7 @@
                     this.selected.options.player = this.selectPlayer
                 }
 
-                store.dispatch(ACTION.INVENTORY.USE, this.selected)
+                this.$store.dispatch(ACTION.INVENTORY.USE, this.selected)
                 this.raz()
             },
             // highlight the bonus
@@ -142,7 +141,7 @@
             // Load inventory on open modal
             ['inventory.modal'](open) {
                 if (open) {
-                    store.dispatch(ACTION.INVENTORY.LOAD)
+                    this.$store.dispatch(ACTION.INVENTORY.LOAD)
                     $('#container').css({
                         overflow: 'hidden',
                         position: 'fixed',
@@ -152,24 +151,20 @@
                 }
 
                 // Bind escape touch
-                if (open || store.state.inventory.modal) {
+                if (open || this.$store.state.inventory.modal) {
+                    let self = this
+                    let escapeTouch = function(e) {
+                        if (e.which === 27) {
+                            if (self.$store.state.inventory.modal) {
+                                self.$store.commit(MUTATION.INVENTORY.MODAL, false)
+                            }
+                            $(window).off('keyup', escapeTouch)
+                        }
+                    }
                     $(window).on('keyup', escapeTouch)
                 }
             },
         },
-    }
-
-    /**
-     * Press escape touch : close modal
-     * @param e
-     */
-    function escapeTouch(e) {
-        if (e.which == 27) {
-            if (store.state.inventory.modal) {
-                store.commit(MUTATION.INVENTORY.MODAL, false)
-            }
-            $(window).off('keyup', escapeTouch)
-        }
     }
 </script>
 <style lang="less">

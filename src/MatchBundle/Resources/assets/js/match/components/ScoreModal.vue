@@ -97,7 +97,6 @@
 </template>
 <script>
     import { mapState, mapGetters } from 'vuex'
-    import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
     require('@app/js/jquery.timeago.js')
@@ -130,7 +129,7 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.SCORE.MODAL, false)
+                this.$store.commit(MUTATION.SCORE.MODAL, false)
             },
         },
         watch: {
@@ -138,15 +137,26 @@
             ['score.modal'](open) {
                 let topicName = 'game/' + document.getElementById('slug').value + '/score'
                 if (open) {
+                    let self = this
                     WS.subscribeAction(topicName, 'scores', (obj) => {
-                        store.commit(MUTATION.SCORE.SET_LIST, obj)
+                        self.$store.commit(MUTATION.SCORE.SET_LIST, obj)
                     })
-                    $(window).on('keyup', escapeTouch)
+
                     $('#container').css({
                         overflow: 'hidden',
                         position: 'fixed',
                     })
                     $('#chrono span').timeago('updateFromDOM')
+
+                    let escapeTouch = function(e) {
+                        if (e.which === 27) {
+                            if (self.$store.state.score.modal) {
+                                self.$store.commit(MUTATION.SCORE.MODAL, false)
+                            }
+                            $(window).off('keyup', escapeTouch)
+                        }
+                    }
+                    $(window).on('keyup', escapeTouch)
                 } else {
                     WS.unsubscribe(topicName)
                     $('#container').removeAttr('style')
@@ -161,19 +171,6 @@
         mounted() {
             this.latency = parseInt(parseInt(this.time) - (Date.now() / 1000))
         },
-    }
-
-    /**
-     * Press escape touch : close modal
-     * @param e
-     */
-    function escapeTouch(e) {
-        if (e.which == 27) {
-            if (store.state.score.modal) {
-                store.commit(MUTATION.SCORE.MODAL, false)
-            }
-            $(window).off('keyup', escapeTouch)
-        }
     }
 </script>
 <style lang="less">
