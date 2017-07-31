@@ -3,7 +3,6 @@ services:
     chat.topic:
         class: ChatBundle\Topic\ChatTopic
         arguments:
-            - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@online.manager"
         tags:

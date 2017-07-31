@@ -5,7 +5,6 @@ namespace ChatBundle\Topic;
 use AppBundle\Manager\OnlineManager;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
@@ -19,19 +18,16 @@ use Ratchet\Wamp\Topic;
  */
 class ChatTopic implements TopicInterface, PushableTopicInterface
 {
-    private $clientManipulator;
     private $entityManager;
     private $onlineManager;
 
     /**
      * ChatTopic constructor.
-     * @param ClientManipulatorInterface $clientManipulator
-     * @param EntityManager              $entityManager
-     * @param OnlineManager              $onlineManager
+     * @param EntityManager $entityManager
+     * @param OnlineManager $onlineManager
      */
-    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager, OnlineManager $onlineManager)
+    public function __construct(EntityManager $entityManager, OnlineManager $onlineManager)
     {
-        $this->clientManipulator = $clientManipulator;
         $this->entityManager = $entityManager;
         $this->onlineManager = $onlineManager;
     }
