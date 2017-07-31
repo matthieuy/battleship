@@ -25,12 +25,14 @@ class AppKernel extends Kernel
             new Maba\Bundle\WebpackBundle\MabaWebpackBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
 
             // Bundle
             new AppBundle\AppBundle(),
             new UserBundle\UserBundle(),
             new MatchBundle\MatchBundle(),
             new BonusBundle\BonusBundle(),
+            new ChatBundle\ChatBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

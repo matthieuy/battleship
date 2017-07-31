@@ -23,6 +23,7 @@ class TouchEvent extends Event
     protected $shooter;
     protected $victim;
     protected $type;
+    protected $boat = [];
 
     /**
      * TouchEvent constructor.
@@ -31,6 +32,15 @@ class TouchEvent extends Event
     public function __construct(Game $game)
     {
         $this->game = $game;
+    }
+
+    /**
+     * Get Game
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 
     /**
@@ -47,6 +57,15 @@ class TouchEvent extends Event
     }
 
     /**
+     * Get Type
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Setter shooter
      * @param Player|null $shooter
      *
@@ -60,6 +79,15 @@ class TouchEvent extends Event
     }
 
     /**
+     * Get Shooter
+     * @return Player|null
+     */
+    public function getShooter()
+    {
+        return $this->shooter;
+    }
+
+    /**
      * Setter victim
      * @param Player $victim
      *
@@ -68,6 +96,37 @@ class TouchEvent extends Event
     public function setVictim(Player $victim)
     {
         $this->victim = $victim;
+
+        return $this;
+    }
+
+    /**
+     * Get Victim
+     * @return Player
+     */
+    public function getVictim()
+    {
+        return $this->victim;
+    }
+
+    /**
+     * Get Boat
+     * @return array
+     */
+    public function getBoat()
+    {
+        return $this->boat;
+    }
+
+    /**
+     * Set Boat
+     * @param array $boat
+     *
+     * @return $this
+     */
+    public function setBoat(array $boat)
+    {
+        $this->boat = $boat;
 
         return $this;
     }

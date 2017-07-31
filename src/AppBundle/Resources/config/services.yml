@@ -1,4 +1,10 @@
 services:
+    # Online manager
+    online.manager:
+        class: AppBundle\Manager\OnlineManager
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
+
     # Homepage topic
     homepage.topic:
         class: AppBundle\Topic\HomeTopic

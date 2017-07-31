@@ -9,6 +9,8 @@ export default {
         modal: false,
         list: [],
         life: 0,
+        chrono: null,
+        penalty: false,
     },
     mutations: {
         // On first load game
@@ -20,6 +22,8 @@ export default {
                 }
                 return (typeof player.me != 'undefined')
             })
+            state.chrono = obj.chrono
+            state.penalty = obj.options.penalty
         },
         // Toggle modal
         [MUTATION.SCORE.MODAL](state, status) {
@@ -32,6 +36,16 @@ export default {
         // Receive list from WS
         [MUTATION.SCORE.SET_LIST](state, list) {
             state.list = list
+        },
+        // After animate
+        [MUTATION.AFTER_ANIMATE](state, obj) {
+            if (obj.chrono) {
+                state.chrono = obj.chrono
+            }
+        },
+        // Set life
+        [MUTATION.SCORE.SET_LIFE](state, life) {
+            state.life = life
         },
     },
     actions: {

@@ -1,7 +1,6 @@
 {
     "name": "matthieuy/battleship",
     "description": "Battleship game with multiplayer support",
-    "version": "0.2.5",
     "keywords": ["php", "game", "multiplayer", "battleship", "realtime"],
     "homepage": "https://github.com/matthieuy/battleship",
     "license": "MIT",
@@ -46,7 +45,8 @@
         "gos/web-socket-bundle": "^1.8",
         "twig/extensions": "^1.4",
         "react/zmq": "^0.3.0",
-        "intervention/image": "^2.4"
+        "intervention/image": "^2.4",
+        "willdurand/js-translation-bundle": "^2.6"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

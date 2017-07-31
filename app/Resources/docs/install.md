@@ -16,7 +16,7 @@ You need :
 You can install ZeroMQ with this command (on ubuntu/debian like) :
 
 ```
-sudo apt-get install libzmq3-dev php5-zmq
+sudo apt-get install libzmq3-dev php-zmq
 ```
 
 Reload apache/nginx after install it
@@ -40,7 +40,6 @@ Reload apache/nginx after install it
 ```
 composer install -o
 yarn install
-bower install
 php bin/console maba:webpack:compile --env=prod
 ```
 
@@ -59,5 +58,7 @@ Launch the websocket server :
 ```
 php bin/console gos:websocket:server --env=prod
 ```
+
+See [nginx configuration](nginx.md) to configure nginx
 
 See [ssl configuration](ssl.md) if you want to use secure connection to websocket.

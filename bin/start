@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# This script start the battleship websocket
+#
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+source $SCRIPTPATH/vars
+cd $ROOTPATH
+
+echo "Start Websocket"
+./bin/console gos:websocket:server --env=prod $@ & echo $! > $PIDFILE

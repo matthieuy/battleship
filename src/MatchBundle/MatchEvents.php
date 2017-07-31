@@ -55,4 +55,10 @@ final class MatchEvents
      * Instance of MatchBundle\Event\GameEvent
      */
     const CHANGE_TOUR = 'match.change_tour';
+
+    /**
+     * When a player get a penalty
+     * Instance of MatchBundle\Event\PenaltyEvent
+     */
+    const PENALTY = 'match.penalty';
 }

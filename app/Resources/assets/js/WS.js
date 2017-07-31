@@ -6,6 +6,7 @@ let WS = (function(uri) {
         this._listeners = {}
         this._subscribers = {}
         this._dataDefault = {}
+        this._tryRPC = 0
         this._onResult = function(topicName, result) {
             let that = this
             $.each(result, function(dataName, obj) {
@@ -44,7 +45,7 @@ let WS = (function(uri) {
                 that._session = false
                 console.error('[Socket] Error : ' + reason + ' (code:' + code + ')')
                 if (code === 3) {
-                    return Flash.error("Error connecting Websocket!");
+                    return Flash.error("error_ws")
                 }
                 that.fire({
                     type: "socket/disconnect",
@@ -58,17 +59,17 @@ let WS = (function(uri) {
     }
 
     Socket.prototype.on = function(type, listener) {
-        if (typeof this._listeners[type] == "undefined") {
+        if (typeof this._listeners[type] === "undefined") {
             this._listeners[type] = []
         }
 
         this._listeners[type].push(listener)
 
-        return this;
+        return this
     };
 
     Socket.prototype.fire = function(event) {
-        if (typeof event == "string") {
+        if (typeof event === "string") {
             event = { type: event }
         }
         if (!event.target) {
@@ -109,10 +110,18 @@ let WS = (function(uri) {
     }
 
     Socket.prototype.callRPC = function(entryPoint, data, cb) {
-        entryPoint = 'rpc/' + entryPoint
         if (!this._session) {
-            return console.error('[RPC] Session unavailable');
+            console.error('[RPC] Session unavailable (try ' + this._tryRPC + ')');
+            this._tryRPC++
+            if (this._tryRPC >= 10) {
+                return console.error('[RPC] Session unavailable after ' + this._tryRPC + 'try')
+            } else {
+                let self = this
+                return setTimeout(function() { self.callRPC(entryPoint, data, cb) }, 1000)
+            }
         }
+
+        entryPoint = 'rpc/' + entryPoint
 
         if (typeof data !== 'undefined') {
             $.extend(data, this._dataDefault);
@@ -127,16 +136,16 @@ let WS = (function(uri) {
             if (obj.error) {
                 return Flash.error(obj.error)
             }
-            if (typeof cb == 'function') {
+            if (typeof cb === 'function') {
                 cb(obj)
             }
         }, function(error, desc) {
-            console.log(error, desc);
+            console.log(error, desc)
         })
     }
 
     Socket.prototype.subscribe = function(topicName) {
-        if (typeof this._subscribers[topicName] == 'undefined') {
+        if (typeof this._subscribers[topicName] === 'undefined') {
             console.info('[Socket] Subscribe topic', topicName)
             this._subscribers[topicName] = {}
             if (this._session) {
@@ -169,7 +178,7 @@ let WS = (function(uri) {
     }
 
     Socket.prototype.addAction = function(topicName, dataName, cb) {
-        if (typeof this._subscribers[topicName][dataName] == 'undefined') {
+        if (typeof this._subscribers[topicName][dataName] === 'undefined') {
             this._subscribers[topicName][dataName] = []
         }
         this._subscribers[topicName][dataName].push(cb)

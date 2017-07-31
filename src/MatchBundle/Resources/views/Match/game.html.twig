@@ -22,10 +22,12 @@
     <div id="vue">
         <grid><i class="fa fa-spin fa-spinner"></i></grid>
         <weapon-modal></weapon-modal>
-        <score-modal></score-modal>
+        <score-modal time="{{ 'now'|date('U') }}"></score-modal>
         <inventory-modal></inventory-modal>
+        <chat-modal></chat-modal>
     </div>
     <input type="hidden" id="user-id" value="{{ app.user.id|default('0') }}">
     <input type="hidden" id="slug" value="{{ game.slug }}">
+    <input type="hidden" id="game-id" value="{{ game.id }}">
     <input type="hidden" id="ajax-weapons" value="{{ path('ajax.weapon') }}">
 {% endblock %}

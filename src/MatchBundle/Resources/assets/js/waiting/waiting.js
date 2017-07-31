@@ -1,10 +1,10 @@
 // Require JS libs
 require('@app/js/table.js')
 require('@app/js/tooltips.js')
-require('@bower/jquery-ui/ui/core.js')
-require('@bower/jquery-ui/ui/widget.js')
-require('@bower/jquery-ui/ui/widgets/mouse.js')
-require('@bower/jquery-ui/ui/widgets/sortable.js')
+require('@npm/jquery-ui/ui/core.js')
+require('@npm/jquery-ui/ui/widget.js')
+require('@npm/jquery-ui/ui/widgets/mouse.js')
+require('@npm/jquery-ui/ui/widgets/sortable.js')
 
 // Imports
 import Vue from "vue"
@@ -17,6 +17,8 @@ import GameInfo from "./components/GameInfo.vue"
 import GameOptions from "./components/GameOptions.vue"
 import PlayersList from "./components/PlayersList.vue"
 import Console from "./components/Console.vue"
+import ChatBtn from "@chat/js/components/ChatBtn.vue"
+import ChatModal from "@chat/js/components/ChatModal.vue"
 
 // App vue
 new Vue({
@@ -30,6 +32,16 @@ new Vue({
         GameOptions,
         PlayersList,
         Console,
+        ChatModal,
+    },
+})
+
+// Top button
+new Vue({
+    el: '#btn-top',
+    store,
+    components: {
+        ChatBtn,
     },
 })
 
@@ -57,6 +69,6 @@ $(() => {
 
     // Delete button
     $(document).on('click', '#btn-delete', function() {
-        return window.confirm('Are you sure to delete the game?');
+        return window.confirm(Translator.trans('ask_delete_game'));
     });
 })

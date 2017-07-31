@@ -29,6 +29,13 @@ export const MUTATION = {
         SET_LIST: 'SET_LIST',
         SET_LIFE: 'SET_LIFE',
     },
+
+    CHAT: {
+        MODAL: 'CHAT_MODAL',
+        CHANGE_TABS: 'CHAT_TABS',
+        CLOSE_TABS: 'CHAT_CLOSE_TABS',
+        ADD_MESSAGE: 'CHAT_ADD_MESSAGE',
+    },
 }
 
 // Actions
@@ -45,5 +52,11 @@ export const ACTION = {
     INVENTORY: {
         LOAD: 'LOAD_BONUS',
         USE: 'USE_BONUS',
+    },
+
+    CHAT: {
+        LOAD: 'CHAT_LOAD',
+        RECEIVE: 'CHAT_RECEIVE_MSG',
+        MARK_READ: 'CHAT_MARK_READ',
     },
 }

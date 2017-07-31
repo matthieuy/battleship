@@ -11,6 +11,8 @@ import WeaponModal from "@bonus/js/components/WeaponModal.vue"
 import WeaponBtn from "@bonus/js/components/WeaponBtn.vue"
 import InventoryModal from "@bonus/js/components/InventoryModal.vue"
 import InventoryBtn from "@bonus/js/components/InventoryBtn.vue"
+import ChatBtn from "@chat/js/components/ChatBtn.vue"
+import ChatModal from "@chat/js/components/ChatModal.vue"
 import * as types from "./store/mutation-types"
 
 // App vue
@@ -22,6 +24,7 @@ new Vue({
         WeaponModal,
         ScoreModal,
         InventoryModal,
+        ChatModal,
     },
 })
 
@@ -33,6 +36,7 @@ new Vue({
         ScoreBtn,
         WeaponBtn,
         InventoryBtn,
+        ChatBtn,
     },
 })
 

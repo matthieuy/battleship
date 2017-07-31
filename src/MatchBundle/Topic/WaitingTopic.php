@@ -9,6 +9,7 @@ use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class WaitingTopic
@@ -17,14 +18,17 @@ use Ratchet\Wamp\Topic;
 class WaitingTopic implements TopicInterface, PushableTopicInterface
 {
     private $em;
+    private $translator;
 
     /**
      * WaitingTopic constructor (DI)
-     * @param EntityManager $em
+     * @param EntityManager       $em
+     * @param TranslatorInterface $translator
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, TranslatorInterface $translator)
     {
         $this->em = $em;
+        $this->translator = $translator;
     }
 
     /**
@@ -60,7 +64,7 @@ class WaitingTopic implements TopicInterface, PushableTopicInterface
             $connection->event($topic->getId(), [
                 'players' => ($game) ? $this->getPlayersArray($game) : [],
                 'infos' => ($game) ? $this->getGameArray($game) : [],
-                'console' => 'Game loaded',
+                'console' => $this->translator->trans('game_load', [], 'console'),
             ]);
         }
     }

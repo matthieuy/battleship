@@ -6,8 +6,8 @@
                 <div class="modal-content">
                     <div id="modal-weapon" v-on:click.stop.prevent="">
                         <div class="center">
-                            <h1>Weapons</h1>
-                            <div v-show="isUser"><strong>{{ score }}</strong> points</div>
+                            <h1>{{ trans('weapon_name') }}</h1>
+                            <div v-show="isUser"><strong>{{ transChoice('points_plurial', score, {nb: score}) }}</strong></div>
                         </div>
                         <div class="clear"></div>
 
@@ -15,8 +15,8 @@
                             <div class="row">
                                 <div class="large-3 column" v-for="w in weapon.list">
                                     <div class="center weapon" :class="classWeapon(w)" @click="highlight(w)">
-                                        <h3>{{ w.name }}</h3>
-                                        <em>Price: {{ w.price }} points</em>
+                                        <h3>{{ trans(w.name) }}</h3>
+                                        <em>{{ trans('Price') }} : {{ transChoice('points_plurial', w.price, {nb: w.price}) }}</em>
                                         <div class="grid weapon-model" :style="styleModel(w)">
                                             <div class="clear row" v-for="row in w.grid">
                                                 <span class="box" v-for="box in row" :class="{'explose hit animated': box }"></span>
@@ -30,9 +30,9 @@
                         <div class="clear"></div>
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button primary small-10 large-3" @click="rotate()">Rotate</button>
-                                <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">Select</button>
-                                <button class="button alert small-10 large-3" @click="close()">Cancel</button>
+                                <button class="button primary small-10 large-3" @click="rotate()">{{ trans('Rotate') }}</button>
+                                <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">{{ trans('Select') }}</button>
+                                <button class="button alert small-10 large-3" @click="close()">{{ trans('Close') }}</button>
                             </div>
                         </div>
                     </div>
@@ -44,13 +44,18 @@
 <script>
     // Import
     import { mapState, mapGetters } from 'vuex'
-    import store from "@match/js/match/store/GameStore"
     import { ACTION, MUTATION } from "@match/js/match/store/mutation-types"
 
     export default {
         data() {
             return {
                 selected: null,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+                transChoice() {
+                    return Translator.transChoice(...arguments)
+                },
             }
         },
         computed: {
@@ -70,22 +75,22 @@
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.WEAPON.MODAL, false)
-                store.commit(MUTATION.WEAPON.SELECT)
+                this.$store.commit(MUTATION.WEAPON.MODAL, false)
+                this.$store.commit(MUTATION.WEAPON.SELECT)
                 this.selected = null
             },
             // Select weapon
             select() {
                 if (this.selected) {
-                    store.commit(MUTATION.WEAPON.SELECT, this.selected)
-                    store.commit(MUTATION.WEAPON.MODAL, false)
+                    this.$store.commit(MUTATION.WEAPON.SELECT, this.selected)
+                    this.$store.commit(MUTATION.WEAPON.MODAL, false)
                     this.selected = null
                 }
             },
             // Rotate weapons
             rotate() {
-                store.commit(MUTATION.WEAPON.SELECT)
-                store.commit(MUTATION.WEAPON.ROTATE)
+                this.$store.commit(MUTATION.WEAPON.SELECT)
+                this.$store.commit(MUTATION.WEAPON.ROTATE)
             },
             // CSS class for weapon box
             classWeapon(weapon) {
@@ -111,12 +116,13 @@
         watch: {
             // Load weapons list on the first call
             ['weapon.modal'](open) {
-                if (open && !store.state.weapon.loaded) {
-                    store.dispatch(ACTION.WEAPON.LOAD, $('input#ajax-weapons').val()).then((list) => {
+                let self = this
+                if (open && !this.$store.state.weapon.loaded) {
+                    this.$store.dispatch(ACTION.WEAPON.LOAD, $('input#ajax-weapons').val()).then((list) => {
                         if (list.error) {
                             return Flash.error(list.error)
                         }
-                        store.commit(MUTATION.WEAPON.SET_LIST, list)
+                        self.$store.commit(MUTATION.WEAPON.SET_LIST, list)
                     })
                 }
 
@@ -131,7 +137,17 @@
                 }
 
                 // Bind escape touch
-                if (open || store.state.weapon.modal || store.state.weapon.select) {
+                if (open || this.$store.state.weapon.modal || this.$store.state.weapon.select) {
+                    let escapeTouch = function(e) {
+                        if (e.which === 27) {
+                            if (self.$store.state.weapon.modal) {
+                                self.$store.commit(MUTATION.WEAPON.MODAL, false)
+                            } else {
+                                self.$store.commit(MUTATION.WEAPON.SELECT)
+                            }
+                            $(window).off('keyup', escapeTouch)
+                        }
+                    }
                     $(window).on('keyup', escapeTouch)
                 }
             },
@@ -141,7 +157,7 @@
                     return false;
                 }
 
-                weapon = store.getters.getWeapon(weapon)
+                weapon = this.$store.getters.getWeapon(weapon)
                 if (weapon) {
                     // Get weapon grid
                     let weaponBox = weapon.grid
@@ -185,21 +201,6 @@
                 }
             },
         },
-    }
-
-    /**
-     * Press escape touch : close or lease weapon
-     * @param e
-     */
-    function escapeTouch(e) {
-        if (e.which == 27) {
-            if (store.state.weapon.modal) {
-                store.commit(MUTATION.WEAPON.MODAL, false)
-            } else {
-                store.commit(MUTATION.WEAPON.SELECT)
-            }
-            $(window).off('keyup', escapeTouch)
-        }
     }
 </script>
 

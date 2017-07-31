@@ -3,44 +3,44 @@
         <thead class="cursor">
             <tr>
                 <th colspan="2">
-                    Informations
+                    {{ trans('Informations') }}
                     <div class="fa caret"></div>
                 </th>
             </tr>
         </thead>
         <tbody v-show="loaded">
             <tr>
-                <td>Name of game :</td>
+                <td>{{ trans('Name of the game', {}, 'form') }} :</td>
                 <td>{{ game.name }}</td>
             </tr>
             <tr>
-                <td>Grid size :</td>
+                <td>{{ trans('gridsize') }} :</td>
                 <td v-if="!isCreator">{{ game.size }} x {{ game.size }}</td>
                 <td v-if="isCreator">
                     <select v-model="size">
-                        <option value="15">15 x 15 (2 players)</option>
-                        <option value="20">20 x 20 (3 players)</option>
-                        <option value="25">25 x 25 (4/5 players)</option>
-                        <option value="30">30 x 30 (6/7 players)</option>
-                        <option value="35">35 x 35 (8 players)</option>
-                        <option value="40">40 x 40 (9 players)</option>
-                        <option value="45">45 x 45 (10 players)</option>
-                        <option value="50">50 x 50 (XXL)</option>
+                        <option value="15">15 x 15 ({{ trans('nb_players', {nb: 2}, 'form') }})</option>
+                        <option value="20">20 x 20 ({{ trans('nb_players', {nb: 3}, 'form') }})</option>
+                        <option value="25">25 x 25 ({{ trans('nb_players', {nb: '4/5'}, 'form') }})</option>
+                        <option value="30">30 x 30 ({{ trans('nb_players', {nb: '6/7'}, 'form') }})</option>
+                        <option value="35">35 x 35 ({{ trans('nb_players', {nb: 8}, 'form') }})</option>
+                        <option value="40">40 x 40 ({{ trans('nb_players', {nb: 9}, 'form') }})</option>
+                        <option value="45">45 x 45 ({{ trans('nb_players', {nb: 10}, 'form') }})</option>
+                        <option value="50">50 x 50 ({{ trans('XXL') }})</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>Create date :</td>
+                <td>{{ trans('create_date') }} :</td>
                 <td>{{ date }}</td>
             </tr>
             <tr>
-                <td>Creator :</td>
+                <td>{{ trans('Creator') }} :</td>
                 <td>
                     {{ game.creatorName }}
                 </td>
             </tr>
             <tr>
-                <td>Players :</td>
+                <td>{{ trans('Players') }} :</td>
                 <td>
                     {{ players.length }} /
                     <span v-if="isCreator">
@@ -50,8 +50,8 @@
                 </td>
             </tr>
             <tr>
-                <td>Status :</td>
-                <td></td>
+                <td>{{ trans('Status') }} :</td>
+                <td>{{ status }}</td>
             </tr>
         </tbody>
     </table>
@@ -60,11 +60,17 @@
 <script>
     // Imports
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
     import moment from 'moment'
 
     export default {
+        data() {
+            return {
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'game',
@@ -72,6 +78,10 @@
                 'isCreator',
                 'loaded',
             ]),
+            // Status
+            status() {
+                return (this.players.length < this.game.max) ? Translator.trans('waiting_player') : Translator.trans('game_full')
+            },
             // Get create date
             date() {
                 return moment.unix(this.game.date).format('LLL')
@@ -84,7 +94,7 @@
                 set(size) {
                     if (this.isCreator) {
                         size = Math.min(50, Math.max(15, size))
-                        store.dispatch(types.ACTION.CHANGE_SIZE, size)
+                        this.$store.dispatch(types.ACTION.CHANGE_SIZE, size)
                     }
                 }
             },
@@ -96,7 +106,7 @@
                 set(max) {
                     if (this.isCreator) {
                         max = Math.min(12, Math.max(2, max))
-                        store.dispatch(types.ACTION.CHANGE_MAX, max)
+                        this.$store.dispatch(types.ACTION.CHANGE_MAX, max)
                     }
                 }
             },

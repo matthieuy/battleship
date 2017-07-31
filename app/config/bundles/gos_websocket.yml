@@ -17,3 +17,4 @@ gos_web_socket:
                 - "@MatchBundle/Resources/config/rpc.yml"
                 - "@BonusBundle/Resources/config/rpc.yml"
                 - "@AppBundle/Resources/config/rpc.yml"
+                - "@ChatBundle/Resources/config/rpc.yml"

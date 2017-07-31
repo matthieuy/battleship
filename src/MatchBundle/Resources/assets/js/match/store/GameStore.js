@@ -7,6 +7,7 @@ import actions from "./actions"
 import weaponModule from "@bonus/js/store-modules/weapons"
 import inventoryModule from "@bonus/js/store-modules/inventory"
 import scoreModule from "./modules/score"
+import chatModule from "@chat/js/store/ChatStore"
 
 // Init
 Vue.use(Vuex)
@@ -21,7 +22,7 @@ const state = {
     options: {},
     me: null,
     grid: [],
-    status: 'Loading game...',
+    status: Translator.trans('loading'),
     gameover: false,
 }
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
         weapon: weaponModule,
         score: scoreModule,
         inventory: inventoryModule,
+        chat: chatModule,
     },
     strict: process.env.NODE_ENV !== 'production',
 })

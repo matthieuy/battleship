@@ -58,11 +58,12 @@ class ReturnBox
      *
      * @return array
      */
-    public function getReturnBox(Game $game, Player $player)
+    public function getReturnBox(Game $game, Player $player = null)
     {
         $return = [
             'img' => [],
             'tour' => $game->getTour(),
+            'chrono' => $game->getChrono(),
         ];
 
         // Game over ?

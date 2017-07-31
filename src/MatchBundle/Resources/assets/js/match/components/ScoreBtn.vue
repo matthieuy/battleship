@@ -1,5 +1,5 @@
 <template>
-    <div title="Score" class="bubble" @click="toggleModal()">
+    <div :title="trans('Score')" class="bubble" @click="toggleModal()">
         <i class="gi gi-heart-organ"></i>
         <img id="life-bubble" src="img/null.png" width="25" height="25">
     </div>
@@ -7,13 +7,19 @@
 <script>
     // Import
     import { mapState } from 'vuex'
-    import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
-    import Favico from "@bower/favico.js/favico.js"
+    import Favico from "@npm/favico.js/favico.js"
     let BubbleLife = null
 
     export default {
+        data() {
+            return {
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'score', // Score module
@@ -21,7 +27,7 @@
         },
         methods: {
             toggleModal() {
-                store.commit(MUTATION.SCORE.MODAL)
+                this.$store.commit(MUTATION.SCORE.MODAL)
             },
         },
         watch: {

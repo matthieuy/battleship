@@ -5,7 +5,7 @@
             <div class="modal-container"v-on:click.stop.prevent="close()">
                 <div class="modal-content">
                     <div id="modal-score" v-on:click.stop.prevent="">
-                        <h1 class="center">Score</h1>
+                        <h1 class="center">{{ trans('Score') }}</h1>
                         <div class="clear"></div>
 
                         <div class="large-12 column">
@@ -14,27 +14,29 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>Players</th>
-                                                <th width="80">Lifes</th>
-                                                <th width="100">Torpedo</th>
-                                                <th width="100">Destroyer</th>
-                                                <th width="100">Cruiser</th>
-                                                <th width="110">Aircraft</th>
-                                                <th>Bonus</th>
+                                                <th>{{ trans('Players') }}</th>
+                                                <th width="80">{{ trans('Lifes') }}</th>
+                                                <th width="100">{{ trans('Torpedo') }}</th>
+                                                <th width="100">{{ trans('Destroyer') }}</th>
+                                                <th width="100">{{ trans('Cruiser') }}</th>
+                                                <th width="110">{{ trans('Aircraft') }}</th>
+                                                <th>{{ trans('bonus_name') }}</th>
                                             </tr>
                                         </thead>
-                                        <!--
                                         <tfoot>
                                             <tr>
-                                                <td colspan="6" id="chrono"></td>
+                                                <td colspan="7" id="chrono">
+                                                    <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
+                                                    <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
+                                                    <span :title="datePenalty"></span>
+                                                </td>
                                             </tr>
                                         </tfoot>
-                                        -->
                                         <tbody>
                                             <tr v-for="team in teams">
                                                 <td>
                                                     <ul>
-                                                        <li v-for="player in team.players">
+                                                        <li class="player-line" v-for="player in team.players">
                                                             <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
                                                             <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
                                                             <div class="avatar-content" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
@@ -83,7 +85,7 @@
                             <div class="row btn-action">
                                 <button class="close button alert small-10 large-3" @click="close()">
                                     <i class="fa fa-close"></i>
-                                    Close
+                                    {{ trans('Close') }}
                                 </button>
                             </div>
                         </div>
@@ -95,22 +97,39 @@
 </template>
 <script>
     import { mapState, mapGetters } from 'vuex'
-    import store from "../store/GameStore"
     import { MUTATION } from "../store/mutation-types"
 
+    require('@app/js/jquery.timeago.js')
+
     export default {
+        props: {
+            time: {type: String},
+        },
+        data() {
+            return {
+                latency: 0,
+                trans() {
+                    return Translator.trans(...arguments)
+                },
+            }
+        },
         computed: {
             ...mapState([
                 'score',
             ]),
             ...mapGetters([
                 'teams',
-            ])
+            ]),
+            datePenalty() {
+                let date = new Date((this.score.chrono + this.latency) * 1000)
+                $('#chrono span').timeago('updateFromDOM')
+                return date.toISOString()
+            },
         },
         methods: {
             // Close modal
             close() {
-                store.commit(MUTATION.SCORE.MODAL, false)
+                this.$store.commit(MUTATION.SCORE.MODAL, false)
             },
         },
         watch: {
@@ -118,33 +137,40 @@
             ['score.modal'](open) {
                 let topicName = 'game/' + document.getElementById('slug').value + '/score'
                 if (open) {
+                    let self = this
                     WS.subscribeAction(topicName, 'scores', (obj) => {
-                        store.commit(MUTATION.SCORE.SET_LIST, obj)
+                        self.$store.commit(MUTATION.SCORE.SET_LIST, obj)
                     })
-                    $(window).on('keyup', escapeTouch)
+
                     $('#container').css({
                         overflow: 'hidden',
                         position: 'fixed',
                     })
+                    $('#chrono span').timeago('updateFromDOM')
+
+                    let escapeTouch = function(e) {
+                        if (e.which === 27) {
+                            if (self.$store.state.score.modal) {
+                                self.$store.commit(MUTATION.SCORE.MODAL, false)
+                            }
+                            $(window).off('keyup', escapeTouch)
+                        }
+                    }
+                    $(window).on('keyup', escapeTouch)
                 } else {
                     WS.unsubscribe(topicName)
                     $('#container').removeAttr('style')
+                    $('#chrono span').timeago('dispose')
                 }
             },
+            // Update chrono
+            ['score.chrono'](chrono) {
+                $('#chrono span').timeago('updateFromDOM')
+            },
         },
-    }
-
-    /**
-     * Press escape touch : close modal
-     * @param e
-     */
-    function escapeTouch(e) {
-        if (e.which == 27) {
-            if (store.state.score.modal) {
-                store.commit(MUTATION.SCORE.MODAL, false)
-            }
-            $(window).off('keyup', escapeTouch)
-        }
+        mounted() {
+            this.latency = parseInt(parseInt(this.time) - (Date.now() / 1000))
+        },
     }
 </script>
 <style lang="less">

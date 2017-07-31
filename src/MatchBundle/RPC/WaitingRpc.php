@@ -9,6 +9,7 @@ use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use UserBundle\Entity\User;
 
 /**
@@ -20,21 +21,25 @@ class WaitingRpc implements RpcInterface
     private $clientManipulator;
     private $em;
     private $pusher;
+    private $translator;
 
     /**
      * WaitingRpc constructor (DI)
      * @param ClientManipulatorInterface $clientManipulator
      * @param EntityManager              $em
      * @param PusherInterface            $pusher
+     * @param TranslatorInterface        $translator
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
-        PusherInterface $pusher
+        PusherInterface $pusher,
+        TranslatorInterface $translator
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
+        $this->translator = $translator;
     }
 
     /**
@@ -46,7 +51,7 @@ class WaitingRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
-        return ['error' => "Bad Request ($name)"];
+        return ['error' => "Bad request"];
     }
 
     /**
@@ -78,12 +83,12 @@ class WaitingRpc implements RpcInterface
             // Join
             $ai = ($game->isCreator($user) && isset($params['ai'])) ? $params['ai'] : false;
             $result = $repo->joinGame($game, $user, $ai);
-            $console = ($ai) ? "AI join the game" : $user->getUsername()." join the game";
+            $console = ($ai) ? $this->translate('ai_join') : $this->translate('user_join', ['%name%' => $user->getUsername()]);
         } else {
             // Leave
             $playerId = ($game->isCreator($user) && isset($params['id'])) ? $params['id'] : null;
             $result = $repo->quitGame($game, $user, $playerId);
-            $console = "User leave the game";
+            $console = $this->translate('user_leave');
         }
 
         // Msg Error ?
@@ -132,11 +137,11 @@ class WaitingRpc implements RpcInterface
         // Change size
         if ($this->getParam($params, 'type', 'size') == 'size') {
             $game->setSize($this->getParam($params, 'size', 25));
-            $console = "Grid size :".$game->getSize();
+            $console = $this->translator->trans('gridsize')." : ".$game->getSize();
         } else {
             $game->setMaxPlayer($this->getParam($params, 'size', 4));
             $game->setSizeFromPlayers();
-            $console = "Max players :".$game->getMaxPlayer();
+            $console = $this->translate('max_players', ['%nb%' => $game->getMaxPlayer()]);
         }
         $this->em->flush();
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
@@ -171,7 +176,8 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
-        $this->pusher->push(['console' => $player->getName().' change team :'.$player->getTeam()], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $console = $this->translate('change_team', ['%name%' => $player->getName(), '%nb%' => $player->getTeam()]);
+        $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -211,7 +217,7 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
-        $this->pusher->push(['console' => $player->getName().' change color'], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push(['console' => $this->translate('change_color', ['%name%' => $player->getName()])], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -252,7 +258,8 @@ class WaitingRpc implements RpcInterface
 
             // Push
             $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
-            $this->pusher->push(['console' => $player->getName().' change position to '.($player->getPosition()+1)], 'game.wait.topic', ['slug' => $game->getSlug()]);
+            $console = $this->translate('change_position', ['%name%' => $player->getName(), '%nb%' => $player->getPosition()+1]);
+            $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
         }
 
         return ['success' => true];
@@ -299,7 +306,8 @@ class WaitingRpc implements RpcInterface
 
         // Push
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
-        $this->pusher->push(['console' => 'Change option "'.$optionName.'" => '.$value], 'game.wait.topic', ['slug' => $game->getSlug()]);
+        $console = $this->translate('change_options', ['%name%' => $optionName, '%value%' => intval($value)]);
+        $this->pusher->push(['console' => $console], 'game.wait.topic', ['slug' => $game->getSlug()]);
 
         return ['success' => true];
     }
@@ -338,7 +346,7 @@ class WaitingRpc implements RpcInterface
         if (!$game instanceof Game) {
             return ['error' => 'Bad request'];
         } elseif ($game->getStatus() !== Game::STATUS_WAIT) {
-            return ['error' => 'The game has already started'];
+            return ['error' => 'error_already_start'];
         }
 
         return $game;
@@ -369,5 +377,17 @@ class WaitingRpc implements RpcInterface
         $playerId = ($game->isCreator($user)) ? $this->getParam($params, 'playerId') : null;
 
         return [$game, $user, $playerId];
+    }
+
+    /**
+     * Translate string (domaine console)
+     * @param string $string
+     * @param array  $parameters
+     *
+     * @return string
+     */
+    private function translate($string, array $parameters = [])
+    {
+        return $this->translator->trans($string, $parameters, 'console');
     }
 }

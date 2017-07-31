@@ -85,4 +85,22 @@ class Boats
 
         throw new \Exception("Don't find the dead img");
     }
+
+    /**
+     * Get the name of a boat with this length
+     * @param integer $length
+     *
+     * @return string Name or empty string
+     */
+    public static function getNameFromLength($length)
+    {
+        $boats = self::getList();
+        foreach ($boats as $boat) {
+            if (count($boat['img'][0]) == $length) {
+                return $boat['name'];
+            }
+        }
+
+        return '';
+    }
 }

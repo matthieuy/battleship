@@ -31,7 +31,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getName()
     {
-        return 'Team points';
+        return $this->getId();
     }
 
     /**
@@ -40,7 +40,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getDescription()
     {
-        return 'Add points to all players in your team';
+        return $this->getId().'.desc';
     }
 
     /**
@@ -103,7 +103,7 @@ class PointTeamBonus extends AbstractBonus
         $returnWS = [];
 
         foreach ($game->getPlayers() as $p) {
-            if ($p->getTeam() == $team) {
+            if ($p->getTeam() == $team && $p->getLife() > 0) {
                 $p->addScore($inventory->getOption('label'));
 
                 if (!$p->isAi()) {

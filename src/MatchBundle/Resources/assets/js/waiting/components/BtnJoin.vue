@@ -9,16 +9,9 @@
 </template>
 <script>
     import { mapState } from 'vuex'
-    import store from '../store/store'
     import * as types from "../store/mutation-types"
 
     export default {
-        props: {
-            joinName: { type: String, default: 'Join' },
-            joinDesc: { type: String, default: 'Join the game' },
-            leaveName: {type: String, default: 'Leave'},
-            leaveDesc: {type: String, default: 'Leave the game'},
-        },
         data() {
             return {
                 loading: false,
@@ -33,13 +26,13 @@
                 'players'
             ]),
             name() {
-                return (this.joined) ? this.leaveName : this.joinName
+                return (this.joined) ? Translator.trans('btn_leave') : Translator.trans('btn_join')
             },
             tip() {
                 if (this.joined) {
-                    return `<strong>${this.leaveName} :</strong>${this.leaveDesc}`
+                    return `<strong>${Translator.trans('btn_leave')} :</strong>${Translator.trans('btn_leave_tip')}`
                 } else {
-                    return `<strong>${this.joinName} :</strong>${this.joinDesc}`
+                    return `<strong>${Translator.trans('btn_join')} :</strong>${Translator.trans('btn_join_tip')}`
                 }
             },
             btnClass() {
@@ -54,17 +47,17 @@
             // join or leave the game
             join() {
                 if (this.disabled) {
-                    return false;
+                    return false
                 }
 
                 this.loading = true
                 this.loaded = false
 
-                store.dispatch(types.ACTION.JOIN_LEAVE, !this.joined).then((obj) => {
+                this.$store.dispatch(types.ACTION.JOIN_LEAVE, !this.joined).then((obj) => {
                     this.loading = false
                     if (obj.success) {
                         let mutation = (this.joined) ? types.MUTATION.LEAVE : types.MUTATION.JOIN
-                        store.commit(mutation)
+                        this.$store.commit(mutation)
                     }
 
                     if (obj.msg) {

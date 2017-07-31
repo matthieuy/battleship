@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="1" resname="error_ws">
+                <source>Error connecting Websocket!</source>
+                <target>Error connecting Websocket!</target>
+            </trans-unit>
+            <trans-unit id="2" resname="Bad request">
+                <source>Bad request</source>
+                <target>Bad request</target>
+            </trans-unit>
+            <trans-unit id="3" resname="Game delete successful!">
+                <source>Game delete successful!</source>
+                <target>Game delete successful!</target>
+            </trans-unit>
+            <trans-unit id="4" resname="ask_delete_game">
+                <source>Are you sure to delete the game?</source>
+                <target>Are you sure to delete the game?</target>
+            </trans-unit>
+            <trans-unit id="43792dd1aa12859d7a716d5ef7aabd1cc4fb99da" resname="Name of the game">
+                <source>Name of the game</source>
+                <target>Name of the game</target>
+            </trans-unit>
+            <trans-unit id="5" resname="enabled">
+                <source>enabled</source>
+                <target>enabled</target>
+            </trans-unit>
+            <trans-unit id="6" resname="disabled">
+                <source>disabled</source>
+                <target>disabled</target>
+            </trans-unit>
+            <trans-unit id="7" resname="loading">
+                <source>Loading...</source>
+                <target>Loading...</target>
+            </trans-unit>
+            <trans-unit id="8" resname="Score">
+                <source>Score</source>
+                <target>Score</target>
+            </trans-unit>
+            <trans-unit id="9" resname="Close">
+                <source>Close</source>
+                <target>Close</target>
+            </trans-unit>
+            <trans-unit id="10" resname="points_plurial">
+                <source>[0,1]%nb% point|]1,Inf[%nb% points</source>
+                <target>[0,1]%nb% point|]1,Inf[%nb% points</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

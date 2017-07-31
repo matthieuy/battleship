@@ -2,10 +2,13 @@
     <div id="btn-menu" class="menu sb-open-left">
         <div>
             <i class="gi gi-angler-fish"></i>
-            <span class="hide-mobile"> Menu</span>
+            <span class="hide-mobile"> {{ 'menu'|trans({}, 'menu') }}</span>
         </div>
     </div>
     <div id="btn-top">
+        {% if game is defined %}
+            <chat-btn></chat-btn>
+        {% endif %}
         {% if inGame|default(false) %}
             <inventory-btn></inventory-btn>
             <weapon-btn></weapon-btn>
@@ -14,7 +17,7 @@
     </div>
     <div class="title">
         <h1>
-            <a href="{{ url('homepage') }}">Battleship</a>
+            <a href="{{ url('homepage') }}">{{ 'app_name'|trans({}, 'app') }}</a>
         </h1>
     </div>
 </div>

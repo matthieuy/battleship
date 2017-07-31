@@ -5,7 +5,10 @@
             <div class="grid-line" v-for="row in grid">
                 <span
                     v-for="box in row"
-                    @click="shoot(box)"
+                    @click="click(box)"
+                    @mousemove="mousemove()"
+                    @mousedown="mousedown()"
+                    @mouseup="mouseup(box)"
                     :id="'g_' + box.y + '_' + box.x"
                     class="box"
                     :class="cssBox(box)"
@@ -24,11 +27,15 @@
     import Vue from "vue"
     import { mapState, mapGetters } from 'vuex'
     import { ACTION, MUTATION } from "../store/mutation-types"
-    import store from "../store/GameStore"
 
     // Bower require
-    let async = require('@bower/async/dist/async.min.js')
-    let Velocity = require('@bower/velocity/velocity.js')
+    let async = require('@npm/async/dist/async.min.js')
+    let Velocity = require('@npm/velocity-animate/velocity.js')
+
+    // Mobile shoot
+    let pressTimer = null
+    let longPress = false
+    let mobile = window.isMobile()
 
     export default {
         computed: {
@@ -60,7 +67,7 @@
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        store.commit(MUTATION.SET_STATUS, shooter.name + "'s shot")
+                        self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'+img.shoot), {
@@ -81,8 +88,8 @@
 
                                 // Update grid
                                 $box.addClass('animated')
-                                store.commit(MUTATION.AFTER_ROCKET, img)
-                                store.dispatch(ACTION.AFTER_ROCKET, img)
+                                self.$store.commit(MUTATION.AFTER_ROCKET, img)
+                                self.$store.dispatch(ACTION.AFTER_ROCKET, img)
 
                                 // Next img
                                 next()
@@ -90,10 +97,48 @@
                         })
                     },
                     function() { // End of animate
-                        store.commit(MUTATION.AFTER_ANIMATE, obj)
+                        self.$store.commit(MUTATION.AFTER_ANIMATE, obj)
                     }
                 )
             },
+            // On click : shoot if not mobile
+            click(box) {
+                if (!mobile) {
+                    this.shoot(box)
+                }
+            },
+            // On mouse move : reset long press
+            mousemove() {
+                if (mobile) {
+                    clearTimeout(pressTimer)
+                    pressTimer = null
+                    longPress = false
+                    $('#grid').removeAttr('style')
+                }
+            },
+            // On mouse down : prepare longpress
+            mousedown() {
+                if (mobile) {
+                    pressTimer = setTimeout(function() {
+                        longPress = true
+                        if (pressTimer) {
+                            $('#grid').css({ backgroundColor: '#BD2626' })
+                        }
+                    }, 1000)
+                }
+            },
+            // On mouse up : if long press => shoot
+            mouseup(box) {
+                if (mobile) {
+                    clearTimeout(pressTimer)
+                    pressTimer = null
+                    if (longPress) {
+                        longPress = false
+                        this.shoot(box)
+                    }
+                }
+            },
+            // Do a shoot
             shoot(box) {
                 if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
                     return false;
@@ -106,9 +151,10 @@
                 }
 
                 // Add weapon
-                store.dispatch(ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
+                let self = this
+                self.$store.dispatch(ACTION.BEFORE_SHOOT, dataSend).then((dataSend) => {
                     // Send data
-                    store.dispatch(ACTION.SHOOT, dataSend)
+                    self.$store.dispatch(ACTION.SHOOT, dataSend)
                 })
             },
             // CSS for box
@@ -141,11 +187,11 @@
                 // Victim or same team
                 if (box.player != null) {
                     if (this.me && this.me.position == box.player) {
-                        tooltip.push("Your boat")
+                        tooltip.push(Translator.trans('your_boat'))
                     } else {
                         let victim = this.playerById(box.player)
                         if (victim) {
-                            tooltip.push("Boat of " + victim.name)
+                            tooltip.push(Translator.trans('boat_of', {name: victim.name}))
                         }
                     }
                 }
@@ -153,11 +199,11 @@
                 // Shooter
                 if (box.shoot != null) {
                     if (this.me && this.me.position == box.shoot) {
-                        tooltip.push("Your shot")
+                        tooltip.push(Translator.trans('your_shot'))
                     } else {
                         let shooter = this.playerById(box.shoot)
                         if (shooter) {
-                            tooltip.push("Shot of " + shooter.name)
+                            tooltip.push(Translator.trans('shoot_of', {name: shooter.name}))
                         }
                     }
                 }
@@ -173,9 +219,9 @@
                     players.push(self.playerById(playerId).name)
                 })
                 if (this.gameover) {
-                    store.commit(MUTATION.SET_STATUS, "Winner : " + players.join(', '))
+                    this.$store.commit(MUTATION.SET_STATUS, Translator.trans('winner_list', {list: players.join(', ')}))
                 } else {
-                    store.commit(MUTATION.SET_STATUS, "Waiting shoot of " + players.join(', '))
+                    this.$store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
                 }
             },
         },
@@ -206,6 +252,5 @@
                 $('.boat:not(.dead,.animated)').removeClass('boat').addClass('hide')
             }
         }
-
     }
 </script>

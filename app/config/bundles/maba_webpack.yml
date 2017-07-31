@@ -1,5 +1,5 @@
 maba_webpack:
-    enabled_bundles: [AppBundle, BonusBundle, UserBundle, MatchBundle]
+    enabled_bundles: [AppBundle, BonusBundle, ChatBundle, MatchBundle, UserBundle]
     config:
         parameters:
             extract_css: true
@@ -7,7 +7,6 @@ maba_webpack:
             dev_server_public_path: "http://%socket_uri%:8080/compiled/"
     aliases:
         additional:
-            bower: "%kernel.root_dir%/Resources/bower"
             npm: "%kernel.root_dir%/../node_modules"
             vendor: "%kernel.root_dir%/../vendor"
             web: "%kernel.root_dir%/../web"

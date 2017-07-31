@@ -1,15 +1,15 @@
 Battleship
 ==========
 
-Work in progress
-
 [![GitHub issues](https://img.shields.io/github/issues/matthieuy/battleship.svg)](https://github.com/matthieuy/battleship/issues)
 [![Latest Stable Version](https://poser.pugx.org/matthieuy/battleship/v/stable)](https://packagist.org/packages/matthieuy/battleship)
 [![License](https://poser.pugx.org/matthieuy/battleship/license)](https://packagist.org/packages/matthieuy/battleship)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3/mini.png)](https://insight.sensiolabs.com/projects/5a177132-6c18-4b78-a45e-5e9de1f7d2f3)
 
 This is a battleship game in real time.
+
 You can play up to 12 players or AI on the same grid.
+
 A weapon system is integrated in the game for more fun.
 
 It use the awesome [WebSocketBundle](https://github.com/GeniusesOfSymfony/WebSocketBundle) with Ratchet and AutoBahn.
@@ -25,12 +25,13 @@ Features
 - Weapons
 - Bonus and inventory
 - Animate shot
+- Translations
 
 
 Installation
 ============
 
-See [Installation instructions](app/Resources/docs/install.md)
+See [Installation instructions](app/Resources/docs/install.md) or use [docker](app/Resources/docs/docker.md)
 
 
 Contribute or bug report
@@ -51,11 +52,8 @@ Tests
 TODO
 ====
 
-- Translate
-- Chat room
-- Notifications system
-
 See the complete [TODO](TODO.md)
+
 See the [CHANGELOG](CHANGELOG.md)
 
 Credits

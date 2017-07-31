@@ -1,5 +1,5 @@
 /app/config/parameters.yml
-/app/Resources/bower/
+/app/docker/.env
 /build/
 /node_modules/
 /old/

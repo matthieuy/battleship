@@ -11,23 +11,27 @@
         props: ['trans'],
         data() {
             return {
-                label: '',
                 error: false,
-                nb_player: 4
+                nb_player: 4,
             }
         },
         computed: {
             label() {
-                return this.trans.replace('%d', this.error ? '' : this.nb_player)
+                return this.trans.replace('%nb%', this.error ? '' : this.nb_player)
             }
         },
         watch: {
             nb_player(value) {
-                this.error = !this.nb_player.match(regNum) || !value.length
+                this.error = !value.toString().match(regNum) || !value.length
                 if (!this.error) {
                     $('.hidden-maxplayer').val(this.nb_player)
                 }
-            }
-        }
+            },
+        },
     }
 </script>
+<style lang="less">
+    input[type=range] {
+        border: 1px solid white;
+    }
+</style>

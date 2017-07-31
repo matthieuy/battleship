@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="match1" resname="btn_ai">
+                <source>Add a AI</source>
+                <target>Add a AI</target>
+            </trans-unit>
+            <trans-unit id="match2" resname="btn_ai_tip">
+                <source>Add a player managed by the computer.</source>
+                <target>Add a player managed by the computer.</target>
+            </trans-unit>
+            <trans-unit id="match3" resname="btn_join">
+                <source>Join</source>
+                <target>Join</target>
+            </trans-unit>
+            <trans-unit id="match4" resname="btn_join_tip">
+                <source>Join the game.</source>
+                <target>Join the game.</target>
+            </trans-unit>
+            <trans-unit id="match5" resname="btn_leave">
+                <source>Leave</source>
+                <target>Leave</target>
+            </trans-unit>
+            <trans-unit id="match6" resname="btn_leave_tip">
+                <source>Leave the game.</source>
+                <target>Leave the game.</target>
+            </trans-unit>
+            <trans-unit id="match7" resname="btn_run">
+                <source>Start</source>
+                <target>Start</target>
+            </trans-unit>
+            <trans-unit id="match8" resname="btn_run_tip">
+                <source><![CDATA[Once everyone is ready<br>and options configured : you can start the game!]]></source>
+                <target><![CDATA[Once everyone is ready<br>and options configured: you can start the game!]]></target>
+            </trans-unit>
+            <trans-unit id="match9" resname="error_team">
+                <source>The game must consist with SEVERAL teams</source>
+                <target>The game must consist with SEVERAL teams</target>
+            </trans-unit>
+            <trans-unit id="match10" resname="error_empty_team">
+                <source>Nobody in team #%team% !</source>
+                <target>Nobody in team #%team% !</target>
+            </trans-unit>
+            <trans-unit id="match11" resname="error_ai">
+                <source>Game contains only AI!</source>
+                <target>Game contains only AI!</target>
+            </trans-unit>
+            <trans-unit id="match12" resname="confirm_start">
+                <source>Are you sure to start the game ?</source>
+                <target>Are you sure to start the game ?</target>
+            </trans-unit>
+            <trans-unit id="match13" resname="Informations">
+                <source>Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+            <trans-unit id="match14" resname="gridsize">
+                <source>Grid size</source>
+                <target>Grid size</target>
+            </trans-unit>
+            <trans-unit id="match15" resname="XXL">
+                <source>XXL</source>
+                <target>XXL</target>
+            </trans-unit>
+            <trans-unit id="match16" resname="create_date">
+                <source>Create date</source>
+                <target>Create date</target>
+            </trans-unit>
+            <trans-unit id="match17" resname="Creator">
+                <source>Creator</source>
+                <target>Creator</target>
+            </trans-unit>
+            <trans-unit id="match18" resname="Status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="match19" resname="Options">
+                <source>Options</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="match20" resname="penalty_in">
+                <source>Penalty in</source>
+                <target>Penalty in</target>
+            </trans-unit>
+            <trans-unit id="match21" resname="penalty_name">
+                <source>Penalty</source>
+                <target>Penalty</target>
+            </trans-unit>
+            <trans-unit id="match22" resname="penalty_desc">
+                <source><![CDATA[Over a certain time without playing,<br>the player takes a shot on one of his boats.]]></source>
+                <target><![CDATA[Over a certain time without playing,<br>the player takes a shot on one of his boats.]]></target>
+            </trans-unit>
+            <trans-unit id="match23" resname="weapon_name">
+                <source>Weapons</source>
+                <target>Weapons</target>
+            </trans-unit>
+            <trans-unit id="match24" resname="weapon_desc">
+                <source><![CDATA[Players can use their points <br>for use special weapon.<br><br>(see scores table)]]></source>
+                <target><![CDATA[Players can use their points <br>for use special weapon.<br><br>(see scores table)]]></target>
+            </trans-unit>
+            <trans-unit id="match25" resname="bonus_name">
+                <source>Bonus</source>
+                <target>Bonus</target>
+            </trans-unit>
+            <trans-unit id="match26" resname="bonus_desc">
+                <source>Players can catch bonus</source>
+                <target>Players can catch bonus</target>
+            </trans-unit>
+            <trans-unit id="match27" resname="color">
+                <source>Color</source>
+                <target>Color</target>
+            </trans-unit>
+            <trans-unit id="match28" resname="Player">
+                <source>Player</source>
+                <target>Player</target>
+            </trans-unit>
+            <trans-unit id="match29" resname="AI">
+                <source>AI</source>
+                <target>AI</target>
+            </trans-unit>
+            <trans-unit id="match30" resname="Team">
+                <source>Team</source>
+                <target>Team</target>
+            </trans-unit>
+            <trans-unit id="match31" resname="Change color">
+                <source>Change color</source>
+                <target>Change color</target>
+            </trans-unit>
+            <trans-unit id="match32" resname="no_player">
+                <source>No players</source>
+                <target>No players</target>
+            </trans-unit>
+            <trans-unit id="match33" resname="Console">
+                <source>Console</source>
+                <target>Console</target>
+            </trans-unit>
+            <trans-unit id="match34" resname="Wrong color">
+                <source>Wrong color</source>
+                <target>Wrong color</target>
+            </trans-unit>
+            <trans-unit id="match35" resname="error_already_start">
+                <source>The game has already started</source>
+                <target>The game has already started</target>
+            </trans-unit>
+            <trans-unit id="match36" resname="error_generate">
+                <source>Unable to place all boats : try again or take a larger grid!</source>
+                <target>Unable to place all boats : try again or take a larger grid!</target>
+            </trans-unit>
+            <trans-unit id="match37" resname="error_generate2">
+                <source>Error while generate grid</source>
+                <target>Error while generate grid</target>
+            </trans-unit>
+            <trans-unit id="match38" resname="gameover">
+                <source>Game is over</source>
+                <target>Game is over</target>
+            </trans-unit>
+            <trans-unit id="match39" resname="error_shoot">
+                <source>You can't shoot here</source>
+                <target>You can't shoot here</target>
+            </trans-unit>
+            <trans-unit id="match40" resname="error_tour">
+                <source>You can't play now!</source>
+                <target>You can't play now!</target>
+            </trans-unit>
+            <trans-unit id="match41" resname="already_shoot">
+                <source>Someone already shoot here!</source>
+                <target>Someone already shoot here!</target>
+            </trans-unit>
+            <trans-unit id="match42" resname="own_boat">
+                <source>Unable to shoot own boats!</source>
+                <target>Unable to shoot own boats!</target>
+            </trans-unit>
+            <trans-unit id="match43" resname="team_shoot">
+                <source>Team shoot is forbidden!</source>
+                <target>Team shoot is forbidden!</target>
+            </trans-unit>
+            <trans-unit id="match44" resname="error_player404">
+                <source>Player not found</source>
+                <target>Player not found</target>
+            </trans-unit>
+            <trans-unit id="match45" resname="error_boat404">
+                <source>The boat not found</source>
+                <target>The boat not found</target>
+            </trans-unit>
+            <trans-unit id="match46" resname="shoot_of">
+                <source>Shot of %name%</source>
+                <target>Shot of %name%</target>
+            </trans-unit>
+            <trans-unit id="match47" resname="boat_of">
+                <source>Boat of %name%</source>
+                <target>Boat of %name%</target>
+            </trans-unit>
+            <trans-unit id="match48" resname="your_boat">
+                <source>Your boat</source>
+                <target>Your boat</target>
+            </trans-unit>
+            <trans-unit id="match49" resname="your_shot">
+                <source>Your shot</source>
+                <target>Your shot</target>
+            </trans-unit>
+            <trans-unit id="match50" resname="winner_list">
+                <source>Winner : %list%</source>
+                <target>Winner : %list%</target>
+            </trans-unit>
+            <trans-unit id="match51" resname="waiting_list">
+                <source>Waiting shot of %list%</source>
+                <target>Waiting shot of %list%</target>
+            </trans-unit>
+            <trans-unit id="match52" resname="Lifes">
+                <source>Lifes</source>
+                <target>Lifes</target>
+            </trans-unit>
+            <trans-unit id="match53" resname="Torpedo">
+                <source>Torpedo</source>
+                <target>Torpedo</target>
+            </trans-unit>
+            <trans-unit id="match54" resname="Destroyer">
+                <source>Destroyer</source>
+                <target>Destroyer</target>
+            </trans-unit>
+            <trans-unit id="match55" resname="Cruiser">
+                <source>Cruiser</source>
+                <target>Cruiser</target>
+            </trans-unit>
+            <trans-unit id="match56" resname="Aircraft">
+                <source>Aircraft</source>
+                <target>Aircraft</target>
+            </trans-unit>
+            <trans-unit id="match57" resname="game_full">
+                <source>Game is full</source>
+                <target>Game is full</target>
+            </trans-unit>
+            <trans-unit id="match58" resname="waiting_player">
+                <source>Waiting players</source>
+                <target>Waiting players</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

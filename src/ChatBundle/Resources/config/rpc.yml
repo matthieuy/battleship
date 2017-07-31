@@ -1,0 +1,17 @@
+# Chat topic
+chat.topic:
+    channel: 'chat/{slug}'
+    handler:
+        callback: 'chat'
+    requirements:
+        slug:
+            pattern: '([0-9A-Za-z\-]+)'
+
+# Chat RPC
+chat.rpc:
+    channel: 'rpc/chat/{method}'
+    handler:
+        callback: 'chat.rpc'
+    requirements:
+        method:
+            pattern: '[a-z_]+'

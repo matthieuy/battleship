@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class User extends BaseUser
 {
-    const OPTIONS_NAME = ['boxSize', 'displayGrid'];
+    // List of options
+    protected static $optionName = ['boxSize', 'displayGrid'];
+
     /**
      * @var int
      * @ORM\Column(name="id", type="integer")
@@ -69,7 +71,7 @@ class User extends BaseUser
      */
     public function __get($name)
     {
-        if (in_array($name, self::OPTIONS_NAME)) {
+        if (in_array($name, self::$optionName)) {
             return $this->getOption($name, null);
         }
 
@@ -85,7 +87,7 @@ class User extends BaseUser
      */
     public function __set($name, $value)
     {
-        if (in_array($name, self::OPTIONS_NAME)) {
+        if (in_array($name, self::$optionName)) {
             return $this->setOption($name, $value);
         }
 

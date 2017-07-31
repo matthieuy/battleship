@@ -34,7 +34,7 @@ module.exports = function makeWebpackConfig(options) {
     } else if (options.parameters.public_path) {
         publicPath = options.parameters.public_path;
     } else {
-        publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/compiled/';
+        publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/assets/';
     }
 
     /**
@@ -95,7 +95,7 @@ module.exports = function makeWebpackConfig(options) {
             // VUE LOADER
             {
                 test: /\.vue$/,
-                loaders: ['vue-loader'],
+                loader: 'vue-loader',
             },
             /**
              * Compiles ES6 and ES7 into ES5 code
@@ -262,8 +262,7 @@ module.exports = function makeWebpackConfig(options) {
          * https://github.com/adchsm/Slidebars/pull/264#issuecomment-310917431
          */
         new webpack.ProvidePlugin({
-            slidebars: 'exports-loader?slidebars!@bower/slidebars/dist/slidebars.js',
-            //slidebars: 'exports-loader?slidebars!slidebars/dist/slidebars',
+            slidebars: 'exports-loader?slidebars!@npm/slidebars/dist/slidebars.js',
         }),
     ];
 
@@ -305,7 +304,7 @@ module.exports = function makeWebpackConfig(options) {
      * Reference: https://webpack.js.org/configuration/devtool/
      */
     if (BUILD) {
-        //config.devtool = 'source-map';
+        config.devtool = 'source-map';
     } else {
         config.devtool = 'eval';
     }
