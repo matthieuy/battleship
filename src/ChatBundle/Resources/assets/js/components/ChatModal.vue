@@ -95,6 +95,7 @@
             change_tab(tab) {
                 if (tab.id !== this.chat.active_tab && tab.id !== this.userId) {
                     this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tab)
+                    this.$store.dispatch(ACTION.CHAT.MARK_READ, tab.id)
                 }
             },
             // Close a tab
@@ -146,6 +147,8 @@
                         overflow: 'hidden',
                         position: 'fixed',
                     })
+
+                    this.$store.dispatch(ACTION.CHAT.MARK_READ, this.chat.active_tab)
                 } else {
                     $('#container').removeAttr('style')
                 }

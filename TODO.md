@@ -20,7 +20,7 @@ TODO
     - [ ] Display user stats on profil
     - [ ] Display stats on game
 - [ ] Chat room :
-	- [ ] Bubble / read system
+	- [X] Bubble / read system
 	- [X] Dispatch push message
 	- [X] Open private tab on receive private msg
 - [ ] Notifications :

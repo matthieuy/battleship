@@ -65,6 +65,11 @@ export default {
                 }
             }
         },
+        // Mark message read (internal use only)
+        markReadChat(state, obj) {
+            state.unread -= obj.nb
+            state.unread_tab[obj.tab] = 0
+        },
     },
     getters: {},
     actions: {
@@ -113,7 +118,7 @@ export default {
 
                 // Unread
                 if (!isSender && message.author && (!context.state.modal || (context.state.modal && context.state.active_tab !== infos.tab))) {
-                    infos.unread = true
+                    infos.unread = 1
                 }
 
                 // Add message into DB and chatbox
@@ -126,6 +131,22 @@ export default {
                     localStorage.setItem(localKey, lastId)
                 }
             })
+        },
+        // Mark as read
+        [ACTION.CHAT.MARK_READ](context, tab) {
+            db.messages
+                .filter(function(message) {
+                    return message.game === Number(document.getElementById('game-id').value) && message.tab === tab && message.unread
+                })
+                .modify(function(value) {
+                    delete value.unread
+                })
+                .then(function(nb) {
+                    context.commit('markReadChat', {
+                        nb: nb,
+                        tab: tab,
+                    })
+                })
         },
     },
 }
