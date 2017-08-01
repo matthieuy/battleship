@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Manager;
 
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
@@ -19,7 +18,6 @@ class OnlineManager
     private $clientManipulator;
     private $redis;
     private $redisKey = 'ws_list';
-    private $sessionList;
 
     /**
      * OnlineManager constructor.
