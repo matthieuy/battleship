@@ -517,7 +517,7 @@ class GameRpc implements RpcInterface
         if ($teamsList === false) {
             return false;
         }
-        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_TOUR, $game, $teamsList);
+        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_TOUR, $game, $this->returnBox, $teamsList);
 
         // Next
         $tour = $game->getTour();

@@ -463,4 +463,17 @@ class Player
 
         return $this;
     }
+
+    /**
+     * Remove bonus
+     * @param Inventory $inventory
+     *
+     * @return $this
+     */
+    public function removeBonus(Inventory $inventory)
+    {
+        $this->bonus->removeElement($inventory);
+
+        return $this;
+    }
 }

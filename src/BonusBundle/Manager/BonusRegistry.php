@@ -138,6 +138,11 @@ class BonusRegistry
         if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
             $game = $player->getGame();
             $this->triggerEvent(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
+            if ($bonus->isRemove()) {
+                $player->removeBonus($inventory);
+
+                return true;
+            }
         }
 
         // Persist
@@ -149,11 +154,12 @@ class BonusRegistry
 
     /**
      * Dispatch event with all current bonus
-     * @param string $event
-     * @param Game   $game
-     * @param array  $options
+     * @param string    $event
+     * @param Game      $game
+     * @param ReturnBox $returnBox
+     * @param array     $options
      */
-    public function dispatchEvent($event, Game &$game, array &$options = [])
+    public function dispatchEvent($event, Game &$game, ReturnBox &$returnBox = null, array &$options = [])
     {
         // Get list of inventory
         $list = $this->entityManager->getRepository('BonusBundle:Inventory')->getActiveBonus($game);
@@ -161,7 +167,7 @@ class BonusRegistry
         foreach ($list as $inventory) {
             $bonus = $this->getBonusById($inventory->getName());
             $player = $inventory->getPlayer();
-            $this->triggerEvent($event, $inventory, $bonus, $game, $player, $options);
+            $this->triggerEvent($event, $inventory, $bonus, $game, $player, $returnBox, $options);
         }
     }
 
@@ -172,9 +178,10 @@ class BonusRegistry
      * @param BonusInterface $bonus
      * @param Game           $game
      * @param Player         $player
+     * @param ReturnBox      $returnBox
      * @param array          $options
      */
-    public function triggerEvent($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, array &$options = [])
+    public function triggerEvent($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, ReturnBox &$returnBox = null, array &$options = [])
     {
         // Call methods
         $method = BonusConstant::$triggerList[$event];
@@ -195,6 +202,10 @@ class BonusRegistry
 
         // Remove bonus
         if ($bonus->isRemove()) {
+            if ($returnBox) {
+                $player->removeBonus($inventory);
+                $returnBox->setBonus($player);
+            }
             $this->entityManager->remove($inventory);
         }
         $this->entityManager->flush();
