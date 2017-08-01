@@ -34,6 +34,19 @@ class OnlineManager
     }
 
     /**
+     * Get session list
+     * @return array
+     */
+    public function getSessionList()
+    {
+        if ($this->redis->exists($this->redisKey)) {
+            return unserialize($this->redis->get($this->redisKey));
+        } else {
+            return [];
+        }
+    }
+
+    /**
      * Get all session of a user
      * @param integer      $userId User Id
      * @param integer|null $gameId Filter by game
@@ -136,14 +149,15 @@ class OnlineManager
             $infos = [
                 'topic' => $topic->getId(),
                 'user' => $user,
+                'date' => new \DateTime(),
             ];
             if ($game) {
                 $infos['game_id'] = $game->getId();
-            }
-            if ($user instanceof User) {
-                $player = $game->getPlayerByUser($user);
-                $infos['player'] = $player;
-                $infos['team'] = $player->getTeam();
+                if ($user instanceof User) {
+                    $player = $game->getPlayerByUser($user);
+                    $infos['player'] = $player;
+                    $infos['team'] = $player->getTeam();
+                }
             }
 
             // Add into list
@@ -164,18 +178,5 @@ class OnlineManager
     private function setSessionList(array $list)
     {
         $this->redis->set($this->redisKey, serialize($list));
-    }
-
-    /**
-     * Get session list
-     * @return array
-     */
-    private function getSessionList()
-    {
-        if ($this->redis->exists($this->redisKey)) {
-            return unserialize($this->redis->get($this->redisKey));
-        } else {
-            return [];
-        }
     }
 }

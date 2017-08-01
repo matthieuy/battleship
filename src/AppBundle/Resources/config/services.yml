@@ -11,6 +11,7 @@ services:
         class: AppBundle\Topic\HomeTopic
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@online.manager"
         tags:
             - { name:  gos_web_socket.topic }
 

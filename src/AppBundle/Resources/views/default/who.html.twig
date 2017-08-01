@@ -1,0 +1,49 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain "who" %}
+
+{% block title %}{{ 'Who online ?'|trans({}, 'menu') }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack css '@AppBundle/Resources/assets/less/who.less.js' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
+
+{% block body %}
+    <h1 class="center">{{ 'Who online ?'|trans({}, 'menu') }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <td>{{ 'Date'|trans }}</td>
+                <td>{{ 'User'|trans }}</td>
+                <td>{{ 'Topic'|trans }}</td>
+                <td>{{ 'Game ID'|trans }}</td>
+                <td>{{ 'Session ID'|trans }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sessionId, info in list %}
+                <tr>
+                    <td>{{ info.date|localizeddate('short') }}</td>
+                    <td>
+                        {% if info.user.username %}
+                            {{ info.user.username }}
+                        {% else %}
+                            {{ info.user }}
+                        {% endif %}
+                    </td>
+                    <td>{{ info.topic }}</td>
+                    <td>{{ info.game_id|default('') }}</td>
+                    <td>{{ sessionId }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="center">
+        <button class="button success" onclick="location.reload()">{{ 'Refresh'|trans }}</button>
+    </div>
+{% endblock %}

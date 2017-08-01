@@ -39,5 +39,4 @@ TODO
 - [ ] Tests/Dev :
 	- [ ] Unit tests
 	- [ ] Script for deploy on git hook (personal TODO)
-	- [ ] Page with websocket client
 	- [ ] ESLint and others checks tools

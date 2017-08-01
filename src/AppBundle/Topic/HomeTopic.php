@@ -2,6 +2,7 @@
 
 namespace AppBundle\Topic;
 
+use AppBundle\Manager\OnlineManager;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
@@ -17,14 +18,17 @@ use Ratchet\Wamp\Topic;
 class HomeTopic implements TopicInterface, PushableTopicInterface
 {
     private $entityManager;
+    private $onlineManager;
 
     /**
      * HomeTopic constructor.
      * @param EntityManager $entityManager
+     * @param OnlineManager $onlineManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, OnlineManager $onlineManager)
     {
         $this->entityManager = $entityManager;
+        $this->onlineManager = $onlineManager;
     }
 
     /**
@@ -34,6 +38,8 @@ class HomeTopic implements TopicInterface, PushableTopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        $this->onlineManager->onSubscribe($connection, $topic);
+
         $repo = $this->entityManager->getRepository('MatchBundle:Game');
         $list = $repo->getList();
 
@@ -58,6 +64,7 @@ class HomeTopic implements TopicInterface, PushableTopicInterface
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        $this->onlineManager->onUnSubscribe($connection, $topic);
     }
 
     /**

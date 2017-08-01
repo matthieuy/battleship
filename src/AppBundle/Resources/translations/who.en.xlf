@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="who1" resname="Game ID">
+                <source>Game ID</source>
+                <target>Game ID</target>
+            </trans-unit>
+            <trans-unit id="who2" resname="Session ID">
+                <source>Session ID</source>
+                <target>Session ID</target>
+            </trans-unit>
+            <trans-unit id="who3" resname="User">
+                <source>User</source>
+                <target>User</target>
+            </trans-unit>
+            <trans-unit id="who4" resname="Topic">
+                <source>Topic</source>
+                <target>Topic</target>
+            </trans-unit>
+            <trans-unit id="who5" resname="Refresh">
+                <source>Refresh</source>
+                <target>Refresh</target>
+            </trans-unit>
+            <trans-unit id="who6" resname="Date">
+                <source>Date</source>
+                <target>Date</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

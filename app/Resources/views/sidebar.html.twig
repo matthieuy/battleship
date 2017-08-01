@@ -24,6 +24,9 @@
                     </a>
                 </li>
             {% endif %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li><a href="{{ path('who-online') }}"><i class="gi gi-sunken-eye"></i>{{ 'Who online ?'|trans }}</a></li>
+            {% endif %}
             <li><a href="{{ path('fos_user_security_logout') }}"><i class="gi gi-exit-door"></i>{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
         {% else %}
             <li><a href="{{ path('fos_user_security_login') }}"><i class="gi gi-skeleton-key"></i>{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
