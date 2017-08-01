@@ -102,14 +102,7 @@ class MatchController extends Controller
         }
 
         // Remove
-        $em = $this->get('doctrine.orm.entity_manager');
-        $em->remove($game);
-        $em->flush();
-        $this->addFlash('success', 'Game delete successful!');
-
-        // Event
-        $event = new GameEvent($game);
-        $this->get('event_dispatcher')->dispatch(MatchEvents::DELETE, $event);
+        $this->deleteGame($game);
 
         // Redirection
         return $this->redirectToRoute('homepage');
@@ -139,5 +132,22 @@ class MatchController extends Controller
             'game' => $game,
             'inGame' => true,
         ]);
+    }
+
+    /**
+     * Delete the game
+     * @param Game $game
+     */
+    private function deleteGame(Game $game)
+    {
+        // Remove
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->remove($game);
+        $em->flush();
+        $this->addFlash('success', 'Game delete successful!');
+
+        // Event
+        $event = new GameEvent($game);
+        $this->get('event_dispatcher')->dispatch(MatchEvents::DELETE, $event);
     }
 }
