@@ -4,6 +4,7 @@ services:
         class: AppBundle\Manager\OnlineManager
         arguments:
             - "@gos_web_socket.websocket.client_manipulator"
+            - "@snc_redis.default"
 
     # Homepage topic
     homepage.topic:

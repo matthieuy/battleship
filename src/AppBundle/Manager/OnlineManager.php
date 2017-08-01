@@ -5,6 +5,7 @@ namespace AppBundle\Manager;
 
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use MatchBundle\Entity\Game;
+use Predis\Client;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 use UserBundle\Entity\User;
@@ -16,16 +17,20 @@ use UserBundle\Entity\User;
 class OnlineManager
 {
     private $clientManipulator;
+    private $redis;
+    private $redisKey = 'ws_list';
     private $sessionList;
 
     /**
      * OnlineManager constructor.
      * @param ClientManipulatorInterface $clientManipulator
+     * @param Client                     $redis
      */
-    public function __construct(ClientManipulatorInterface $clientManipulator)
+    public function __construct(ClientManipulatorInterface $clientManipulator, Client $redis)
     {
         $this->clientManipulator = $clientManipulator;
         $this->sessionList = [];
+        $this->redis = $redis;
     }
 
     /**
@@ -38,10 +43,9 @@ class OnlineManager
     public function getSessionsByUserId($userId, $gameId = null)
     {
         $sessionsId = [];
-        foreach ($this->sessionList as $sessionId => $infos) {
+        foreach ($this->getSessionList() as $sessionId => $infos) {
             if ($infos['user'] instanceof User && $infos['user']->getId() === $userId && ($gameId === null || (isset($infos['game_id']) && $infos['game_id'] == $gameId))) {
                 $sessionsId[] = $sessionId;
-                dump($sessionId);
             }
         }
 
@@ -57,8 +61,7 @@ class OnlineManager
     public function getSessionByGameId($gameId)
     {
         $sessionsId = [];
-
-        foreach ($this->sessionList as $sessionId => $infos) {
+        foreach ($this->getSessionList() as $sessionId => $infos) {
             if (isset($infos['game_id']) && $infos['game_id'] === $gameId) {
                 $sessionsId[] = $sessionId;
             }
@@ -77,8 +80,7 @@ class OnlineManager
     public function getSessionsByTeam($gameId, $team)
     {
         $sessionsId = [];
-
-        foreach ($this->sessionList as $sessionId => $infos) {
+        foreach ($this->getSessionList() as $sessionId => $infos) {
             if (isset($infos['team'], $infos['game_id']) && $infos['game_id'] === $gameId && $infos['team'] === $team) {
                 $sessionsId[] = $sessionId;
             }
@@ -128,6 +130,7 @@ class OnlineManager
             return;
         }
 
+        $sessionList = $this->getSessionList();
         if ($addToList) {
             // Get infos to add in array
             $infos = [
@@ -144,10 +147,35 @@ class OnlineManager
             }
 
             // Add into list
-            $this->sessionList[$sessionId] = $infos;
+            $sessionList[$sessionId] = $infos;
         } else {
             // Remove item
-            unset($this->sessionList[$sessionId]);
+            unset($sessionList[$sessionId]);
+        }
+
+        // Update redis
+        $this->setSessionList($sessionList);
+    }
+
+    /**
+     * Set session list
+     * @param array $list
+     */
+    private function setSessionList(array $list)
+    {
+        $this->redis->set($this->redisKey, serialize($list));
+    }
+
+    /**
+     * Get session list
+     * @return array
+     */
+    private function getSessionList()
+    {
+        if ($this->redis->exists($this->redisKey)) {
+            return unserialize($this->redis->get($this->redisKey));
+        } else {
+            return [];
         }
     }
 }
