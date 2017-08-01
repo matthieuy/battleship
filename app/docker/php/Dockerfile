@@ -26,13 +26,24 @@ RUN docker-php-ext-install pdo pdo_mysql curl gd intl xml
 # PHP-ZMQ
 RUN git clone --branch master https://github.com/mkoppanen/php-zmq --depth=1 /tmp/php-zmq \
         && cd /tmp/php-zmq \
-        && phpize  \
-        && ./configure  \
-        && make  \
+        && phpize \
+        && ./configure \
+        && make \
         && make install \
         && make test \
         && rm -rf /tmp/php-zmq
 COPY zmq.ini /usr/local/etc/php/conf.d/
+
+# PHP-REDIS
+RUN git clone --branch master https://github.com/phpredis/phpredis --depth=1 /tmp/phpredis \
+        && cd /tmp/phpredis \
+        && phpize \
+        && ./configure \
+        && make \
+        && make install \
+        && make test \
+        && rm -rf /tmp/phpredis
+COPY redis.ini /usr/local/etc/php/conf.d/
 
 # Composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
