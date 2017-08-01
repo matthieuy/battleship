@@ -1,8 +1,6 @@
 TODO
 ====
 
-- [ ] Bugfix :
-	- [ ] Animation with scroll != 0
 - [ ] Documentations :
 	- [ ] Howto add a bonus
 	- [ ] Add screenshot or gif

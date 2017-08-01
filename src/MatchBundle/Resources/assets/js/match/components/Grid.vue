@@ -62,8 +62,8 @@
                     obj.img,
                     function(img, next) {
                         let $box = $('#g_' + img.y + '_' + img.x)
-                        $box.getTop = function() { return this.offset().top }
-                        $box.getLeft = function() { return this.offset().left }
+                        $box.getTop = function() { return this.offset().top + document.querySelector('#container').scrollTop }
+                        $box.getLeft = function() { return this.offset().left + document.querySelector('#container').scrollLeft }
 
                         // Status
                         let shooter = self.playerById(img.shoot)
@@ -80,7 +80,7 @@
                                 // Start position of the rocket
                                 $(rocket).css({
                                     top: -20,
-                                    left: $box.getLeft() + (self.boxSize / 2),
+                                    left: $box.getLeft() + (self.boxSize / 4),
                                 })
                             },
                             complete: function(rocket) {
@@ -245,7 +245,7 @@
      * Show / Hide boat
      */
     function hideShowBoats(e) {
-        if (e.which == 72) { // H key
+        if (e.which === 72) { // H key
             if ($('.hide').length) {
                 $('.hide').removeClass('hide').addClass('boat')
             } else {
