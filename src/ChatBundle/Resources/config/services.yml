@@ -28,3 +28,11 @@ services:
             - "@translator"
         tags:
             - { name: kernel.event_subscriber }
+
+    # Doctrine listener
+    chat.doctrine.listener:
+        class: ChatBundle\EventListener\MessageEntityListener
+        arguments:
+            - "@gos_web_socket.zmq.pusher"
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: ChatBundle\Entity\Message }
