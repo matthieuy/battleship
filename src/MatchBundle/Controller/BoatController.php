@@ -75,14 +75,7 @@ class BoatController extends Controller
         // Create img
         if (!file_exists($destPath)) {
             $img = $this->changeColor($sourcePath, [255, 255, 255], $color);
-
-            // Resize
-            $manager = new ImageManager(['driver' => 'gd']);
-            $image = $manager->make($img);
-            $image
-                ->resize(8 * $size, 7 * $size) // 8x7 : number of sprite in source img
-                ->save($destPath)
-                ->destroy();
+            $this->resizeImg($img, $destPath, 8 * $size, 7 * $size, false);
         }
 
         // Response
@@ -115,16 +108,7 @@ class BoatController extends Controller
         // Create img
         if (!file_exists($destPath)) {
             $img = $this->changeColor($sourcePath, [255, 0, 0], $color);
-
-            // Resize
-            $manager = new ImageManager(['driver' => 'gd']);
-            $image = $manager->make($img);
-            $image
-                ->resize($size / 2, null, function (Constraint $constraint) {
-                    $constraint->aspectRatio();
-                })
-                ->save($destPath)
-                ->destroy();
+            $this->resizeImg($img, $destPath, $size / 2);
         }
 
         // Response
@@ -155,12 +139,7 @@ class BoatController extends Controller
 
         // Create img
         if (!file_exists($destPath)) {
-            $manager = new ImageManager(['driver' => 'gd']);
-            $image = $manager->make($sourcePath);
-            $image
-                ->resize(12 * $size, 2 * $size) // 12x2 : number of sprite in source img
-                ->save($destPath)
-                ->destroy();
+            $this->resizeImg($sourcePath, $destPath, 12 * $size, 2 * $size, false);
         }
 
         // Response
@@ -209,5 +188,32 @@ class BoatController extends Controller
             ->isNotModified($request);
 
         return $response;
+    }
+
+    /**
+     * Resize image
+     * @param string|resource $source Source image
+     * @param string          $destPath Output file
+     * @param integer         $width Width (px)
+     * @param integer|null    $height Height (px)
+     * @param boolean         $keepRatio Keep the aspect ratio
+     */
+    private function resizeImg($source, $destPath, $width, $height = null, $keepRatio = true)
+    {
+        // Ration
+        if ($keepRatio) {
+            $ratioClosure = function (Constraint $constraint) {
+                $constraint->aspectRatio();
+            };
+        } else {
+            $ratioClosure = null;
+        }
+
+        $manager = new ImageManager(['driver' => 'gd']);
+        $image = $manager->make($source);
+        $image
+            ->resize($width, $height, $ratioClosure)
+            ->save($destPath)
+            ->destroy();
     }
 }
