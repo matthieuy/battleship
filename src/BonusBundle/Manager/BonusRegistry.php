@@ -56,6 +56,15 @@ class BonusRegistry
     }
 
     /**
+     * Get Bonus list
+     * @return BonusInterface[]
+     */
+    public function getAllBonus()
+    {
+        return $this->bonusList;
+    }
+
+    /**
      * Get Bonus by id
      * @param string $id
      *
