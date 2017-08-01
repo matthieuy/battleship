@@ -14,10 +14,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% include "::sidebar.html.twig" %}
         <div id="container" canvas="container">
-            {% include "::topbar.html.twig" %}
-
             {# Flash Message #}
             <div class="flash-container">
                 {% for msg in app.session.flashbag.get('success') %}
