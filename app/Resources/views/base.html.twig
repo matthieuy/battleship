@@ -14,24 +14,10 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+        {% include "::sidebar.html.twig" %}
         <div id="container" canvas="container">
-            {# Flash Message #}
-            <div class="flash-container">
-                {% for msg in app.session.flashbag.get('success') %}
-                    <div class="flash-msg success"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
-                {% for msg in app.session.flashbag.get('info') %}
-                    <div class="flash-msg info"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
-                {% for msg in app.session.flashbag.get('error') %}
-                    <div class="flash-msg error"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
-                {% block flash %}{% endblock %}
-
-                <noscript>
-                    <div class="flash-msg error">{{ 'javascript'|trans({}, 'errors') }}</div>
-                </noscript>
-            </div>
+            {% include "::topbar.html.twig" %}
+            {% include "::flash.html.twig" %}
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}
