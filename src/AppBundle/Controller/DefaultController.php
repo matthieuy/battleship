@@ -14,7 +14,10 @@ class DefaultController extends Controller
 {
     /**
      * Homepage
-     * @Route("/", name="homepage")
+     * @Route(
+     *     path="/",
+     *     name="homepage",
+     *     methods={"GET"})
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -27,7 +30,10 @@ class DefaultController extends Controller
 
     /**
      * Who online
-     * @Route("/who-online", name="who-online")
+     * @Route(
+     *     path="/who-online",
+     *     name="who-online",
+     *     methods={"GET"})
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function whoAction()
