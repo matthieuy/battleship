@@ -136,7 +136,7 @@ class BonusRpc implements RpcInterface
 
         // Trigger
         try {
-            $this->bonusRegistry->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
+            $this->bonusRegistry->triggerEvent(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
         } catch (\Exception $e) {
             return ['msg' => $e->getMessage()];
         }

@@ -9,7 +9,6 @@ TODO
     - [ ] Shortcuts
 - [ ] Bonus :
     - [ ] Make more bonus
-	- [ ] Add some trigger for bonus
 - [ ] Mobile :
     - [ ] Helper for weapon
 - [ ] Stats :

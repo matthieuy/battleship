@@ -39,4 +39,25 @@ class InventoryRepository extends EntityRepository
 
         return $result;
     }
+
+    /**
+     * Get bonus in use
+     * @param Game $game
+     *
+     * @return Inventory[]
+     */
+    public function getActiveBonus(Game $game)
+    {
+        $builder = $this->createQueryBuilder('inventory');
+        $builder
+            ->select('inventory')
+            ->where('inventory.game=:game')
+            ->andWhere('inventory.useIt=:use')
+            ->setParameters([
+                'game' => $game,
+                'use' => true,
+            ]);
+
+        return $builder->getQuery()->getResult();
+    }
 }

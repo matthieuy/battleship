@@ -28,7 +28,7 @@ class BonusConstant
     /**
      * TRIGGER
      */
-    const WHEN_USE = 'use';
+    const WHEN_USE = 'use'; // When use the bonus
     public static $triggerList = [
         self::WHEN_USE => 'onUse',
     ];

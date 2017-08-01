@@ -137,7 +137,7 @@ class BonusRegistry
         // Use it (AI)
         if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
             $game = $player->getGame();
-            $this->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
+            $this->triggerEvent(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
         }
 
         // Persist
@@ -145,6 +145,24 @@ class BonusRegistry
         $this->entityManager->flush();
 
         return true;
+    }
+
+    /**
+     * Dispatch event with all current bonus
+     * @param string $event
+     * @param Game   $game
+     * @param array  $options
+     */
+    public function dispatchEvent($event, Game &$game, array &$options = [])
+    {
+        // Get list of inventory
+        $list = $this->entityManager->getRepository('BonusBundle:Inventory')->getActiveBonus($game);
+
+        foreach ($list as $inventory) {
+            $bonus = $this->getBonusById($inventory->getName());
+            $player = $inventory->getPlayer();
+            $this->triggerEvent($event, $inventory, $bonus, $game, $player, $options);
+        }
     }
 
     /**
@@ -156,7 +174,7 @@ class BonusRegistry
      * @param Player         $player
      * @param array          $options
      */
-    public function trigger($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, array $options = [])
+    public function triggerEvent($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, array &$options = [])
     {
         // Call methods
         $method = BonusConstant::$triggerList[$event];
