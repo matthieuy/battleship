@@ -3,6 +3,8 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use ChatBundle\Entity\Message;
+use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -12,6 +14,17 @@ use MatchBundle\Entity\Player;
  */
 class SkipPlayer extends AbstractBonus
 {
+    private $entityManager;
+
+    /**
+     * SkipPlayer constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * Get the unique id of the bonus
      * @return string
@@ -27,7 +40,7 @@ class SkipPlayer extends AbstractBonus
      */
     public function getProbabilityToCatch()
     {
-        return 50;
+        return 15;
     }
 
     /**
@@ -88,11 +101,40 @@ class SkipPlayer extends AbstractBonus
                         $options[$teamId] = array_values($options);
                     }
 
+                    $this->sendMessage($game, $player, $playerPositionExclude);
+                    $this->remove = true;
+
                     break 2;
                 }
             }
         }
 
         return false;
+    }
+
+    /**
+     * Send chat message on use
+     * @param Game    $game
+     * @param Player  $player
+     * @param integer $victimPosition
+     */
+    private function sendMessage(Game $game, Player $player, $victimPosition)
+    {
+        $victim = $game->getPlayerByPosition($victimPosition);
+        if (!$victim) {
+            return;
+        }
+
+        $context = [
+            'victim' => $victim->getName(),
+            'user' => $player->getName(),
+        ];
+
+        $message = new Message();
+        $message
+            ->setGame($game)
+            ->setText('bonus.skip_player.msg')
+            ->setContext($context);
+        $this->entityManager->persist($message);
     }
 }

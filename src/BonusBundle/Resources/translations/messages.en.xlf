@@ -66,6 +66,10 @@
                 <source>One player can't play next tour</source>
                 <target>One player can't play next tour</target>
             </trans-unit>
+            <trans-unit id="bonus17" resname="bonus.skip_player.msg">
+                <source>%victim% skip his tour (by %user%)</source>
+                <target>%victim% skip his tour (by %user%)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

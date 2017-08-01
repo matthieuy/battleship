@@ -79,5 +79,7 @@ services:
     # Skip player
     bonus.skip_player:
         class: BonusBundle\Bonus\SkipPlayer
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: bonus.type }
