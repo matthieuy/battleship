@@ -75,3 +75,9 @@ services:
         class: BonusBundle\Bonus\PointTeamBonus
         tags:
             - { name: bonus.type }
+
+    # Skip player
+    bonus.skip_player:
+        class: BonusBundle\Bonus\SkipPlayer
+        tags:
+            - { name: bonus.type }

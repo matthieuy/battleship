@@ -29,7 +29,9 @@ class BonusConstant
      * TRIGGER
      */
     const WHEN_USE = 'use'; // When use the bonus
+    const WHEN_BEFORE_TOUR = 'new_tour'; // On new tour
     public static $triggerList = [
         self::WHEN_USE => 'onUse',
+        self::WHEN_BEFORE_TOUR => 'onBeforeTour',
     ];
 }
