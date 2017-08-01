@@ -18,8 +18,8 @@
         border-width: 0 1px 1px 0;
     {% endif %}
 }
-.boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox })|raw }}'); }
-.explose { background-image: url('{{ path('match.explose.img', { size: widthBox })|raw }}'); }
+.boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox }) }}'); }
+.explose { background-image: url('{{ path('match.explose.img', { size: widthBox }) }}'); }
 .miss { background-position: {{ widthBox * -11 }}px 0; }
 .hit { background-position: {{ widthBox * 6 }}px {{ widthBox }}px; }
 .rocket {
@@ -31,8 +31,8 @@
 }
 
 {% for player in game.players %}
-    .boat.player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox })|raw }}'); }
-    #rocket{{ player.position }} { background-image: url('{{ path('match.rocket.img', {color: player.color, size: widthBox })|raw }}'); }
+    .boat.player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox }) }}'); }
+    #rocket{{ player.position }} { background-image: url('{{ path('match.rocket.img', {color: player.color, size: widthBox }) }}'); }
 {% endfor %}
 
 @keyframes explose-ice {
