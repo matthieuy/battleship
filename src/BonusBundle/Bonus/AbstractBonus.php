@@ -14,6 +14,24 @@ abstract class AbstractBonus implements BonusInterface
     protected $remove = false;
 
     /**
+     * Get the unique name of the bonus
+     * @return string
+     */
+    public function getName()
+    {
+        return 'bonus.'.$this->getId();
+    }
+
+    /**
+     * Get the bonus description
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->getName().'.desc';
+    }
+
+    /**
      * Remove the bonus ?
      * @return boolean
      */

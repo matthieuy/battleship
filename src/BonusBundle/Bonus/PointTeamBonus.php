@@ -22,25 +22,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'bonus.point.team';
-    }
-
-    /**
-     * Get the name of the bonus
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getId();
-    }
-
-    /**
-     * Get the bonus description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getId().'.desc';
+        return 'point.team';
     }
 
     /**

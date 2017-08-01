@@ -22,25 +22,7 @@ class PointBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'bonus.point';
-    }
-
-    /**
-     * Get the unique name of the bonus
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getId();
-    }
-
-    /**
-     * Get the bonus description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getId().'.desc';
+        return 'point';
     }
 
     /**
@@ -85,11 +67,7 @@ class PointBonus extends AbstractBonus
      */
     public function canUseNow(Game $game, Player $player = null)
     {
-        if (!$player) {
-            return false;
-        }
-
-        return true;
+        return ($player !== null);
     }
 
     /**
