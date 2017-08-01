@@ -142,6 +142,9 @@ class ChatRPC implements RpcInterface
 
         // Get user
         $user = $this->clientManipulator->getClient($connection);
+        if (!$user instanceof User) {
+            return [];
+        }
 
         // Get messages
         $list = $this->em->getRepository('ChatBundle:Message')->getMessages($game, intval($params['last']), $user);
