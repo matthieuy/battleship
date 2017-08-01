@@ -19,7 +19,7 @@
             {% include "::topbar.html.twig" %}
 
             {# Flash Message #}
-            <div id="flash-container">
+            <div class="flash-container">
                 {% for msg in app.session.flashbag.get('success') %}
                     <div class="flash-msg success"><div class="close">&times;</div>{{ msg|trans }}</div>
                 {% endfor %}

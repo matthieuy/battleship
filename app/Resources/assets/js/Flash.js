@@ -28,9 +28,8 @@ module.exports = function() {
         if (msg === '') {
             return false
         }
-        let flash = $('<div class="flash-msg '+ type +'" style="display: none;"><div class="close">&times;</div>' + Translator.trans(msg) + '</div>').appendTo('#flash-container')
-        $('html, body').animate({scrollTop: $("#flash-container").offset().top - 25}, 2000)
-
+        let flash = $('<div class="flash-msg '+ type +'" style="display: none;"><div class="close">&times;</div>' + Translator.trans(msg) + '</div>').appendTo('.flash-container')
+        $('#container').animate({scrollTop: $(".flash-container").offset().top - 5 }, 2000)
         $(flash).show('slow', function () {
             setTimeout(function () {
                 $(flash).hide('slow', function () {

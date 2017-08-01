@@ -2,7 +2,6 @@ TODO
 ====
 
 - [ ] Bugfix :
-	- [ ] FlashError : scrollTop
 	- [ ] Animation with scroll != 0
 - [ ] Documentations :
 	- [ ] Howto add a bonus
