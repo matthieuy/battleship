@@ -35,6 +35,12 @@
             let topicName = 'game/' + document.getElementById('slug').value + '/wait'
             WS.subscribeAction(topicName, 'console', (txt) => this.list.unshift(txt))
         },
+        watch: {
+            // Scroll top on new message
+            list(value) {
+                document.querySelector('.console').scrollTop = 0
+            },
+        },
     }
 </script>
 <style lang="less">
