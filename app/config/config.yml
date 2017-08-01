@@ -36,7 +36,8 @@ framework:
     trusted_hosts:   ~
     session:
         name: "%session_name%"
-        handler_id:  session.handler.pdo
+        handler_id:  "snc_redis.session.handler"
+#        handler_id:  "session.handler.pdo"
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
         cookie_secure: "%use_ssl%"
     fragments:       ~
