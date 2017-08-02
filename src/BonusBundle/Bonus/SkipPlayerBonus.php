@@ -5,6 +5,7 @@ namespace BonusBundle\Bonus;
 use BonusBundle\Entity\Inventory;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
+use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -14,17 +15,6 @@ use MatchBundle\Entity\Player;
  */
 class SkipPlayerBonus extends AbstractBonus
 {
-    private $entityManager;
-
-    /**
-     * SkipPlayer constructor.
-     * @param EntityManager $entityManager
-     */
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     /**
      * Get the unique id of the bonus
      * @return string
@@ -82,11 +72,12 @@ class SkipPlayerBonus extends AbstractBonus
      * @param Game      $game
      * @param Player    $player
      * @param Inventory $inventory (options contain "player" to exclude)
+     * @param ReturnBox $returnBox
      * @param array     $options   Contain teamList from GameRpc::nextTour()
      *
      * @return boolean|array Data to push
      */
-    public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, array &$options = [])
+    public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
     {
         $playerPositionExclude = $inventory->getOption('player');
 

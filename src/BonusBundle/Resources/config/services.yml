@@ -73,6 +73,8 @@ services:
     # Team point
     bonus.team_point:
         class: BonusBundle\Bonus\PointTeamBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: bonus.type }
 

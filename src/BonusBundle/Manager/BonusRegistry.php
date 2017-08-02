@@ -196,7 +196,7 @@ class BonusRegistry
         $method = BonusConstant::$triggerList[$event];
         if (method_exists($bonus, $method)) {
             // Call method
-            $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$options]);
+            $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$returnBox, &$options]);
 
             // Use it : dispatch event
             if ($event == BonusConstant::WHEN_USE) {

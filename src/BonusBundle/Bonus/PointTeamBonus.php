@@ -3,6 +3,8 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use ChatBundle\Entity\Message;
+use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -75,18 +77,20 @@ class PointTeamBonus extends AbstractBonus
      * @param Game      $game
      * @param Player    $player
      * @param Inventory $inventory
+     * @param ReturnBox $returnBox
      * @param array     $options
      *
      * @return array Data to push to player
      */
-    public function onUse(Game &$game, Player &$player, Inventory $inventory, array &$options = [])
+    public function onUse(Game &$game, Player &$player, Inventory $inventory, ReturnBox $returnBox = null, array &$options = [])
     {
         $team = $player->getTeam();
+        $points = $inventory->getOption('label');
         $returnWS = [];
 
         foreach ($game->getPlayers() as $p) {
             if ($p->getTeam() == $team && $p->getLife() > 0) {
-                $p->addScore($inventory->getOption('label'));
+                $p->addScore($points);
 
                 if (!$p->isAi()) {
                     $returnWS[$p->getName()] = [
@@ -97,7 +101,24 @@ class PointTeamBonus extends AbstractBonus
         }
 
         $this->remove = true;
+        $this->sendMessage($game, $player, $points);
 
         return $returnWS;
+    }
+
+    private function sendMessage(Game $game, Player $player, $points)
+    {
+        $message = new Message();
+        $message
+            ->setGame($game)
+            ->setChannel(Message::CHANNEL_TEAM)
+            ->setRecipient($player->getTeam())
+            ->setText('bonus.point.team.msg')
+            ->setContext([
+                'user' => $player->getName(),
+                'points' => $points,
+            ]);
+
+        $this->entityManager->persist($message);
     }
 }
