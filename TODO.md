@@ -34,5 +34,4 @@ TODO
 	- [ ] Translate in French
 - [ ] Tests/Dev :
 	- [ ] Unit tests
-	- [ ] Script for deploy on git hook (personal TODO)
 	- [ ] ESLint and others checks tools
