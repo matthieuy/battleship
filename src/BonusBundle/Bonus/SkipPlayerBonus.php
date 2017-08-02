@@ -9,10 +9,10 @@ use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
- * Class SkipPlayer
+ * Class SkipPlayerBonus
  * @package BonusBundle\Bonus
  */
-class SkipPlayer extends AbstractBonus
+class SkipPlayerBonus extends AbstractBonus
 {
     private $entityManager;
 
