@@ -119,14 +119,17 @@
                     })
                 }
             },
+            scrollBottom() {
+                setTimeout(function() {
+                    let el = document.getElementById('messages')
+                    el.scrollTop = el.scrollHeight
+                }, 500)
+            },
         },
         watch: {
             // Update messages list : scroll bottom
             messages() {
-                setTimeout(function() {
-                let element = document.getElementById('messages')
-                element.scrollTop = element.scrollHeight
-                }, 50)
+                this.scrollBottom()
             },
             // Open/Close modal
             ['chat.modal'](open) {
@@ -149,6 +152,7 @@
                     })
 
                     this.$store.dispatch(ACTION.CHAT.MARK_READ, this.chat.active_tab)
+                    this.scrollBottom()
                 } else {
                     $('#container').removeAttr('style')
                 }
