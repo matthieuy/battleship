@@ -110,6 +110,14 @@
                 <source>Multiplies the score if a touch during the lap</source>
                 <target>Multiplies the score if a touch during the lap</target>
             </trans-unit>
+            <trans-unit id="bonus28" resname="bonus.booster">
+                <source>Captain's equipment</source>
+                <target>Captain's equipment</target>
+            </trans-unit>
+            <trans-unit id="bonus29" resname="bonus.booster.desc">
+                <source>Increases your luck to catch a big bonus</source>
+                <target>Increases your luck to catch a big bonus</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
