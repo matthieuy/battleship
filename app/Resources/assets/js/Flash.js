@@ -7,7 +7,7 @@ module.exports = function() {
     })
 
     /**
-     * Ad a error message
+     * Add a error message
      * @param msg
      * @returns {boolean}
      */
