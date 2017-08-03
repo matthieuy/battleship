@@ -256,6 +256,7 @@
     .messages {
         max-height: 200px;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #input-msg {
