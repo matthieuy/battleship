@@ -119,3 +119,9 @@ services:
         class: BonusBundle\Bonus\BoosterBonus
         tags:
             - { name: bonus.type }
+
+    # Bomber
+    bonus.bomber:
+        class: BonusBundle\Bonus\BomberBonus
+        tags:
+            - { name: bonus.type }

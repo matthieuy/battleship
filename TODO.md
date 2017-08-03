@@ -7,8 +7,6 @@ TODO
 - [ ] Game :
     - [ ] ISO view
     - [ ] Shortcuts
-- [ ] Bonus :
-    - [ ] Make more bonus
 - [ ] Mobile :
     - [ ] Helper for weapon
 - [ ] Stats :

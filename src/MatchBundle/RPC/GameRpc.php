@@ -372,20 +372,32 @@ class GameRpc implements RpcInterface
     {
         $this->returnBox->setDoTouch(false);
         $this->returnBox->setWeapon(null);
-        $noWeapon = [$game->getBox($x, $y)];
+        $boxList = [];
+
         if (!$weapon) {
-            return $noWeapon;
+            // No weapon
+            $boxList[] = $game->getBox($x, $y);
+        } else {
+            // Price
+            $price = $weapon->getPrice();
+            if ($price > $player->getScore()) {
+                $boxList[] = $game->getBox($x, $y);
+            } else {
+                $player->removeScore($price);
+                $this->returnBox->setWeapon($weapon);
+                $boxList = $weapon->getBoxes($game, $x, $y, $weaponRotate);
+            }
         }
 
-        // Price
-        $price = $weapon->getPrice();
-        if ($price > $player->getScore()) {
-            return $noWeapon;
-        }
-        $player->removeScore($price);
-        $this->returnBox->setWeapon($weapon);
+        // Bonus trigger
+        $options = [
+            'boxes' => $boxList,
+            'shooter' => $player,
+        ];
+        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_GET_BOXES, $game, $this->returnBox, $options);
+        $boxList = $options['boxes'];
 
-        return $weapon->getBoxes($game, $x, $y, $weaponRotate);
+        return $boxList;
     }
 
     /**

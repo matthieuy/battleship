@@ -118,6 +118,14 @@
                 <source>Increases your luck to catch a big bonus</source>
                 <target>Increases your luck to catch a big bonus</target>
             </trans-unit>
+            <trans-unit id="bonus30" resname="bonus.bomber">
+                <source>Fighter bomber</source>
+                <target>Fighter bomber</target>
+            </trans-unit>
+            <trans-unit id="bonus31" resname="bonus.bomber.desc">
+                <source>Drop random bombs</source>
+                <target>Drop random bombs</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
