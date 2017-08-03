@@ -5,7 +5,6 @@ namespace BonusBundle\Bonus;
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use ChatBundle\Entity\Message;
-use Doctrine\ORM\EntityManager;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;

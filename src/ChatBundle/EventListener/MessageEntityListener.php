@@ -3,7 +3,6 @@
 namespace ChatBundle\EventListener;
 
 use ChatBundle\Entity\Message;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 
 /**
@@ -25,10 +24,9 @@ class MessageEntityListener
 
     /**
      * After save a message => send it
-     * @param Message            $message
-     * @param LifecycleEventArgs $event
+     * @param Message $message
      */
-    public function postPersist(Message $message, LifecycleEventArgs $event)
+    public function postPersist(Message $message)
     {
         $game = $message->getGame();
 

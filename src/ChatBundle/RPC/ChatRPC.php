@@ -8,7 +8,6 @@ use ChatBundle\Entity\Message;
 use ChatBundle\Event\MessageEvent;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use MatchBundle\Entity\Game;
@@ -24,25 +23,21 @@ class ChatRPC implements RpcInterface
 {
     private $clientManipulator;
     private $em;
-    private $pusher;
     private $dispatcher;
 
     /**
      * ChatRPC constructor.
      * @param ClientManipulatorInterface $clientManipulator
      * @param EntityManager              $em
-     * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $dispatcher
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
-        PusherInterface $pusher,
         EventDispatcherInterface $dispatcher
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
-        $this->pusher = $pusher;
         $this->dispatcher = $dispatcher;
     }
 

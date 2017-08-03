@@ -7,7 +7,6 @@ use BonusBundle\BonusEvents;
 use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Boats;
 use MatchBundle\Entity\Game;
 use MatchBundle\Event\GameEvent;
@@ -24,19 +23,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 class ChatListener implements EventSubscriberInterface
 {
     private $entityManager;
-    private $pusher;
     private $translator;
 
     /**
      * ChatListener constructor.
      * @param EntityManager       $entityManager
-     * @param PusherInterface     $pusher
      * @param TranslatorInterface $translator
      */
-    public function __construct(EntityManager $entityManager, PusherInterface $pusher, TranslatorInterface $translator)
+    public function __construct(EntityManager $entityManager, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
-        $this->pusher = $pusher;
         $this->translator = $translator;
     }
 
