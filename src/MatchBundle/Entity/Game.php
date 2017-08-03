@@ -595,15 +595,15 @@ class Game
 
     /**
      * Get players from team number
-     * @param integer $team
-     *
+     * @param integer $team      Team number
+     * @param bool    $aliveOnly Only return alive player
      * @return Player[]
      */
-    public function getPlayersByTeam($team)
+    public function getPlayersByTeam($team, $aliveOnly = false)
     {
         $list = [];
         foreach ($this->players as $player) {
-            if ($player->getTeam() == $team) {
+            if ($player->getTeam() == $team && (!$aliveOnly || ($aliveOnly && $player->getLife() > 0))) {
                 $list[] = $player;
             }
         }

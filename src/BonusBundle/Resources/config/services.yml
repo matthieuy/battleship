@@ -107,3 +107,9 @@ services:
         class: BonusBundle\Bonus\ResetProbBonus
         tags:
             - { name: bonus.type }
+
+    # Damage x2
+    bonus.damage:
+        class: BonusBundle\Bonus\DamageBonus
+        tags:
+            - { name: bonus.type }

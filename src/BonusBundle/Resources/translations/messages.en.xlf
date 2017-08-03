@@ -102,6 +102,14 @@
                 <source>Reset probability of your enemy</source>
                 <target>Reset probability of your enemy</target>
             </trans-unit>
+            <trans-unit id="bonus26" resname="bonus.damage">
+                <source>Double damage</source>
+                <target>Double damage</target>
+            </trans-unit>
+            <trans-unit id="bonus27" resname="bonus.damage.desc">
+                <source>Multiplies the score if a touch during the lap</source>
+                <target>Multiplies the score if a touch during the lap</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

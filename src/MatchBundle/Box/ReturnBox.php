@@ -132,7 +132,9 @@ class ReturnBox
     {
         if (!$player->isAi()) {
             $box = end($this->listBox);
-            $box->setBonus($player);
+            if ($box) {
+                $box->setBonus($player);
+            }
         }
 
         return $this;

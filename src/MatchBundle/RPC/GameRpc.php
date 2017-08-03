@@ -479,6 +479,11 @@ class GameRpc implements RpcInterface
         }
 
         if (!$penalty) {
+            $options = [
+                'points' => $points,
+                'shooter' => $shooter,
+                ];
+            $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_SCORE, $game, $this->returnBox, $options);
             $shooter->addScore($points);
             if (!$shooter->isAi()) {
                 $box->setScore($shooter);
