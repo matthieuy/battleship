@@ -2,6 +2,7 @@
 
 namespace BonusBundle\Bonus;
 
+use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
@@ -40,19 +41,19 @@ class SkipPlayerBonus extends AbstractBonus
     public function getOptions()
     {
         return [
-            'select' => 'enemy',
+            'select' => BonusConstant::TARGET_ENEMY,
         ];
     }
 
     /**
-     * Only human can get it
+     * All players can get it
      * @param Player $player
      *
      * @return boolean
      */
     public function canWeGetIt(Player $player)
     {
-        return (!$player->isAi());
+        return true;
     }
 
     /**
@@ -79,12 +80,21 @@ class SkipPlayerBonus extends AbstractBonus
      */
     public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
     {
-        $playerPositionExclude = $inventory->getOption('player');
+        // Get target position to exclude
+        if ($player->isAi()) {
+            $target = $this->getTargetForAI($game, $player, $inventory->getOption('select'));
+            if (!$target) {
+                return false;
+            }
+            $targetPosition = $target->getPosition();
+        } else {
+            $targetPosition = $inventory->getOption('player');
+        }
 
         // Update teamlist
         foreach ($options as $teamId => $players) {
             foreach ($players as $iPlayer => $position) {
-                if ($playerPositionExclude == $position) {
+                if ($targetPosition == $position) {
                     unset($options[$teamId][$iPlayer]);
                     if (empty($options[$teamId])) {
                         unset($options[$teamId]);
@@ -92,7 +102,7 @@ class SkipPlayerBonus extends AbstractBonus
                         $options[$teamId] = array_values($options);
                     }
 
-                    $this->sendMessage($game, $player, $playerPositionExclude);
+                    $this->sendMessage($game, $player, $targetPosition);
                     $this->remove = true;
 
                     break 2;

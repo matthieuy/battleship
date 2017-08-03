@@ -4,6 +4,7 @@ namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
 use Doctrine\ORM\EntityManager;
+use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
 /**
@@ -58,5 +59,35 @@ abstract class AbstractBonus implements BonusInterface
     public function setProbabilityAfterCatch(Player $player)
     {
         $player->setProbability(BonusConstant::INITIAL_PROBABILITY);
+    }
+
+    /**
+     * Get a target player for AI
+     * @param Game    $game
+     * @param Player  $player
+     * @param integer $target
+     *
+     * @return Player|null
+     */
+    protected function getTargetForAI(Game $game, Player $player, $target)
+    {
+        $list = [];
+        foreach ($game->getPlayers() as $p) {
+            if ($p->getId() == $player->getId() || $p->getLife() <= 0) {
+                continue;
+            }
+
+            if ($target == BonusConstant::TARGET_ENEMY && $p->getTeam() !== $player->getTeam()) {
+                $list[] = $p;
+            } elseif ($target == BonusConstant::TARGET_FRIENDS && $p->getTeam() == $player->getTeam()) {
+                $list[] = $p;
+            } elseif ($target == BonusConstant::TARGET_ALL) {
+                $list[] = $p;
+            }
+        }
+
+        shuffle($list);
+
+        return (isset($list[0])) ? $list[0] : null;
     }
 }
