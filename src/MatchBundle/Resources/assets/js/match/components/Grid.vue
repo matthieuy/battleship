@@ -67,7 +67,11 @@
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+                        if (typeof img.player !== 'undefined' && img.player === img.shoot) {
+                            self.$store.commit(MUTATION.SET_STATUS, Translator.trans('system.penalty', {username: shooter.name}))
+                        } else {
+                            self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+                        }
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'+img.shoot), {
