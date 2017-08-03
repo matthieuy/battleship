@@ -142,9 +142,9 @@ class BonusRegistry
         $event = new BonusEvent($player, $bonus, $inventory);
         $this->eventDispatcher->dispatch(BonusEvents::CATCH_ONE, $event);
 
-
         // Use it (AI)
         if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
+            $inventory->setUse();
             $game = $player->getGame();
             $this->triggerEvent(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
             if ($bonus->isRemove()) {

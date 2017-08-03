@@ -94,6 +94,14 @@
                 <source>Discover the number of points of your enemy</source>
                 <target>Discover the number of points of your enemy</target>
             </trans-unit>
+            <trans-unit id="bonus24" resname="bonus.reset">
+                <source>Reset</source>
+                <target>Reset</target>
+            </trans-unit>
+            <trans-unit id="bonus25" resname="bonus.reset.desc">
+                <source>Reset probability of your enemy</source>
+                <target>Reset probability of your enemy</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

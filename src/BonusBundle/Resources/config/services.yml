@@ -101,3 +101,9 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: bonus.type }
+
+    # Reset probability
+    bonus.reset:
+        class: BonusBundle\Bonus\ResetProbBonus
+        tags:
+            - { name: bonus.type }

@@ -13,7 +13,7 @@
                                 <div class="container-bonus">
                                     <div class="large-4 column" v-for="bonus in inventory.list" @click="highlight(bonus)">
                                         <div class="bonus-box opentip" :class="{selected: (selected && selected.id == bonus.id), use: bonus.use }" :data-tip="'<strong>'+trans(bonus.name)+' :</strong> '+trans(bonus.description)">
-                                            <img :src="'img/bonus/'+bonus.uniq+'.png'" width="80">
+                                            <img :src="'img/bonus/'+bonus.uniq+(bonus.options.img || '')+'.png'" width="80">
                                             <span class="label" v-show="bonus.options.label">{{ bonus.options.label }}</span>
                                         </div>
                                     </div>
