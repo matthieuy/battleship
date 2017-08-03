@@ -85,3 +85,11 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: bonus.type }
+
+    # Robber
+    bonus.robber:
+        class: BonusBundle\Bonus\RobberBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }

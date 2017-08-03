@@ -58,17 +58,33 @@
                 <source>Add points to all players in your team</source>
                 <target>Add points to all players in your team</target>
             </trans-unit>
-            <trans-unit id="bonus15" resname="bonus.skip_player">
+            <trans-unit id="bonus15" resname="bonus.point.team.msg">
+                <source>%user% offer %points% points to your team</source>
+                <target>%user% offer %points% points to your team</target>
+            </trans-unit>
+            <trans-unit id="bonus16" resname="bonus.skip_player">
                 <source>Skip player</source>
                 <target>Skip player</target>
             </trans-unit>
-            <trans-unit id="bonus16" resname="bonus.skip_player.desc">
+            <trans-unit id="bonus17" resname="bonus.skip_player.desc">
                 <source>One player can't play next tour</source>
                 <target>One player can't play next tour</target>
             </trans-unit>
-            <trans-unit id="bonus17" resname="bonus.skip_player.msg">
+            <trans-unit id="bonus18" resname="bonus.skip_player.msg">
                 <source>%victim% skip his tour (by %user%)</source>
                 <target>%victim% skip his tour (by %user%)</target>
+            </trans-unit>
+            <trans-unit id="bonus19" resname="bonus.robber">
+                <source>Robber</source>
+                <target>Robber</target>
+            </trans-unit>
+            <trans-unit id="bonus20" resname="bonus.robber.desc">
+                <source>Steal points to your ennemy</source>
+                <target>Steal points to your ennemy</target>
+            </trans-unit>
+            <trans-unit id="bonus21" resname="bonus.robber.msg">
+                <source>%user% steal %points% to %victim%</source>
+                <target>%user% steal %points% to %victim%</target>
             </trans-unit>
         </body>
     </file>
