@@ -66,10 +66,6 @@ class ChatListener implements EventSubscriberInterface
         $context = ['username' => $player->getName()];
 
         $this->saveMessage($game, 'system.bonus_catch', $context);
-
-        // Team
-        $context['bonus'] = $this->translator->trans($event->getBonus()->getName());
-        $this->saveMessage($game, 'system.bonus_catch_team', $context, $event->getPlayer()->getTeam());
     }
 
     /**
@@ -82,12 +78,7 @@ class ChatListener implements EventSubscriberInterface
         $game = $player->getGame();
         $context = ['username' => $player->getName()];
 
-        // Public
         $this->saveMessage($game, 'system.bonus_use', $context);
-
-        // Team
-        $context['bonus'] = $this->translator->trans($event->getBonus()->getName());
-        $this->saveMessage($game, 'system.bonus_use_team', $context, $event->getPlayer()->getTeam());
     }
 
     /**
