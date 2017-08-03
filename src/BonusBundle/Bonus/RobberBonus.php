@@ -2,6 +2,7 @@
 
 namespace BonusBundle\Bonus;
 
+use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
 use ChatBundle\Entity\Message;
 use MatchBundle\Box\ReturnBox;
@@ -44,21 +45,21 @@ class RobberBonus extends AbstractBonus
         $percentage = rand(self::MIN_PERCENTAGE, self::MAX_PERCENTAGE);
 
         return [
-            'select' => 'enemy',
+            'select' => BonusConstant::TARGET_ENEMY,
             'label' => $percentage.'%',
             'percent' => $percentage,
         ];
     }
 
     /**
-     * Only human can get it
+     * All players can get it
      * @param Player $player
      *
      * @return boolean
      */
     public function canWeGetIt(Player $player)
     {
-        return (!$player->isAi());
+        return true;
     }
 
     /**
@@ -85,8 +86,14 @@ class RobberBonus extends AbstractBonus
      */
     public function onUse(Game &$game, Player &$player, Inventory $inventory, ReturnBox $returnBox = null, array &$options = [])
     {
-        $victimPosition = $inventory->getOption('player');
-        $victim = $game->getPlayerByPosition($victimPosition);
+        // Get victim
+        if ($player->isAi()) {
+            $victim = $this->getTargetForAI($game, $player, $inventory->getOption('select'));
+        } else {
+            $victimPosition = $inventory->getOption('player');
+            $victim = $game->getPlayerByPosition($victimPosition);
+        }
+
         if (!$victim || $victim->getLife() <= 0) {
             return false;
         }
