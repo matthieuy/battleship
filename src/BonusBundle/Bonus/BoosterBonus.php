@@ -31,7 +31,7 @@ class BoosterBonus extends AbstractBonus
      */
     public function getProbabilityToCatch()
     {
-        return 40;
+        return 50;
     }
 
     /**
@@ -42,7 +42,7 @@ class BoosterBonus extends AbstractBonus
     {
         return [
             'value' => rand(self::MIN_PROBA, self::MAX_PROBA),
-            'img' => rand(1, 6),
+            'img' => rand(1, 8),
         ];
     }
 
