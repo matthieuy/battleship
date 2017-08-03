@@ -20,12 +20,11 @@
                                                 <th width="100">{{ trans('Destroyer') }}</th>
                                                 <th width="100">{{ trans('Cruiser') }}</th>
                                                 <th width="110">{{ trans('Aircraft') }}</th>
-                                                <th>{{ trans('bonus_name') }}</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="7" id="chrono">
+                                                <td colspan="6" id="chrono">
                                                     <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
                                                     <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
                                                     <span :title="datePenalty"></span>
@@ -66,11 +65,6 @@
                                                 <td>
                                                     <ul>
                                                         <li v-for="player in team.players">{{ player.boats[5] }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.probability }}%</li>
                                                     </ul>
                                                 </td>
                                             </tr>

@@ -80,7 +80,7 @@ class SpyBonus extends AbstractBonus
         $txt = [];
         foreach ($game->getPlayers() as $p) {
             if ($p->getTeam() !== $player->getTeam() && $p->getLife() > 0) {
-                $txt[] = $p->getName().' ('.$p->getScore().')';
+                $txt[] = $p->getName().' ('.$p->getScore().'/'.$p->getProbability().'%)';
             }
         }
 
