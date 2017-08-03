@@ -86,6 +86,14 @@
                 <source>%user% steal %points% to %victim%</source>
                 <target>%user% steal %points% to %victim%</target>
             </trans-unit>
+            <trans-unit id="bonus22" resname="bonus.spy">
+                <source>Spy</source>
+                <target>Spy</target>
+            </trans-unit>
+            <trans-unit id="bonus23" resname="bonus.spy.desc">
+                <source>Discover the number of points of your enemy</source>
+                <target>Discover the number of points of your enemy</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

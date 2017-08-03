@@ -198,14 +198,14 @@ class BonusRegistry
             // Call method
             $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$returnBox, &$options]);
 
-            // Use it : dispatch event
-            if ($event == BonusConstant::WHEN_USE) {
-                $this->eventDispatcher->dispatch(BonusEvents::USE_IT, new BonusEvent($player, $bonus, $inventory));
-            }
-
             // WS push
             if ($returnWS) {
                 $this->pusher->push($returnWS, 'game.bonus.topic', ['slug' => $game->getSlug()]);
+            }
+
+            // Use it : dispatch event
+            if ($event == BonusConstant::WHEN_USE) {
+                $this->eventDispatcher->dispatch(BonusEvents::USE_IT, new BonusEvent($player, $bonus, $inventory));
             }
         }
 

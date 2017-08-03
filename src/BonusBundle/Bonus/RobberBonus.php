@@ -74,7 +74,7 @@ class RobberBonus extends AbstractBonus
     }
 
     /**
-     * onUse : get points for all team
+     * onUse : steal points
      * @param Game      $game
      * @param Player    $player
      * @param Inventory $inventory

@@ -93,3 +93,11 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: bonus.type }
+
+    # Spy
+    bonus.spy:
+        class: BonusBundle\Bonus\SpyBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }
