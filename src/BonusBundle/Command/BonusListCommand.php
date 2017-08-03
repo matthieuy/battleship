@@ -40,22 +40,26 @@ class BonusListCommand extends ContainerAwareCommand
 
         // Create table
         $table = new Table($output);
-        $table->setHeaders(['Name', 'Probability', 'Description', 'AI', 'Class']);
+        $table->setHeaders(['Name', 'Probability', 'Description', 'AI', 'Class', 'ID']);
 
         // Add bonus to table
         $list = $bonusManager->getAllBonus();
+        $rows = [];
+        $sort = [];
         foreach ($list as $id => $bonus) {
-            $row = [
+            $rows[] = [
                 $translator->trans($bonus->getName()),
                 $bonus->getProbabilityToCatch().'%',
                 $translator->trans($bonus->getDescription()),
                 $bonus->canWeGetIt($player) ? 'X' : '',
                 get_class($bonus),
+                $bonus->getId(),
             ];
-
-            $table->addRow($row);
+            $sort[] = $bonus->getProbabilityToCatch();
         }
+        array_multisort($sort, SORT_DESC, $rows);
 
+        $table->addRows($rows);
         $table->render();
     }
 }
