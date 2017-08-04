@@ -809,7 +809,7 @@ class GameRpc implements RpcInterface
                 if ($selectBoat && isset($grid[$y][$x]['boat']) && $grid[$y][$x]['boat'] == $selectBoat[0]) {
                     // Selected boat => the same boat number
                     break 2;
-                } elseif (!$selectBoat && isset($grid[$y][$x]['player']) && $grid[$y][$x]['player'] == $player->getPosition()) {
+                } elseif (!$selectBoat && (isset($grid[$y][$x]['player']) && $grid[$y][$x]['player'] == $player->getPosition()) && !isset($grid[$y][$x]['shoot'])) {
                     // Else the boat player
                     break 2;
                 }
