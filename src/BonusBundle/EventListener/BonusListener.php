@@ -129,9 +129,6 @@ class BonusListener implements EventSubscriberInterface
                 $playerInventory = $event->getInventory()->getPlayer();
                 $playerInventory->removeBonus($event->getInventory());
                 $this->entityManager->remove($event->getInventory());
-                if ($event->getReturnBox()) {
-                    $event->getReturnBox()->setBonus($playerInventory);
-                }
             }
 
             $this->entityManager->flush();
