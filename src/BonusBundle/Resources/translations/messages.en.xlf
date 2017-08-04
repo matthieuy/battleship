@@ -94,6 +94,10 @@
                 <source>Discover the number of points of your enemy</source>
                 <target>Discover the number of points of your enemy</target>
             </trans-unit>
+            <trans-unit id="bonus23msg" resname="bonus.spy.msg">
+                <source>%user% spy the enemy (points/probability) : %list%</source>
+                <target>%user% spy the enemy (points/probability) : %list%</target>
+            </trans-unit>
             <trans-unit id="bonus24" resname="bonus.reset">
                 <source>Reset</source>
                 <target>Reset</target>

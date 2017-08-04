@@ -4,6 +4,7 @@ namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -74,39 +75,26 @@ class DamageBonus extends AbstractBonus
     }
 
     /**
-     * before add score to player (already add in GameRpc so x2)
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory (options contain "player" to exclude)
-     * @param ReturnBox $returnBox
-     * @param array     $options   Contain points and shooter
-     *
-     * @return boolean|array Data to push
+     * Before add score to player (already add in GameRpc so x2)
+     * @param BonusEvent $event
      */
-    public function onBeforeScore(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onBeforeScore(BonusEvent $event)
     {
-        if ($player->getPosition() == $inventory->getOption('player')) {
-            $player->addScore($options['points']);
-            $this->remove = true;
-        }
+        $player = $event->getPlayer();
+        $options = $event->getOptions();
 
-        return false;
+        if ($player->getPosition() == $event->getInventory()->getOption('player')) {
+            $player->addScore($options['points']);
+            $this->delete();
+        }
     }
 
     /**
      * before tour : remove bonus
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory (options contain "player" to exclude)
-     * @param ReturnBox $returnBox
-     * @param array     $options   Contain teamList from GameRpc::nextTour()
-     *
-     * @return boolean|array Data to push
+     * @param BonusEvent $event
      */
-    public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onBeforeTour(BonusEvent $event)
     {
-        $this->remove = true;
-
-        return false;
+        $this->delete();
     }
 }

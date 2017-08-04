@@ -4,6 +4,7 @@ namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -68,31 +69,22 @@ class ResetProbBonus extends AbstractBonus
 
     /**
      * onUse : Reset enemy proba
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param ReturnBox $returnBox
-     * @param array     $options
-     *
-     * @return array|false Data to push to player
+     * @param BonusEvent $event
      */
-    public function onUse(Game &$game, Player &$player, Inventory $inventory, ReturnBox $returnBox = null, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
         // Get victim
-        if ($player->isAi()) {
-            $victim = $this->getTargetForAI($game, $player, $inventory->getOption('select'));
+        if ($event->getPlayer()->isAi()) {
+            $victim = $this->getTargetForAI($event);
         } else {
-            $victimPosition = $inventory->getOption('player');
-            $victim = $game->getPlayerByPosition($victimPosition);
-        }
-        if (!$victim) {
-            return false;
+            $victimPosition = $event->getInventory()->getOption('player');
+            $victim = $event->getGame()->getPlayerByPosition($victimPosition);
         }
 
         // Reset probability
-        $victim->setProbability(0);
-        $this->remove = true;
-
-        return false;
+        if ($victim) {
+            $victim->setProbability(0);
+            $this->delete();
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -70,21 +71,16 @@ class BomberBonus extends AbstractBonus
 
     /**
      * on get boxes : add random box
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param ReturnBox $returnBox
-     * @param array     $options   shooter and boxes
-     *
-     * @return array|false Data to push
+     * @param BonusEvent $event
      */
-    public function onGetBoxes(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onGetBoxes(BonusEvent $event)
     {
-        /** @var Player $shooter */
-        $shooter = $options['shooter'];
+        $shooter = $event->getPlayer();
+        $player = $event->getInventory()->getPlayer();
 
-        if (!$shooter || $player->getPosition() == $shooter->getPosition()) {
-            $nbBox = $inventory->getOption('label');
+        if (!$shooter || $player->getId() == $shooter->getId()) {
+            $nbBox = $event->getInventory()->getOption('label');
+            $game = $event->getGame();
             $grid = $game->getGrid();
             $boxes = [];
 
@@ -103,11 +99,10 @@ class BomberBonus extends AbstractBonus
                 }
             } while ($try < 25 && count($boxes) < $nbBox);
 
-            $options['boxes'] = array_merge($options['boxes'], $boxes);
-            $this->remove = true;
+            $listBox = array_merge($event->getOptions(), $boxes);
+            $event->setOptions($listBox);
+            $this->delete();
         }
-
-        return false;
     }
 
     /**

@@ -139,86 +139,18 @@ class BonusRegistry
         $bonus->setProbabilityAfterCatch($player);
 
         // Event
-        $event = new BonusEvent($player, $bonus, $inventory);
+        $event = new BonusEvent($player->getGame(), $player);
+        $event
+            ->setBonus($bonus)
+            ->setInventory($inventory);
         $this->eventDispatcher->dispatch(BonusEvents::CATCH_ONE, $event);
 
         // Use it (AI)
         if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
-            $inventory->setUse();
-            $game = $player->getGame();
-            $this->triggerEvent(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
-            if ($bonus->isRemove()) {
-                $player->removeBonus($inventory);
-
-                return true;
-            }
+            $this->eventDispatcher->dispatch(BonusEvents::USE_IT, $event);
         }
-
-        // Persist
-        $this->entityManager->persist($inventory);
-        $this->entityManager->flush();
 
         return true;
-    }
-
-    /**
-     * Dispatch event with all current bonus
-     * @param string    $event
-     * @param Game      $game
-     * @param Player    $player
-     * @param ReturnBox $returnBox
-     * @param array     $options
-     */
-    public function dispatchEvent($event, Game &$game, Player &$player = null, ReturnBox &$returnBox = null, array &$options = [])
-    {
-        // Get list of inventory
-        $list = $this->entityManager->getRepository('BonusBundle:Inventory')->getActiveBonus($game);
-
-        foreach ($list as $inventory) {
-            $bonus = $this->getBonusById($inventory->getName());
-            $this->triggerEvent($event, $inventory, $bonus, $game, $player, $returnBox, $options);
-        }
-    }
-
-    /**
-     * Trigger on event
-     * @param string         $event
-     * @param Inventory      $inventory
-     * @param BonusInterface $bonus
-     * @param Game           $game
-     * @param Player         $player
-     * @param ReturnBox      $returnBox
-     * @param array          $options
-     */
-    public function triggerEvent($event, Inventory &$inventory, BonusInterface &$bonus, Game &$game, Player &$player, ReturnBox &$returnBox = null, array &$options = [])
-    {
-        // Call methods
-        $method = BonusConstant::$triggerList[$event];
-        if (method_exists($bonus, $method)) {
-            // Call method
-            $returnWS = call_user_func_array([$bonus, $method], [&$game, &$player, &$inventory, &$returnBox, &$options]);
-
-            // WS push
-            if ($returnWS) {
-                $this->pusher->push($returnWS, 'game.bonus.topic', ['slug' => $game->getSlug()]);
-            }
-
-            // Use it : dispatch event
-            if ($event == BonusConstant::WHEN_USE) {
-                $this->eventDispatcher->dispatch(BonusEvents::USE_IT, new BonusEvent($player, $bonus, $inventory));
-            }
-        }
-
-        // Remove bonus
-        if ($bonus->isRemove()) {
-            if ($returnBox) {
-                $playerInventory = $inventory->getPlayer();
-                $playerInventory->removeBonus($inventory);
-                $returnBox->setBonus($playerInventory);
-            }
-            $this->entityManager->remove($inventory);
-        }
-        $this->entityManager->flush();
     }
 
     /**

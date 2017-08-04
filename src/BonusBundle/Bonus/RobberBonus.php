@@ -4,6 +4,7 @@ namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
@@ -16,7 +17,7 @@ use MatchBundle\Entity\Player;
 class RobberBonus extends AbstractBonus
 {
     const MIN_PERCENTAGE = 5;
-    const MAX_PERCENTAGE = 25;
+    const MAX_PERCENTAGE = 50;
 
     /**
      * Get the unique id of the bonus
@@ -42,7 +43,8 @@ class RobberBonus extends AbstractBonus
      */
     public function getOptions()
     {
-        $percentage = rand(self::MIN_PERCENTAGE, self::MAX_PERCENTAGE);
+        $random = rand(self::MIN_PERCENTAGE, self::MAX_PERCENTAGE);
+        $percentage = $random - ($random % 5);
 
         return [
             'select' => BonusConstant::TARGET_ENEMY,
@@ -75,60 +77,39 @@ class RobberBonus extends AbstractBonus
     }
 
     /**
-     * onUse : steal points
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param ReturnBox $returnBox
-     * @param array     $options
+     * On use : steal points
+     * @param BonusEvent $event
      *
-     * @return array|false Data to push to player or false
+     * @return boolean
      */
-    public function onUse(Game &$game, Player &$player, Inventory $inventory, ReturnBox $returnBox = null, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
         // Get victim
-        if ($player->isAi()) {
-            $victim = $this->getTargetForAI($game, $player, $inventory->getOption('select'));
+        if ($event->getPlayer()->isAi()) {
+            $victim = $this->getTargetForAI($event);
         } else {
-            $victimPosition = $inventory->getOption('player');
-            $victim = $game->getPlayerByPosition($victimPosition);
+            $victimPosition = $event->getInventory()->getOption('player');
+            $victim = $event->getGame()->getPlayerByPosition($victimPosition);
         }
 
-        if (!$victim || $victim->getLife() <= 0) {
+        if (!$victim || !$victim->isAlive()) {
             return false;
         }
-        $returnWS = [];
-        $this->remove = true;
 
-        // Calcul point to thief
-        $points = floor($victim->getScore() * $inventory->getOption('percent') / 100);
+        // Calculate points to steal
+        $points = floor($victim->getScore() * $event->getInventory()->getOption('percent') / 100);
 
         // Add to player
-        $player->addScore($points);
-        $this->addScoreToWS($returnWS, $player);
+        $event->getPlayer()->addScore($points);
+        $this->addScoreToWS($event->getPlayer());
 
         // Remove to victim
         $victim->removeScore($points);
-        $this->addScoreToWS($returnWS, $victim);
+        $this->addScoreToWS($victim);
 
-        // Chat
-        $this->sendMessage($game, $player, $victim, $points);
-
-        return $returnWS;
-    }
-
-    /**
-     * Update the returnWS array
-     * @param array  $returnWS
-     * @param Player $player
-     */
-    private function addScoreToWS(array &$returnWS, Player $player)
-    {
-        if (!$player->isAi()) {
-            $returnWS[$player->getName()] = [
-                'score' => [$player->getPosition() => $player->getScore()],
-            ];
-        }
+        // Send
+        $this->sendMessage($event->getGame(), $event->getPlayer(), $victim, $points);
+        $this->delete();
     }
 
     /**

@@ -227,6 +227,15 @@ class Player
     }
 
     /**
+     * Is player got life
+     * @return bool
+     */
+    public function isAlive()
+    {
+        return ($this->life > 0);
+    }
+
+    /**
      * Set life
      * @param int $life
      * @return Player

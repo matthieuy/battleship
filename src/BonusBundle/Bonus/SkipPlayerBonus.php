@@ -4,6 +4,7 @@ namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
@@ -68,63 +69,49 @@ class SkipPlayerBonus extends AbstractBonus
     }
 
     /**
-     * before tour : remove a player
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory (options contain "player" to exclude)
-     * @param ReturnBox $returnBox
-     * @param array     $options   Contain teamList from GameRpc::nextTour()
+     * Before tour : remove a player
+     * @param BonusEvent $event
      *
-     * @return boolean|array Data to push
+     * @return boolean
      */
-    public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onBeforeTour(BonusEvent $event)
     {
-        // Get target position to exclude
-        if ($inventory->getPlayer()->isAi()) {
-            $target = $this->getTargetForAI($game, $inventory->getPlayer(), $inventory->getOption('select'));
-            if (!$target) {
+        // Get target (player) position to remove
+        if ($event->getInventory()->getPlayer()->isAi()) {
+            $victim = $this->getTargetForAI($event);
+            if (!$victim) {
                 return false;
             }
-            $targetPosition = $target->getPosition();
         } else {
-            $targetPosition = $inventory->getOption('player');
+            $victimPosition = $event->getInventory()->getOption('player');
+            $victim = $event->getGame()->getPlayerByPosition($victimPosition);
         }
 
         // Update teamlist
-        foreach ($options as $teamId => $players) {
-            foreach ($players as $iPlayer => $position) {
-                if ($targetPosition == $position) {
-                    unset($options[$teamId][$iPlayer]);
-                    if (empty($options[$teamId])) {
-                        unset($options[$teamId]);
-                    } else {
-                        $options[$teamId] = array_values($options);
-                    }
-
-                    $this->sendMessage($game, $inventory->getPlayer(), $targetPosition);
-                    $this->remove = true;
-
-                    break 2;
-                }
+        $options = $event->getOptions();
+        $teamId = $victim->getTeam();
+        if (isset($options[$teamId])) {
+            $key = array_search($victim->getPosition(), $options[$teamId]);
+            if (false !== $key) {
+                unset($options[$teamId][$key]);
+                $options[$teamId] = array_values($options[$teamId]);
+                $this->sendMessage($event->getGame(), $event->getPlayer(), $victim);
+                $this->delete();
             }
         }
+        $event->setOptions($options);
 
-        return false;
+        return true;
     }
 
     /**
      * Send chat message on use
-     * @param Game    $game
-     * @param Player  $player
-     * @param integer $victimPosition
+     * @param Game   $game
+     * @param Player $player
+     * @param Player $victim
      */
-    private function sendMessage(Game $game, Player $player, $victimPosition)
+    private function sendMessage(Game $game, Player $player, Player $victim)
     {
-        $victim = $game->getPlayerByPosition($victimPosition);
-        if (!$victim) {
-            return;
-        }
-
         $context = [
             'victim' => $victim->getName(),
             'user' => $player->getName(),

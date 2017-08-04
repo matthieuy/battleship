@@ -68,5 +68,11 @@ interface BonusInterface
      * Remove the bonus ?
      * @return boolean
      */
-    public function isRemove();
+    public function isDelete();
+
+    /**
+     * Get WebSocket return
+     * @return array|false
+     */
+    public function getWSReturn();
 }

@@ -19,4 +19,26 @@ final class BonusEvents
      * Instance of BonusBundle\Event\BonusEvent
      */
     const USE_IT = "bonus.use";
+
+    /**
+     * Before change lap
+     * Instance of BonusBundle\Event\BonusEvent
+     * $options = teamList
+     */
+    const BEFORE_TOUR = "bonus.before_tour";
+
+    /**
+     * A touch : before scoring
+     * Instance of BonusBundle\Event\BonusEvent
+     * $options = ["points"]
+     * $player can be null
+     */
+    const BEFORE_SCORE = "bonus.before_score";
+
+    /**
+     * After get boxes
+     * Instance of BonusBundle\Event\BonusEvent
+     * $options = boxlist
+     */
+    const GET_BOX = "bonus.get_box";
 }

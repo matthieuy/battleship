@@ -3,6 +3,7 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -73,24 +74,13 @@ class PointBonus extends AbstractBonus
 
     /**
      * onUse : get points
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param ReturnBox $returnBox
-     * @param array     $options
-     *
-     * @return array Data to push
+     * @param BonusEvent $event
      */
-    public function onUse(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
-        $player->addScore($inventory->getOption('label'));
-        $this->remove = true;
-
-        // Send new score to the player
-        return [
-            $player->getName() => [
-                'score' => [$player->getPosition() => $player->getScore()],
-            ],
-        ];
+        $player = $event->getPlayer();
+        $player->addScore($event->getInventory()->getOption('label'));
+        $this->delete();
+        $this->addScoreToWS($player);
     }
 }

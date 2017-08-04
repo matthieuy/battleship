@@ -3,6 +3,7 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
@@ -75,22 +76,18 @@ class BoosterBonus extends AbstractBonus
      */
     public function setProbabilityAfterCatch(Player $player)
     {
+        $player->addProbability(1 - self::MIN_PROBA);
     }
 
     /**
      * onUse : increment probability
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param ReturnBox $returnBox
-     * @param array     $options
+     * @param BonusEvent $event
      *
-     * @return array Data to push
      */
-    public function onUse(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
-        $probability = $player->getProbability() + $inventory->getOption('value');
-        $player->setProbability($probability);
-        $this->remove = true;
+        $player = $event->getPlayer();
+        $player->addProbability($event->getInventory()->getOption('value'));
+        $this->delete();
     }
 }

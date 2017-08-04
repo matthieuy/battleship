@@ -3,6 +3,8 @@
 namespace MatchBundle\RPC;
 
 use BonusBundle\BonusConstant;
+use BonusBundle\BonusEvents;
+use BonusBundle\Event\BonusEvent;
 use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use BonusBundle\Weapons\WeaponInterface;
@@ -390,7 +392,9 @@ class GameRpc implements RpcInterface
         }
 
         // Bonus trigger
-        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_GET_BOXES, $game, $player, $this->returnBox, $boxList);
+        $event = new BonusEvent($game, $player, $this->returnBox, $boxList);
+        $this->eventDispatcher->dispatch(BonusEvents::GET_BOX, $event);
+        $boxList = $event->getOptions();
 
         return $boxList;
     }
@@ -464,31 +468,32 @@ class GameRpc implements RpcInterface
         $isSink = ($boat[2] >= $boat[1]); // Touch >= length
 
         // Prepare event
-        $event = new TouchEvent($game);
-        $event->setBoat($boat);
+        $eventTouch = new TouchEvent($game);
+        $eventTouch->setBoat($boat);
 
         // Calcul points
         if ($victim->getLife() == 0) { // Fatal
             $points = PointsConstant::SCORE_FATAL;
-            $event->setType(TouchEvent::FATAL);
+            $eventTouch->setType(TouchEvent::FATAL);
         } elseif ($boat[2] == 1) { // Discovery
             $points = PointsConstant::SCORE_DISCOVERY;
-            $event->setType(TouchEvent::DISCOVERY);
+            $eventTouch->setType(TouchEvent::DISCOVERY);
         } elseif ($boat[2] == 2) { // Direction
             $points = PointsConstant::SCORE_DIRECTION;
-            $event->setType(TouchEvent::DIRECTION);
+            $eventTouch->setType(TouchEvent::DIRECTION);
         } elseif ($isSink) { // Sink
             $points = PointsConstant::SCORE_SINK;
-            $event->setType(TouchEvent::SINK);
+            $eventTouch->setType(TouchEvent::SINK);
         } else {
             $points = PointsConstant::SCORE_TOUCH;
-            $event->setType(TouchEvent::TOUCH);
+            $eventTouch->setType(TouchEvent::TOUCH);
         }
 
         if (!$penalty && $shooter) {
             // Bonus event
             $options = ['points' => $points];
-            $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_SCORE, $game, $shooter, $this->returnBox, $options);
+            $eventBonus = new BonusEvent($game, $shooter, $this->returnBox, $options);
+            $this->eventDispatcher->dispatch(BonusEvents::BEFORE_SCORE, $eventBonus);
 
             // Add score
             $shooter->addScore($points);
@@ -507,10 +512,10 @@ class GameRpc implements RpcInterface
         $this->returnBox->setDoTouch();
 
         // Dispatch event
-        $event
+        $eventTouch
             ->setShooter($shooter)
             ->setVictim($victim);
-        $this->eventDispatcher->dispatch(MatchEvents::TOUCH, $event);
+        $this->eventDispatcher->dispatch(MatchEvents::TOUCH, $eventTouch);
 
         return true;
     }
@@ -529,7 +534,11 @@ class GameRpc implements RpcInterface
         if ($teamsList === false) {
             return false;
         }
-        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_TOUR, $game, $fromPlayer, $this->returnBox, $teamsList);
+
+        // Bonus Event
+        $event = new BonusEvent($game, $fromPlayer, $this->returnBox, $teamsList);
+        $this->eventDispatcher->dispatch(BonusEvents::BEFORE_TOUR, $event);
+        $teamsList = $event->getOptions();
 
         // Next
         $tour = $game->getTour();
@@ -555,7 +564,7 @@ class GameRpc implements RpcInterface
                     } else {
                         $team++;
                     }
-                    $okTeam = isset($teamsList[$team]);
+                    $okTeam = (isset($teamsList[$team]) && !empty($teamsList[$team]));
                 } while (!$okTeam);
                 $tour = $teamsList[$team];
                 $game->setTour($tour);
@@ -775,7 +784,7 @@ class GameRpc implements RpcInterface
         $players = $game->getPlayersByTeam($player->getTeam());
         shuffle($players);
         foreach ($players as $p) {
-            if ($p->getLife() > 0 && !$p->isAi()) {
+            if ($p->isAlive() && !$p->isAi()) {
                 $player = $p;
                 $event->setVictim($player);
                 break;
@@ -840,7 +849,7 @@ class GameRpc implements RpcInterface
         // Get players and teams alive
         $teamsList = [];
         foreach ($game->getPlayers() as $player) {
-            if ($player->getLife() > 0) {
+            if ($player->isAlive()) {
                 if (!isset($teamsList[$player->getTeam()])) {
                     $teamsList[$player->getTeam()] = [];
                 }

@@ -603,7 +603,7 @@ class Game
     {
         $list = [];
         foreach ($this->players as $player) {
-            if ($player->getTeam() == $team && (!$aliveOnly || ($aliveOnly && $player->getLife() > 0))) {
+            if ($player->getTeam() == $team && (!$aliveOnly || ($aliveOnly && $player->isAlive()))) {
                 $list[] = $player;
             }
         }
@@ -690,7 +690,7 @@ class Game
                 $players = $this->getPlayersTour();
                 $tour = [];
                 foreach ($players as $player) {
-                    if ($player->getLife() > 0) {
+                    if ($player->isAlive()) {
                         $tour[] = $player->getName();
                     }
                 }
