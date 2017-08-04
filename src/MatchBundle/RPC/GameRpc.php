@@ -409,7 +409,7 @@ class GameRpc implements RpcInterface
      *
      * @return bool|array Shoot done or error
      */
-    private function doFire(Game &$game, Box &$box, Player $shooter, $firstBox = false)
+    private function doFire(Game &$game, Box &$box, Player $shooter = null, $firstBox = false)
     {
         // Use weapon : add score on first shoot
         if ($firstBox && $this->returnBox->getWeapon()) {
@@ -444,7 +444,7 @@ class GameRpc implements RpcInterface
      *
      * @return array|bool Error or true
      */
-    private function touch(Game &$game, Box $box, Player $shooter, $penalty = false)
+    private function touch(Game &$game, Box $box, Player $shooter = null, $penalty = false)
     {
         // Update box
         $box->setShooter($shooter);
@@ -490,7 +490,7 @@ class GameRpc implements RpcInterface
             $event->setType(TouchEvent::TOUCH);
         }
 
-        if (!$penalty) {
+        if (!$penalty && $shooter) {
             $options = [
                 'points' => $points,
                 'shooter' => $shooter,

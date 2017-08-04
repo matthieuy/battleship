@@ -83,7 +83,7 @@ class BomberBonus extends AbstractBonus
         /** @var Player $shooter */
         $shooter = $options['shooter'];
 
-        if ($player->getPosition() == $shooter->getPosition()) {
+        if (!$shooter || $player->getPosition() == $shooter->getPosition()) {
             $nbBox = $inventory->getOption('label');
             $grid = $game->getGrid();
             $boxes = [];
@@ -94,7 +94,7 @@ class BomberBonus extends AbstractBonus
                 $y = rand(0, $game->getSize()-1);
 
                 // Box exist and (already shoot or same team)
-                if (isset($grid[$y], $grid[$y][$x]) && (isset($grid[$y][$x]['shoot']) || (isset($grid[$y][$x]['team']) && $grid[$y][$x]['team'] == $shooter->getTeam()))) {
+                if ($this->checkBox($grid, $x, $y, $shooter)) {
                     $try++;
                     continue;
                 } else {
@@ -108,5 +108,19 @@ class BomberBonus extends AbstractBonus
         }
 
         return false;
+    }
+
+    /**
+     * Check box to shoot
+     * @param array       $grid
+     * @param integer     $x
+     * @param integer     $y
+     * @param Player|null $shooter
+     *
+     * @return bool
+     */
+    protected function checkBox(array $grid, $x, $y, Player $shooter = null)
+    {
+        return (isset($grid[$y], $grid[$y][$x]) && (isset($grid[$y][$x]['shoot']) || (isset($grid[$y][$x]['team']) && $grid[$y][$x]['team'] == $shooter->getTeam())));
     }
 }

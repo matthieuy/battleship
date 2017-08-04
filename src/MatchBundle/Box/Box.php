@@ -188,9 +188,9 @@ class Box
      *
      * @return $this
      */
-    public function setShooter(Player $shooter)
+    public function setShooter(Player $shooter = null)
     {
-        $this->shoot = $shooter->getPosition();
+        $this->shoot = ($shooter === null) ? 0 : $shooter->getPosition();
 
         return $this;
     }
