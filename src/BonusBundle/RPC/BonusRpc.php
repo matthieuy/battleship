@@ -146,9 +146,7 @@ class BonusRpc implements RpcInterface
             ->setBonus($bonus);
         $this->eventDispatcher->dispatch(BonusEvents::USE_IT, $event);
 
-        return [
-            'bonus' => [$player->getPosition() => $player->getNbBonus()],
-        ];
+        return ['success' => true];
     }
 
     /**

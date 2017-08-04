@@ -133,7 +133,6 @@ class BonusRegistry
             ->setName($bonus->getId())
             ->setOptions($bonus->getOptions());
         $player->addBonus($inventory);
-        $returnBox->setBonus($player);
 
         // RAZ probability
         $bonus->setProbabilityAfterCatch($player);

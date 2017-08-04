@@ -17,7 +17,6 @@ class ReturnBox
     protected $listBox;
     protected $weapon = null;
     protected $doTouch = false;
-    protected $bonus;
 
     /**
      * ReturnBox constructor.
@@ -25,7 +24,6 @@ class ReturnBox
     public function __construct()
     {
         $this->listBox = [];
-        $this->bonus = [];
     }
 
     /**
@@ -120,24 +118,6 @@ class ReturnBox
     public function isDoTouch()
     {
         return $this->doTouch;
-    }
-
-    /**
-     * Set bonus
-     * @param Player $player
-     *
-     * @return $this
-     */
-    public function setBonus(Player $player)
-    {
-        if (!$player->isAi()) {
-            $box = end($this->listBox);
-            if ($box) {
-                $box->setBonus($player);
-            }
-        }
-
-        return $this;
     }
 
     /**

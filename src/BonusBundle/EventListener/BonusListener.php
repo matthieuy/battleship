@@ -1,6 +1,6 @@
 <?php
 
-namespace BonusBundle\EventDispatcher;
+namespace BonusBundle\EventListener;
 
 use BonusBundle\BonusEvents;
 use BonusBundle\Event\BonusEvent;

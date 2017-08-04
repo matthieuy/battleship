@@ -76,7 +76,6 @@ export default {
                     return alert(obj.msg)
                 }
                 context.commit(MUTATION.INVENTORY.MODAL, false)
-                context.dispatch(ACTION.AFTER_ROCKET, obj)
             })
         },
     },
