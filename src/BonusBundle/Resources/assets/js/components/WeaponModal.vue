@@ -181,7 +181,8 @@
                     $('#grid')
                         .off('mouseover mouseout', 'span')
                         .on('mouseover', 'span', function() {
-                            let coord = $(this).attr('id').split('_').map((i) => parseInt(i))
+                            let el = ($(this).hasClass('box')) ? $(this) : $(this).parent('.box')
+                            let coord = el.attr('id').split('_').map((i) => parseInt(i))
                             coord.shift()
 
                             boxes.forEach(function(box) {
