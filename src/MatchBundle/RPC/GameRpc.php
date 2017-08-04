@@ -390,12 +390,7 @@ class GameRpc implements RpcInterface
         }
 
         // Bonus trigger
-        $options = [
-            'boxes' => $boxList,
-            'shooter' => $player,
-        ];
-        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_GET_BOXES, $game, $this->returnBox, $options);
-        $boxList = $options['boxes'];
+        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_GET_BOXES, $game, $player, $this->returnBox, $boxList);
 
         return $boxList;
     }
@@ -491,11 +486,11 @@ class GameRpc implements RpcInterface
         }
 
         if (!$penalty && $shooter) {
-            $options = [
-                'points' => $points,
-                'shooter' => $shooter,
-                ];
-            $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_SCORE, $game, $this->returnBox, $options);
+            // Bonus event
+            $options = ['points' => $points];
+            $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_SCORE, $game, $shooter, $this->returnBox, $options);
+
+            // Add score
             $shooter->addScore($points);
             if (!$shooter->isAi()) {
                 $box->setScore($shooter);
@@ -534,7 +529,7 @@ class GameRpc implements RpcInterface
         if ($teamsList === false) {
             return false;
         }
-        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_TOUR, $game, $this->returnBox, $teamsList);
+        $this->bonusRegistry->dispatchEvent(BonusConstant::WHEN_BEFORE_TOUR, $game, $fromPlayer, $this->returnBox, $teamsList);
 
         // Next
         $tour = $game->getTour();

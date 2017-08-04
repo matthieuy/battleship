@@ -85,11 +85,8 @@ class DamageBonus extends AbstractBonus
      */
     public function onBeforeScore(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
     {
-        /** @var Player $shooter */
-        $shooter = $options['shooter'];
-
-        if ($shooter->getPosition() == $inventory->getOption('player')) {
-            $shooter->addScore($options['points']);
+        if ($player->getPosition() == $inventory->getOption('player')) {
+            $player->addScore($options['points']);
             $this->remove = true;
         }
 

@@ -57,7 +57,7 @@ class ChatListener implements EventSubscriberInterface
      */
     public function onBonusCatch(BonusEvent $event)
     {
-        $player = $event->getPlayer();
+        $player = $event->getInventory()->getPlayer();
         $game = $player->getGame();
         $context = ['username' => $player->getName()];
 
@@ -70,7 +70,7 @@ class ChatListener implements EventSubscriberInterface
      */
     public function onBonusUse(BonusEvent $event)
     {
-        $player = $event->getPlayer();
+        $player = $event->getInventory()->getPlayer();
         $game = $player->getGame();
         $context = ['username' => $player->getName()];
 

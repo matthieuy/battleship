@@ -80,8 +80,8 @@ class SkipPlayerBonus extends AbstractBonus
     public function onBeforeTour(Game &$game, Player &$player, Inventory &$inventory, ReturnBox &$returnBox = null, array &$options = [])
     {
         // Get target position to exclude
-        if ($player->isAi()) {
-            $target = $this->getTargetForAI($game, $player, $inventory->getOption('select'));
+        if ($inventory->getPlayer()->isAi()) {
+            $target = $this->getTargetForAI($game, $inventory->getPlayer(), $inventory->getOption('select'));
             if (!$target) {
                 return false;
             }
@@ -101,7 +101,7 @@ class SkipPlayerBonus extends AbstractBonus
                         $options[$teamId] = array_values($options);
                     }
 
-                    $this->sendMessage($game, $player, $targetPosition);
+                    $this->sendMessage($game, $inventory->getPlayer(), $targetPosition);
                     $this->remove = true;
 
                     break 2;

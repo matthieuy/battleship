@@ -165,17 +165,17 @@ class BonusRegistry
      * Dispatch event with all current bonus
      * @param string    $event
      * @param Game      $game
+     * @param Player    $player
      * @param ReturnBox $returnBox
      * @param array     $options
      */
-    public function dispatchEvent($event, Game &$game, ReturnBox &$returnBox = null, array &$options = [])
+    public function dispatchEvent($event, Game &$game, Player &$player = null, ReturnBox &$returnBox = null, array &$options = [])
     {
         // Get list of inventory
         $list = $this->entityManager->getRepository('BonusBundle:Inventory')->getActiveBonus($game);
 
         foreach ($list as $inventory) {
             $bonus = $this->getBonusById($inventory->getName());
-            $player = $inventory->getPlayer();
             $this->triggerEvent($event, $inventory, $bonus, $game, $player, $returnBox, $options);
         }
     }
@@ -212,8 +212,9 @@ class BonusRegistry
         // Remove bonus
         if ($bonus->isRemove()) {
             if ($returnBox) {
-                $player->removeBonus($inventory);
-                $returnBox->setBonus($player);
+                $playerInventory = $inventory->getPlayer();
+                $playerInventory->removeBonus($inventory);
+                $returnBox->setBonus($playerInventory);
             }
             $this->entityManager->remove($inventory);
         }

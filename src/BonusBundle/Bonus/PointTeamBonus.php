@@ -106,6 +106,12 @@ class PointTeamBonus extends AbstractBonus
         return $returnWS;
     }
 
+    /**
+     * Send chat message
+     * @param Game    $game
+     * @param Player  $player
+     * @param integer $points
+     */
     private function sendMessage(Game $game, Player $player, $points)
     {
         $message = new Message();
