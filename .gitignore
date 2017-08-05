@@ -1,7 +1,7 @@
 /app/config/parameters.yml
 /app/docker/.env
 /build/
-/.mage.yml
+/Envoy.config.php
 /node_modules/
 /old/
 /phpunit.xml

@@ -60,6 +60,7 @@ Launch the websocket server :
 php bin/console gos:websocket:server --env=prod
 ```
 
-See [nginx configuration](nginx.md) to configure nginx
-
-See [ssl configuration](ssl.md) if you want to use secure connection to websocket.
+* See [nginx configuration](nginx.md) to configure nginx
+* See [ssl configuration](ssl.md) if you want to use secure connection to websocket.
+* See [supervisor configuration](supervisor.conf)
+* See [Envoy](envoy.md) to deploy over SSH
