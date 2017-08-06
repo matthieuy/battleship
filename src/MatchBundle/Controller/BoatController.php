@@ -53,6 +53,7 @@ class BoatController extends Controller
         $response = $this->render('@Match/Match/game.css.twig', [
             'widthBox' => $boxSize,
             'size' => $boxSize * $game->getSize(),
+            'borders' => range(0, $game->getSize(), 10),
             'displayGrid' => (isset($displayGrid)) ? $displayGrid : $displayGridDefault,
             'game' => $game,
             'isMobile' => $isMobile,

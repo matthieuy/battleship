@@ -121,7 +121,7 @@
 
 {# Mobile grid #}
 {% if isMobile %}
-    {% for i in 0..game.size if i % 10 == 0 %}
+    {% for i in borders %}
         #grid .grid-line:nth-child({{ i }}) .box { border-bottom: 1px solid #F00; }
         #grid .grid-line .box:nth-child({{ i }}) { border-right: 1px solid #F00; }
     {% endfor %}

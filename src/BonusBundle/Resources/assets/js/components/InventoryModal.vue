@@ -17,7 +17,7 @@
                                             <span class="label" v-show="bonus.options.label">{{ bonus.options.label }}</span>
                                         </div>
                                     </div>
-                                    <div class="large-4 column hide-mobile" v-for="i in (inventory.size - inventory.list.length)" @click="highlight(null)">
+                                    <div class="large-4 column" v-for="i in (inventory.size - inventory.list.length)" @click="reset()">
                                         <div class="bonus-box empty">
                                             <img src="img/null.png" width="80">
                                         </div>
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="clear"></div>
-                        <div class="center show-mobile" v-show="inventory.list.length == 0">
+                        <div class="center msg-empty" v-show="inventory.list.length == 0">
                             {{ trans('Inventory is empty') }}
                         </div>
 
@@ -95,19 +95,19 @@
                 }
 
                 this.$store.dispatch(ACTION.INVENTORY.USE, this.selected)
-                this.raz()
+                this.reset()
             },
             // highlight the bonus
             highlight(bonus) {
                 if (bonus === null || bonus.use || this.gameover) {
-                    this.raz()
+                    this.reset()
                 } else {
                     this.selected = bonus
                     this.showSelectPlayer = bonus.options.select
                 }
             },
-            // RAZ select
-            raz() {
+            // reset select
+            reset() {
                 this.selected = null;
                 this.showSelectPlayer = false
                 this.selectPlayer = null
@@ -203,5 +203,13 @@
             font-weight: bold;
             font-size: 80%;
         }
+    }
+    .msg-empty {
+        display: none;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .msg-empty { display: block; }
+        .empty { display: none; }
     }
 </style>
