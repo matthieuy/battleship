@@ -307,7 +307,7 @@ module.exports = function makeWebpackConfig(options) {
              */
             new webpack.optimize.UglifyJsPlugin({
                 extractComments: true,
-            }),
+            })
         )
     }
 
