@@ -6,6 +6,10 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@snc_redis.default"
 
+    # Event manager
+    event.manager:
+        class: AppBundle\Manager\EventManager
+
     # Homepage topic
     homepage.topic:
         class: AppBundle\Topic\HomeTopic

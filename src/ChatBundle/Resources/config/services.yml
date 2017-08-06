@@ -14,7 +14,7 @@ services:
         arguments:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
-            - "@event_dispatcher"
+            - "@event.manager"
         tags:
             - { name: gos_web_socket.rpc }
 

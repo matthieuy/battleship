@@ -9,7 +9,7 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@bonus.registry"
-            - "@event_dispatcher"
+            - "@event.manager"
         tags:
             - { name: gos_web_socket.rpc }
 
@@ -32,7 +32,7 @@ services:
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
         arguments:
-            - "@event_dispatcher"
+            - "@event.manager"
 
     # Bonus listener
     bonus.listener:
