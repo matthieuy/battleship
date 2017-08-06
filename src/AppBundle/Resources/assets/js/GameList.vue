@@ -1,14 +1,14 @@
 <template>
     <div class="table-list">
         <h3 class="center" v-show="!loaded">{{ trans('Loading list...') }}</h3>
-        <table class="large-6 large-centered small-11" v-show="waiting.length">
+        <table class="large-7 large-centered small-11" v-show="waiting.length">
             <thead>
                 <tr>
                     <th colspan="2">{{ trans('Waiting games') }}</th>
                 </tr>
                 <tr>
                     <th>{{ trans('Games') }}</th>
-                    <th width="100">{{ trans('Players') }}</th>
+                    <th class="right">{{ trans('Players') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,21 +19,21 @@
                             <span class="date">{{ trans('create_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span> {{ trans('by_author', { author: game.creatorName }) }}</span>
                         </div>
                     </td>
-                    <td :style="{color: (game.nb >= game.max) ? '#FF0000' : '#009933'}">
+                    <td class="right" :style="{color: (game.nb >= game.max) ? '#FF0000' : '#009933'}">
                         {{ game.nb }} / {{ game.max }}
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="large-6 large-centered small-11" v-show="running.length">
+        <table class="large-7 large-centered small-11" v-show="running.length">
             <thead>
                 <tr>
                     <th colspan="2">{{ trans('Games in progress') }}</th>
                 </tr>
                 <tr>
                     <th>{{ trans('Games') }}</th>
-                    <th width="100">{{ trans('Tour') }}</th>
+                    <th class="right">{{ trans('Tour') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,20 +46,20 @@
                         </div>
                     </td>
                     <td>
-                        <div v-for="player in game.tour" :class="{tour: player.id == userid }">{{ player.name}}</div>
+                        <div class="right" v-for="player in game.tour" :class="{tour: player.id == userid }">{{ player.name }}</div>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="large-6 large-centered small-11" v-show="end.length">
+        <table class="large-7 large-centered small-11" v-show="end.length">
             <thead>
                 <tr>
                     <th colspan="2">{{ trans('Games over') }}</th>
                 </tr>
                 <tr>
                     <th>{{ trans('Games') }}</th>
-                    <th width="100">{{ trans('Winners') }}</th>
+                    <th class="right">{{ trans('Winners') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,13 +68,13 @@
                         <div class="name">{{ game.name }}</div>
                         <div class="infos">
                             <span class="date">
-                                {{ trans('start_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span>,
-                                {{ trans('finish_on') }} <span class="datetime" :title="convertTimestamp(game.enddate)"></span>
+                                <div>{{ trans('start_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span></div>
+                                <div>{{ trans('finish_on') }} <span class="datetime" :title="convertTimestamp(game.enddate)"></span></div>
                             </span>
                         </div>
                     </td>
                     <td>
-                        <div v-for="playerName in game.tour">{{ playerName }}</div>
+                        <div class="right" v-for="playerName in game.tour">{{ playerName }}</div>
                     </td>
                 </tr>
             </tbody>
@@ -106,19 +106,19 @@
             // Get waiting game list
             waiting() {
                 return this.list.filter((game) => {
-                    return game.status == 0
+                    return game.status === 0
                 })
             },
             // Get running game list
             running() {
                 return this.list.filter((game) => {
-                    return game.status == 1
+                    return game.status === 1
                 })
             },
             // Get game over list
             end() {
                 return this.list.filter((game) => {
-                    return game.status == 2
+                    return game.status === 2
                 })
             },
         },
@@ -184,6 +184,9 @@
             -webkit-animation-direction: alternate;
             -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
         }
+    }
+    .right {
+        text-align: right;
     }
 
     @-webkit-keyframes blinker {
