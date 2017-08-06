@@ -27,6 +27,9 @@
                             </div>
                         </div>
                         <div class="clear"></div>
+                        <div class="center show-mobile" v-show="inventory.list.length == 0">
+                            {{ trans('Inventory is empty') }}
+                        </div>
 
                         <div class="row center" v-show="showSelectPlayer">
                             <div class="large-4 push-4">
@@ -39,7 +42,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button success small-12 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
+                                <button v-show="inventory.list.length" class="button success small-10 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
                                     <i class="gi gi-round-star"></i>
                                     {{ trans('use_it') }}
                                 </button>
@@ -178,6 +181,7 @@
         margin: 15px 0;
         border-radius: 10px;
         box-shadow: 2px 2px #535353cc;
+        min-height: 80px;
     
         &.selected {
             box-shadow: 2px 2px #000;

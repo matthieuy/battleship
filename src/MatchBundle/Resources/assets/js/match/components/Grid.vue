@@ -1,20 +1,19 @@
 <template>
     <div>
         <div id="status">{{ status }}</div>
-        <div id="grid" class="grid" unselectable="on">
-            <div class="grid-line" v-for="row in grid">
+        <div id="grid-container">
+            <div id="grid" class="grid" unselectable="on">
+                <div class="grid-line" v-for="row in grid">
                 <span
-                    v-for="box in row"
-                    @click="click(box)"
-                    @mousemove="mousemove()"
-                    @mousedown="mousedown()"
-                    @mouseup="mouseup(box)"
-                    :id="'g_' + box.y + '_' + box.x"
-                    class="box"
-                    :class="cssBox(box)"
-                    :data-tip="tooltip(box)">
+                        v-for="box in row"
+                        @click="click(box)"
+                        :id="'g_' + box.y + '_' + box.x"
+                        class="box"
+                        :class="cssBox(box)"
+                        :data-tip="tooltip(box)">
                     <span v-if="box.explose" class="explose hit animated"></span>
                 </span>
+                </div>
             </div>
         </div>
         <span>
@@ -111,37 +110,6 @@
                     this.shoot(box)
                 }
             },
-            // On mouse move : reset long press
-            mousemove() {
-                if (mobile) {
-                    clearTimeout(pressTimer)
-                    pressTimer = null
-                    longPress = false
-                    $('#grid').removeAttr('style')
-                }
-            },
-            // On mouse down : prepare longpress
-            mousedown() {
-                if (mobile) {
-                    pressTimer = setTimeout(function() {
-                        longPress = true
-                        if (pressTimer) {
-                            $('#grid').css({ backgroundColor: '#BD2626' })
-                        }
-                    }, 1000)
-                }
-            },
-            // On mouse up : if long press => shoot
-            mouseup(box) {
-                if (mobile) {
-                    clearTimeout(pressTimer)
-                    pressTimer = null
-                    if (longPress) {
-                        longPress = false
-                        this.shoot(box)
-                    }
-                }
-            },
             // Do a shoot
             shoot(box) {
                 if (this.gameover || !this.me || (this.me && this.me.life <= 0)) {
@@ -228,6 +196,11 @@
                     this.$store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
                 }
             },
+            gameover(gameover) {
+                if(gameover) {
+                    $('#grid').off('vmouseup vmousedown vmousemove')
+                }
+            },
         },
         mounted() {
             // Disable select
@@ -239,6 +212,46 @@
             WS.subscribeAction(topicName, 'data', (obj) => {
                 this.receive(obj)
             })
+
+            // Mobile shoot
+            let self = this
+            $('#grid')
+                // On mouse move : reset long press
+                .on('vmousemove', () => {
+                    if (mobile) {
+                        clearTimeout(pressTimer)
+                        pressTimer = null
+                        longPress = false
+                        $('#grid').removeAttr('style')
+                    }
+                })
+                // On mouse down : prepare longpress
+                .on('vmousedown', () => {
+                    if (mobile) {
+                        pressTimer = setTimeout(function() {
+                            longPress = true
+                            if (pressTimer) {
+                                $('#grid').css({ backgroundColor: '#BD2626' })
+                            }
+                        }, 1000)
+                    }
+                })
+                // On mouse up : if long press => shoot
+                .on('vmouseup', function(e) {
+                    if (mobile) {
+                        clearTimeout(pressTimer)
+                        pressTimer = null
+                        if (longPress) {
+                            longPress = false
+                            let coord = e.target.getAttribute('id').split('_')
+                            self.shoot({
+                                x: coord[2],
+                                y: coord[1],
+                            })
+                        }
+                    }
+
+                })
 
             // Show/Hide boat
             $(window).on('keyup', hideShowBoats)

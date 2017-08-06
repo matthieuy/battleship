@@ -2,6 +2,9 @@
 #grid {
     width: {{ size }}px;
     height: {{ size }}px;
+    {% if isMobile %}
+        outline: solid #000 5px;
+    {% endif %}
     min-width: {{ size }}px;
     min-height: {{ size }}px;
 }
@@ -106,3 +109,24 @@
 .img54 { background-position: {{ widthBox * -5 }}px {{ widthBox * -6 }}px; }
 .img55 { background-position: {{ widthBox * -6 }}px {{ widthBox * -6 }}px; }
 .img56 { background-position: {{ widthBox * -7 }}px {{ widthBox * -6 }}px; }
+
+
+@media only screen and (max-width: {{ size }}px) {
+    #grid-container {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        margin: auto;
+        overflow: auto;
+    }
+}
+
+{# Mobile grid #}
+{% if isMobile %}
+{% for i in 0..game.size %}
+{% if i % 10 == 0 %}
+    #grid .grid-line:nth-child({{ i }}) .box { border-bottom: 1px solid #F00; }
+    #grid .grid-line .box:nth-child({{ i }}) { border-right: 1px solid #F00; }
+{% endif %}
+{% endfor %}
+{% endif %}

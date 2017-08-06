@@ -38,7 +38,7 @@
                                                         <li class="player-line" v-for="player in team.players">
                                                             <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
                                                             <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
-                                                            <div class="avatar-content" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
+                                                            <div class="avatar-content hide-mobile" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
                                                         </li>
                                                     </ul>
                                                 </td>

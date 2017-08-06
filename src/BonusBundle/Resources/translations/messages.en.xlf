@@ -34,6 +34,10 @@
                 <source>Inventory</source>
                 <target>Inventory</target>
             </trans-unit>
+            <trans-unit id="bonus8b" resname="Inventory is empty">
+                <source>Inventory is empty</source>
+                <target>Inventory is empty</target>
+            </trans-unit>
             <trans-unit id="bonus9" resname="use_it">
                 <source>Use it</source>
                 <target>Use it</target>

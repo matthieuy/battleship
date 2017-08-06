@@ -13,7 +13,7 @@ module.exports = function() {
      */
     this.error = (msg) => {
         addMessage('error', msg)
-        console.error(msg)
+        console.error(Translator.trans(msg))
         return false
     }
 

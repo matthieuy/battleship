@@ -19,7 +19,8 @@ class BoatController extends Controller
 {
     /**
      * Dynamique CSS
-     * @param Game $game
+     * @param Request $request
+     * @param Game    $game
      *
      * @Route(
      *     name="match.css",
@@ -28,23 +29,38 @@ class BoatController extends Controller
      *     requirements={"slug": "([0-9A-Za-z\-]+)"})
      * @return Response
      */
-    public function cssAction(Game $game)
+    public function cssAction(Request $request, Game $game)
     {
+        // Default value
+        $isMobile = $this->isMobile($request);
+        $boxSizeDefault = 20;
+        $displayGridDefault = false;
+
         // Personal options
-        $boxSize = 20;
-        $displayGrid = false;
         if ($this->getUser()) {
-            $boxSize = $this->getUser()->getOption('boxSize', $boxSize);
-            $displayGrid = $this->getUser()->getOption('displayGrid', $displayGrid);
+            $boxSize = $this->getUser()->getOption('boxSize', $boxSizeDefault);
+            $displayGrid = $this->getUser()->getOption('displayGrid', $displayGridDefault);
+        }
+
+        // Mobile
+        if ($isMobile) {
+            $boxSize = $boxSizeDefault;
+            $displayGrid = true;
         }
 
         // View (CSS content)
         $response = $this->render('@Match/Match/game.css.twig', [
-            'widthBox' => $boxSize,
-            'displayGrid' => $displayGrid,
+            'widthBox' => (isset($boxSize)) ? $boxSize : $boxSizeDefault,
+            'displayGrid' => (isset($displayGrid)) ? $displayGrid : $displayGridDefault,
             'game' => $game,
+            'isMobile' => $isMobile,
         ]);
         $response->headers->set('Content-Type', 'text/css');
+
+        // Compress
+        $content = $response->getContent();
+        $content = str_replace(["    ", "\t", "\r", "\n"], '', $content);
+        $response->setContent($content);
 
         return $response;
     }
@@ -180,12 +196,7 @@ class BoatController extends Controller
     {
         // Response
         $response = new BinaryFileResponse($destPath);
-        $filemtime = new \DateTime();
-        $filemtime->setTimestamp(filemtime($destPath));
-        $response
-            ->setLastModified($filemtime)
-            ->setEtag(md5_file($destPath))
-            ->isNotModified($request);
+        $response->headers->set('Content-Type', 'image/png');
 
         return $response;
     }
@@ -215,5 +226,19 @@ class BoatController extends Controller
             ->resize($width, $height, $ratioClosure)
             ->save($destPath)
             ->destroy();
+    }
+
+    /**
+     * Check user-agent for mobile device
+     * @param Request $request
+     *
+     * @return boolean
+     */
+    private function isMobile(Request $request)
+    {
+        $userAgent = $request->headers->get('user-agent');
+        $regex = "/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i";
+
+        return (preg_match($regex, $userAgent) > 0);
     }
 }

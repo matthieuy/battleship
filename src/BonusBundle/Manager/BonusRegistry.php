@@ -7,10 +7,7 @@ use BonusBundle\BonusConstant;
 use BonusBundle\BonusEvents;
 use BonusBundle\Entity\Inventory;
 use BonusBundle\Event\BonusEvent;
-use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Box\ReturnBox;
-use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -24,20 +21,14 @@ class BonusRegistry
      * @var BonusInterface[]
      */
     protected $bonusList;
-    private $entityManager;
-    private $pusher;
     private $eventDispatcher;
 
     /**
      * BonusRegistry constructor.
-     * @param EntityManager            $entityManager
-     * @param PusherInterface          $pusher
      * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(EntityManager $entityManager, PusherInterface $pusher, EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        $this->entityManager = $entityManager;
-        $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
         $this->bonusList = [];
     }

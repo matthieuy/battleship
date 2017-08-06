@@ -16,6 +16,8 @@ module.exports = function makeWebpackConfig(options) {
      */
     var BUILD = options.environment === 'prod';
     const NODE_ENV = (BUILD) ? 'production' : 'development'
+    process.noDeprecation = true
+    console.info("Environment :", NODE_ENV)
 
     /**
      * Whether we are running in dev-server mode (versus simple compile)
@@ -81,7 +83,7 @@ module.exports = function makeWebpackConfig(options) {
         }, options.parameters.dev_server || {})
     };
 
-    config.resolve.alias['vue$'] = 'vue/dist/vue.js'
+    config.resolve.alias['vue$'] = (BUILD) ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js'
 
 
     /**
@@ -178,7 +180,13 @@ module.exports = function makeWebpackConfig(options) {
                 loader: ExtractTextPlugin.extract({
                     'fallback': 'style-loader',
                     use: [
-                        'css-loader?sourceMap',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                minimize: BUILD,
+                            },
+                        },
                         {
                             loader: 'postcss-loader',
                             options: {
@@ -209,11 +217,13 @@ module.exports = function makeWebpackConfig(options) {
              * Compile SASS to CSS, then use same rules
              * Reference: https://github.com/webpack-contrib/sass-loader
              */
+            /*
             {
                 test: /\.scss$/i,
                 loader: 'sass-loader?sourceMap',
                 enforce: 'pre'
-            }
+            },
+            //*/
         ]
     };
 
@@ -295,7 +305,9 @@ module.exports = function makeWebpackConfig(options) {
              * Minify all javascript, switch loaders to minimizing mode
              * Reference: https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
              */
-            new webpack.optimize.UglifyJsPlugin()
+            new webpack.optimize.UglifyJsPlugin({
+                extractComments: true,
+            }),
         );
     }
 

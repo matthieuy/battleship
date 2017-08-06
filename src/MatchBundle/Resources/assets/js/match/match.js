@@ -1,5 +1,6 @@
 // Require JS libs
 require('@app/js/tooltips.js')
+require('@npm/jquery-mobile/js/vmouse.js')
 
 // Import
 import Vue from "vue"
