@@ -1,4 +1,3 @@
-{% set size = game.size * widthBox %}
 #grid {
     width: {{ size }}px;
     height: {{ size }}px;
@@ -110,7 +109,6 @@
 .img55 { background-position: {{ widthBox * -6 }}px {{ widthBox * -6 }}px; }
 .img56 { background-position: {{ widthBox * -7 }}px {{ widthBox * -6 }}px; }
 
-
 @media only screen and (max-width: {{ size }}px) {
     #grid-container {
         position: absolute;
@@ -123,10 +121,8 @@
 
 {# Mobile grid #}
 {% if isMobile %}
-{% for i in 0..game.size %}
-{% if i % 10 == 0 %}
-    #grid .grid-line:nth-child({{ i }}) .box { border-bottom: 1px solid #F00; }
-    #grid .grid-line .box:nth-child({{ i }}) { border-right: 1px solid #F00; }
-{% endif %}
-{% endfor %}
+    {% for i in 0..game.size if i % 10 == 0 %}
+        #grid .grid-line:nth-child({{ i }}) .box { border-bottom: 1px solid #F00; }
+        #grid .grid-line .box:nth-child({{ i }}) { border-right: 1px solid #F00; }
+    {% endfor %}
 {% endif %}

@@ -13,7 +13,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "AppBundle\\": "src/AppBundle/",
+            "BonusBundle\\": "src/BonusBundle/",
+            "ChatBundle\\": "src/ChatBundle/",
+            "MatchBundle\\": "src/MatchBundle/",
+            "UserBundle\\": "src/UserBundle/"
         },
         "classmap": [
             "app/AppKernel.php",
