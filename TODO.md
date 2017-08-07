@@ -15,7 +15,7 @@ TODO
     - [ ] Display stats on game
 - [ ] Notifications :
     - [ ] Config per type on profil page
-	- [ ] Notifications registry
+	- [X] Notifications registry
 	- [ ] Notifications manager
     - [ ] Transporter :
         - [ ] Hook
