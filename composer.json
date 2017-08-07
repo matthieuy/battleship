@@ -17,7 +17,8 @@
             "BonusBundle\\": "src/BonusBundle/",
             "ChatBundle\\": "src/ChatBundle/",
             "MatchBundle\\": "src/MatchBundle/",
-            "UserBundle\\": "src/UserBundle/"
+            "UserBundle\\": "src/UserBundle/",
+            "NotificationBundle\\": "src/NotificationBundle/"
         },
         "classmap": [
             "app/AppKernel.php",
