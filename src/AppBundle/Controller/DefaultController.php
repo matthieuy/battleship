@@ -43,9 +43,13 @@ class DefaultController extends Controller
             throw $this->createAccessDeniedException();
         }
 
+        // Get socket list
+        $list = $this->get('online.manager')->getSessionList();
+        $list = array_reverse($list);
+
         // View
         return $this->render('@App/default/who.html.twig', [
-            'list' => $this->get('online.manager')->getSessionList(),
+            'list' => $list,
         ]);
     }
 }

@@ -55,7 +55,7 @@ class OnlineManager
     {
         $sessionsId = [];
         foreach ($this->getSessionList() as $sessionId => $infos) {
-            if ($infos['user'] instanceof User && $infos['user']->getId() === $userId && ($gameId === null || (isset($infos['game_id']) && $infos['game_id'] == $gameId))) {
+            if ($infos['user'] instanceof User && $infos['user']->getId() == $userId && ($gameId === null || (isset($infos['game_id']) && $infos['game_id'] == $gameId))) {
                 $sessionsId[] = $sessionId;
             }
         }
@@ -73,7 +73,7 @@ class OnlineManager
     {
         $sessionsId = [];
         foreach ($this->getSessionList() as $sessionId => $infos) {
-            if (isset($infos['game_id']) && $infos['game_id'] === $gameId) {
+            if (isset($infos['game_id']) && $infos['game_id'] == $gameId) {
                 $sessionsId[] = $sessionId;
             }
         }
@@ -92,7 +92,7 @@ class OnlineManager
     {
         $sessionsId = [];
         foreach ($this->getSessionList() as $sessionId => $infos) {
-            if (isset($infos['team'], $infos['game_id']) && $infos['game_id'] === $gameId && $infos['team'] === $team) {
+            if (isset($infos['team'], $infos['game_id']) && $infos['game_id'] == $gameId && $infos['team'] === $team) {
                 $sessionsId[] = $sessionId;
             }
         }
@@ -156,6 +156,11 @@ class OnlineManager
                     $infos['player'] = $player;
                     $infos['team'] = $player->getTeam();
                 }
+            }
+
+            if (isset($client)) {
+                $infos['ip'] = $client['connection']->remoteAddress;
+                $infos['user_agent'] = $client['connection']->WebSocket->request->getHeader('user-agent').'';
             }
 
             // Add into list

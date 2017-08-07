@@ -10,6 +10,12 @@
     {% end_webpack %}
 {% endblock %}
 
+{% block javascripts %}
+    {{  parent() }}
+    {% webpack js '@app/js/tooltips.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
 
 {% block body %}
     <h1 class="center">{{ 'Who online ?'|trans({}, 'menu') }}</h1>
@@ -18,6 +24,7 @@
         <thead>
             <tr>
                 <td>{{ 'Date'|trans }}</td>
+                <td>{{ 'IP Address'|trans }}</td>
                 <td>{{ 'User'|trans }}</td>
                 <td>{{ 'Topic'|trans }}</td>
                 <td>{{ 'Game ID'|trans }}</td>
@@ -29,7 +36,13 @@
                 <tr>
                     <td>{{ info.date|localizeddate('short') }}</td>
                     <td>
-                        {% if info.user.username %}
+                        {{ info.ip|default('') }}
+                        {% if info.user_agent is defined %}
+                            <span class="fa opentip" data-tip="{{ info.user_agent }}"></span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if info.user.username is defined %}
                             {{ info.user.username }}
                         {% else %}
                             {{ info.user }}
