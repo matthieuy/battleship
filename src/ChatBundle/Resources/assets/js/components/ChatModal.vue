@@ -161,7 +161,7 @@
         mounted() {
             if (!this.chat.disabled) {
                 let slug = document.getElementById('slug').value
-                let lastId = localStorage.getItem('chat_'+slug+'_id') || 0
+                let lastId = localStorage.getItem(this.chat.localkey) || 0
 
                 // Load local message
                 this.$store.dispatch(ACTION.CHAT.LOAD)

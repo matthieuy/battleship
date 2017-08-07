@@ -16,6 +16,9 @@ import ChatBtn from "@chat/js/components/ChatBtn.vue"
 import ChatModal from "@chat/js/components/ChatModal.vue"
 import * as types from "./store/mutation-types"
 
+// Store init
+store.commit(types.MUTATION.SET_USERID, document.getElementById('user-id').value)
+
 // App vue
 new Vue({
     el: '#vue',
@@ -43,9 +46,6 @@ new Vue({
 
 // Document.ready
 $(() => {
-    // Store init
-    store.commit(types.MUTATION.SET_USERID, document.getElementById('user-id').value)
-
     // Socket
     WS.addDefaultData('slug', document.getElementById('slug').value)
     WS.connect()
