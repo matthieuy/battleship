@@ -108,8 +108,8 @@
             // Calcul style of model weapon
             styleModel(weapon) {
                 return {
-                    width: (weapon.grid[0].length * this.boxSize) +'px',
-                    marginTop: (6 - weapon.grid.length) * (this.boxSize / 2) + 'px',
+                    width: (weapon.grid[0].length * 20) +'px',
+                    marginTop: (6 - weapon.grid.length) * 10 + 'px',
                 }
             },
         },
@@ -211,6 +211,15 @@
     }
 
     #modal-weapon {
+        .grid .box {
+            width: 20px;
+            height: 20px;
+        }
+        .hit {
+            background-position: 120px 20px;
+            background-size: 240px 40px;
+        }
+        .hit.animated { animation: explose-fire-modal 2s steps(12) infinite; }
         .weapon {
             cursor: pointer;
             margin-top: 20px;
@@ -244,5 +253,10 @@
 
             }
         }
+    }
+
+    @keyframes explose-fire-modal {
+        0% { background-position: 0 20px; }
+        100% { background-position: 240px 20px; }
     }
 </style>
