@@ -204,7 +204,7 @@
         },
         mounted() {
             // Disable select
-            $('#grid').bind('selectstart', function(){ return false; });
+            $(document).bind('selectstart', function(){ return false; });
             $(document).bind('ondragstart ondrop', function() { return false; })
 
             // Websocket subscribe

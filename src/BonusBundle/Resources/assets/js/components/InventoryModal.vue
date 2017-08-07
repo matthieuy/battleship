@@ -35,7 +35,7 @@
                             <div class="large-4 push-4">
                                 <label for="player">{{ trans('select_target') }} :</label>
                                 <select id="player" v-model="selectPlayer">
-                                    <option v-for="player in playersList" :value="player.position">{{ player.name }}</option>
+                                    <option v-for="player in playersList" :value="player.position">{{ player.name }} ({{ player.life }})</option>
                                 </select>
                             </div>
                         </div>
