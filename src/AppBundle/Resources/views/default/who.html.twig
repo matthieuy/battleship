@@ -42,11 +42,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% if info.user.username is defined %}
-                            {{ info.user.username }}
-                        {% else %}
-                            {{ info.user }}
-                        {% endif %}
+                        {{ info.username }}
                     </td>
                     <td>{{ info.topic }}</td>
                     <td>{{ info.game_id|default('') }}</td>

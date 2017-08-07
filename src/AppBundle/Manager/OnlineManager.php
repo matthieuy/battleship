@@ -147,6 +147,7 @@ class OnlineManager
             $infos = [
                 'topic' => $topic->getId(),
                 'user' => $user,
+                'username' => ($user instanceof User) ? $user->getUsername() : $user,
                 'date' => new \DateTime(),
             ];
             if ($game) {
