@@ -14,12 +14,12 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>{{ trans('Players') }}</th>
-                                                <th width="80">{{ trans('Lifes') }}</th>
-                                                <th width="100">{{ trans('Torpedo') }}</th>
-                                                <th width="100">{{ trans('Destroyer') }}</th>
-                                                <th width="100">{{ trans('Cruiser') }}</th>
-                                                <th width="110">{{ trans('Aircraft') }}</th>
+                                                <th width="270">{{ trans('Players') }}</th>
+                                                <th>{{ trans('Lifes') }}</th>
+                                                <th>{{ trans('Torpedo') }}</th>
+                                                <th>{{ trans('Destroyer') }}</th>
+                                                <th>{{ trans('Cruiser') }}</th>
+                                                <th>{{ trans('Aircraft') }}</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -38,7 +38,7 @@
                                                         <li class="player-line" v-for="player in team.players">
                                                             <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
                                                             <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
-                                                            <div class="avatar-content hide-mobile" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
+                                                            <div class="avatar-content" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
                                                         </li>
                                                     </ul>
                                                 </td>
@@ -182,6 +182,7 @@
             margin: 0 auto 15px auto;
             width: 95%;
             border: 1px solid #000;
+            min-width: 700px;
 
             th {
                 text-align: center;
@@ -223,6 +224,9 @@
                 color: #FFF;
                 background-color: #c60f13;
             }
+        }
+        .name {
+            float: left;
         }
         .name.dead {
             text-decoration: line-through;
