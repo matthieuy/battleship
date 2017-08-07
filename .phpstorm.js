@@ -11,5 +11,6 @@ System.config({
         '@npm/*': './node_modules/*',
         '@user/*': './src/UserBundle/Resources/assets/*',
         '@vendor/*': './vendor/*',
+        '@web/*': './web/*',
     },
 })

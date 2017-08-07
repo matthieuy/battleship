@@ -8,6 +8,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var AssetsPlugin = require('assets-webpack-plugin');
 var ExtractFilePlugin = require('extract-file-loader/Plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var chalk = require('chalk');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -61,11 +63,11 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for entry points
             // Only adds hash in build mode
-            filename: BUILD ? '[name].[chunkhash].js' : '[name].bundle.js',
+            filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].bundle.js'
+            chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].dev.js'
         },
 
         /**
@@ -212,18 +214,6 @@ module.exports = function makeWebpackConfig(options) {
                 loader: 'less-loader?sourceMap',
                 enforce: 'pre'
             },
-
-            /**
-             * Compile SASS to CSS, then use same rules
-             * Reference: https://github.com/webpack-contrib/sass-loader
-             */
-            /*
-            {
-                test: /\.scss$/i,
-                loader: 'sass-loader?sourceMap',
-                enforce: 'pre'
-            },
-            //*/
         ]
     };
 
@@ -288,6 +278,11 @@ module.exports = function makeWebpackConfig(options) {
      */
     if (DASHBOARD) {
         config.plugins.push(new DashboardPlugin());
+    } else {
+        config.plugins.push(new ProgressBarPlugin({
+            format: 'Webpack ' + chalk.red.bold('[:bar]') + ' ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+            renderThrottle: 100,
+        }))
     }
 
     /**

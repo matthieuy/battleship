@@ -2,11 +2,10 @@
 
 namespace AppBundle\DependencyInjection\Compiler;
 
+use AppBundle\Manager\EventManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class RegisterSubscriberPass
@@ -27,5 +26,7 @@ class RegisterSubscriberPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall('addSubscriber', [new Reference($id)]);
         }
+
+        $container->register('event_dispatcher', EventManager::class);
     }
 }
