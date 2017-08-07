@@ -18,6 +18,7 @@ class OnlineManager
     private $clientManipulator;
     private $redis;
     private $redisKey = 'ws_list';
+    private $sessionList;
 
     /**
      * OnlineManager constructor.
@@ -149,6 +150,8 @@ class OnlineManager
                 'user' => $user,
                 'username' => ($user instanceof User) ? $user->getUsername() : $user,
                 'date' => new \DateTime(),
+                'ip' => $connection->remoteAddress,
+                'user_agent' => $connection->WebSocket->request->getHeader('user-agent').'', // @codingStandardsIgnoreLine
             ];
             if ($game) {
                 $infos['game_id'] = $game->getId();
@@ -157,11 +160,6 @@ class OnlineManager
                     $infos['player'] = $player;
                     $infos['team'] = $player->getTeam();
                 }
-            }
-
-            if (isset($client)) {
-                $infos['ip'] = $client['connection']->remoteAddress;
-                $infos['user_agent'] = $client['connection']->WebSocket->request->getHeader('user-agent').'';
             }
 
             // Add into list
