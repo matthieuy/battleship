@@ -18,7 +18,6 @@ class OnlineManager
     private $clientManipulator;
     private $redis;
     private $redisKey = 'ws_list';
-    private $sessionList;
 
     /**
      * OnlineManager constructor.
@@ -28,7 +27,6 @@ class OnlineManager
     public function __construct(ClientManipulatorInterface $clientManipulator, Client $redis)
     {
         $this->clientManipulator = $clientManipulator;
-        $this->sessionList = [];
         $this->redis = $redis;
     }
 

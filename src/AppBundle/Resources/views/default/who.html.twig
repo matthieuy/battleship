@@ -37,9 +37,7 @@
                     <td>{{ info.date|localizeddate('short') }}</td>
                     <td>
                         {{ info.ip }}
-                        {% if info.user_agent is defined %}
-                            <span class="fa opentip" data-tip="{{ info.user_agent }}"></span>
-                        {% endif %}
+                        <span class="fa opentip" data-tip="{{ info.user_agent|default('') }}"></span>
                     </td>
                     <td>
                         {{ info.username }}
