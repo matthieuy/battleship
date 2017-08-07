@@ -1,4 +1,8 @@
 services:
+    # Notification manager
+    notification.manager:
+        class: NotificationBundle\Manager\NotificationManager
+
     # Transporter registry
     notification.transporter.registry:
         class: NotificationBundle\Registry\TransporterRegistry
