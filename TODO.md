@@ -2,34 +2,35 @@ TODO
 ====
 
 - [ ] Documentations :
-	- [ ] Howto add a bonus
-	- [ ] Add screenshot or gif
+  - [ ] Howto add a bonus
+  - [ ] Add screenshot or gif
 - [ ] Game :
-    - [ ] ISO view
-    - [ ] Shortcuts
+  - [ ] ISO view
+  - [ ] Shortcuts
 - [ ] Mobile :
-    - [ ] Helper for weapon
+  - [ ] Helper for weapon
 - [ ] Stats :
-    - [ ] Register stats on event
-    - [ ] Display user stats on profil
-    - [ ] Display stats on game
+  - [ ] Register stats on event
+  - [ ] Display user stats on profil
+  - [ ] Display stats on game
 - [ ] Notifications :
-    - [ ] Config per type on profil page
-	- [X] Notifications registry
-	- [ ] Notifications manager
-    - [ ] Transporter :
-        - [ ] Hook
-        - [ ] SMS (via hooks)
-        - [ ] IonicPush
-        - [ ] Discord
-        - [ ] Email
-        - [ ] Push Navigator
-    - [ ] Type :
-        - [ ] User connect
-        - [ ] Tour
-        - [ ] Messages
+  - [ ] Config per type on notification page
+  - [X] Check config form
+  - [X] Notifications registry
+  - [ ] Notifications manager
+  - [ ] Transporter :
+    - [ ] Hook
+    - [ ] SMS
+    - [ ] IonicPush
+    - [ ] Discord
+    - [ ] Email
+    - [ ] Push Navigator
+  - [ ] Type :
+    - [ ] User connect
+    - [ ] Tour
+    - [ ] Messages
 - [ ] Translate :
-	- [ ] Translate in French
+  - [ ] Translate in French
 - [ ] Tests/Dev :
-	- [ ] Unit tests
-	- [ ] ESLint and others checks tools
+  - [ ] Unit tests
+  - [ ] ESLint and others checks tools

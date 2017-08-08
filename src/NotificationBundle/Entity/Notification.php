@@ -55,6 +55,26 @@ class Notification
     protected $configuration;
 
     /**
+     * Notification constructor.
+     * @param string|null $name
+     * @param Game|null   $game
+     * @param User|null   $user
+     */
+    public function __construct($name = null, Game $game = null, User $user = null)
+    {
+        $this->configuration = [];
+        if ($name) {
+            $this->name = $name;
+        }
+        if ($game) {
+            $this->game = $game;
+        }
+        if ($user) {
+            $this->user = $user;
+        }
+    }
+
+    /**
      * Get id
      * @return integer
      */
@@ -158,6 +178,18 @@ class Notification
     public function getConfiguration()
     {
         return $this->configuration;
+    }
+
+    /**
+     * Get specific configuration
+     * @param string $name
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getConfigurationValue($name, $default)
+    {
+        return (key_exists($name, $this->configuration)) ? $this->configuration[$name] : $default;
     }
 
     /**

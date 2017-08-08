@@ -95,7 +95,7 @@ class MatchController extends Controller
     public function deleteAction(Game $game)
     {
         // Check rights
-        if (!$this->isGranted('ROLE_ADMIN') && $game->getCreator()->getId() !== $this->getUser()->getId()) {
+        if (!$this->isGranted('ROLE_ADMIN') && !$game->isCreator($this->getUser()->getId())) {
             $this->addFlash('error', 'Bad request');
 
             return $this->redirectToRoute('homepage');
@@ -130,7 +130,7 @@ class MatchController extends Controller
     {
         return $this->render('@Match/Match/game.html.twig', [
             'game' => $game,
-            'inGame' => true,
+            'canDelete' => $this->isGranted('ROLE_ADMIN') && $game->isCreator($this->getUser()),
         ]);
     }
 

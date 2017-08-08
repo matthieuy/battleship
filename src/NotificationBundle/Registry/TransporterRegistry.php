@@ -13,15 +13,7 @@ class TransporterRegistry
     /**
      * @var TransporterInterface[]
      */
-    private $transporters;
-
-    /**
-     * TransporterRegistry constructor.
-     */
-    public function __construct()
-    {
-        $this->transporters = [];
-    }
+    private $transporters = [];
 
     /**
      * Add a transporter
@@ -34,5 +26,14 @@ class TransporterRegistry
         $this->transporters[$transporter->getName()] = $transporter;
 
         return $this;
+    }
+
+    /**
+     * Get all transporters
+     * @return TransporterInterface[]
+     */
+    public function getAll()
+    {
+        return $this->transporters;
     }
 }

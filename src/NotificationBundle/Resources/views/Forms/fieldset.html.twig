@@ -1,0 +1,16 @@
+{% block fieldset_notif_widget %}
+{% spaceless %}
+    <fieldset>
+        <legend>{{ legend|trans({}, translation_domain) }}</legend>
+        <label class="switch">
+            {{ form_widget(form.enabled) }}
+            <span class="slider"></span>
+        </label>
+
+        <div class="widget">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </fieldset>
+{% endspaceless %}
+{% endblock %}

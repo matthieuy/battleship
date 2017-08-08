@@ -18,6 +18,10 @@
         <source>Save</source>
         <target>Save</target>
       </trans-unit>
+      <trans-unit id="form1" resname="Cancel">
+        <source>Cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

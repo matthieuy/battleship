@@ -6,3 +6,12 @@ services:
     # Transporter registry
     notification.transporter.registry:
         class: NotificationBundle\Registry\TransporterRegistry
+
+    # Form
+    notification.form.type:
+        class: NotificationBundle\Form\Type\NotificationType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@notification.transporter.registry"
+        tags:
+            - { name: form.type }

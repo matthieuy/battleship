@@ -51,6 +51,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - "Form/fields.html.twig"
+        - "@NotificationBundle/Resources/views/Forms/fieldset.html.twig"
     globals:
         use_ssl: "%use_ssl%"
 
