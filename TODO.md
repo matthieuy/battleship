@@ -17,17 +17,18 @@ TODO
   - [ ] Config per type on notification page
   - [X] Check config form
   - [X] Notifications registry
-  - [ ] Notifications manager
+  - [ ] Don't send if online
   - [ ] Transporter :
     - [ ] Hook
     - [ ] SMS
     - [ ] IonicPush
     - [ ] Discord
-    - [ ] Email
+    - [X] Email
     - [ ] Push Navigator
   - [ ] Type :
     - [ ] User connect
-    - [ ] Tour
+    - [X] Tour
+    - [ ] Touch
     - [ ] Messages
 - [ ] Translate :
   - [ ] Translate in French

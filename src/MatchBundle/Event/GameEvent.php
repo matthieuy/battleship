@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\Event;
  * Class GameEvent
  * @package MatchBundle\Event
  */
-class GameEvent extends Event
+class GameEvent extends Event implements GameEventInterface
 {
     private $game;
 
@@ -23,7 +23,7 @@ class GameEvent extends Event
     }
 
     /**
-     * Get Game
+     * Get game
      * @return Game
      */
     public function getGame()

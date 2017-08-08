@@ -27,6 +27,9 @@
                 <div class="center">
                     <input type="submit" value="{{ 'Save'|trans({}, 'form') }}" class="button success round large-3 small-11">
                     <a href="{{ path('notification.config', { slug: game.slug }) }}" class="button alert round large-3 small-11">{{ 'Cancel'|trans({}, 'form') }}</a>
+                    <div>
+                        <a href="{{ path('match.display', { slug: game.slug }) }}" class="button round large-6 small-11">{{ 'Go back to game'|trans }}</a>
+                    </div>
                 </div>
             {{ form_end(form) }}
         </div>

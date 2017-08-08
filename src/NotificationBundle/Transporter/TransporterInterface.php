@@ -2,7 +2,9 @@
 
 namespace NotificationBundle\Transporter;
 
+use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
+use NotificationBundle\Type\TypeNotificationInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -16,6 +18,16 @@ interface TransporterInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Send notification
+     * @param Notification              $notification
+     * @param GameEventInterface        $event
+     * @param TypeNotificationInterface $type
+     *
+     * @return bool
+     */
+    public function send(Notification $notification, GameEventInterface $event, TypeNotificationInterface $type);
 
     /**
      * Get form fields (on setting page)

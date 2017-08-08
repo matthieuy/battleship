@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="notif1" resname="mail">
+                <source>By mail</source>
+                <target>By mail</target>
+            </trans-unit>
+            <trans-unit id="notif2" resname="Go back to game">
+                <source>Go back to game</source>
+                <target>Go back to game</target>
+            </trans-unit>
+            <trans-unit id="notif3" resname="tour.short">
+                <source>You can play now on "%game%"</source>
+                <target>You can play now on "%game%"</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

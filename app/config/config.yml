@@ -88,4 +88,4 @@ swiftmailer:
     port:       "%mailer_port%"
     encryption: "%mailer_encrypt%"
     auth_mode:  "%mailer_authmode%"
-    spool:     { type: memory }
+    sender_address: "%mailer_sender_address%"

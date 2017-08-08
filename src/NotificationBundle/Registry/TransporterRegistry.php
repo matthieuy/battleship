@@ -36,4 +36,15 @@ class TransporterRegistry
     {
         return $this->transporters;
     }
+
+    /**
+     * Get a transporter
+     * @param string $name
+     *
+     * @return TransporterInterface
+     */
+    public function get($name)
+    {
+        return $this->transporters[$name];
+    }
 }

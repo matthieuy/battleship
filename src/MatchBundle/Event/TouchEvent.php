@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  * Class TouchEvent
  * @package MatchBundle\Event
  */
-class TouchEvent extends Event
+class TouchEvent extends Event implements GameEventInterface
 {
     // Type of touch
     const TOUCH = 0;

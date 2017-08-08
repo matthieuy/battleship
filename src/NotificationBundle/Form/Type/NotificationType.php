@@ -5,6 +5,7 @@ namespace NotificationBundle\Form\Type;
 use Doctrine\ORM\EntityManager;
 use NotificationBundle\Entity\Notification;
 use NotificationBundle\Registry\TransporterRegistry;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
