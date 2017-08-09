@@ -7,23 +7,39 @@ use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
 use NotificationBundle\Transporter\AbstractTransporter;
 use NotificationBundle\Type\TypeNotificationInterface;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Constraints as Constraints;
 
 /**
- * Class DiscordWebHookTransporter
+ * Class DiscordBotTransporter
  * @package NotificationBundle\Transporter\Discord
  */
-class DiscordWebHookTransporter extends AbstractTransporter
+class DiscordBotTransporter extends AbstractTransporter
 {
+    private $router;
+    private $urlApi = 'https://discordapp.com';
+    private $discordToken;
+
+    /**
+     * DiscordBotTransporter constructor.
+     * @param Router $router
+     * @param string $discordToken
+     */
+    public function __construct(Router $router, $discordToken = '')
+    {
+        $this->discordToken = $discordToken;
+        $this->router = $router;
+    }
+
     /**
      * Get the transporter name
      * @return string
      */
     public function getName()
     {
-        return 'discord_hook';
+        return 'discord_bot';
     }
 
     /**
@@ -38,14 +54,23 @@ class DiscordWebHookTransporter extends AbstractTransporter
     {
         /** @var DiscordTypeInterface $type */
         try {
-            $client = new Client();
-            $r = $client->request('POST', $notification->getConfigurationValue('hook'), [
+            $game = $event->getGame();
+            $client = new Client(['base_uri' => $this->urlApi]);
+            $res = $client->request('POST', '/api/channels/'.$notification->getConfigurationValue('id', '0').'/messages', [
+                'headers' => [
+                    'Authorization' => 'Bot '.$this->discordToken,
+                    'User-Agent' => 'Battleship',
+                ],
                 'json' => [
-                    'content' => $type->getDiscordHookText(),
+                    'embed' => [
+                        'title' => 'Battleship - '.$game->getName(),
+                        'description' => $type->getDiscordBotText(),
+                        'url' => $this->router->generate('match.display', ['slug' => $game->getSlug()], Router::ABSOLUTE_URL),
+                    ],
                 ],
             ]);
 
-            return ($r->getStatusCode() == 200);
+            return ($res->getStatusCode() == 200);
         } catch (\Exception $e) {
             return false;
         }
@@ -64,21 +89,21 @@ class DiscordWebHookTransporter extends AbstractTransporter
         $fields = parent::getFormFields($builder, $notification, $options);
 
         // Add URL field
-        $fields[] = $builder->create('hook', UrlType::class, [
-            'label' => 'Webhook',
+        $fields[] = $builder->create('id', TextType::class, [
+            'label' => 'id_discord',
             'required' => false,
         ]);
-        $this->setDefaultValue($builder, $notification, 'hook');
-        $this->setValidator($builder, $notification, 'hook', [
+        $this->setDefaultValue($builder, $notification, 'id');
+        $this->setValidator($builder, $notification, 'id', [
             new Constraints\NotBlank(),
-            new Constraints\Url(),
             new Constraints\Regex([
-                'pattern' => '/^https:\/\/discordapp\.com\/api\/webhooks\/([0-9]{18})\/([0-9a-zA-Z]+)$/',
+                'pattern' => '/^([0-9]{18})$/',
             ]),
         ]);
 
         return $fields;
     }
+
 
     /**
      * Is personal transporter
@@ -86,6 +111,6 @@ class DiscordWebHookTransporter extends AbstractTransporter
      */
     public function isPersonal()
     {
-        return false;
+        return true;
     }
 }

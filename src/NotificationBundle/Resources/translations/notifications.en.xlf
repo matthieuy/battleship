@@ -22,6 +22,14 @@
                 <source>Webhook</source>
                 <target>Webhook</target>
             </trans-unit>
+            <trans-unit id="discord_bot" resname="discord_bot">
+                <source>Discord bot (PM)</source>
+                <target>Discord bot (PM)</target>
+            </trans-unit>
+            <trans-unit id="id_discord" resname="id_discord">
+                <source>Discord PM Channel ID</source>
+                <target>Discord PM Channel ID</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

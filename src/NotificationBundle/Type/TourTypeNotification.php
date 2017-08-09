@@ -2,14 +2,14 @@
 
 namespace NotificationBundle\Type;
 
-use NotificationBundle\Transporter\Discord\DiscordWebhookTypeInterface;
+use NotificationBundle\Transporter\Discord\DiscordTypeInterface;
 use NotificationBundle\Transporter\Mail\MailTypeInterface;
 
 /**
  * Class TourTypeNotification
  * @package NotificationBundle\Type
  */
-class TourTypeNotification extends AbstractTypeNotification implements MailTypeInterface, DiscordWebhookTypeInterface
+class TourTypeNotification extends AbstractTypeNotification implements MailTypeInterface, DiscordTypeInterface
 {
     const NAME = 'TOUR';
 
@@ -65,8 +65,16 @@ class TourTypeNotification extends AbstractTypeNotification implements MailTypeI
             $names[] = $player->getName();
         }
         $text = $this->translator->trans('waiting_list', ['%list%' => implode(', ', $names)]);
-        $text .= ' - '.$this->event->getGame()->getName();
 
         return $text;
+    }
+
+    /**
+     * Get the text for PM discord bot
+     * @return string
+     */
+    public function getDiscordBotText()
+    {
+        return $this->translator->trans('tour.short', ['%game%' => $this->event->getGame()->getName()], 'notifications');
     }
 }

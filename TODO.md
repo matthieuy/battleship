@@ -22,7 +22,7 @@ TODO
     - [X] Hook
     - [ ] SMS
     - [ ] IonicPush
-    - [ ] Discord
+    - [X] Discord
     - [X] Email
     - [ ] Push Navigator
   - [ ] Type :

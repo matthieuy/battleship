@@ -35,6 +35,15 @@ services:
         tags:
             - { name: notification.transporter }
 
+    # Discord bot
+    notification.discord_bot.transporter:
+        class: NotificationBundle\Transporter\Discord\DiscordBotTransporter
+        arguments:
+            - "@router"
+            - "%discord_token%"
+        tags:
+            - { name: notification.transporter }
+
     # Discord hook
     notification.discord_hook.transporter:
         class: NotificationBundle\Transporter\Discord\DiscordWebHookTransporter
