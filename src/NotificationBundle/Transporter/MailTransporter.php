@@ -71,7 +71,11 @@ class MailTransporter extends AbstractTransporter
         $message->setBody($body, 'text/html');
 
         // Send
-        $send = $this->mailer->send($message);
+        try {
+            $send = $this->mailer->send($message);
+        } catch (\Exception $e) {
+            $send = 0;
+        }
 
         return ($send > 0);
     }
