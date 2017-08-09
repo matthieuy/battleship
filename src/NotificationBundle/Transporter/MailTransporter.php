@@ -4,16 +4,10 @@ namespace NotificationBundle\Transporter;
 
 use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
-use NotificationBundle\Transporter\AbstractTransporter;
 use NotificationBundle\Type\TypeNotificationInterface;
 use Symfony\Component\Form\Extension\Core\Type as TypeForm;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints as Constraints;
-use Symfony\Component\Validator\ConstraintViolationInterface;
-use Symfony\Component\Validator\Validation;
 use UserBundle\Validator\Jetable;
 
 /**
@@ -98,41 +92,14 @@ class MailTransporter extends AbstractTransporter
             'required' => false,
             'translation_domain' => 'FOSUserBundle',
         ]);
-
-        // Default value
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($notification) {
-            $data = $event->getData();
-
-            // Set email from config or from user
-            if (!isset($data[$notification->getName()]['email'])) {
-                $email = $notification->getConfigurationValue('email', $notification->getUser()->getEmail());
-                $data[$notification->getName()]['email'] = $email;
-                $event->setData($data);
-            }
-        });
+        $this->setDefaultValue($builder, $notification, 'email', $notification->getUser()->getEmail());
 
         // Validator
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($notification) {
-            $data = $event->getData();
-
-            if (isset($data[$notification->getName()]['enabled']) && $data[$notification->getName()]['enabled']) {
-                // Validator
-                $validator = Validation::createValidator();
-                $violations = $validator->validate($data[$notification->getName()]['email'], [
-                    new Constraints\NotBlank(),
-                    new Constraints\Email(),
-                    new Jetable(),
-                ]);
-
-                // Errors
-                if (count($violations) !== 0) {
-                    /** @var ConstraintViolationInterface $violation */
-                    foreach ($violations as $violation) {
-                        $event->getForm()->get($notification->getName())->get('email')->addError(new FormError($violation->getMessage()));
-                    }
-                }
-            }
-        });
+        $this->setValidator($builder, $notification, 'email', [
+            new Constraints\NotBlank(),
+            new Constraints\Email(),
+            new Jetable(),
+        ]);
 
         return $fields;
     }
