@@ -19,7 +19,7 @@ TODO
   - [X] Notifications registry
   - [ ] Don't send if online
   - [ ] Transporter :
-    - [ ] Hook
+    - [X] Hook
     - [ ] SMS
     - [ ] IonicPush
     - [ ] Discord

@@ -14,6 +14,14 @@
                 <source>You can play now on "%game%"</source>
                 <target>You can play now on "%game%"</target>
             </trans-unit>
+            <trans-unit id="discord_hook" resname="discord_hook">
+                <source>Discord (webhook)</source>
+                <target>Discord (webhook)</target>
+            </trans-unit>
+            <trans-unit id="discord_web" resname="Webhook">
+                <source>Webhook</source>
+                <target>Webhook</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

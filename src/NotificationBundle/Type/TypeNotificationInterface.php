@@ -31,6 +31,12 @@ interface TypeNotificationInterface
     public function getShortMessage();
 
     /**
+     * Get no personal shortMessage
+     * @return string
+     */
+    public function getGlobalShortMessage();
+
+    /**
      * Get LongMessage
      * @return string
      */

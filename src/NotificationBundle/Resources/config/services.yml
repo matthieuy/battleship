@@ -38,3 +38,9 @@ services:
             - ["%mailer_sender_address%", "%mailer_sender_name%"]
         tags:
             - { name: notification.transporter }
+
+    # Discord hook
+    notification.discord_hook.transporter:
+        class: NotificationBundle\Transporter\DiscordWebHookTransporter
+        tags:
+            - { name: notification.transporter }

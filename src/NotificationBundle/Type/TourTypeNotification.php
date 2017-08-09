@@ -24,6 +24,24 @@ class TourTypeNotification extends AbstractTypeNotification
     }
 
     /**
+     * Get no personal shortMessage
+     * @return string
+     */
+    public function getGlobalShortMessage()
+    {
+        $names = [];
+        $players = $this->event->getGame()->getPlayersTour();
+        foreach ($players as $player) {
+            $names[] = $player->getName();
+        }
+        $text = $this->translator->trans('waiting_list', ['%list%' => implode(', ', $names)]);
+        $text .= ' - '.$this->event->getGame()->getName();
+
+        return $text;
+    }
+
+
+    /**
      * Get LongMessage
      * @return string
      */
@@ -49,6 +67,7 @@ class TourTypeNotification extends AbstractTypeNotification
     {
         return [
             'mail',
+            'discord_hook',
         ];
     }
 }
