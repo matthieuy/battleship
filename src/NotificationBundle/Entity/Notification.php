@@ -187,7 +187,7 @@ class Notification
      *
      * @return mixed
      */
-    public function getConfigurationValue($name, $default)
+    public function getConfigurationValue($name, $default = '')
     {
         return (key_exists($name, $this->configuration)) ? $this->configuration[$name] : $default;
     }

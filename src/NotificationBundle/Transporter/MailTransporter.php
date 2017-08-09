@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationBundle\Transporter\Mailer;
+namespace NotificationBundle\Transporter;
 
 use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
@@ -18,7 +18,7 @@ use UserBundle\Validator\Jetable;
 
 /**
  * Class MailTransporter
- * @package NotificationBundle\Transporter\Mailer
+ * @package NotificationBundle\Transporter
  */
 class MailTransporter extends AbstractTransporter
 {
@@ -58,13 +58,15 @@ class MailTransporter extends AbstractTransporter
      */
     public function send(Notification $notification, GameEventInterface $event, TypeNotificationInterface $type)
     {
-        // Create message
         $user = $notification->getUser();
+        $address = $notification->getConfigurationValue('email', $user->getEmail());
+
+        // Create message
         $message = new \Swift_Message();
         $message
             ->setFrom($this->sender[0], $this->sender[1])
             ->setSubject($this->sender[1].' - '.$type->getShortMessage())
-            ->setTo($user->getEmail(), $user->getUsername());
+            ->setTo($address, $user->getUsername());
 
         // Body
         $body = $this->twig->render('@Notification/Mail/layout.html.twig', [

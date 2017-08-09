@@ -29,8 +29,9 @@ services:
 ########################
 ##### Transporters #####
 ########################
+    # Mail
     notification.mail.transporter:
-        class: NotificationBundle\Transporter\Mailer\MailTransporter
+        class: NotificationBundle\Transporter\MailTransporter
         arguments:
             - "@mailer"
             - "@twig"
