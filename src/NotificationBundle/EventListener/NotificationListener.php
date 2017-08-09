@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\GameEventInterface;
 use MatchBundle\MatchEvents;
+use NotificationBundle\Entity\Notification;
 use NotificationBundle\Registry\TransporterRegistry;
 use NotificationBundle\Type\TourTypeNotification;
 use NotificationBundle\Type\TypeNotificationInterface;
@@ -21,6 +22,11 @@ class NotificationListener implements EventSubscriberInterface
     private $entityManager;
     private $registry;
     private $translator;
+
+    /**
+     * @var Notification[] $notifications
+     */
+    private $notifications;
 
     /**
      * NotificationListener constructor.
@@ -52,6 +58,7 @@ class NotificationListener implements EventSubscriberInterface
      */
     public function onNewTour(GameEvent $event)
     {
+        $this->notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($event->getGame());
         $players = $event->getGame()->getPlayersTour();
         $type = new TourTypeNotification($this->translator, $event);
 
@@ -69,11 +76,9 @@ class NotificationListener implements EventSubscriberInterface
      */
     private function sendNotifications(GameEventInterface $event, TypeNotificationInterface $typeNotification)
     {
-        $notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($event->getGame());
-
-        foreach ($notifications as $notification) {
+        foreach ($this->notifications as $notification) {
             // Not allowed
-            if (!in_array($notification->getName(), $typeNotification->getAllowedTransporters())) {
+            if (in_array($notification->getName(), $typeNotification->getDeniedTransporters())) {
                 continue;
             }
 

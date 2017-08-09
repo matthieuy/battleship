@@ -43,8 +43,8 @@ interface TypeNotificationInterface
     public function getLongMessage();
 
     /**
-     * Get type of transporters allowed
+     * Get type of transporters denied
      * @return array
      */
-    public function getAllowedTransporters();
+    public function getDeniedTransporters();
 }

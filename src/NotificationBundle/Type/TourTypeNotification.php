@@ -60,14 +60,11 @@ class TourTypeNotification extends AbstractTypeNotification
     }
 
     /**
-     * Check if allowed to use this type with transporter
+     * Get type of transporters denied
      * @return array
      */
-    public function getAllowedTransporters()
+    public function getDeniedTransporters()
     {
-        return [
-            'mail',
-            'discord_hook',
-        ];
+        return [];
     }
 }
