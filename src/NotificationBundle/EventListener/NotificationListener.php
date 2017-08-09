@@ -24,11 +24,6 @@ class NotificationListener implements EventSubscriberInterface
     private $translator;
 
     /**
-     * @var Notification[] $notifications
-     */
-    private $notifications;
-
-    /**
      * NotificationListener constructor.
      * @param EntityManager       $entityManager
      * @param TransporterRegistry $registry
@@ -58,32 +53,27 @@ class NotificationListener implements EventSubscriberInterface
      */
     public function onNewTour(GameEvent $event)
     {
-        $this->notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($event->getGame());
+        $notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($event->getGame());
         $players = $event->getGame()->getPlayersTour();
         $type = new TourTypeNotification($this->translator, $event);
 
-        foreach ($players as $player) {
-            if (!$player->isAi() && $player->isAlive()) {
-                $this->sendNotifications($event, $type);
-            }
-        }
-    }
-
-    /**
-     * Send notifications
-     * @param GameEventInterface        $event
-     * @param TypeNotificationInterface $typeNotification
-     */
-    private function sendNotifications(GameEventInterface $event, TypeNotificationInterface $typeNotification)
-    {
-        foreach ($this->notifications as $notification) {
+        foreach ($notifications as $notification) {
             // Not allowed
-            if (in_array($notification->getName(), $typeNotification->getDeniedTransporters())) {
+            if (in_array($notification->getName(), $type->getDeniedTransporters())) {
                 continue;
             }
 
+            // Get transporter
             $transporter = $this->registry->get($notification->getName());
-            $transporter->send($notification, $event, $typeNotification);
+            if ($transporter->isPersonal()) {
+                foreach ($players as $player) {
+                    if (!$player->isAi() && $player->isAlive() && $player->getUser()->getId() === $notification->getUser()->getId()) {
+                        $transporter->send($notification, $event, $type);
+                    }
+                }
+            } else {
+                $transporter->send($notification, $event, $type);
+            }
         }
     }
 }

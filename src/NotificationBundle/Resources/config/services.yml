@@ -1,8 +1,4 @@
 services:
-    # Notification manager
-    notification.manager:
-        class: NotificationBundle\Manager\NotificationManager
-
     # Transporter registry
     notification.transporter.registry:
         class: NotificationBundle\Registry\TransporterRegistry
@@ -31,7 +27,7 @@ services:
 ########################
     # Mail
     notification.mail.transporter:
-        class: NotificationBundle\Transporter\MailTransporter
+        class: NotificationBundle\Transporter\Mail\MailTransporter
         arguments:
             - "@mailer"
             - "@twig"
@@ -41,6 +37,6 @@ services:
 
     # Discord hook
     notification.discord_hook.transporter:
-        class: NotificationBundle\Transporter\DiscordWebHookTransporter
+        class: NotificationBundle\Transporter\Discord\DiscordWebHookTransporter
         tags:
             - { name: notification.transporter }

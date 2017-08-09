@@ -1,10 +1,11 @@
 <?php
 
-namespace NotificationBundle\Transporter;
+namespace NotificationBundle\Transporter\Discord;
 
 use GuzzleHttp\Client;
 use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
+use NotificationBundle\Transporter\AbstractTransporter;
 use NotificationBundle\Type\TypeNotificationInterface;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Constraints;
 
 /**
  * Class DiscordWebHookTransporter
- * @package NotificationBundle\Transporter
+ * @package NotificationBundle\Transporter\Discord
  */
 class DiscordWebHookTransporter extends AbstractTransporter
 {
@@ -35,11 +36,12 @@ class DiscordWebHookTransporter extends AbstractTransporter
      */
     public function send(Notification $notification, GameEventInterface $event, TypeNotificationInterface $type)
     {
+        /** @var DiscordWebhookTypeInterface $type */
         try {
             $client = new Client();
             $r = $client->request('POST', $notification->getConfigurationValue('hook'), [
                 'json' => [
-                    'content' => $type->getGlobalShortMessage(),
+                    'content' => $type->getDiscordHookText(),
                 ],
             ]);
 
@@ -76,5 +78,14 @@ class DiscordWebHookTransporter extends AbstractTransporter
         ]);
 
         return $fields;
+    }
+
+    /**
+     * Is personal transporter
+     * @return boolean
+     */
+    public function isPersonal()
+    {
+        return false;
     }
 }

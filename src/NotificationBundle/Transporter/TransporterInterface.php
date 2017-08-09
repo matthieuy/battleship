@@ -38,4 +38,10 @@ interface TransporterInterface
      * @return FormBuilderInterface[]
      */
     public function getFormFields(FormBuilderInterface $builder, Notification &$notification, array $options);
+
+    /**
+     * Is personal transporter
+     * @return boolean
+     */
+    public function isPersonal();
 }

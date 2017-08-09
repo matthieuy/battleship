@@ -2,53 +2,16 @@
 
 namespace NotificationBundle\Type;
 
+use NotificationBundle\Transporter\Discord\DiscordWebhookTypeInterface;
+use NotificationBundle\Transporter\Mail\MailTypeInterface;
+
 /**
  * Class TourTypeNotification
  * @package NotificationBundle\Type
  */
-class TourTypeNotification extends AbstractTypeNotification
+class TourTypeNotification extends AbstractTypeNotification implements MailTypeInterface, DiscordWebhookTypeInterface
 {
     const NAME = 'TOUR';
-
-    /**
-     * Get ShortMessage
-     * @return string
-     */
-    public function getShortMessage()
-    {
-        $context = [
-            '%game%' => $this->event->getGame()->getName(),
-        ];
-
-        return $this->translator->trans('tour.short', $context, 'notifications');
-    }
-
-    /**
-     * Get no personal shortMessage
-     * @return string
-     */
-    public function getGlobalShortMessage()
-    {
-        $names = [];
-        $players = $this->event->getGame()->getPlayersTour();
-        foreach ($players as $player) {
-            $names[] = $player->getName();
-        }
-        $text = $this->translator->trans('waiting_list', ['%list%' => implode(', ', $names)]);
-        $text .= ' - '.$this->event->getGame()->getName();
-
-        return $text;
-    }
-
-
-    /**
-     * Get LongMessage
-     * @return string
-     */
-    public function getLongMessage()
-    {
-        return $this->getShortMessage();
-    }
 
     /**
      * Get type name
@@ -66,5 +29,44 @@ class TourTypeNotification extends AbstractTypeNotification
     public function getDeniedTransporters()
     {
         return [];
+    }
+
+    /**
+     * Get mail subject
+     * @return string
+     */
+    public function getSubject()
+    {
+        $context = [
+            '%game%' => $this->event->getGame()->getName(),
+        ];
+
+        return $this->translator->trans('tour.short', $context, 'notifications');
+    }
+
+    /**
+     * Get mail text
+     * @return string
+     */
+    public function getTextMail()
+    {
+        return $this->getSubject();
+    }
+
+    /**
+     * Get the hook text
+     * @return string
+     */
+    public function getDiscordHookText()
+    {
+        $names = [];
+        $players = $this->event->getGame()->getPlayersTour();
+        foreach ($players as $player) {
+            $names[] = $player->getName();
+        }
+        $text = $this->translator->trans('waiting_list', ['%list%' => implode(', ', $names)]);
+        $text .= ' - '.$this->event->getGame()->getName();
+
+        return $text;
     }
 }

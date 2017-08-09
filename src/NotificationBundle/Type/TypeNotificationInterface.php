@@ -25,24 +25,6 @@ interface TypeNotificationInterface
     public function getName();
 
     /**
-     * Get ShortMessage
-     * @return string
-     */
-    public function getShortMessage();
-
-    /**
-     * Get no personal shortMessage
-     * @return string
-     */
-    public function getGlobalShortMessage();
-
-    /**
-     * Get LongMessage
-     * @return string
-     */
-    public function getLongMessage();
-
-    /**
      * Get type of transporters denied
      * @return array
      */

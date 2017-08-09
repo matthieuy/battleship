@@ -1,9 +1,10 @@
 <?php
 
-namespace NotificationBundle\Transporter;
+namespace NotificationBundle\Transporter\Mail;
 
 use MatchBundle\Event\GameEventInterface;
 use NotificationBundle\Entity\Notification;
+use NotificationBundle\Transporter\AbstractTransporter;
 use NotificationBundle\Type\TypeNotificationInterface;
 use Symfony\Component\Form\Extension\Core\Type as TypeForm;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +13,7 @@ use UserBundle\Validator\Jetable;
 
 /**
  * Class MailTransporter
- * @package NotificationBundle\Transporter
+ * @package NotificationBundle\Transporter\Mail
  */
 class MailTransporter extends AbstractTransporter
 {
@@ -47,6 +48,7 @@ class MailTransporter extends AbstractTransporter
      * @param Notification              $notification
      * @param GameEventInterface        $event
      * @param TypeNotificationInterface $type
+     * @var MailTypeInterface           $type
      *
      * @return bool
      */
@@ -59,13 +61,13 @@ class MailTransporter extends AbstractTransporter
         $message = new \Swift_Message();
         $message
             ->setFrom($this->sender[0], $this->sender[1])
-            ->setSubject($this->sender[1].' - '.$type->getShortMessage())
+            ->setSubject($this->sender[1].' - '.$type->getSubject())
             ->setTo($address, $user->getUsername());
 
         // Body
         $body = $this->twig->render('@Notification/Mail/layout.html.twig', [
             'username' => $user->getUsername(),
-            'message' => $type->getLongMessage(),
+            'message' => $type->getTextMail(),
             'game' => $event->getGame(),
         ]);
         $message->setBody($body, 'text/html');
@@ -106,5 +108,14 @@ class MailTransporter extends AbstractTransporter
         ]);
 
         return $fields;
+    }
+
+    /**
+     * Is personal transporter
+     * @return boolean
+     */
+    public function isPersonal()
+    {
+        return true;
     }
 }
