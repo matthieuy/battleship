@@ -2,7 +2,7 @@
     <div v-show="score.modal">
         <div class="modal-bg"></div>
         <div class="modal-wrap">
-            <div class="modal-container"v-on:click.stop.prevent="close()">
+            <div class="modal-container" v-on:click.stop.prevent="close()">
                 <div class="modal-content">
                     <div id="modal-score" v-on:click.stop.prevent="">
                         <h1 class="center">{{ trans('Score') }}</h1>
@@ -13,61 +13,63 @@
                                 <div class="overflow">
                                     <table>
                                         <thead>
-                                            <tr>
-                                                <th width="270">{{ trans('Players') }}</th>
-                                                <th>{{ trans('Lifes') }}</th>
-                                                <th>{{ trans('Torpedo') }}</th>
-                                                <th>{{ trans('Destroyer') }}</th>
-                                                <th>{{ trans('Cruiser') }}</th>
-                                                <th>{{ trans('Aircraft') }}</th>
-                                            </tr>
+                                        <tr>
+                                            <th width="270">{{ trans('Players') }}</th>
+                                            <th>{{ trans('Lifes') }}</th>
+                                            <th>{{ trans('Torpedo') }}</th>
+                                            <th>{{ trans('Destroyer') }}</th>
+                                            <th>{{ trans('Cruiser') }}</th>
+                                            <th>{{ trans('Aircraft') }}</th>
+                                        </tr>
                                         </thead>
                                         <tfoot>
-                                            <tr>
-                                                <td colspan="6" id="chrono">
-                                                    <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
-                                                    <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
-                                                    <span :title="datePenalty"></span>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td colspan="6" id="chrono">
+                                                <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
+                                                <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
+                                                <span :title="datePenalty"></span>
+                                            </td>
+                                        </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr v-for="team in teams">
-                                                <td>
-                                                    <ul>
-                                                        <li class="player-line" v-for="player in team.players">
-                                                            <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
-                                                            <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
-                                                            <div class="avatar-content" :style="'border-color: #'+player.color+';'"><img class="avatar" :src="'/user/'+player.userId+'-50.png'"></div>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.life }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.boats[2] }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.boats[3] }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.boats[4] }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.boats[5] }}</li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
+                                        <tr v-for="team in teams">
+                                            <td>
+                                                <ul>
+                                                    <li class="player-line" v-for="player in team.players">
+                                                        <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
+                                                        <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
+                                                        <div class="avatar-content" :style="'border-color: #'+player.color+';'">
+                                                            <img class="avatar" :src="'/user/'+player.userId+'-50.png'">
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li v-for="player in team.players">{{ player.life }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li v-for="player in team.players">{{ player.boats[2] }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li v-for="player in team.players">{{ player.boats[3] }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li v-for="player in team.players">{{ player.boats[4] }}</li>
+                                                </ul>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li v-for="player in team.players">{{ player.boats[5] }}</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -90,82 +92,83 @@
     </div>
 </template>
 <script>
-    import { mapState, mapGetters } from 'vuex'
-    import { MUTATION } from "../store/mutation-types"
+  import {mapState, mapGetters} from 'vuex'
+  import {MUTATION} from '../store/mutation-types'
+  /* global WS, $, Translator */
 
-    require('@app/js/jquery.timeago.js')
+  require('@app/js/vendor/jquery.timeago.js')
 
-    export default {
-        props: {
-            time: {type: String},
+  export default {
+    props: {
+      time: {type: String},
+    },
+    data () {
+      return {
+        latency: 0,
+        trans () {
+          return Translator.trans(...arguments)
         },
-        data() {
-            return {
-                latency: 0,
-                trans() {
-                    return Translator.trans(...arguments)
-                },
+      }
+    },
+    computed: {
+      ...mapState([
+        'score',
+      ]),
+      ...mapGetters([
+        'teams',
+      ]),
+      datePenalty () {
+        let date = new Date((this.score.chrono + this.latency) * 1000)
+        $('#chrono span').timeago('updateFromDOM')
+        return date.toISOString()
+      },
+    },
+    methods: {
+      // Close modal
+      close () {
+        this.$store.commit(MUTATION.SCORE.MODAL, false)
+      },
+    },
+    watch: {
+      // Subscribe/Unsubscribe WS when open/close modal
+      'score.modal': function (open) {
+        let topicName = 'game/' + document.getElementById('slug').value + '/score'
+        if (open) {
+          let self = this
+          WS.subscribeAction(topicName, 'scores', (obj) => {
+            self.$store.commit(MUTATION.SCORE.SET_LIST, obj)
+          })
+
+          $('#container').css({
+            overflow: 'hidden',
+            position: 'fixed',
+          })
+          $('#chrono span').timeago('updateFromDOM')
+
+          let escapeTouch = function (e) {
+            if (e.which === 27) {
+              if (self.$store.state.score.modal) {
+                self.$store.commit(MUTATION.SCORE.MODAL, false)
+              }
+              $(window).off('keyup', escapeTouch)
             }
-        },
-        computed: {
-            ...mapState([
-                'score',
-            ]),
-            ...mapGetters([
-                'teams',
-            ]),
-            datePenalty() {
-                let date = new Date((this.score.chrono + this.latency) * 1000)
-                $('#chrono span').timeago('updateFromDOM')
-                return date.toISOString()
-            },
-        },
-        methods: {
-            // Close modal
-            close() {
-                this.$store.commit(MUTATION.SCORE.MODAL, false)
-            },
-        },
-        watch: {
-            // Subscribe/Unsubscribe WS when open/close modal
-            ['score.modal'](open) {
-                let topicName = 'game/' + document.getElementById('slug').value + '/score'
-                if (open) {
-                    let self = this
-                    WS.subscribeAction(topicName, 'scores', (obj) => {
-                        self.$store.commit(MUTATION.SCORE.SET_LIST, obj)
-                    })
-
-                    $('#container').css({
-                        overflow: 'hidden',
-                        position: 'fixed',
-                    })
-                    $('#chrono span').timeago('updateFromDOM')
-
-                    let escapeTouch = function(e) {
-                        if (e.which === 27) {
-                            if (self.$store.state.score.modal) {
-                                self.$store.commit(MUTATION.SCORE.MODAL, false)
-                            }
-                            $(window).off('keyup', escapeTouch)
-                        }
-                    }
-                    $(window).on('keyup', escapeTouch)
-                } else {
-                    WS.unsubscribe(topicName)
-                    $('#container').removeAttr('style')
-                    $('#chrono span').timeago('dispose')
-                }
-            },
-            // Update chrono
-            ['score.chrono'](chrono) {
-                $('#chrono span').timeago('updateFromDOM')
-            },
-        },
-        mounted() {
-            this.latency = parseInt(parseInt(this.time) - (Date.now() / 1000))
-        },
-    }
+          }
+          $(window).on('keyup', escapeTouch)
+        } else {
+          WS.unsubscribe(topicName)
+          $('#container').removeAttr('style')
+          $('#chrono span').timeago('dispose')
+        }
+      },
+      // Update chrono
+      'score.chrono': function (chrono) {
+        $('#chrono span').timeago('updateFromDOM')
+      },
+    },
+    mounted () {
+      this.latency = parseInt(parseInt(this.time) - (Date.now() / 1000))
+    },
+  }
 </script>
 <style lang="less">
     @avatar-size: 50px;

@@ -2,13 +2,12 @@
  * Homepage
  */
 
-import Vue from "vue"
-import GameList from "./GameList.vue"
+import Vue from 'vue'
+import GameList from './GameList.vue'
 
-new Vue({
-    el: '#vue',
-    components: {
-        GameList,
-    },
+new Vue({ // eslint-disable-line no-new
+  el: '#vue',
+  components: {
+    GameList,
+  },
 })
-

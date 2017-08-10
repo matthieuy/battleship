@@ -5,44 +5,46 @@
     </div>
 </template>
 <script>
-    // Import
-    import { mapState } from 'vuex'
-    import { MUTATION } from "../store/mutation-types"
+  // Import
+  import {mapState} from 'vuex'
+  import {MUTATION} from '../store/mutation-types'
+  /* global Translator */
 
-    import Favico from "@npm/favico.js/favico.js"
-    let BubbleLife = null
+  import Favico from '@npm/favico.js/favico.js'
 
-    export default {
-        data() {
-            return {
-                trans() {
-                    return Translator.trans(...arguments)
-                },
-            }
+  let BubbleLife = null
+
+  export default {
+    data () {
+      return {
+        trans () {
+          return Translator.trans(...arguments)
         },
-        computed: {
-            ...mapState([
-                'score', // Score module
-            ]),
-        },
-        methods: {
-            toggleModal() {
-                this.$store.commit(MUTATION.SCORE.MODAL)
-            },
-        },
-        watch: {
-            // Update bubble when life change
-            'score.life': (life) => {
-                let color = (life < 10) ? '#FF0000' : (life > 20) ? '#008200' : '#B7B700';
-                BubbleLife.badge(life, {bgColor: color })
-            },
-        },
-        // Create bubble on mount
-        mounted() {
-            BubbleLife = new Favico({
-                elementId: 'life-bubble',
-                animation: 'slide'
-            })
-        },
-    }
+      }
+    },
+    computed: {
+      ...mapState([
+        'score', // Score module
+      ]),
+    },
+    methods: {
+      toggleModal () {
+        this.$store.commit(MUTATION.SCORE.MODAL)
+      },
+    },
+    watch: {
+      // Update bubble when life change
+      'score.life': (life) => {
+        let color = (life < 10) ? '#FF0000' : (life > 20) ? '#008200' : '#B7B700'
+        BubbleLife.badge(life, {bgColor: color})
+      },
+    },
+    // Create bubble on mount
+    mounted () {
+      BubbleLife = new Favico({
+        elementId: 'life-bubble',
+        animation: 'slide',
+      })
+    },
+  }
 </script>

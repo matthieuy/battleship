@@ -2,88 +2,88 @@
  * Score module vuex store
  */
 
-import { ACTION, MUTATION } from "../mutation-types"
+import {ACTION, MUTATION} from '../mutation-types'
 
 export default {
-    state: {
-        modal: false,
-        list: [],
-        life: 0,
-        chrono: null,
-        penalty: false,
+  state: {
+    modal: false,
+    list: [],
+    life: 0,
+    chrono: null,
+    penalty: false,
+  },
+  mutations: {
+    // On first load game
+    [MUTATION.LOAD] (state, obj) {
+      // Score
+      obj.players.some(function (player) {
+        if (player.me) {
+          state.life = player.life
+        }
+        return (typeof player.me !== 'undefined')
+      })
+      state.chrono = obj.chrono
+      state.penalty = obj.options.penalty
     },
-    mutations: {
-        // On first load game
-        [MUTATION.LOAD](state, obj) {
-            // Score
-            obj.players.some(function(player) {
-                if (player.me) {
-                    state.life = player.life
-                }
-                return (typeof player.me != 'undefined')
-            })
-            state.chrono = obj.chrono
-            state.penalty = obj.options.penalty
-        },
-        // Toggle modal
-        [MUTATION.SCORE.MODAL](state, status) {
-            if (typeof status !== "undefined") {
-                state.modal = status
-            } else {
-                state.modal = !state.modal
-            }
-        },
-        // Receive list from WS
-        [MUTATION.SCORE.SET_LIST](state, list) {
-            state.list = list
-        },
-        // After animate
-        [MUTATION.AFTER_ANIMATE](state, obj) {
-            if (obj.chrono) {
-                state.chrono = obj.chrono
-            }
-        },
-        // Set life
-        [MUTATION.SCORE.SET_LIFE](state, life) {
-            state.life = life
-        },
+    // Toggle modal
+    [MUTATION.SCORE.MODAL] (state, status) {
+      if (typeof status !== 'undefined') {
+        state.modal = status
+      } else {
+        state.modal = !state.modal
+      }
     },
-    actions: {
-        // After each rocket
-        [ACTION.AFTER_ROCKET](context, box) {
-            // Update life
-            if (box.life && box.life[context.rootState.me.position]) {
-                context.commit(MUTATION.SCORE.SET_LIFE, box.life[context.rootState.me.position])
-                delete box.life
-            }
-        },
+    // Receive list from WS
+    [MUTATION.SCORE.SET_LIST] (state, list) {
+      state.list = list
     },
-    getters: {
-        // Get teams (order by team life)
-        teams: (state) => {
-            let list = [];
-            state.list.forEach(function(player) {
-                // Create index if don't exist
-                if (typeof list[player.team] == 'undefined') {
-                    list[player.team] = {
-                        team: player.team,
-                        players: [],
-                        life: 0,
-                    }
-                }
-                // Add player to team and sort player's life
-                list[player.team].players.push(player)
-                list[player.team].life += player.life
-                list[player.team].players.sort((a, b) => a.life < b.life)
-            })
+    // After animate
+    [MUTATION.AFTER_ANIMATE] (state, obj) {
+      if (obj.chrono) {
+        state.chrono = obj.chrono
+      }
+    },
+    // Set life
+    [MUTATION.SCORE.SET_LIFE] (state, life) {
+      state.life = life
+    },
+  },
+  actions: {
+    // After each rocket
+    [ACTION.AFTER_ROCKET] (context, box) {
+      // Update life
+      if (box.life && box.life[context.rootState.me.position]) {
+        context.commit(MUTATION.SCORE.SET_LIFE, box.life[context.rootState.me.position])
+        delete box.life
+      }
+    },
+  },
+  getters: {
+    // Get teams (order by team life)
+    teams: (state) => {
+      let list = []
+      state.list.forEach(function (player) {
+        // Create index if don't exist
+        if (typeof list[player.team] === 'undefined') {
+          list[player.team] = {
+            team: player.team,
+            players: [],
+            life: 0,
+          }
+        }
+        // Add player to team and sort player's life
+        list[player.team].players.push(player)
+        list[player.team].life += player.life
+        list[player.team].players.sort((a, b) => a.life < b.life)
+      })
 
-            // Team 0 don't exist
-            list.shift()
+      // Team 0 don't exist
+      list.shift()
 
-            // Sort team's life
-            list.sort((a, b) => a.life < b.life)
+      // Sort team's life
+      list.sort((a, b) => a.life < b.life)
 
-            return list
-        },
+      return list
     },
+  },
 }

@@ -12,309 +12,327 @@ var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var chalk = require('chalk');
 
 module.exports = function makeWebpackConfig(options) {
-    /**
-     * Environment type
-     * BUILD is for generating minified builds
-     */
-    var BUILD = options.environment === 'prod';
-    const NODE_ENV = (BUILD) ? 'production' : 'development'
-    process.noDeprecation = true
-    console.info("Environment :", NODE_ENV)
+  /**
+   * Environment type
+   * BUILD is for generating minified builds
+   */
+  var BUILD = options.environment === 'prod';
+  const NODE_ENV = (BUILD) ? 'production' : 'development'
+  process.noDeprecation = true
+  console.info("Environment :", NODE_ENV)
+
+  /**
+   * Whether we are running in dev-server mode (versus simple compile)
+   */
+  var DEV_SERVER = process.env.WEBPACK_MODE === 'watch';
+
+  /**
+   * Whether we are running inside webpack-dashboard
+   */
+  var DASHBOARD = process.env.WEBPACK_DASHBOARD === 'enabled';
+
+  var publicPath;
+  if (options.parameters.dev_server_public_path && DEV_SERVER) {
+    publicPath = options.parameters.dev_server_public_path;
+
+  } else if (options.parameters.public_path) {
+    publicPath = options.parameters.public_path;
+  } else {
+    publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/assets/';
+  }
+
+  /**
+   * Config
+   * Reference: https://webpack.js.org/concepts/
+   * This is the object where all configuration gets set
+   */
+  var config = {
+    entry: options.entry,
+    resolve: {
+      alias: options.alias,
+      extensions: ['.js', '.jsx', '.json', '.vue'],
+      modules: ['node_modules']
+    },
+
+    output: {
+      // Absolute output directory
+      path: options.parameters.path ? options.parameters.path : __dirname + '/../../web/compiled/',
+
+      // Output path from the view of the page
+      publicPath: publicPath,
+
+      // Filename for entry points
+      // Only adds hash in build mode
+      filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
+
+      // Filename for non-entry points
+      // Only adds hash in build mode
+      chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].dev.js'
+    },
 
     /**
-     * Whether we are running in dev-server mode (versus simple compile)
+     * Options for webpack-dev-server.
+     * Enables overlay inside the page if any error occurs when compiling.
+     * Enables CORS headers to allow hot reload from other domain / port.
+     * Reference: https://webpack.js.org/configuration/dev-server/
      */
-    var DEV_SERVER = process.env.WEBPACK_MODE === 'watch';
+    devServer: Object.assign({
+      overlay: {
+        warnings: false,
+        errors: true
+      },
+      headers: {"Access-Control-Allow-Origin": "*"}
+    }, options.parameters.dev_server || {})
+  };
 
-    /**
-     * Whether we are running inside webpack-dashboard
-     */
-    var DASHBOARD = process.env.WEBPACK_DASHBOARD === 'enabled';
+  config.resolve.alias['vue$'] = (BUILD) ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js'
 
-    var publicPath;
-    if (options.parameters.dev_server_public_path && DEV_SERVER) {
-        publicPath = options.parameters.dev_server_public_path;
 
-    } else if (options.parameters.public_path) {
-        publicPath = options.parameters.public_path;
-    } else {
-        publicPath = DEV_SERVER ? 'http://localhost:8080/compiled/' : '/assets/';
-    }
-
-    /**
-     * Config
-     * Reference: https://webpack.js.org/concepts/
-     * This is the object where all configuration gets set
-     */
-    var config = {
-        entry: options.entry,
-        resolve: {
-            alias: options.alias,
-            extensions: ['.js', '.jsx', '.json', '.vue'],
-            modules: ['node_modules']
+  /**
+   * Loaders
+   * Reference: https://webpack.js.org/concepts/loaders/
+   * List: https://webpack.js.org/loaders/
+   * This handles most of the magic responsible for converting modules
+   */
+  config.module = {
+    loaders: [
+      /**
+       * ESlint
+       * Reference : https://github.com/MoOx/eslint-loader
+       */
+      {
+        test: /\.(js)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        exclude: /(node_modules|vendor|vue\.js)/,
+      },
+      /**
+       * Vue loader
+       * Reference : https://vue-loader.vuejs.org/en/
+       */
+      {
+        test: /\.vue$/,
+        loader: "vue-loader",
+        options: {
+          loaders: {
+            js: 'babel-loader!eslint-loader',
+          },
         },
+      },
+      /**
+       * Compiles ES6 and ES7 into ES5 code
+       * Reference: https://github.com/babel/babel-loader
+       */
+      {
+        test: /\.jsx?$/i,
+        loader: 'babel-loader',
+        exclude: /(node_modules|vue\.js)/,
+        options: {
+          presets: [['env', {
+            "modules": false
+          }]]
+        }
+      },
 
-        output: {
-            // Absolute output directory
-            path: options.parameters.path ? options.parameters.path : __dirname + '/../../web/compiled/',
+      /**
+       * Minify PNG, JPEG, GIF and SVG images with imagemin
+       * Reference: https://github.com/tcoopman/image-webpack-loader
+       *
+       * See `config.imageWebpackLoader` for configuration options
+       *
+       * Query string is needed for URLs inside css files, like bootstrap
+       */
+      {
+        test: /\.(gif|png|jpe?g|svg)(\?.*)?$/i,
+        enforce: 'pre',
+        loader: 'image-webpack-loader',
+        options: options.parameters.image_loader_options || {
+          optipng: {
+            optimizationLevel: 7,
+            progressive: true
+          }
+        }
+      },
+      /**
+       * Copy files to output directory
+       * Rename the file using the asset hash
+       * Pass along the updated reference to your code
+       *
+       * Reference: https://github.com/webpack/file-loader
+       *
+       * Query string is needed for URLs inside css files, like bootstrap
+       * Overwrites name parameter to put original name in the destination filename, too
+       */
+      {
+        test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash].[ext]'
+        }
+      },
 
-            // Output path from the view of the page
-            publicPath: publicPath,
+      /**
+       * Loads HTML files as strings inside JavaScript - can be used for templates
+       *
+       * Reference: https://github.com/webpack/raw-loader
+       */
+      {
+        test: /\.html$/i,
+        loader: 'raw-loader'
+      },
 
-            // Filename for entry points
-            // Only adds hash in build mode
-            filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
-
-            // Filename for non-entry points
-            // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].dev.js'
-        },
-
-        /**
-         * Options for webpack-dev-server.
-         * Enables overlay inside the page if any error occurs when compiling.
-         * Enables CORS headers to allow hot reload from other domain / port.
-         * Reference: https://webpack.js.org/configuration/dev-server/
-         */
-        devServer: Object.assign({
-            overlay: {
-                warnings: false,
-                errors: true
-            },
-            headers: { "Access-Control-Allow-Origin": "*" }
-        }, options.parameters.dev_server || {})
-    };
-
-    config.resolve.alias['vue$'] = (BUILD) ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js'
-
-
-    /**
-     * Loaders
-     * Reference: https://webpack.js.org/concepts/loaders/
-     * List: https://webpack.js.org/loaders/
-     * This handles most of the magic responsible for converting modules
-     */
-    config.module = {
-        rules: [
-            // VUE LOADER
+      /**
+       * Allow loading CSS through JS
+       * Reference: https://github.com/webpack/css-loader
+       *
+       * postcss: Postprocess your CSS with PostCSS plugins (add vendor prefixes to CSS)
+       * Reference: https://github.com/postcss/postcss-loader
+       * Reference: https://github.com/postcss/autoprefixer
+       *
+       * ExtractTextPlugin: Extract CSS files into separate ones to load directly
+       * Reference: https://github.com/webpack/extract-text-webpack-plugin
+       *
+       * If ExtractTextPlugin is disabled, use style loader
+       * Reference: https://github.com/webpack/style-loader
+       */
+      {
+        test: /\.(css|less|scss)$/i,
+        loader: ExtractTextPlugin.extract({
+          'fallback': 'style-loader',
+          use: [
             {
-                test: /\.vue$/,
-                loader: 'vue-loader',
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                minimize: BUILD,
+              },
             },
-            /**
-             * Compiles ES6 and ES7 into ES5 code
-             * Reference: https://github.com/babel/babel-loader
-             */
             {
-                test: /\.jsx?$/i,
-                loader: 'babel-loader',
-                exclude: /(node_modules|vue\.js)/,
-                options: {
-                    presets: [['env', {
-                        "modules": false
-                    }]]
+              loader: 'postcss-loader',
+              options: {
+                plugins: function () {
+                  return [
+                    autoprefixer({
+                      browsers: ['last 2 version']
+                    })
+                  ];
                 }
-            },
-
-            /**
-             * Minify PNG, JPEG, GIF and SVG images with imagemin
-             * Reference: https://github.com/tcoopman/image-webpack-loader
-             *
-             * See `config.imageWebpackLoader` for configuration options
-             *
-             * Query string is needed for URLs inside css files, like bootstrap
-             */
-            {
-                test: /\.(gif|png|jpe?g|svg)(\?.*)?$/i,
-                enforce: 'pre',
-                loader: 'image-webpack-loader',
-                options: options.parameters.image_loader_options || {
-                    optipng: {
-                        optimizationLevel: 7,
-                        progressive: true
-                    }
-                }
-            },
-            /**
-             * Copy files to output directory
-             * Rename the file using the asset hash
-             * Pass along the updated reference to your code
-             *
-             * Reference: https://github.com/webpack/file-loader
-             *
-             * Query string is needed for URLs inside css files, like bootstrap
-             * Overwrites name parameter to put original name in the destination filename, too
-             */
-            {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/i,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[hash].[ext]'
-                }
-            },
-
-            /**
-             * Loads HTML files as strings inside JavaScript - can be used for templates
-             *
-             * Reference: https://github.com/webpack/raw-loader
-             */
-            {
-                test: /\.html$/i,
-                loader: 'raw-loader'
-            },
-
-            /**
-             * Allow loading CSS through JS
-             * Reference: https://github.com/webpack/css-loader
-             *
-             * postcss: Postprocess your CSS with PostCSS plugins (add vendor prefixes to CSS)
-             * Reference: https://github.com/postcss/postcss-loader
-             * Reference: https://github.com/postcss/autoprefixer
-             *
-             * ExtractTextPlugin: Extract CSS files into separate ones to load directly
-             * Reference: https://github.com/webpack/extract-text-webpack-plugin
-             *
-             * If ExtractTextPlugin is disabled, use style loader
-             * Reference: https://github.com/webpack/style-loader
-             */
-            {
-                test: /\.(css|less|scss)$/i,
-                loader: ExtractTextPlugin.extract({
-                    'fallback': 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true,
-                                minimize: BUILD,
-                            },
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: function () {
-                                    return [
-                                        autoprefixer({
-                                            browsers: ['last 2 version']
-                                        })
-                                    ];
-                                }
-                            }
-                        }
-                    ]
-                })
-            },
-
-            /**
-             * Compile LESS to CSS, then use same rules
-             * Reference: https://github.com/webpack-contrib/less-loader
-             */
-            {
-                test: /\.less$/i,
-                loader: 'less-loader?sourceMap',
-                enforce: 'pre'
-            },
-        ]
-    };
-
-    /**
-     * Plugins
-     * Reference: https://webpack.js.org/configuration/plugins/
-     * List: https://webpack.js.org/plugins/
-     */
-    config.plugins = [
-        /**
-         * Used for CSS files to extract from JavaScript
-         * Reference: https://github.com/webpack/extract-text-webpack-plugin
-         */
-        new ExtractTextPlugin(
-            {
-                filename: BUILD ? '[name].[hash].css' : '[name].bundle.css',
-                disable: options.parameters.extract_css === false
+              }
             }
-        ),
+          ]
+        })
+      },
 
-        /**
-         * Webpack plugin that emits a json file with assets paths - used by the bundle
-         * Reference: https://github.com/kossnocorp/assets-webpack-plugin
-         */
-        new AssetsPlugin({
-            filename: path.basename(options.manifest_path),
-            path: path.dirname(options.manifest_path)
-        }),
+      /**
+       * Compile LESS to CSS, then use same rules
+       * Reference: https://github.com/webpack-contrib/less-loader
+       */
+      {
+        test: /\.less$/i,
+        loader: 'less-loader?sourceMap',
+        enforce: 'pre'
+      },
+    ]
+  };
 
-        /**
-         * Adds assets loaded with extract-file-loader as chunk files to be available in generated manifest
-         * Used by the bundle to use binary files (like images) as entry-points
-         * Reference: https://github.com/mariusbalcytis/extract-file-loader
-         */
-        new ExtractFilePlugin(),
-
-        // Add node_env
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify(NODE_ENV)
-            }
-        }),
-
-        /**
-         * Fix slidebars
-         * https://github.com/adchsm/Slidebars/pull/264#issuecomment-310917431
-         */
-        new webpack.ProvidePlugin({
-            slidebars: 'exports-loader?slidebars!@npm/slidebars/dist/slidebars.js',
-        }),
-    ];
-
-    config.plugins.push(new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery"
-    }));
-
+  /**
+   * Plugins
+   * Reference: https://webpack.js.org/configuration/plugins/
+   * List: https://webpack.js.org/plugins/
+   */
+  config.plugins = [
+    /**
+     * Used for CSS files to extract from JavaScript
+     * Reference: https://github.com/webpack/extract-text-webpack-plugin
+     */
+    new ExtractTextPlugin(
+      {
+        filename: BUILD ? '[name].[hash].css' : '[name].bundle.css',
+        disable: options.parameters.extract_css === false
+      }
+    ),
 
     /**
-     * Adds CLI dashboard when compiling assets instead of the standard output
-     * Reference: https://github.com/FormidableLabs/webpack-dashboard
+     * Webpack plugin that emits a json file with assets paths - used by the bundle
+     * Reference: https://github.com/kossnocorp/assets-webpack-plugin
      */
-    if (DASHBOARD) {
-        config.plugins.push(new DashboardPlugin());
-    } else {
-        config.plugins.push(new ProgressBarPlugin({
-            format: 'Webpack ' + chalk.red.bold('[:bar]') + ' ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-            renderThrottle: 100,
-        }))
-    }
+    new AssetsPlugin({
+      filename: path.basename(options.manifest_path),
+      path: path.dirname(options.manifest_path)
+    }),
 
     /**
-     * Build specific plugins - used only in production environment
+     * Adds assets loaded with extract-file-loader as chunk files to be available in generated manifest
+     * Used by the bundle to use binary files (like images) as entry-points
+     * Reference: https://github.com/mariusbalcytis/extract-file-loader
      */
-    if (BUILD) {
-        config.plugins.push(
-            /**
-             * Only emit files when there are no errors
-             * Reference: https://github.com/webpack/docs/wiki/list-of-plugins#noerrorsplugin
-             */
-            new webpack.NoEmitOnErrorsPlugin(),
+    new ExtractFilePlugin(),
 
-            /**
-             * Minify all javascript, switch loaders to minimizing mode
-             * Reference: https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
-             */
-            new webpack.optimize.UglifyJsPlugin({
-                extractComments: true,
-            })
-        )
-    }
+    // Add node_env
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(NODE_ENV)
+      }
+    }),
 
     /**
-     * Devtool - type of sourcemap to use per build type
-     * Reference: https://webpack.js.org/configuration/devtool/
+     * Fix slidebars
+     * https://github.com/adchsm/Slidebars/pull/264#issuecomment-310917431
      */
-    if (BUILD) {
-        config.devtool = 'source-map';
-    } else {
-        config.devtool = 'eval';
-    }
+    new webpack.ProvidePlugin({
+      slidebars: 'exports-loader?slidebars!@npm/slidebars/dist/slidebars.js',
+    }),
+  ];
 
-    return config;
+  config.plugins.push(new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery"
+  }));
+
+
+  /**
+   * Adds CLI dashboard when compiling assets instead of the standard output
+   * Reference: https://github.com/FormidableLabs/webpack-dashboard
+   */
+  if (DASHBOARD) {
+    config.plugins.push(new DashboardPlugin());
+  } else {
+    config.plugins.push(new ProgressBarPlugin({
+      format: 'Webpack ' + chalk.red.bold('[:bar]') + ' ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+      renderThrottle: 100,
+    }))
+  }
+
+  /**
+   * Build specific plugins - used only in production environment
+   */
+  if (BUILD) {
+    config.plugins.push(
+      /**
+       * Only emit files when there are no errors
+       * Reference: https://github.com/webpack/docs/wiki/list-of-plugins#noerrorsplugin
+       */
+      new webpack.NoEmitOnErrorsPlugin(),
+
+      /**
+       * Minify all javascript, switch loaders to minimizing mode
+       * Reference: https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
+       */
+      new webpack.optimize.UglifyJsPlugin({
+        extractComments: true,
+      })
+    )
+  }
+
+  /**
+   * Devtool - type of sourcemap to use per build type
+   * Reference: https://webpack.js.org/configuration/devtool/
+   */
+  if (BUILD) {
+    config.devtool = 'source-map';
+  } else {
+    config.devtool = 'eval';
+  }
+
+  return config;
 };

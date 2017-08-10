@@ -20,7 +20,9 @@
                                                 <div>{{ trans('Team') }} <span class="label" v-show="chat.unread_tab.team > 0">{{ chat.unread_tab.team }}</span></div>
                                             </li>
                                             <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab({id: tab.id})">
-                                                <div>{{ tab.name }} <span class="label" v-show="chat.unread_tab[tab.id] > 0">{{ chat.unread_tab[tab.id] }}</span> <span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span></div>
+                                                <div>{{ tab.name }} <span class="label" v-show="chat.unread_tab[tab.id] > 0">{{ chat.unread_tab[tab.id] }}</span>
+                                                    <span class="close" v-on:click.stop="close_tab(tab.id)">&times;</span>
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
@@ -61,128 +63,130 @@
     </div>
 </template>
 <script>
-    import { mapState } from 'vuex'
-    import { MUTATION, ACTION } from "@match/js/match/store/mutation-types"
+  import {mapState} from 'vuex'
+  import {MUTATION, ACTION} from '@match/js/match/store/mutation-types'
+  /* global Translator, WS, $ */
 
-    export default {
-        props: {
-            team: {type: String, default: 'true' },
+  export default {
+    props: {
+      team: {type: String, default: 'true'},
+    },
+    data () {
+      return {
+        message: '',
+        trans () {
+          return Translator.trans(...arguments)
         },
-        data() {
-            return {
-                message: '',
-                trans() {
-                    return Translator.trans(...arguments)
-                },
+      }
+    },
+    computed: {
+      ...mapState([
+        'chat', // Chat module
+        'userId',
+      ]),
+      // Get message (for the current tab)
+      messages () {
+        return this.chat.messages.filter((message) => message.tab === this.chat.active_tab)
+      },
+    },
+    methods: {
+      // Close modal
+      close () {
+        this.$store.commit(MUTATION.CHAT.MODAL, false)
+      },
+      // Change active tab
+      change_tab (tab) {
+        if (tab.id !== this.chat.active_tab && tab.id !== this.userId) {
+          this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tab)
+          this.$store.dispatch(ACTION.CHAT.MARK_READ, tab.id)
+        }
+      },
+      // Close a tab
+      close_tab (tabId) {
+        this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabId)
+      },
+      // Key up in input msg
+      keyup (e) {
+        if (e.which === 13) {
+          this.send()
+        }
+      },
+      // Send a message
+      send () {
+        if (this.message !== '') {
+          let self = this
+          WS.callRPC('chat/send', {msg: this.message, chan: this.chat.active_tab}, function (obj) {
+            if (obj.success) {
+              self.message = ''
             }
-        },
-        computed: {
-            ...mapState([
-                'chat', // Chat module
-                'userId',
-            ]),
-            // Get message (for the current tab)
-            messages() {
-                return this.chat.messages.filter((message) => message.tab === this.chat.active_tab)
-            },
-        },
-        methods: {
-            // Close modal
-            close() {
-                this.$store.commit(MUTATION.CHAT.MODAL, false)
-            },
-            // Change active tab
-            change_tab(tab) {
-                if (tab.id !== this.chat.active_tab && tab.id !== this.userId) {
-                    this.$store.commit(MUTATION.CHAT.CHANGE_TABS, tab)
-                    this.$store.dispatch(ACTION.CHAT.MARK_READ, tab.id)
-                }
-            },
-            // Close a tab
-            close_tab(tabId) {
-                this.$store.commit(MUTATION.CHAT.CLOSE_TABS, tabId)
-            },
-            // Key up in input msg
-            keyup(e) {
-                if (e.which === 13) {
-                    this.send()
-                }
-            },
-            // Send a message
-            send() {
-                if (this.message !== '') {
-                    let self = this
-                    WS.callRPC('chat/send', {msg: this.message, chan: this.chat.active_tab}, function(obj) {
-                        if (obj.success) {
-                            self.message = ''
-                        }
-                    })
-                }
-            },
-            scrollBottom() {
-                setTimeout(function() {
-                    let el = document.getElementById('messages')
-                    el.scrollTop = el.scrollHeight
-                }, 500)
-            },
-        },
-        watch: {
-            // Update messages list : scroll bottom
-            messages() {
-                this.scrollBottom()
-            },
-            // Open/Close modal
-            ['chat.modal'](open) {
-                if (open) {
-                    let self = this
-                    let escapeTouch = function(e) {
-                        if (e.which === 27) {
-                            if (self.$store.state.chat.modal) {
-                                self.$store.commit(MUTATION.CHAT.MODAL, false)
-                            }
-                            $(window).off('keyup', escapeTouch)
-                        }
-                    }
-
-                    $(window).on('keyup', escapeTouch)
-                    $('#input-msg').focus()
-                    $('#container').css({
-                        overflow: 'hidden',
-                        position: 'fixed',
-                    })
-
-                    this.$store.dispatch(ACTION.CHAT.MARK_READ, this.chat.active_tab)
-                    this.scrollBottom()
-                } else {
-                    $('#container').removeAttr('style')
-                }
-            },
-        },
-        mounted() {
-            if (!this.chat.disabled) {
-                let slug = document.getElementById('slug').value
-                let lastId = localStorage.getItem(this.chat.localkey) || 0
-
-                // Load local message
-                this.$store.dispatch(ACTION.CHAT.LOAD)
-
-                // RPC Call
-                WS.callRPC('chat/get', {last: lastId}, (obj) => {
-                    this.$store.dispatch(ACTION.CHAT.RECEIVE, obj.messages)
-                })
-
-                // Websocket subscribe
-                WS.subscribeAction('chat/' + slug, 'message', (message) => {
-                    this.$store.dispatch(ACTION.CHAT.RECEIVE, [message])
-                })
+          })
+        }
+      },
+      scrollBottom () {
+        setTimeout(function () {
+          let el = document.getElementById('messages')
+          el.scrollTop = el.scrollHeight
+        }, 500)
+      },
+    },
+    watch: {
+      // Update messages list : scroll bottom
+      messages () {
+        this.scrollBottom()
+      },
+      // Open/Close modal
+      'chat.modal': function (open) {
+        if (open) {
+          let self = this
+          let escapeTouch = function (e) {
+            if (e.which === 27) {
+              if (self.$store.state.chat.modal) {
+                self.$store.commit(MUTATION.CHAT.MODAL, false)
+              }
+              $(window).off('keyup', escapeTouch)
             }
-        },
-    }
+          }
+
+          $(window).on('keyup', escapeTouch)
+          $('#input-msg').focus()
+          $('#container').css({
+            overflow: 'hidden',
+            position: 'fixed',
+          })
+
+          this.$store.dispatch(ACTION.CHAT.MARK_READ, this.chat.active_tab)
+          this.scrollBottom()
+        } else {
+          $('#container').removeAttr('style')
+        }
+      },
+    },
+    mounted () {
+      if (!this.chat.disabled) {
+        let slug = document.getElementById('slug').value
+        let lastId = localStorage.getItem(this.chat.localkey) || 0
+
+        // Load local message
+        this.$store.dispatch(ACTION.CHAT.LOAD)
+
+        // RPC Call
+        WS.callRPC('chat/get', {last: lastId}, (obj) => {
+          this.$store.dispatch(ACTION.CHAT.RECEIVE, obj.messages)
+        })
+
+        // Websocket subscribe
+        WS.subscribeAction('chat/' + slug, 'message', (message) => {
+          this.$store.dispatch(ACTION.CHAT.RECEIVE, [message])
+        })
+      }
+    },
+  }
 </script>
 <style lang="less">
     #modal-chat .overflow {
         padding: 5px;
     }
+
     .tab {
         ul {
             list-style: none;
@@ -195,7 +199,7 @@
             border-radius: 10px 10px 0 0;
             margin-left: -10px;
             text-shadow: 1px 1px 0 #bbb;
-            box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
             &:hover {
                 z-index: 1;
                 div {
@@ -245,6 +249,7 @@
             }
         }
     }
+
     .messages, #input-msg {
         margin: 0;
         position: relative;
@@ -253,7 +258,7 @@
         min-height: 200px;
         padding: 5px 10px;
         border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, .5);
         background: #fff;
     }
 

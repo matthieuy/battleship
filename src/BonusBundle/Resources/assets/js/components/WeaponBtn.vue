@@ -5,44 +5,46 @@
     </div>
 </template>
 <script>
-    // Import
-    import { mapState } from 'vuex'
-    import { MUTATION } from "@match/js/match/store/mutation-types"
+  // Import
+  import {mapState} from 'vuex'
+  import {MUTATION} from '@match/js/match/store/mutation-types'
+  /* global Translator */
 
-    //Bower
-    import Favico from '@npm/favico.js/favico.js'
-    let BubbleWeapon = null
+  // Bower
+  import Favico from '@npm/favico.js/favico.js'
 
-    export default {
-        data() {
-            return {
-                trans() {
-                    return Translator.trans(...arguments)
-                },
-            }
+  let BubbleWeapon = null
+
+  export default {
+    data () {
+      return {
+        trans () {
+          return Translator.trans(...arguments)
         },
-        computed: {
-            ...mapState([
-                'weapon', // Weapon module
-            ]),
-        },
-        methods: {
-            toggleModal() {
-                this.$store.commit(MUTATION.WEAPON.MODAL)
-            },
-        },
-        watch: {
-            ['weapon.score'](score) {
-                if (this.$store.state.weapon.enabled) {
-                    BubbleWeapon.badge(score)
-                }
-            },
-        },
-        mounted() {
-            BubbleWeapon = new Favico({
-                elementId: 'weapon-bubble',
-                animation: 'slide'
-            })
-        },
-    }
+      }
+    },
+    computed: {
+      ...mapState([
+        'weapon', // Weapon module
+      ]),
+    },
+    methods: {
+      toggleModal () {
+        this.$store.commit(MUTATION.WEAPON.MODAL)
+      },
+    },
+    watch: {
+      'weapon.score': function (score) {
+        if (this.$store.state.weapon.enabled) {
+          BubbleWeapon.badge(score)
+        }
+      },
+    },
+    mounted () {
+      BubbleWeapon = new Favico({
+        elementId: 'weapon-bubble',
+        animation: 'slide',
+      })
+    },
+  }
 </script>
