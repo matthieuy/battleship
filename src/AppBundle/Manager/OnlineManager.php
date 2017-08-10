@@ -31,6 +31,27 @@ class OnlineManager
     }
 
     /**
+     * Check if user is online
+     * @param User      $user The user
+     * @param Game|null $game The user in a game
+     *
+     * @return bool
+     */
+    public function isOnline(User $user, Game $game = null)
+    {
+        $list = $this->getSessionList();
+        foreach ($list as $session) {
+            if ($session['username'] == $user->getUsername()) {
+                if ($game == null || (isset($session['game_id']) && $session['game_id'] == $game->getId())) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Get session list
      * @return array
      */

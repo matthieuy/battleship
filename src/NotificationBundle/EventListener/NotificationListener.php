@@ -2,6 +2,7 @@
 
 namespace NotificationBundle\EventListener;
 
+use AppBundle\Manager\OnlineManager;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\GameEventInterface;
@@ -22,18 +23,21 @@ class NotificationListener implements EventSubscriberInterface
     private $entityManager;
     private $registry;
     private $translator;
+    private $onlineManager;
 
     /**
      * NotificationListener constructor.
      * @param EntityManager       $entityManager
      * @param TransporterRegistry $registry
      * @param TranslatorInterface $translator
+     * @param OnlineManager       $onlineManager
      */
-    public function __construct(EntityManager $entityManager, TransporterRegistry $registry, TranslatorInterface $translator)
+    public function __construct(EntityManager $entityManager, TransporterRegistry $registry, TranslatorInterface $translator, OnlineManager $onlineManager)
     {
         $this->registry = $registry;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->onlineManager = $onlineManager;
     }
 
     /**
@@ -53,8 +57,9 @@ class NotificationListener implements EventSubscriberInterface
      */
     public function onNewTour(GameEvent $event)
     {
-        $notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($event->getGame());
-        $players = $event->getGame()->getPlayersTour();
+        $game = $event->getGame();
+        $players = $game->getPlayersTour();
+        $notifications = $this->entityManager->getRepository('NotificationBundle:Notification')->getNotification($game);
         $type = new TourTypeNotification($this->translator, $event);
 
         foreach ($notifications as $notification) {
@@ -67,7 +72,11 @@ class NotificationListener implements EventSubscriberInterface
             $transporter = $this->registry->get($notification->getName());
             if ($transporter->isPersonal()) {
                 foreach ($players as $player) {
-                    if (!$player->isAi() && $player->isAlive() && $player->getUser()->getId() === $notification->getUser()->getId()) {
+                    if (!$player->isAi() && // player is not AI and
+                        $player->isAlive() && // he's alive and
+                        $player->getUser()->getId() === $notification->getUser()->getId() && // he's the notification's user and
+                        !$this->onlineManager->isOnline($notification->getUser(), $game) // is not online
+                    ) {
                         $transporter->send($notification, $event, $type);
                     }
                 }
