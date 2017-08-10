@@ -9,12 +9,21 @@ security:
     providers:
         main_provider:
             entity: { class: UserBundle\Entity\User }
+        api_provider:
+            id: api.user_provider
 
     firewalls:
         # disables authentication for assets and the profiler
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            provider: api_provider
+            pattern: ^/api
+            stateless: true
+            simple_preauth:
+                authenticator: api.key_authenticator
 
         main:
             provider: main_provider
@@ -39,6 +48,7 @@ security:
                 user_provider: main_provider
 
     access_control:
+        - { path: ^/api, role: ROLE_API }
         - { path: ^/translations$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

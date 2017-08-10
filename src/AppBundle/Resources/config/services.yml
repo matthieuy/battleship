@@ -19,7 +19,7 @@ services:
         tags:
             - { name:  gos_web_socket.topic }
 
-    # Homepage listenr
+    # Homepage listener
     homepage.listener:
         class: AppBundle\EventListener\HomepageListener
         arguments:
@@ -27,3 +27,13 @@ services:
             - "@gos_web_socket.zmq.pusher"
         tags:
             - { name: kernel.event_subscriber }
+
+    # Api key authenticator
+    api.key_authenticator:
+        class: AppBundle\Security\ApiKeyAuthenticator
+
+    # Api key user
+    api.user_provider:
+        class: AppBundle\Security\ApiKeyUserProvider
+        arguments:
+            - "%api_token%"

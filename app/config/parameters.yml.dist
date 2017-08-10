@@ -35,3 +35,4 @@ parameters:
     session_name:      battleship
     use_ssl:           false
     discord_token:     DISCORD_BOT_TOKEN
+    api_token:         ThisTokenIsNotSoSecretChangeIt
