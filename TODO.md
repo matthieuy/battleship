@@ -15,4 +15,3 @@ TODO
   - [ ] Translate in French
 - [ ] Tests/Dev :
   - [ ] Unit tests
-  - [ ] ESLint and others checks tools

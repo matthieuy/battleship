@@ -2,7 +2,7 @@
     <div>
         <div id="status">{{ status }}</div>
         <div id="grid-container">
-            <div id="grid" class="grid" unselectable="on">
+            <div id="grid" class="grid" unselectable="on" contextmenu="grid-menu">
                 <div class="grid-line" v-for="row in grid">
                 <span
                         v-for="box in row"
@@ -19,6 +19,12 @@
         <span>
             <div class="rocket" v-for="player in players" :id="'rocket'+player.position"></div>
         </span>
+        <menu type="context" id="grid-menu">
+            <menuitem @click="contextmenu('score')" :label="trans('Score')" icon="img/icons/score.png"></menuitem>
+            <menuitem @click="contextmenu('weapon')" :label="trans('weapon_name')" icon="img/icons/weapons.png"></menuitem>
+            <menuitem @click="contextmenu('inventory')" :label="trans('Inventory')" icon="img/icons/inventory.png"></menuitem>
+            <menuitem @click="contextmenu('chat')" :label="trans('Chat')" icon="img/icons/chat.png"></menuitem>
+        </menu>
     </div>
 </template>
 <script>
@@ -37,6 +43,13 @@
   let mobile = window.isMobile()
 
   export default {
+    data () {
+      return {
+        trans () {
+          return Translator.trans(...arguments)
+        },
+      }
+    },
     computed: {
       // State from store
       ...mapState([
@@ -184,6 +197,22 @@
           }
         }
         return tooltip.length ? tooltip.join('<br>') : null
+      },
+      contextmenu (item) {
+        switch (item) {
+          case 'score':
+            this.$store.commit(MUTATION.SCORE.MODAL, true)
+            break
+          case 'weapon':
+            this.$store.commit(MUTATION.WEAPON.MODAL, true)
+            break
+          case 'inventory':
+            this.$store.commit(MUTATION.INVENTORY.MODAL, true)
+            break
+          case 'chat':
+            this.$store.commit(MUTATION.CHAT.MODAL, true)
+            break
+        }
       },
     },
     watch: {
