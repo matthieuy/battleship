@@ -19,6 +19,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@notification.transporter.registry"
             - "@translator"
+            - "@online.manager"
         tags:
             - { name: kernel.event_subscriber }
 
