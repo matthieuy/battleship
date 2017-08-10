@@ -6,7 +6,9 @@ use MatchBundle\Entity\Game;
 use NotificationBundle\Form\Type\NotificationType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class NotificationController
@@ -53,5 +55,22 @@ class NotificationController extends Controller
             'game' => $game,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Get all SMS to send
+     * @Route(
+     *     name="notification_sms",
+     *     path="/api/sms",
+     *     methods={"GET"},
+     *     )
+     * @return Response
+     */
+    public function apiSMSAction()
+    {
+        $repo = $this->get('doctrine.orm.entity_manager')->getRepository('NotificationBundle:SMS');
+        $list = $repo->getAndRemoveSMS();
+
+        return new JsonResponse($list);
     }
 }
