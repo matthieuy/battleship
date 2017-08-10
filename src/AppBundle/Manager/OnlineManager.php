@@ -42,7 +42,7 @@ class OnlineManager
         $list = $this->getSessionList();
         foreach ($list as $session) {
             if ($session['username'] == $user->getUsername()) {
-                if ($game == null || (isset($session['game_id']) && $session['game_id'] == $game->getId())) {
+                if ($game === null || (isset($session['game_id']) && $session['game_id'] == $game->getId())) {
                     return true;
                 }
             }
