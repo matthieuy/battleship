@@ -1,7 +1,9 @@
-{% set size = game.size * widthBox %}
 #grid {
     width: {{ size }}px;
     height: {{ size }}px;
+    {% if isMobile %}
+        outline: solid #000 5px;
+    {% endif %}
     min-width: {{ size }}px;
     min-height: {{ size }}px;
 }
@@ -18,8 +20,8 @@
         border-width: 0 1px 1px 0;
     {% endif %}
 }
-.boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox })|raw }}'); }
-.explose { background-image: url('{{ path('match.explose.img', { size: widthBox })|raw }}'); }
+.boat { background-image: url('{{ path('match.boat.img', { color: '000000', size: widthBox }) }}'); }
+.explose { background-image: url('{{ path('match.explose.img', { size: widthBox }) }}'); }
 .miss { background-position: {{ widthBox * -11 }}px 0; }
 .hit { background-position: {{ widthBox * 6 }}px {{ widthBox }}px; }
 .rocket {
@@ -31,8 +33,8 @@
 }
 
 {% for player in game.players %}
-    .boat.player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox })|raw }}'); }
-    #rocket{{ player.position }} { background-image: url('{{ path('match.rocket.img', {color: player.color, size: widthBox })|raw }}'); }
+    .boat.player{{ player.position }} { background-image: url('{{ path('match.boat.img', { color: player.color, size: widthBox }) }}'); }
+    #rocket{{ player.position }} { background-image: url('{{ path('match.rocket.img', {color: player.color, size: widthBox }) }}'); }
 {% endfor %}
 
 @keyframes explose-ice {
@@ -106,3 +108,21 @@
 .img54 { background-position: {{ widthBox * -5 }}px {{ widthBox * -6 }}px; }
 .img55 { background-position: {{ widthBox * -6 }}px {{ widthBox * -6 }}px; }
 .img56 { background-position: {{ widthBox * -7 }}px {{ widthBox * -6 }}px; }
+
+@media only screen and (max-width: {{ size }}px) {
+    #grid-container {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        margin: auto;
+        overflow: auto;
+    }
+}
+
+{# Mobile grid #}
+{% if isMobile %}
+    {% for i in borders %}
+        #grid .grid-line:nth-child({{ i }}) .box { border-bottom: 1px solid #F00; }
+        #grid .grid-line .box:nth-child({{ i }}) { border-right: 1px solid #F00; }
+    {% endfor %}
+{% endif %}

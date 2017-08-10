@@ -27,6 +27,11 @@ chat:
     resource: "@ChatBundle/Controller/"
     type:     annotation
 
+# NotificationBundle
+notification:
+    resource: "@NotificationBundle/Controller/"
+    type:     annotation
+
 # JS Translation
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"

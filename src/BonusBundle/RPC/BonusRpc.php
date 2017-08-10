@@ -3,6 +3,8 @@
 namespace BonusBundle\RPC;
 
 use BonusBundle\BonusConstant;
+use BonusBundle\BonusEvents;
+use BonusBundle\Event\BonusEvent;
 use BonusBundle\Manager\BonusRegistry;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
@@ -10,6 +12,7 @@ use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use MatchBundle\Entity\Game;
 use Ratchet\ConnectionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use UserBundle\Entity\User;
 
 /**
@@ -21,18 +24,21 @@ class BonusRpc implements RpcInterface
     private $clientManipulator;
     private $entityManager;
     private $bonusRegistry;
+    private $eventDispatcher;
 
     /**
      * BonusRpc constructor.
      * @param ClientManipulatorInterface $clientManipulator
      * @param EntityManager              $entityManager
      * @param BonusRegistry              $bonusRegistry
+     * @param EventDispatcherInterface   $eventDispatcher
      */
-    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager, BonusRegistry $bonusRegistry)
+    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager, BonusRegistry $bonusRegistry, EventDispatcherInterface $eventDispatcher)
     {
         $this->clientManipulator = $clientManipulator;
         $this->entityManager = $entityManager;
         $this->bonusRegistry = $bonusRegistry;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -132,18 +138,15 @@ class BonusRpc implements RpcInterface
         if (!$player || !$bonus->canUseNow($game, $player)) {
             return ['msg' => "Can't use this bonus now"];
         }
-        $inventory->setUse();
 
-        // Trigger
-        try {
-            $this->bonusRegistry->trigger(BonusConstant::WHEN_USE, $inventory, $bonus, $game, $player);
-        } catch (\Exception $e) {
-            return ['msg' => $e->getMessage()];
-        }
+        // Event
+        $event = new BonusEvent($game, $player);
+        $event
+            ->setInventory($inventory)
+            ->setBonus($bonus);
+        $this->eventDispatcher->dispatch(BonusEvents::USE_IT, $event);
 
-        return [
-            'bonus' => [$player->getPosition() => $player->getNbBonus()],
-        ];
+        return ['success' => true];
     }
 
     /**

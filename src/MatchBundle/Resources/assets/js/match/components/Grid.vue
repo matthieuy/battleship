@@ -1,20 +1,19 @@
 <template>
     <div>
         <div id="status">{{ status }}</div>
-        <div id="grid" class="grid" unselectable="on">
-            <div class="grid-line" v-for="row in grid">
+        <div id="grid-container">
+            <div id="grid" class="grid" unselectable="on">
+                <div class="grid-line" v-for="row in grid">
                 <span
-                    v-for="box in row"
-                    @click="click(box)"
-                    @mousemove="mousemove()"
-                    @mousedown="mousedown()"
-                    @mouseup="mouseup(box)"
-                    :id="'g_' + box.y + '_' + box.x"
-                    class="box"
-                    :class="cssBox(box)"
-                    :data-tip="tooltip(box)">
+                        v-for="box in row"
+                        @click="click(box)"
+                        :id="'g_' + box.y + '_' + box.x"
+                        class="box"
+                        :class="cssBox(box)"
+                        :data-tip="tooltip(box)">
                     <span v-if="box.explose" class="explose hit animated"></span>
                 </span>
+                </div>
             </div>
         </div>
         <span>
@@ -62,12 +61,16 @@
                     obj.img,
                     function(img, next) {
                         let $box = $('#g_' + img.y + '_' + img.x)
-                        $box.getTop = function() { return this.offset().top }
-                        $box.getLeft = function() { return this.offset().left }
+                        $box.getTop = function() { return this.offset().top + document.querySelector('#container').scrollTop }
+                        $box.getLeft = function() { return this.offset().left + document.querySelector('#container').scrollLeft }
 
                         // Status
                         let shooter = self.playerById(img.shoot)
-                        self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+                        if (typeof img.player !== 'undefined' && img.player === img.shoot) {
+                            self.$store.commit(MUTATION.SET_STATUS, Translator.trans('system.penalty', {username: shooter.name}))
+                        } else {
+                            self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+                        }
 
                         // Rocket animate
                         Velocity(document.getElementById('rocket'+img.shoot), {
@@ -80,7 +83,7 @@
                                 // Start position of the rocket
                                 $(rocket).css({
                                     top: -20,
-                                    left: $box.getLeft() + (self.boxSize / 2),
+                                    left: $box.getLeft() + (self.boxSize / 4),
                                 })
                             },
                             complete: function(rocket) {
@@ -105,37 +108,6 @@
             click(box) {
                 if (!mobile) {
                     this.shoot(box)
-                }
-            },
-            // On mouse move : reset long press
-            mousemove() {
-                if (mobile) {
-                    clearTimeout(pressTimer)
-                    pressTimer = null
-                    longPress = false
-                    $('#grid').removeAttr('style')
-                }
-            },
-            // On mouse down : prepare longpress
-            mousedown() {
-                if (mobile) {
-                    pressTimer = setTimeout(function() {
-                        longPress = true
-                        if (pressTimer) {
-                            $('#grid').css({ backgroundColor: '#BD2626' })
-                        }
-                    }, 1000)
-                }
-            },
-            // On mouse up : if long press => shoot
-            mouseup(box) {
-                if (mobile) {
-                    clearTimeout(pressTimer)
-                    pressTimer = null
-                    if (longPress) {
-                        longPress = false
-                        this.shoot(box)
-                    }
                 }
             },
             // Do a shoot
@@ -224,10 +196,15 @@
                     this.$store.commit(MUTATION.SET_STATUS, Translator.trans('waiting_list', {list: players.join(', ')}))
                 }
             },
+            gameover(gameover) {
+                if(gameover) {
+                    $('#grid').off('vmouseup vmousedown vmousemove')
+                }
+            },
         },
         mounted() {
             // Disable select
-            $('#grid').bind('selectstart', function(){ return false; });
+            $(document).bind('selectstart', function(){ return false; });
             $(document).bind('ondragstart ondrop', function() { return false; })
 
             // Websocket subscribe
@@ -235,6 +212,46 @@
             WS.subscribeAction(topicName, 'data', (obj) => {
                 this.receive(obj)
             })
+
+            // Mobile shoot
+            let self = this
+            $('#grid')
+                // On mouse move : reset long press
+                .on('vmousemove', () => {
+                    if (mobile) {
+                        clearTimeout(pressTimer)
+                        pressTimer = null
+                        longPress = false
+                        $('#grid').removeAttr('style')
+                    }
+                })
+                // On mouse down : prepare longpress
+                .on('vmousedown', () => {
+                    if (mobile) {
+                        pressTimer = setTimeout(function() {
+                            longPress = true
+                            if (pressTimer) {
+                                $('#grid').css({ backgroundColor: '#BD2626' })
+                            }
+                        }, 1000)
+                    }
+                })
+                // On mouse up : if long press => shoot
+                .on('vmouseup', function(e) {
+                    if (mobile) {
+                        clearTimeout(pressTimer)
+                        pressTimer = null
+                        if (longPress) {
+                            longPress = false
+                            let coord = e.target.getAttribute('id').split('_')
+                            self.shoot({
+                                x: coord[2],
+                                y: coord[1],
+                            })
+                        }
+                    }
+
+                })
 
             // Show/Hide boat
             $(window).on('keyup', hideShowBoats)
@@ -245,7 +262,7 @@
      * Show / Hide boat
      */
     function hideShowBoats(e) {
-        if (e.which == 72) { // H key
+        if (e.which === 72) { // H key
             if ($('.hide').length) {
                 $('.hide').removeClass('hide').addClass('boat')
             } else {

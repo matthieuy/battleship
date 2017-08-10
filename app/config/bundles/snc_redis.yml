@@ -1,0 +1,24 @@
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: "redis://%redis_host%/3"
+            logging: "%kernel.debug%"
+        session:
+            type: predis
+            alias: session
+            dsn: "redis://%redis_host%/4"
+        ws_client:
+            type: predis
+            alias: ws_client #snc_redis.ws_client
+            dsn: "redis://%redis_host%/5"
+            logging: "%kernel.debug%"
+            options:
+                profile: 2.2
+                connection_timeout: 10
+                read_write_timeout: 30
+    session:
+        client: session
+        locking: false # Without session timeout (why ? https://github.com/snc/SncRedisBundle/issues/182)
+        prefix: "sess_"

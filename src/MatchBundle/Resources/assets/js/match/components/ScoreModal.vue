@@ -14,18 +14,17 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>{{ trans('Players') }}</th>
-                                                <th width="80">{{ trans('Lifes') }}</th>
-                                                <th width="100">{{ trans('Torpedo') }}</th>
-                                                <th width="100">{{ trans('Destroyer') }}</th>
-                                                <th width="100">{{ trans('Cruiser') }}</th>
-                                                <th width="110">{{ trans('Aircraft') }}</th>
-                                                <th>{{ trans('bonus_name') }}</th>
+                                                <th width="270">{{ trans('Players') }}</th>
+                                                <th>{{ trans('Lifes') }}</th>
+                                                <th>{{ trans('Torpedo') }}</th>
+                                                <th>{{ trans('Destroyer') }}</th>
+                                                <th>{{ trans('Cruiser') }}</th>
+                                                <th>{{ trans('Aircraft') }}</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="7" id="chrono">
+                                                <td colspan="6" id="chrono">
                                                     <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
                                                     <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
                                                     <span :title="datePenalty"></span>
@@ -66,11 +65,6 @@
                                                 <td>
                                                     <ul>
                                                         <li v-for="player in team.players">{{ player.boats[5] }}</li>
-                                                    </ul>
-                                                </td>
-                                                <td>
-                                                    <ul>
-                                                        <li v-for="player in team.players">{{ player.probability }}%</li>
                                                     </ul>
                                                 </td>
                                             </tr>
@@ -188,6 +182,7 @@
             margin: 0 auto 15px auto;
             width: 95%;
             border: 1px solid #000;
+            min-width: 700px;
 
             th {
                 text-align: center;
@@ -229,6 +224,9 @@
                 color: #FFF;
                 background-color: #c60f13;
             }
+        }
+        .name {
+            float: left;
         }
         .name.dead {
             text-decoration: line-through;

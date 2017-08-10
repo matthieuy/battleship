@@ -227,6 +227,15 @@ class Player
     }
 
     /**
+     * Is player got life
+     * @return bool
+     */
+    public function isAlive()
+    {
+        return ($this->life > 0);
+    }
+
+    /**
      * Set life
      * @param int $life
      * @return Player
@@ -358,7 +367,6 @@ class Player
             'life' => $this->life,
             'score' => $this->score,
             'boats' => $this->getNumberOfBoat(),
-            'probability' => $this->probability,
         ];
     }
 
@@ -460,6 +468,19 @@ class Player
     {
         $inventory->setPlayer($this);
         $this->bonus->add($inventory);
+
+        return $this;
+    }
+
+    /**
+     * Remove bonus
+     * @param Inventory $inventory
+     *
+     * @return $this
+     */
+    public function removeBonus(Inventory $inventory)
+    {
+        $this->bonus->removeElement($inventory);
 
         return $this;
     }

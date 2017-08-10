@@ -7,7 +7,6 @@ use BonusBundle\BonusEvents;
 use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Boats;
 use MatchBundle\Entity\Game;
 use MatchBundle\Event\GameEvent;
@@ -24,19 +23,16 @@ use Symfony\Component\Translation\TranslatorInterface;
 class ChatListener implements EventSubscriberInterface
 {
     private $entityManager;
-    private $pusher;
     private $translator;
 
     /**
      * ChatListener constructor.
      * @param EntityManager       $entityManager
-     * @param PusherInterface     $pusher
      * @param TranslatorInterface $translator
      */
-    public function __construct(EntityManager $entityManager, PusherInterface $pusher, TranslatorInterface $translator)
+    public function __construct(EntityManager $entityManager, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
-        $this->pusher = $pusher;
         $this->translator = $translator;
     }
 
@@ -61,15 +57,11 @@ class ChatListener implements EventSubscriberInterface
      */
     public function onBonusCatch(BonusEvent $event)
     {
-        $player = $event->getPlayer();
+        $player = $event->getInventory()->getPlayer();
         $game = $player->getGame();
         $context = ['username' => $player->getName()];
 
-        $this->sendMessage($game, 'system.bonus_catch', $context);
-
-        // Team
-        $context['bonus'] = $this->translator->trans($event->getBonus()->getName());
-        $this->sendMessage($game, 'system.bonus_catch_team', $context, $event->getPlayer()->getTeam());
+        $this->saveMessage($game, 'system.bonus_catch', $context);
     }
 
     /**
@@ -78,16 +70,11 @@ class ChatListener implements EventSubscriberInterface
      */
     public function onBonusUse(BonusEvent $event)
     {
-        $player = $event->getPlayer();
+        $player = $event->getInventory()->getPlayer();
         $game = $player->getGame();
         $context = ['username' => $player->getName()];
 
-        // Public
-        $this->sendMessage($game, 'system.bonus_use', $context);
-
-        // Team
-        $context['bonus'] = $this->translator->trans($event->getBonus()->getName());
-        $this->sendMessage($game, 'system.bonus_use_team', $context, $event->getPlayer()->getTeam());
+        $this->saveMessage($game, 'system.bonus_use', $context);
     }
 
     /**
@@ -105,7 +92,7 @@ class ChatListener implements EventSubscriberInterface
             $winnersName[] = $player->getName();
         }
 
-        $this->sendMessage($game, 'system.finish', ['list' => implode(',', $winnersName)]);
+        $this->saveMessage($game, 'system.finish', ['list' => implode(',', $winnersName)]);
     }
 
     /**
@@ -145,7 +132,7 @@ class ChatListener implements EventSubscriberInterface
                 break;
         }
 
-        $this->sendMessage($event->getGame(), $text, $context);
+        $this->saveMessage($event->getGame(), $text, $context);
 
         return;
     }
@@ -160,23 +147,23 @@ class ChatListener implements EventSubscriberInterface
         $context = [
             'username' => $event->getPlayer()->getName(),
         ];
-        $this->sendMessage($event->getGame(), 'system.penalty', $context);
+        $this->saveMessage($event->getGame(), 'system.penalty', $context);
 
         // Victim
         if ($event->getPlayer()->getId() !== $event->getVictim()->getId()) {
             $context['victim'] = $event->getVictim()->getName();
-            $this->sendMessage($event->getGame(), 'system.penalty_victim', $context);
+            $this->saveMessage($event->getGame(), 'system.penalty_victim', $context);
         }
     }
 
     /**
-     * Send a message
+     * Save a message
      * @param Game         $game Current game
      * @param string       $text The text (to translate)
      * @param array        $context (translate context)
      * @param integer|null $team (Team or null)
      */
-    private function sendMessage(Game $game, $text, $context = [], $team = null)
+    private function saveMessage(Game $game, $text, $context = [], $team = null)
     {
         // Create message
         $message = new Message();
@@ -195,8 +182,5 @@ class ChatListener implements EventSubscriberInterface
         // Save message
         $this->entityManager->persist($message);
         $this->entityManager->flush();
-
-        // Push
-        $this->pusher->push(['message' => $message->toArray()], 'chat.topic', ['slug' => $game->getSlug()]);
     }
 }

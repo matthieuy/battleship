@@ -34,20 +34,18 @@ class ProfilType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        /** @i18n\Ignore */
-        $choices = [
-            '20px' => 20,
-            '30px' => 30,
-            '40px' => 40,
-            '50px' => 50,
-            '60px' => 60,
-        ];
-
         $builder
             ->add('avatar', Type\FileType::class)
             ->add('displayGrid', Type\CheckboxType::class)
             ->add('boxSize', Type\ChoiceType::class, [
-                'choices' => $choices,
+                'choices' => [
+                    '20px' => 20,
+                    '30px' => 30,
+                    '40px' => 40,
+                    '50px' => 50,
+                    '60px' => 60,
+                ],
+                'choice_translation_domain' => false,
             ]);
 
         $rootPath = $this->rootPath;

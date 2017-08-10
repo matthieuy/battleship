@@ -1,0 +1,10 @@
+{# Flash Message #}
+{% for msg in app.session.flashbag.get('success') %}
+    <div class="flash-msg success"><div class="close">&times;</div>{{ msg|trans }}</div>
+{% endfor %}
+{% for msg in app.session.flashbag.get('info') %}
+    <div class="flash-msg info"><div class="close">&times;</div>{{ msg|trans }}</div>
+{% endfor %}
+{% for msg in app.session.flashbag.get('error') %}
+    <div class="flash-msg error"><div class="close">&times;</div>{{ msg|trans }}</div>
+{% endfor %}

@@ -1,0 +1,36 @@
+<?php
+/**
+ * This file contain variable for deploy the app
+ * Read the doc in app/Resources/doc/envoy.md
+ */
+global $sshHost;
+
+/**
+ * SSH host (define in your ~/.ssh/config file)
+ */
+$sshHost = 'battleship.domain.org';
+
+/**
+ * Workdir on the server
+ */
+$workdir = '/home/battleship';
+
+/**
+ * Environment
+ */
+$env = 'prod';
+
+/**
+ * Repository
+ */
+$repository = 'https://github.com/matthieuy/battleship.git';
+
+/**
+ * Branch
+ */
+$branch = 'develop';
+
+/**
+ * Number of release
+ */
+$nbRelease = 5;

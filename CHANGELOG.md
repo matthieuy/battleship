@@ -1,5 +1,28 @@
 # CHANGELOG
 
+### v0.4.0 (2017-08-10)
+
+  * Fix some bugs
+  * Sessions with redis
+  * Who is online ? (for administrator)
+  * Update SF v3.3.6
+  * Rewrite BonusManager
+  * Add bonus :
+    * Bomber
+    * Booster
+    * Double damage
+    * Reset
+    * Robber
+    * Skip player
+    * Spy
+  * Commands :
+    * List bonus
+    * Who is online
+  * Deploy script
+  * Mobile :
+    * Shoot with long press
+    * Fix responsive design
+
 ### v0.3.0 (2017-07-31)
 
   * Penalty

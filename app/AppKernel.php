@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
 
             // Bundle
             new AppBundle\AppBundle(),
@@ -33,6 +34,7 @@ class AppKernel extends Kernel
             new MatchBundle\MatchBundle(),
             new BonusBundle\BonusBundle(),
             new ChatBundle\ChatBundle(),
+            new NotificationBundle\NotificationBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

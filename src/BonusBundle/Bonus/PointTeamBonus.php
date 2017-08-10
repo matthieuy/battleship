@@ -3,6 +3,9 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
+use ChatBundle\Entity\Message;
+use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -22,25 +25,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'bonus.point.team';
-    }
-
-    /**
-     * Get the name of the bonus
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getId();
-    }
-
-    /**
-     * Get the bonus description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getId().'.desc';
+        return 'point.team';
     }
 
     /**
@@ -88,34 +73,46 @@ class PointTeamBonus extends AbstractBonus
         return ($player !== null);
     }
 
+
     /**
-     * onUse : get points for all team
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param array     $options
-     *
-     * @return array Data to push to player
+     * onUse : get points
+     * @param BonusEvent $event
      */
-    public function onUse(Game &$game, Player &$player, Inventory $inventory, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
-        $team = $player->getTeam();
-        $returnWS = [];
+        $team = $event->getPlayer()->getTeam();
+        $points = $event->getInventory()->getOption('label');
+        $players = $event->getGame()->getPlayers();
 
-        foreach ($game->getPlayers() as $p) {
-            if ($p->getTeam() == $team && $p->getLife() > 0) {
-                $p->addScore($inventory->getOption('label'));
-
-                if (!$p->isAi()) {
-                    $returnWS[$p->getName()] = [
-                        'score' => [$p->getPosition() => $p->getScore()],
-                    ];
-                }
+        foreach ($players as $p) {
+            if ($p->getTeam() == $team && $p->isAlive()) {
+                $p->addScore($points);
+                $this->addScoreToWS($p);
             }
         }
 
-        $this->remove = true;
+        $this->sendMessage($event->getPlayer(), $points);
+        $this->delete();
+    }
 
-        return $returnWS;
+    /**
+     * Send chat message
+     * @param Player  $player
+     * @param integer $points
+     */
+    private function sendMessage(Player $player, $points)
+    {
+        $message = new Message();
+        $message
+            ->setGame($player->getGame())
+            ->setChannel(Message::CHANNEL_TEAM)
+            ->setRecipient($player->getTeam())
+            ->setText('bonus.point.team.msg')
+            ->setContext([
+                'user' => $player->getName(),
+                'points' => $points,
+            ]);
+
+        $this->entityManager->persist($message);
     }
 }

@@ -51,9 +51,7 @@ class AvatarHelper
         }
 
         $response = new BinaryFileResponse($outPath);
-        $lastModified = \DateTime::createFromFormat('U', filemtime($outPath));
-        $response->setLastModified($lastModified);
-        $response->setEtag(md5($response->getContent()));
+        $response->headers->set('Content-Type', 'image/png');
 
         return $response;
     }
@@ -75,6 +73,6 @@ class AvatarHelper
             ->save($dest)
             ->destroy();
 
-        chmod($dest, 0755);
+        chmod($dest, 0777);
     }
 }

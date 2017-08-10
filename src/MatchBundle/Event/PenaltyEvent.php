@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  * Class PenaltyEvent
  * @package MatchBundle\Event
  */
-class PenaltyEvent extends Event
+class PenaltyEvent extends Event implements GameEventInterface
 {
     private $game;
     private $player;

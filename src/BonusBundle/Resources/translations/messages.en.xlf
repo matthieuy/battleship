@@ -34,6 +34,10 @@
                 <source>Inventory</source>
                 <target>Inventory</target>
             </trans-unit>
+            <trans-unit id="bonus8b" resname="Inventory is empty">
+                <source>Inventory is empty</source>
+                <target>Inventory is empty</target>
+            </trans-unit>
             <trans-unit id="bonus9" resname="use_it">
                 <source>Use it</source>
                 <target>Use it</target>
@@ -57,6 +61,78 @@
             <trans-unit id="bonus14" resname="bonus.point.team.desc">
                 <source>Add points to all players in your team</source>
                 <target>Add points to all players in your team</target>
+            </trans-unit>
+            <trans-unit id="bonus15" resname="bonus.point.team.msg">
+                <source>%user% offer %points% points to your team</source>
+                <target>%user% offer %points% points to your team</target>
+            </trans-unit>
+            <trans-unit id="bonus16" resname="bonus.skip_player">
+                <source>Skip player</source>
+                <target>Skip player</target>
+            </trans-unit>
+            <trans-unit id="bonus17" resname="bonus.skip_player.desc">
+                <source>One player can't play next tour</source>
+                <target>One player can't play next tour</target>
+            </trans-unit>
+            <trans-unit id="bonus18" resname="bonus.skip_player.msg">
+                <source>%victim% skip his tour (by %user%)</source>
+                <target>%victim% skip his tour (by %user%)</target>
+            </trans-unit>
+            <trans-unit id="bonus19" resname="bonus.robber">
+                <source>Robber</source>
+                <target>Robber</target>
+            </trans-unit>
+            <trans-unit id="bonus20" resname="bonus.robber.desc">
+                <source>Steal points to your ennemy</source>
+                <target>Steal points to your ennemy</target>
+            </trans-unit>
+            <trans-unit id="bonus21" resname="bonus.robber.msg">
+                <source>%user% steal %points% to %victim%</source>
+                <target>%user% steal %points% to %victim%</target>
+            </trans-unit>
+            <trans-unit id="bonus22" resname="bonus.spy">
+                <source>Spy</source>
+                <target>Spy</target>
+            </trans-unit>
+            <trans-unit id="bonus23" resname="bonus.spy.desc">
+                <source>Discover the number of points of your enemy</source>
+                <target>Discover the number of points of your enemy</target>
+            </trans-unit>
+            <trans-unit id="bonus23msg" resname="bonus.spy.msg">
+                <source>%user% spy the enemy (points/probability) : %list%</source>
+                <target>%user% spy the enemy (points/probability) : %list%</target>
+            </trans-unit>
+            <trans-unit id="bonus24" resname="bonus.reset">
+                <source>Reset</source>
+                <target>Reset</target>
+            </trans-unit>
+            <trans-unit id="bonus25" resname="bonus.reset.desc">
+                <source>Reset probability of your enemy</source>
+                <target>Reset probability of your enemy</target>
+            </trans-unit>
+            <trans-unit id="bonus26" resname="bonus.damage">
+                <source>Double damage</source>
+                <target>Double damage</target>
+            </trans-unit>
+            <trans-unit id="bonus27" resname="bonus.damage.desc">
+                <source>Multiplies the score if a touch during the lap</source>
+                <target>Multiplies the score if a touch during the lap</target>
+            </trans-unit>
+            <trans-unit id="bonus28" resname="bonus.booster">
+                <source>Captain's equipment</source>
+                <target>Captain's equipment</target>
+            </trans-unit>
+            <trans-unit id="bonus29" resname="bonus.booster.desc">
+                <source>Increases your luck to catch a big bonus</source>
+                <target>Increases your luck to catch a big bonus</target>
+            </trans-unit>
+            <trans-unit id="bonus30" resname="bonus.bomber">
+                <source>Fighter bomber</source>
+                <target>Fighter bomber</target>
+            </trans-unit>
+            <trans-unit id="bonus31" resname="bonus.bomber.desc">
+                <source>Drop random bombs</source>
+                <target>Drop random bombs</target>
             </trans-unit>
         </body>
     </file>

@@ -1,7 +1,11 @@
 gos_web_socket:
     client:
         firewall: main
-        session_handler: "@session.handler.pdo"
+        session_handler: "@snc_redis.session.handler"
+#        session_handler: "@session.handler.pdo"
+        storage:
+            driver: "@websocket.storage.predis"
+    assetic: false
     pushers:
         zmq:
             default: true

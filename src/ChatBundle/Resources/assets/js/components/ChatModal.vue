@@ -119,14 +119,17 @@
                     })
                 }
             },
+            scrollBottom() {
+                setTimeout(function() {
+                    let el = document.getElementById('messages')
+                    el.scrollTop = el.scrollHeight
+                }, 500)
+            },
         },
         watch: {
             // Update messages list : scroll bottom
             messages() {
-                setTimeout(function() {
-                let element = document.getElementById('messages')
-                element.scrollTop = element.scrollHeight
-                }, 50)
+                this.scrollBottom()
             },
             // Open/Close modal
             ['chat.modal'](open) {
@@ -149,6 +152,7 @@
                     })
 
                     this.$store.dispatch(ACTION.CHAT.MARK_READ, this.chat.active_tab)
+                    this.scrollBottom()
                 } else {
                     $('#container').removeAttr('style')
                 }
@@ -157,7 +161,7 @@
         mounted() {
             if (!this.chat.disabled) {
                 let slug = document.getElementById('slug').value
-                let lastId = localStorage.getItem('chat_'+slug+'_id') || 0
+                let lastId = localStorage.getItem(this.chat.localkey) || 0
 
                 // Load local message
                 this.$store.dispatch(ACTION.CHAT.LOAD)
@@ -256,6 +260,7 @@
     .messages {
         max-height: 200px;
         overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #input-msg {

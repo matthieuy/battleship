@@ -26,6 +26,13 @@ Features
 - Bonus and inventory
 - Animate shot
 - Translations
+- Chat
+- Notifications :
+  - Mail
+  - SMS
+  - Discord :
+    - Webhook
+    - Bot
 
 
 Installation
@@ -49,12 +56,11 @@ Tests
 ```
 
 
-TODO
+TODO / CHANGELOG
 ====
 
-See the complete [TODO](TODO.md)
-
-See the [CHANGELOG](CHANGELOG.md)
+* See the complete [TODO](TODO.md)
+* See the [CHANGELOG](CHANGELOG.md)
 
 Credits
 =======

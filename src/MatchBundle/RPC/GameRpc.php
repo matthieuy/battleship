@@ -3,6 +3,8 @@
 namespace MatchBundle\RPC;
 
 use BonusBundle\BonusConstant;
+use BonusBundle\BonusEvents;
+use BonusBundle\Event\BonusEvent;
 use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use BonusBundle\Weapons\WeaponInterface;
@@ -372,20 +374,29 @@ class GameRpc implements RpcInterface
     {
         $this->returnBox->setDoTouch(false);
         $this->returnBox->setWeapon(null);
-        $noWeapon = [$game->getBox($x, $y)];
+        $boxList = [];
+
         if (!$weapon) {
-            return $noWeapon;
+            // No weapon
+            $boxList[] = $game->getBox($x, $y);
+        } else {
+            // Price
+            $price = $weapon->getPrice();
+            if ($price > $player->getScore()) {
+                $boxList[] = $game->getBox($x, $y);
+            } else {
+                $player->removeScore($price);
+                $this->returnBox->setWeapon($weapon);
+                $boxList = $weapon->getBoxes($game, $x, $y, $weaponRotate);
+            }
         }
 
-        // Price
-        $price = $weapon->getPrice();
-        if ($price > $player->getScore()) {
-            return $noWeapon;
-        }
-        $player->removeScore($price);
-        $this->returnBox->setWeapon($weapon);
+        // Bonus trigger
+        $event = new BonusEvent($game, $player, $this->returnBox, $boxList);
+        $this->eventDispatcher->dispatch(BonusEvents::GET_BOX, $event);
+        $boxList = $event->getOptions();
 
-        return $weapon->getBoxes($game, $x, $y, $weaponRotate);
+        return $boxList;
     }
 
     /**
@@ -397,7 +408,7 @@ class GameRpc implements RpcInterface
      *
      * @return bool|array Shoot done or error
      */
-    private function doFire(Game &$game, Box &$box, Player $shooter, $firstBox = false)
+    private function doFire(Game &$game, Box &$box, Player $shooter = null, $firstBox = false)
     {
         // Use weapon : add score on first shoot
         if ($firstBox && $this->returnBox->getWeapon()) {
@@ -432,7 +443,7 @@ class GameRpc implements RpcInterface
      *
      * @return array|bool Error or true
      */
-    private function touch(Game &$game, Box $box, Player $shooter, $penalty = false)
+    private function touch(Game &$game, Box $box, Player $shooter = null, $penalty = false)
     {
         // Update box
         $box->setShooter($shooter);
@@ -457,28 +468,34 @@ class GameRpc implements RpcInterface
         $isSink = ($boat[2] >= $boat[1]); // Touch >= length
 
         // Prepare event
-        $event = new TouchEvent($game);
-        $event->setBoat($boat);
+        $eventTouch = new TouchEvent($game);
+        $eventTouch->setBoat($boat);
 
         // Calcul points
-        if ($victim->getLife() == 0) { // Fatal
+        if (!$victim->isAlive()) { // Fatal
             $points = PointsConstant::SCORE_FATAL;
-            $event->setType(TouchEvent::FATAL);
+            $eventTouch->setType(TouchEvent::FATAL);
         } elseif ($boat[2] == 1) { // Discovery
             $points = PointsConstant::SCORE_DISCOVERY;
-            $event->setType(TouchEvent::DISCOVERY);
+            $eventTouch->setType(TouchEvent::DISCOVERY);
         } elseif ($boat[2] == 2) { // Direction
             $points = PointsConstant::SCORE_DIRECTION;
-            $event->setType(TouchEvent::DIRECTION);
+            $eventTouch->setType(TouchEvent::DIRECTION);
         } elseif ($isSink) { // Sink
             $points = PointsConstant::SCORE_SINK;
-            $event->setType(TouchEvent::SINK);
+            $eventTouch->setType(TouchEvent::SINK);
         } else {
             $points = PointsConstant::SCORE_TOUCH;
-            $event->setType(TouchEvent::TOUCH);
+            $eventTouch->setType(TouchEvent::TOUCH);
         }
 
-        if (!$penalty) {
+        if (!$penalty && $shooter) {
+            // Bonus event
+            $options = ['points' => $points];
+            $eventBonus = new BonusEvent($game, $shooter, $this->returnBox, $options);
+            $this->eventDispatcher->dispatch(BonusEvents::BEFORE_SCORE, $eventBonus);
+
+            // Add score
             $shooter->addScore($points);
             if (!$shooter->isAi()) {
                 $box->setScore($shooter);
@@ -495,10 +512,10 @@ class GameRpc implements RpcInterface
         $this->returnBox->setDoTouch();
 
         // Dispatch event
-        $event
+        $eventTouch
             ->setShooter($shooter)
             ->setVictim($victim);
-        $this->eventDispatcher->dispatch(MatchEvents::TOUCH, $event);
+        $this->eventDispatcher->dispatch(MatchEvents::TOUCH, $eventTouch);
 
         return true;
     }
@@ -508,34 +525,20 @@ class GameRpc implements RpcInterface
      * @param Game   $game The game
      * @param Player $fromPlayer The player just play before
      *
-     * @return bool
+     * @return bool Game is over
      */
     private function nextTour(Game &$game, Player $fromPlayer)
     {
         // Get players and teams alive
-        $teamsList = [];
-        foreach ($game->getPlayers() as $player) {
-            if ($player->getLife() > 0) {
-                if (!isset($teamsList[$player->getTeam()])) {
-                    $teamsList[$player->getTeam()] = [];
-                }
-                $teamsList[$player->getTeam()][] = $player->getPosition();
-            }
+        $teamsList = $this->checkFinish($game);
+        if ($teamsList === false) {
+            return false;
         }
 
-        // Game is over
-        if (count($teamsList) == 1) {
-            // Update game
-            $game
-                ->setStatus(Game::STATUS_END)
-                ->setLastShoot();
-
-            // Event
-            $event = new GameEvent($game);
-            $this->eventDispatcher->dispatch(MatchEvents::FINISH, $event);
-
-            return true;
-        }
+        // Bonus Event
+        $event = new BonusEvent($game, $fromPlayer, $this->returnBox, $teamsList);
+        $this->eventDispatcher->dispatch(BonusEvents::BEFORE_TOUR, $event);
+        $teamsList = $event->getOptions();
 
         // Next
         $tour = $game->getTour();
@@ -561,7 +564,7 @@ class GameRpc implements RpcInterface
                     } else {
                         $team++;
                     }
-                    $okTeam = isset($teamsList[$team]);
+                    $okTeam = (isset($teamsList[$team]) && !empty($teamsList[$team]));
                 } while (!$okTeam);
                 $tour = $teamsList[$team];
                 $game->setTour($tour);
@@ -581,6 +584,11 @@ class GameRpc implements RpcInterface
                     $okTour = false;
                     $fromPlayer = $player;
                     $this->shootAI($game, $fromPlayer);
+
+                    // Check if AI win
+                    if ($this->checkFinish($game) === false) {
+                        return false;
+                    }
                 }
             }
         } while (!$okTour);
@@ -776,7 +784,7 @@ class GameRpc implements RpcInterface
         $players = $game->getPlayersByTeam($player->getTeam());
         shuffle($players);
         foreach ($players as $p) {
-            if ($p->getLife() > 0 && !$p->isAi()) {
+            if ($p->isAlive() && !$p->isAi()) {
                 $player = $p;
                 $event->setVictim($player);
                 break;
@@ -801,7 +809,7 @@ class GameRpc implements RpcInterface
                 if ($selectBoat && isset($grid[$y][$x]['boat']) && $grid[$y][$x]['boat'] == $selectBoat[0]) {
                     // Selected boat => the same boat number
                     break 2;
-                } elseif (!$selectBoat && isset($grid[$y][$x]['player']) && $grid[$y][$x]['player'] == $player->getPosition()) {
+                } elseif (!$selectBoat && (isset($grid[$y][$x]['player']) && $grid[$y][$x]['player'] == $player->getPosition()) && !isset($grid[$y][$x]['shoot'])) {
                     // Else the boat player
                     break 2;
                 }
@@ -828,5 +836,41 @@ class GameRpc implements RpcInterface
 
         // Persist
         $this->em->flush();
+    }
+
+    /**
+     * Check if game is over and get Teams alive
+     * @param Game $game
+     *
+     * @return array|bool teams list or false (if over)
+     */
+    private function checkFinish(Game &$game)
+    {
+        // Get players and teams alive
+        $teamsList = [];
+        foreach ($game->getPlayers() as $player) {
+            if ($player->isAlive()) {
+                if (!isset($teamsList[$player->getTeam()])) {
+                    $teamsList[$player->getTeam()] = [];
+                }
+                $teamsList[$player->getTeam()][] = $player->getPosition();
+            }
+        }
+
+        // Game is over
+        if (count($teamsList) == 1) {
+            // Update game
+            $game
+                ->setStatus(Game::STATUS_END)
+                ->setLastShoot();
+
+            // Event
+            $event = new GameEvent($game);
+            $this->eventDispatcher->dispatch(MatchEvents::FINISH, $event);
+
+            return false;
+        }
+
+        return $teamsList;
     }
 }

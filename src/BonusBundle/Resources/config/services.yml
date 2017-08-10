@@ -9,6 +9,7 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@bonus.registry"
+            - "@event.manager"
         tags:
             - { name: gos_web_socket.rpc }
 
@@ -19,6 +20,7 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
         tags:
             - { name: gos_web_socket.topic }
+
 ###############################
 ##### REGISTRY & MANAGER ######
 ###############################
@@ -30,9 +32,25 @@ services:
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
         arguments:
+            - "@event.manager"
+
+    # Bonus listener
+    bonus.listener:
+        class: BonusBundle\EventListener\BonusListener
+        arguments:
             - "@doctrine.orm.entity_manager"
+            - "@bonus.registry"
             - "@gos_web_socket.zmq.pusher"
-            - "@event_dispatcher"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    # Doctrine listener
+    inventory.doctrine.listener:
+        class: BonusBundle\EventListener\InventoryEntityListener
+        arguments:
+            - "@gos_web_socket.zmq.pusher"
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: BonusBundle\Entity\Inventory }
 
 ####################
 ##### WEAPONS ######
@@ -73,5 +91,55 @@ services:
     # Team point
     bonus.team_point:
         class: BonusBundle\Bonus\PointTeamBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }
+
+    # Skip player
+    bonus.skip_player:
+        class: BonusBundle\Bonus\SkipPlayerBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }
+
+    # Robber
+    bonus.robber:
+        class: BonusBundle\Bonus\RobberBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }
+
+    # Spy
+    bonus.spy:
+        class: BonusBundle\Bonus\SpyBonus
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: bonus.type }
+
+    # Reset probability
+    bonus.reset:
+        class: BonusBundle\Bonus\ResetProbBonus
+        tags:
+            - { name: bonus.type }
+
+    # Damage x2
+    bonus.damage:
+        class: BonusBundle\Bonus\DamageBonus
+        tags:
+            - { name: bonus.type }
+
+    # Booster
+    bonus.booster:
+        class: BonusBundle\Bonus\BoosterBonus
+        tags:
+            - { name: bonus.type }
+
+    # Bomber
+    bonus.bomber:
+        class: BonusBundle\Bonus\BomberBonus
         tags:
             - { name: bonus.type }

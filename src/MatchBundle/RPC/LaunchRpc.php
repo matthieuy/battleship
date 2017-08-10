@@ -207,26 +207,29 @@ class LaunchRpc implements RpcInterface
                                 break;
                             }
 
-                            // Get near box
-                            $near = [];
-                            if ($currentX > 0) {
-                                $near[] = $grid[$currentY][$currentX-1]; // Left box
-                            }
-                            if ($currentX < $limitX) {
-                                $near[] = $grid[$currentY][$currentX+1]; // Right box
-                            }
-                            if ($currentY > 0) {
-                                $near[] = $grid[$currentY-1][$currentX]; // Top box
-                            }
-                            if ($currentY < $limitY) {
-                                $near[] = $grid[$currentY+1][$currentX]; // Bottom box
-                            }
-
                             // Don't put 2 boats of the same player nearly
-                            foreach ($near as $n) {
-                                if (isset($n['player']) && $n['player'] == $player->getPosition()) {
-                                    $ok = false;
-                                    break 2;
+                            if ($try < 25) {
+                                // Get near boxes
+                                $near = [];
+                                if ($currentX > 0) {
+                                    $near[] = $grid[$currentY][$currentX-1]; // Left box
+                                }
+                                if ($currentX < $limitX) {
+                                    $near[] = $grid[$currentY][$currentX+1]; // Right box
+                                }
+                                if ($currentY > 0) {
+                                    $near[] = $grid[$currentY-1][$currentX]; // Top box
+                                }
+                                if ($currentY < $limitY) {
+                                    $near[] = $grid[$currentY+1][$currentX]; // Bottom box
+                                }
+
+                                foreach ($near as $n) {
+                                    // try<10 : no player nearly | try<20 : no same team | try>20 : yolo
+                                    if (($try < 10 && isset($n['player'])) || ($try < 20 && isset($n['team']) && $n['team'] == $player->getTeam())) {
+                                        $ok = false;
+                                        break 2;
+                                    }
                                 }
                             }
 

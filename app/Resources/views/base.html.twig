@@ -18,23 +18,15 @@
         <div id="container" canvas="container">
             {% include "::topbar.html.twig" %}
 
-            {# Flash Message #}
-            <div id="flash-container">
-                {% for msg in app.session.flashbag.get('success') %}
-                    <div class="flash-msg success"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
-                {% for msg in app.session.flashbag.get('info') %}
-                    <div class="flash-msg info"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
-                {% for msg in app.session.flashbag.get('error') %}
-                    <div class="flash-msg error"><div class="close">&times;</div>{{ msg|trans }}</div>
-                {% endfor %}
+            <div class="flash-container">
+                {% include "::flash.html.twig" %}
                 {% block flash %}{% endblock %}
 
                 <noscript>
                     <div class="flash-msg error">{{ 'javascript'|trans({}, 'errors') }}</div>
                 </noscript>
             </div>
+
             {% block body %}{% endblock %}
         </div>
         {% block javascripts %}

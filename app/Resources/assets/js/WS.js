@@ -1,5 +1,13 @@
+/**
+ * Websocket manager
+ * @type {Function}
+ */
 let WS = (function(uri) {
-
+    /**
+     * Socket object
+     * @param uri
+     * @constructor
+     */
     let Socket = function(uri) {
         this._uri = uri
         this._session = false
@@ -7,6 +15,13 @@ let WS = (function(uri) {
         this._subscribers = {}
         this._dataDefault = {}
         this._tryRPC = 0
+
+        /**
+         * Dispatch received data
+         * @param topicName
+         * @param result
+         * @private
+         */
         this._onResult = function(topicName, result) {
             let that = this
             $.each(result, function(dataName, obj) {
@@ -21,6 +36,9 @@ let WS = (function(uri) {
         }
     }
 
+    /**
+     * Connexion WS
+     */
     Socket.prototype.connect = function () {
         let that = this
 
@@ -58,6 +76,12 @@ let WS = (function(uri) {
         )
     }
 
+    /**
+     * Add listener on event
+     * @param type
+     * @param listener
+     * @returns {Socket}
+     */
     Socket.prototype.on = function(type, listener) {
         if (typeof this._listeners[type] === "undefined") {
             this._listeners[type] = []
@@ -68,6 +92,10 @@ let WS = (function(uri) {
         return this
     };
 
+    /**
+     * Fire a event
+     * @param event
+     */
     Socket.prototype.fire = function(event) {
         if (typeof event === "string") {
             event = { type: event }
@@ -90,6 +118,12 @@ let WS = (function(uri) {
         }
     }
 
+    /**
+     * Remove listener
+     * @param type
+     * @param listener
+     * @returns {Socket}
+     */
     Socket.prototype.off = function(type, listener) {
         if (this._listeners[type] instanceof Array) {
             let listeners = this._listeners[type]
@@ -104,17 +138,32 @@ let WS = (function(uri) {
         return this
     }
 
+    /**
+     * Add data to send on all RPC calls
+     * @param name
+     * @param value
+     * @returns {Socket}
+     */
     Socket.prototype.addDefaultData = function(name, value) {
         this._dataDefault[name] = value
         return this
     }
 
+    /**
+     * Call RPC
+     * @param entryPoint
+     * @param data
+     * @param cb
+     * @returns {number}
+     */
     Socket.prototype.callRPC = function(entryPoint, data, cb) {
         if (!this._session) {
-            console.error('[RPC] Session unavailable (try ' + this._tryRPC + ')');
             this._tryRPC++
-            if (this._tryRPC >= 10) {
-                return console.error('[RPC] Session unavailable after ' + this._tryRPC + 'try')
+            console.error('[RPC] Session unavailable (try ' + this._tryRPC + ')')
+            if (this._tryRPC >= 15) {
+                let message = '[RPC] Session unavailable after ' + this._tryRPC + 'try'
+                console.error(message)
+                return Flash.error(message)
             } else {
                 let self = this
                 return setTimeout(function() { self.callRPC(entryPoint, data, cb) }, 1000)
@@ -144,6 +193,11 @@ let WS = (function(uri) {
         })
     }
 
+    /**
+     * Subscribe to a topic
+     * @param topicName
+     * @returns {Socket}
+     */
     Socket.prototype.subscribe = function(topicName) {
         if (typeof this._subscribers[topicName] === 'undefined') {
             console.info('[Socket] Subscribe topic', topicName)
@@ -158,6 +212,11 @@ let WS = (function(uri) {
         return this
     }
 
+    /**
+     * Unsubscribe to topic
+     * @param topicName
+     * @returns {Socket}
+     */
     Socket.prototype.unsubscribe = function(topicName) {
         if (typeof this._subscribers[topicName] !== 'undefined') {
             delete this._subscribers[topicName]
@@ -170,6 +229,13 @@ let WS = (function(uri) {
         return this
     }
 
+    /**
+     * Subscribe with callback action
+     * @param topicName
+     * @param dataName
+     * @param cb
+     * @returns {Socket}
+     */
     Socket.prototype.subscribeAction = function(topicName, dataName, cb) {
         this.subscribe(topicName)
         this.addAction(topicName, dataName, cb)
@@ -177,6 +243,13 @@ let WS = (function(uri) {
         return this
     }
 
+    /**
+     * Add callback action
+     * @param topicName
+     * @param dataName
+     * @param cb
+     * @returns {Socket}
+     */
     Socket.prototype.addAction = function(topicName, dataName, cb) {
         if (typeof this._subscribers[topicName][dataName] === 'undefined') {
             this._subscribers[topicName][dataName] = []

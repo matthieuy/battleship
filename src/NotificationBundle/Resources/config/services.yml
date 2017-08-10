@@ -1,0 +1,59 @@
+services:
+    # Transporter registry
+    notification.transporter.registry:
+        class: NotificationBundle\Registry\TransporterRegistry
+
+    # Form
+    notification.form.type:
+        class: NotificationBundle\Form\Type\NotificationType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@notification.transporter.registry"
+        tags:
+            - { name: form.type }
+
+    # Event listener
+    notification.listener:
+        class: NotificationBundle\EventListener\NotificationListener
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@notification.transporter.registry"
+            - "@translator"
+        tags:
+            - { name: kernel.event_subscriber }
+
+########################
+##### Transporters #####
+########################
+    # SMS
+    notification.sms.transporter:
+        class: NotificationBundle\Transporter\SMS\SMSTransporter
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: notification.transporter }
+
+    # Mail
+    notification.mail.transporter:
+        class: NotificationBundle\Transporter\Mail\MailTransporter
+        arguments:
+            - "@mailer"
+            - "@twig"
+            - ["%mailer_sender_address%", "%mailer_sender_name%"]
+        tags:
+            - { name: notification.transporter }
+
+    # Discord bot
+    notification.discord_bot.transporter:
+        class: NotificationBundle\Transporter\Discord\DiscordBotTransporter
+        arguments:
+            - "@router"
+            - "%discord_token%"
+        tags:
+            - { name: notification.transporter }
+
+    # Discord hook
+    notification.discord_hook.transporter:
+        class: NotificationBundle\Transporter\Discord\DiscordWebHookTransporter
+        tags:
+            - { name: notification.transporter }

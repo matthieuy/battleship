@@ -95,21 +95,14 @@ class MatchController extends Controller
     public function deleteAction(Game $game)
     {
         // Check rights
-        if (!$this->isGranted('ROLE_ADMIN') && $game->getCreator()->getId() !== $this->getUser()->getId()) {
+        if (!$this->isGranted('ROLE_ADMIN') && !$game->isCreator($this->getUser()->getId())) {
             $this->addFlash('error', 'Bad request');
 
             return $this->redirectToRoute('homepage');
         }
 
         // Remove
-        $em = $this->get('doctrine.orm.entity_manager');
-        $em->remove($game);
-        $em->flush();
-        $this->addFlash('success', 'Game delete successful!');
-
-        // Event
-        $event = new GameEvent($game);
-        $this->get('event_dispatcher')->dispatch(MatchEvents::DELETE, $event);
+        $this->deleteGame($game);
 
         // Redirection
         return $this->redirectToRoute('homepage');
@@ -138,6 +131,24 @@ class MatchController extends Controller
         return $this->render('@Match/Match/game.html.twig', [
             'game' => $game,
             'inGame' => true,
+            'canDelete' => $this->isGranted('ROLE_ADMIN') && $game->isCreator($this->getUser()),
         ]);
+    }
+
+    /**
+     * Delete the game
+     * @param Game $game
+     */
+    private function deleteGame(Game $game)
+    {
+        // Remove
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->remove($game);
+        $em->flush();
+        $this->addFlash('success', 'Game delete successful!');
+
+        // Event
+        $event = new GameEvent($game);
+        $this->get('event_dispatcher')->dispatch(MatchEvents::DELETE, $event);
     }
 }

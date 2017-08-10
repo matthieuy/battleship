@@ -34,7 +34,7 @@ services:
             - '@gos_web_socket.websocket.client_manipulator'
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
-            - "@event_dispatcher"
+            - "@event.manager"
             - "@translator"
         tags:
             - { name: gos_web_socket.rpc }
@@ -46,7 +46,7 @@ services:
             - "@gos_web_socket.websocket.client_manipulator"
             - "@doctrine.orm.entity_manager"
             - "@gos_web_socket.zmq.pusher"
-            - "@event_dispatcher"
+            - "@event.manager"
             - "@weapon.registry"
             - "@bonus.registry"
         tags:

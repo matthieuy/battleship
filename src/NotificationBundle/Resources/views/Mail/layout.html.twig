@@ -1,0 +1,5 @@
+Hi {{ username }},<br>
+<p>{{ message }}</p>
+<a href="{{ url('match.display', { slug: game.slug }) }}">{{ 'app_name'|trans({}, 'app') }} - {{ game.name }}</a>
+<hr>
+<p style="font-style: italic; font-size: 80%;">You can edit your <a href="{{ url('notification.config', { slug: game.slug }) }}">subscribe notifications here</a></p>

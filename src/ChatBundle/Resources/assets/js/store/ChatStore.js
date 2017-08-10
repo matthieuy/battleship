@@ -14,6 +14,7 @@ export default {
         active_tab: 'general',
         open_tab: [],
         messages: [],
+        localkey: '',
     },
     mutations: {
         // Toggle modal
@@ -65,6 +66,10 @@ export default {
                 }
             }
         },
+        // User id listener : set the localkey
+        [MUTATION.SET_USERID](state, userId) {
+            state.localkey = 'chat_' + document.getElementById('slug').value + '_'+userId+'_id'
+        },
         // Mark message read (internal use only)
         markReadChat(state, obj) {
             state.unread -= obj.nb
@@ -78,6 +83,9 @@ export default {
             db.messages
                 .where('game')
                 .equals(Number(document.getElementById('game-id').value))
+                .filter(function(message) {
+                    return typeof message.user_id === 'undefined' || message.user_id === context.rootState.userId
+                })
                 .sortBy('timestamp', function(messages) {
                     messages.forEach(function(message) {
                         context.commit(MUTATION.CHAT.ADD_MESSAGE, message)
@@ -86,8 +94,8 @@ export default {
         },
         // Receive message
         [ACTION.CHAT.RECEIVE](context, messages) {
-            let localKey = 'chat_' + document.getElementById('slug').value + '_id'
-            let lastId = localStorage.getItem(localKey) || 0
+            let localkey = context.state.localkey;
+            let lastId = localStorage.getItem(localkey) || 0
 
             messages.forEach(function(message) {
                 // Message infos
@@ -114,6 +122,7 @@ export default {
                 // Channel and recipient
                 if (typeof message.channel !== 'undefined') {
                     infos.tab = (message.channel === 1) ? 'team' : (isSender) ? message.recipient : message.author.id
+                    infos.user_id = context.rootState.userId
                 }
 
                 // Unread
@@ -128,7 +137,7 @@ export default {
                 // Update last ID
                 if (message.id > lastId) {
                     lastId = message.id
-                    localStorage.setItem(localKey, lastId)
+                    localStorage.setItem(localkey, lastId)
                 }
             })
         },
@@ -136,7 +145,7 @@ export default {
         [ACTION.CHAT.MARK_READ](context, tab) {
             db.messages
                 .filter(function(message) {
-                    return message.game === Number(document.getElementById('game-id').value) && message.tab === tab && message.unread
+                    return (message.user_id === context.rootState.userId || message.user_id === null) && message.game === Number(document.getElementById('game-id').value) && message.tab === tab && message.unread
                 })
                 .modify(function(value) {
                     delete value.unread

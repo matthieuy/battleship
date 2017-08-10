@@ -8,6 +8,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var AssetsPlugin = require('assets-webpack-plugin');
 var ExtractFilePlugin = require('extract-file-loader/Plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var chalk = require('chalk');
 
 module.exports = function makeWebpackConfig(options) {
     /**
@@ -16,6 +18,8 @@ module.exports = function makeWebpackConfig(options) {
      */
     var BUILD = options.environment === 'prod';
     const NODE_ENV = (BUILD) ? 'production' : 'development'
+    process.noDeprecation = true
+    console.info("Environment :", NODE_ENV)
 
     /**
      * Whether we are running in dev-server mode (versus simple compile)
@@ -59,11 +63,11 @@ module.exports = function makeWebpackConfig(options) {
 
             // Filename for entry points
             // Only adds hash in build mode
-            filename: BUILD ? '[name].[chunkhash].js' : '[name].bundle.js',
+            filename: BUILD ? '[name].[chunkhash].js' : '[name].js',
 
             // Filename for non-entry points
             // Only adds hash in build mode
-            chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].bundle.js'
+            chunkFilename: BUILD ? '[name].[chunkhash].js' : '[name].dev.js'
         },
 
         /**
@@ -81,7 +85,7 @@ module.exports = function makeWebpackConfig(options) {
         }, options.parameters.dev_server || {})
     };
 
-    config.resolve.alias['vue$'] = 'vue/dist/vue.js'
+    config.resolve.alias['vue$'] = (BUILD) ? 'vue/dist/vue.min.js' : 'vue/dist/vue.js'
 
 
     /**
@@ -178,7 +182,13 @@ module.exports = function makeWebpackConfig(options) {
                 loader: ExtractTextPlugin.extract({
                     'fallback': 'style-loader',
                     use: [
-                        'css-loader?sourceMap',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                minimize: BUILD,
+                            },
+                        },
                         {
                             loader: 'postcss-loader',
                             options: {
@@ -204,16 +214,6 @@ module.exports = function makeWebpackConfig(options) {
                 loader: 'less-loader?sourceMap',
                 enforce: 'pre'
             },
-
-            /**
-             * Compile SASS to CSS, then use same rules
-             * Reference: https://github.com/webpack-contrib/sass-loader
-             */
-            {
-                test: /\.scss$/i,
-                loader: 'sass-loader?sourceMap',
-                enforce: 'pre'
-            }
         ]
     };
 
@@ -278,6 +278,11 @@ module.exports = function makeWebpackConfig(options) {
      */
     if (DASHBOARD) {
         config.plugins.push(new DashboardPlugin());
+    } else {
+        config.plugins.push(new ProgressBarPlugin({
+            format: 'Webpack ' + chalk.red.bold('[:bar]') + ' ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+            renderThrottle: 100,
+        }))
     }
 
     /**
@@ -295,8 +300,10 @@ module.exports = function makeWebpackConfig(options) {
              * Minify all javascript, switch loaders to minimizing mode
              * Reference: https://webpack.js.org/plugins/uglifyjs-webpack-plugin/
              */
-            new webpack.optimize.UglifyJsPlugin()
-        );
+            new webpack.optimize.UglifyJsPlugin({
+                extractComments: true,
+            })
+        )
     }
 
     /**

@@ -13,11 +13,11 @@
                                 <div class="container-bonus">
                                     <div class="large-4 column" v-for="bonus in inventory.list" @click="highlight(bonus)">
                                         <div class="bonus-box opentip" :class="{selected: (selected && selected.id == bonus.id), use: bonus.use }" :data-tip="'<strong>'+trans(bonus.name)+' :</strong> '+trans(bonus.description)">
-                                            <img :src="'img/bonus/'+bonus.uniq+'.png'" width="80">
+                                            <img :src="'img/bonus/'+bonus.uniq+(bonus.options.img || '')+'.png'" width="80">
                                             <span class="label" v-show="bonus.options.label">{{ bonus.options.label }}</span>
                                         </div>
                                     </div>
-                                    <div class="large-4 column hide-mobile" v-for="i in (inventory.size - inventory.list.length)" @click="highlight(null)">
+                                    <div class="large-4 column" v-for="i in (inventory.size - inventory.list.length)" @click="reset()">
                                         <div class="bonus-box empty">
                                             <img src="img/null.png" width="80">
                                         </div>
@@ -27,19 +27,22 @@
                             </div>
                         </div>
                         <div class="clear"></div>
+                        <div class="center msg-empty" v-show="inventory.list.length == 0">
+                            {{ trans('Inventory is empty') }}
+                        </div>
 
                         <div class="row center" v-show="showSelectPlayer">
                             <div class="large-4 push-4">
                                 <label for="player">{{ trans('select_target') }} :</label>
                                 <select id="player" v-model="selectPlayer">
-                                    <option v-for="player in playersList" :value="player.position">{{ player.name }}</option>
+                                    <option v-for="player in playersList" :value="player.position">{{ player.name }} ({{ player.life }})</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button success small-12 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
+                                <button v-show="inventory.list.length && !gameover" class="button success small-10 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
                                     <i class="gi gi-round-star"></i>
                                     {{ trans('use_it') }}
                                 </button>
@@ -92,19 +95,19 @@
                 }
 
                 this.$store.dispatch(ACTION.INVENTORY.USE, this.selected)
-                this.raz()
+                this.reset()
             },
             // highlight the bonus
             highlight(bonus) {
                 if (bonus === null || bonus.use || this.gameover) {
-                    this.raz()
+                    this.reset()
                 } else {
                     this.selected = bonus
                     this.showSelectPlayer = bonus.options.select
                 }
             },
-            // RAZ select
-            raz() {
+            // reset select
+            reset() {
                 this.selected = null;
                 this.showSelectPlayer = false
                 this.selectPlayer = null
@@ -178,6 +181,7 @@
         margin: 15px 0;
         border-radius: 10px;
         box-shadow: 2px 2px #535353cc;
+        min-height: 80px;
     
         &.selected {
             box-shadow: 2px 2px #000;
@@ -199,5 +203,13 @@
             font-weight: bold;
             font-size: 80%;
         }
+    }
+    .msg-empty {
+        display: none;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .msg-empty { display: block; }
+        .empty { display: none; }
     }
 </style>

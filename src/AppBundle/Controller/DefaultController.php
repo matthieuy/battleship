@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class DefaultController
@@ -14,15 +13,43 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
-     * @param Request $request
+     * Homepage
+     * @Route(
+     *     path="/",
+     *     name="homepage",
+     *     methods={"GET"})
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        // replace this example code with whatever you need
-        return $this->render('@App/homepage/homepage.html.twig', [
+        return $this->render('@App/default/homepage.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+        ]);
+    }
+
+    /**
+     * Who online
+     * @Route(
+     *     path="/who-online",
+     *     name="who-online",
+     *     methods={"GET"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function whoAction()
+    {
+        // Rights
+        if (!$this->isGranted('ROLE_SUPER_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        // Get socket list
+        $list = $this->get('online.manager')->getSessionList();
+        $list = array_reverse($list);
+
+        // View
+        return $this->render('@App/default/who.html.twig', [
+            'list' => $list,
         ]);
     }
 }

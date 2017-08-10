@@ -3,6 +3,8 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\Entity\Inventory;
+use BonusBundle\Event\BonusEvent;
+use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -22,25 +24,7 @@ class PointBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'bonus.point';
-    }
-
-    /**
-     * Get the unique name of the bonus
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->getId();
-    }
-
-    /**
-     * Get the bonus description
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->getId().'.desc';
+        return 'point';
     }
 
     /**
@@ -85,32 +69,18 @@ class PointBonus extends AbstractBonus
      */
     public function canUseNow(Game $game, Player $player = null)
     {
-        if (!$player) {
-            return false;
-        }
-
-        return true;
+        return ($player !== null);
     }
 
     /**
      * onUse : get points
-     * @param Game      $game
-     * @param Player    $player
-     * @param Inventory $inventory
-     * @param array     $options
-     *
-     * @return array Data to push
+     * @param BonusEvent $event
      */
-    public function onUse(Game &$game, Player &$player, Inventory &$inventory, array &$options = [])
+    public function onUse(BonusEvent $event)
     {
-        $player->addScore($inventory->getOption('label'));
-        $this->remove = true;
-
-        // Send new score to the player
-        return [
-            $player->getName() => [
-                'score' => [$player->getPosition() => $player->getScore()],
-            ],
-        ];
+        $player = $event->getPlayer();
+        $player->addScore($event->getInventory()->getOption('label'));
+        $this->delete();
+        $this->addScoreToWS($player);
     }
 }

@@ -1,0 +1,37 @@
+{% extends "::base.html.twig" %}
+{% trans_default_domain('notifications') %}
+{% block title %}{{ 'Notifications'|trans({}, 'menu') }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% webpack css '@notification/less/notification.less.js' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack js '@notification/js/notification.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ 'Notifications'|trans({}, 'menu') }} - {{ game.name }}</h1>
+
+    <div class="row">
+        <div class="column large-10 small-12 large-centered">
+            {{ form_start(form) }}
+                {{ form_rest(form) }}
+
+                <div class="center">
+                    <input type="submit" value="{{ 'Save'|trans({}, 'form') }}" class="button success round large-3 small-11">
+                    <a href="{{ path('notification.config', { slug: game.slug }) }}" class="button alert round large-3 small-11">{{ 'Cancel'|trans({}, 'form') }}</a>
+                    <div>
+                        <a href="{{ path('match.display', { slug: game.slug }) }}" class="button round large-6 small-11">{{ 'Go back to game'|trans }}</a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -22,12 +22,17 @@ parameters:
     socket_uri:        localhost
     socket_port:       8080
 
+    # Redis
+    redis_host:        127.0.0.1
+
     # ZMQ
     zmq_host:          127.0.0.1
     zmq_port:          5555
 
     # Other
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            30471a3790b7fbb3b12b4d22ab31b690023ac74c
     session_name:      battleship
     use_ssl:           false
+    discord_token:     DISCORD_BOT_TOKEN
+    api_token:         ThisTokenIsNotSoSecretChangeIt

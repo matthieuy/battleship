@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="notif1" resname="mail">
+                <source>By mail</source>
+                <target>By mail</target>
+            </trans-unit>
+            <trans-unit id="notif2" resname="Go back to game">
+                <source>Go back to game</source>
+                <target>Go back to game</target>
+            </trans-unit>
+            <trans-unit id="notif3" resname="tour.short">
+                <source>You can play now on "%game%"</source>
+                <target>You can play now on "%game%"</target>
+            </trans-unit>
+            <trans-unit id="discord_hook" resname="discord_hook">
+                <source>Discord (webhook)</source>
+                <target>Discord (webhook)</target>
+            </trans-unit>
+            <trans-unit id="discord_web" resname="Webhook">
+                <source>Webhook</source>
+                <target>Webhook</target>
+            </trans-unit>
+            <trans-unit id="discord_bot" resname="discord_bot">
+                <source>Discord bot (PM)</source>
+                <target>Discord bot (PM)</target>
+            </trans-unit>
+            <trans-unit id="id_discord" resname="id_discord">
+                <source>Discord PM Channel ID</source>
+                <target>Discord PM Channel ID</target>
+            </trans-unit>
+            <trans-unit id="sms" resname="sms">
+                <source>SMS</source>
+                <target>SMS</target>
+            </trans-unit>
+            <trans-unit id="number" resname="number_phone">
+                <source>Phone number</source>
+                <target>Phone number</target>
+            </trans-unit>
+            <trans-unit id="start_hour" resname="start_hour">
+                <source>Start hour (format: hh:mm)</source>
+                <target>Start hour (format: hh:mm)</target>
+            </trans-unit>
+            <trans-unit id="end_hour" resname="end_hour">
+                <source>End hour (format: hh:mm)</source>
+                <target>End hour (format: hh:mm)</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

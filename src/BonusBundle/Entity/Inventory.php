@@ -10,6 +10,7 @@ use MatchBundle\Entity\Player;
  * Inventory
  * @ORM\Table(name="inventory")
  * @ORM\Entity(repositoryClass="BonusBundle\Repository\InventoryRepository")
+ * @ORM\EntityListeners({"BonusBundle\EventListener\InventoryEntityListener"})
  */
 class Inventory
 {

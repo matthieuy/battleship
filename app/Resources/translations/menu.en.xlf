@@ -30,6 +30,14 @@
         <source>menu</source>
         <target>Menu</target>
       </trans-unit>
+      <trans-unit id="menu1" resname="Who online ?">
+        <source>Who online ?</source>
+        <target>Who online ?</target>
+      </trans-unit>
+      <trans-unit id="menu2" resname="Notifications">
+        <source>Notifications</source>
+        <target>Notifications</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

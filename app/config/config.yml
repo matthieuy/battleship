@@ -8,11 +8,13 @@ imports:
     - { resource: bundles/maba_webpack.yml }
     - { resource: bundles/gos_websocket.yml }
     - { resource: bundles/translate.yml }
+    - { resource: bundles/snc_redis.yml }
     - { resource: "@AppBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@MatchBundle/Resources/config/services.yml" }
     - { resource: "@BonusBundle/Resources/config/services.yml" }
     - { resource: "@ChatBundle/Resources/config/services.yml" }
+    - { resource: "@NotificationBundle/Resources/config/services.yml" }
 
 # Parameters that don't need to change on each machine where the app is deployed
 #parameters:
@@ -35,7 +37,8 @@ framework:
     trusted_hosts:   ~
     session:
         name: "%session_name%"
-        handler_id:  session.handler.pdo
+        handler_id:  "snc_redis.session.handler"
+#        handler_id:  "session.handler.pdo"
         save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
         cookie_secure: "%use_ssl%"
     fragments:       ~
@@ -48,6 +51,7 @@ twig:
     strict_variables: "%kernel.debug%"
     form_themes:
         - "Form/fields.html.twig"
+        - "@NotificationBundle/Resources/views/Forms/fieldset.html.twig"
     globals:
         use_ssl: "%use_ssl%"
 
@@ -84,4 +88,4 @@ swiftmailer:
     port:       "%mailer_port%"
     encryption: "%mailer_encrypt%"
     auth_mode:  "%mailer_authmode%"
-    spool:     { type: memory }
+    sender_address: "%mailer_sender_address%"

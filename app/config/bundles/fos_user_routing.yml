@@ -26,16 +26,19 @@ fos_user_registration_register:
 fos_user_registration_confirmed:
     path: /register/confirmed
     defaults: { _controller: UserBundle:Registration:confirmed }
+    methods: [GET]
 
 # Check email link
 fos_user_registration_check_email:
     path: /register/check-email
     defaults: { _controller: FOSUserBundle:Registration:checkEmail }
+    methods: [GET]
 
 # Confirm register with token
 fos_user_registration_confirm:
     path: /register/{token}
     defaults: { _controller: FOSUserBundle:Registration:confirm }
+    methods: [GET]
 
 # Forgot password
 fos_user_resetting_request:

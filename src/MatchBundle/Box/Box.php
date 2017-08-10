@@ -21,7 +21,6 @@ class Box
     protected $dead = false;
 
     protected $score = [];
-    protected $bonus = [];
     protected $life = [];
     protected $isSink = false;
     protected $sinkInfo = [];
@@ -82,19 +81,6 @@ class Box
     public function setScore(Player $player)
     {
         $this->score[$player->getPosition()] = $player->getScore();
-
-        return $this;
-    }
-
-    /**
-     * Set bonus
-     * @param Player $player
-     *
-     * @return $this
-     */
-    public function setBonus(Player $player)
-    {
-        $this->bonus[$player->getPosition()] = $player->getNbBonus();
 
         return $this;
     }
@@ -188,9 +174,9 @@ class Box
      *
      * @return $this
      */
-    public function setShooter(Player $shooter)
+    public function setShooter(Player $shooter = null)
     {
-        $this->shoot = $shooter->getPosition();
+        $this->shoot = ($shooter === null) ? 0 : $shooter->getPosition();
 
         return $this;
     }
@@ -334,9 +320,6 @@ class Box
         }
         if (!empty($this->score)) {
             $infos['score'] = $this->score;
-        }
-        if (!empty($this->bonus)) {
-            $infos['bonus'] = $this->bonus;
         }
 
         return $infos;

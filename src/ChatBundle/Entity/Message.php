@@ -11,6 +11,7 @@ use UserBundle\Entity\User;
  *
  * @ORM\Table(name="chat_message")
  * @ORM\Entity(repositoryClass="ChatBundle\Repository\MessageRepository")
+ * @ORM\EntityListeners({"ChatBundle\EventListener\MessageEntityListener"})
  */
 class Message
 {

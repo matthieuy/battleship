@@ -46,10 +46,6 @@
                 <source>%username% use a bonus</source>
                 <target>%username% use a bonus</target>
             </trans-unit>
-            <trans-unit id="chat12" resname="system.bonus_use_team">
-                <source>%username% use a bonus : %bonus%</source>
-                <target>%username% use a bonus : %bonus%</target>
-            </trans-unit>
             <trans-unit id="chat13" resname="system.bonus_catch_team">
                 <source>%username% catch a bonus : %bonus%</source>
                 <target>%username% catch a bonus : %bonus%</target>

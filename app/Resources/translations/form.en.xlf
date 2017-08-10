@@ -10,9 +10,17 @@
         <source>Display grid</source>
         <target>Display grid</target>
       </trans-unit>
+      <trans-unit id="form_box_size" resname="Box size">
+        <source>Box size</source>
+        <target>Box size</target>
+      </trans-unit>
       <trans-unit id="efc007a393f66cdb14d57d385822a3d9e36ef873" resname="Save">
         <source>Save</source>
         <target>Save</target>
+      </trans-unit>
+      <trans-unit id="form1" resname="Cancel">
+        <source>Cancel</source>
+        <target>Cancel</target>
       </trans-unit>
     </body>
   </file>

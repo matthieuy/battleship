@@ -20,6 +20,9 @@ import Console from "./components/Console.vue"
 import ChatBtn from "@chat/js/components/ChatBtn.vue"
 import ChatModal from "@chat/js/components/ChatModal.vue"
 
+// Store init
+store.commit(types.MUTATION.SET_USERID, document.getElementById('user-id').value)
+
 // App vue
 new Vue({
     el: '#vue',
@@ -47,9 +50,6 @@ new Vue({
 
 // Document.ready
 $(() => {
-    // Init store
-    store.commit(types.MUTATION.SET_USERID, document.getElementById('user-id').value)
-
     // Socket
     let slug = document.getElementById('slug').value
     let topicName = `game/${slug}/wait`

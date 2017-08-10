@@ -1,43 +1,18 @@
 TODO
 ====
 
-- [ ] Bugfix :
-	- [ ] FlashError : scrollTop
-	- [ ] Animation with scroll != 0
 - [ ] Documentations :
-	- [ ] Howto add a bonus
-	- [ ] Add screenshot or gif
+  - [ ] Add screenshot or gif
 - [ ] Game :
-    - [ ] ISO view
-    - [ ] Shortcuts
-- [ ] Bonus :
-    - [ ] Make more bonus
-	- [ ] Add some trigger for bonus
+  - [ ] ISO view
 - [ ] Mobile :
-    - [ ] Helper for weapon
+  - [ ] Helper for weapon
 - [ ] Stats :
-    - [ ] Register stats on event
-    - [ ] Display user stats on profil
-    - [ ] Display stats on game
-- [ ] Notifications :
-    - [ ] Config per type on profil page
-	- [ ] Notifications registry
-	- [ ] Notifications manager
-    - [ ] Transporter :
-        - [ ] Hook
-        - [ ] SMS (via hooks)
-        - [ ] IonicPush
-        - [ ] Discord
-        - [ ] Email
-        - [ ] Push Navigator
-    - [ ] Type :
-        - [ ] User connect
-        - [ ] Tour
-        - [ ] Messages
+  - [ ] Register stats on event
+  - [ ] Display user stats on profil
+  - [ ] Display stats on game
 - [ ] Translate :
-	- [ ] Translate in French
+  - [ ] Translate in French
 - [ ] Tests/Dev :
-	- [ ] Unit tests
-	- [ ] Script for deploy on git hook (personal TODO)
-	- [ ] Page with websocket client
-	- [ ] ESLint and others checks tools
+  - [ ] Unit tests
+  - [ ] ESLint and others checks tools
