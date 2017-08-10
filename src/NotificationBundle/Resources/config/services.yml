@@ -25,6 +25,14 @@ services:
 ########################
 ##### Transporters #####
 ########################
+    # SMS
+    notification.sms.transporter:
+        class: NotificationBundle\Transporter\SMS\SMSTransporter
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: notification.transporter }
+
     # Mail
     notification.mail.transporter:
         class: NotificationBundle\Transporter\Mail\MailTransporter

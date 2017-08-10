@@ -30,6 +30,22 @@
                 <source>Discord PM Channel ID</source>
                 <target>Discord PM Channel ID</target>
             </trans-unit>
+            <trans-unit id="sms" resname="sms">
+                <source>SMS</source>
+                <target>SMS</target>
+            </trans-unit>
+            <trans-unit id="number" resname="number_phone">
+                <source>Phone number</source>
+                <target>Phone number</target>
+            </trans-unit>
+            <trans-unit id="start_hour" resname="start_hour">
+                <source>Start hour (format: hh:mm)</source>
+                <target>Start hour (format: hh:mm)</target>
+            </trans-unit>
+            <trans-unit id="end_hour" resname="end_hour">
+                <source>End hour (format: hh:mm)</source>
+                <target>End hour (format: hh:mm)</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

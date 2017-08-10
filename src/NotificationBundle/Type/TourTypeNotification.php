@@ -4,12 +4,13 @@ namespace NotificationBundle\Type;
 
 use NotificationBundle\Transporter\Discord\DiscordTypeInterface;
 use NotificationBundle\Transporter\Mail\MailTypeInterface;
+use NotificationBundle\Transporter\SMS\SMSTypeInterface;
 
 /**
  * Class TourTypeNotification
  * @package NotificationBundle\Type
  */
-class TourTypeNotification extends AbstractTypeNotification implements MailTypeInterface, DiscordTypeInterface
+class TourTypeNotification extends AbstractTypeNotification implements MailTypeInterface, DiscordTypeInterface, SMSTypeInterface
 {
     const NAME = 'TOUR';
 
@@ -74,6 +75,15 @@ class TourTypeNotification extends AbstractTypeNotification implements MailTypeI
      * @return string
      */
     public function getDiscordBotText()
+    {
+        return $this->translator->trans('tour.short', ['%game%' => $this->event->getGame()->getName()], 'notifications');
+    }
+
+    /**
+     * Get SMS text
+     * @return string
+     */
+    public function getSMSText()
     {
         return $this->translator->trans('tour.short', ['%game%' => $this->event->getGame()->getName()], 'notifications');
     }

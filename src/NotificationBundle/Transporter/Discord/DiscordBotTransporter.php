@@ -88,7 +88,7 @@ class DiscordBotTransporter extends AbstractTransporter
     {
         $fields = parent::getFormFields($builder, $notification, $options);
 
-        // Add URL field
+        // Add ID field
         $fields[] = $builder->create('id', TextType::class, [
             'label' => 'id_discord',
             'required' => false,
