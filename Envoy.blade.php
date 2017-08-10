@@ -59,6 +59,7 @@
     git checkout -q {{ $branch }};
     git reset -q --hard;
     git pull;
+    echo "Last commit : $(git log --oneline -n1)";
 
     echo "Copy files to new release";
     git archive {{$branch}}|tar -x -C {{ $dirRelease }};
@@ -86,7 +87,7 @@
 @task('composer')
     echo "Task : Composer";
     cd {{ $dirLastRelease }};
-    composer install --no-progress;
+    composer install --no-progress --ansi --no-suggest --no-interaction;
 @endtask
 
 @task('assets')
@@ -110,6 +111,7 @@
     echo "Task : Update database";
     cd {{ $dirLastRelease }};
     ./bin/console doctrine:migrations:migrate --env={{ $env }};
+    chmod -Rf 777 {{ $dirLastRelease }}/var;
 @endtask
 
 @task('fixtures')
@@ -125,13 +127,18 @@
 @task('link_current')
     echo "Create link to the current release";
     rm -f {{ $current }};
-    ln -sv {{ $dirReleases }}/$(ls {{ $dirReleases }} | grep -e '^[0-9]' | tail -1) {{ $current }};
+    ln -sv {{ $dirReleases }}/$(ls {{ $dirReleases }}|grep -e '^[0-9]'|tail -n 1) {{ $current }};
+@endtask
+
+@task('rollback')
+    rm -f {{ $current }};
+    ln -sv {{ $dirReleases }}/$(ls {{ $dirReleases }}|grep -e '^[0-9]'|tail -n 2|head -n 1) {{ $current }};
 @endtask
 
 @task('clear')
     echo "Remove old releases";
     cd {{ $dirReleases }}
-    ls -r |grep -e '^[0-9]' | tail -n +{{ $nbRelease + 1 }} | xargs rm -rf;
+    ls -r|grep -e '^[0-9]'|tail -n +{{ $nbRelease + 1 }}|xargs rm -rf;
 @endtask
 
 #########
@@ -157,6 +164,8 @@
 ##########
 @task('restart')
     echo "Restart the Websocket server";
+    cd {{ $dirLastRelease }};
+    ./bin/console redis:flushdb --client=ws_client --env=prod;
     sudo supervisorctl restart battleship;
 @endtask
 
@@ -168,6 +177,10 @@
 @task('stop')
     echo "Stop the Websocket server";
     sudo supervisorctl stop battleship;
+
+    echo "Clear Redis";
+    cd {{ $dirLastRelease }};
+    ./bin/console redis:flushdb --client=ws_client --env=prod;
 @endtask
 
 @task('ping')
