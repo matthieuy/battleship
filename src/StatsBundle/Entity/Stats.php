@@ -45,8 +45,8 @@ class Stats
     protected $value;
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer", nullable=true)
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $value2;
 
@@ -149,7 +149,7 @@ class Stats
 
     /**
      * Get Value2
-     * @return integer|null
+     * @return string|null
      */
     public function getValue2()
     {
@@ -158,13 +158,26 @@ class Stats
 
     /**
      * Set Value2
-     * @param integer|null $value2
+     * @param string|null $value2
      *
      * @return $this
      */
     public function setValue2($value2 = null)
     {
         $this->value2 = $value2;
+
+        return $this;
+    }
+
+    /**
+     * Increment value
+     * @param int $increment
+     *
+     * @return $this
+     */
+    public function increment($increment = 1)
+    {
+        $this->value += $increment;
 
         return $this;
     }
