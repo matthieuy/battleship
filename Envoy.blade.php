@@ -77,6 +77,8 @@
 
     echo "Fix right";
     chmod -Rf 777 {{ $dirReleases }}/last/var;
+    setfacl -dR -m u:{{ $webUser }}:rwX -m u:$(whoami):rwX {{ $dirReleases }}/last/var;
+    setfacl -R -m u:{{ $webUser }}:rwX -m u:$(whoami):rwX var;
     chgrp -Rf www-data {{ $dirReleases }}/last/;
 @endtask
 
@@ -94,6 +96,7 @@
     echo "Task : Assets";
     cd {{ $dirLastRelease }};
     ./bin/console assets:install --env={{ $env }};
+    echo "/!\ Compile Webpack : Take a while...";
     ./bin/console maba:webpack:compile --env={{ $env }};
 @endtask
 

@@ -16,6 +16,11 @@ $sshHost = 'battleship.domain.org';
 $workdir = '/home/battleship';
 
 /**
+ * Web user : who run aoache/nginx/...
+ */
+$webUser = 'www-data';
+
+/**
  * Environment
  */
 $env = 'prod';
