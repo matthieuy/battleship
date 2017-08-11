@@ -56,7 +56,7 @@ class StatsListener implements EventSubscriberInterface
     public function onCreate(GameEvent $event)
     {
         $game = $event->getGame();
-        $this->repo->increment(StatsConstants::GAME_CREATE, $game->getCreator());
+        $this->repo->increment(StatsConstants::GAME_CREATE, $game->getCreator()->getId());
     }
 
     /**
@@ -70,7 +70,7 @@ class StatsListener implements EventSubscriberInterface
         $players = $game->getPlayersTour();
         foreach ($players as $player) {
             if ($player->isAlive()) {
-                $this->repo->increment(StatsConstants::GAME_WIN, $player->getUser());
+                $this->repo->increment(StatsConstants::GAME_WIN, $player->getUser()->getId());
             }
         }
 
@@ -99,7 +99,7 @@ class StatsListener implements EventSubscriberInterface
         // Increment all players
         $game = $event->getGame();
         foreach ($game->getPlayers() as $player) {
-            $this->repo->increment($statName, $player->getUser());
+            $this->repo->increment($statName, $player->getUser()->getId());
         }
     }
 
@@ -109,10 +109,10 @@ class StatsListener implements EventSubscriberInterface
      */
     public function onPenalty(PenaltyEvent $event)
     {
-        $user = $event->getPlayer()->getUser();
+        $userId = $event->getPlayer()->getUser()->getId();
         $victimId = $event->getVictim()->getUser()->getId();
 
-        $this->repo->increment(StatsConstants::PENALTY, $user, $event->getGame(), $victimId);
+        $this->repo->increment(StatsConstants::PENALTY, $userId, $event->getGame(), $victimId);
     }
 
     /**
@@ -126,7 +126,7 @@ class StatsListener implements EventSubscriberInterface
 
         foreach ($players as $player) {
             if ($player->isAlive()) {
-                $this->repo->increment(StatsConstants::TOUR, $player->getUser(), $game);
+                $this->repo->increment(StatsConstants::TOUR, $player->getUser()->getId(), $game);
             }
         }
     }
@@ -168,10 +168,10 @@ class StatsListener implements EventSubscriberInterface
             return false;
         }
 
-        $shooter = $event->getShooter()->getUser();
+        $shooterId = $event->getShooter()->getUser()->getId();
         $victimId = $event->getVictim()->getUser()->getId();
 
-        $this->repo->increment($stat, $shooter, $event->getGame(), $victimId);
+        $this->repo->increment($stat, $shooterId, $event->getGame(), $victimId);
     }
 
     /**
@@ -180,10 +180,10 @@ class StatsListener implements EventSubscriberInterface
      */
     public function onCatchBonus(BonusEvent $event)
     {
-        $user = $event->getPlayer()->getUser();
+        $userId = $event->getPlayer()->getUser()->getId();
         $bonusId = $event->getBonus()->getId();
 
-        $this->repo->increment(StatsConstants::BONUS_CATCH, $user, $event->getGame(), $bonusId);
+        $this->repo->increment(StatsConstants::BONUS_CATCH, $userId, $event->getGame(), $bonusId);
     }
 
     /**
@@ -192,9 +192,9 @@ class StatsListener implements EventSubscriberInterface
      */
     public function onWeapon(WeaponEvent $event)
     {
-        $user = $event->getPlayer()->getUser();
+        $userId = $event->getPlayer()->getUser()->getId();
         $weaponName = $event->getWeapon()->getName();
 
-        $this->repo->increment(StatsConstants::WEAPON, $user, $event->getGame(), $weaponName);
+        $this->repo->increment(StatsConstants::WEAPON, $userId, $event->getGame(), $weaponName);
     }
 }

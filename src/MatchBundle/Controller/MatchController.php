@@ -141,11 +141,16 @@ class MatchController extends Controller
      */
     private function deleteGame(Game $game)
     {
+        $gameId = $game->getId();
+
         // Remove
         $em = $this->get('doctrine.orm.entity_manager');
         $em->remove($game);
         $em->flush();
         $this->addFlash('success', 'Game delete successful!');
+
+        // Stats
+        $em->getRepository('StatsBundle:Stats')->onDeleteGame($gameId);
 
         // Event
         $event = new GameEvent($game);

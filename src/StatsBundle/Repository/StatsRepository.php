@@ -5,7 +5,6 @@ namespace StatsBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use MatchBundle\Entity\Game;
 use StatsBundle\Entity\Stats;
-use UserBundle\Entity\User;
 
 /**
  * Class StatsRepository
@@ -16,12 +15,12 @@ class StatsRepository extends EntityRepository
     /**
      * Increase stat
      * @param integer   $statName
-     * @param User      $user
+     * @param integer   $userId
      * @param Game|null $game
      * @param mixed     $value2
      * @param int       $increment
      */
-    public function increment($statName, User $user, Game $game = null, $value2 = null, $increment = 1)
+    public function increment($statName, $userId, Game $game = null, $value2 = null, $increment = 1)
     {
         $gameId = ($game) ? $game->getId() : null;
 
@@ -29,7 +28,7 @@ class StatsRepository extends EntityRepository
         /** @var Stats $stat */
         $stat = $this->findOneBy([
             'stat' => $statName,
-            'userId' => $user->getId(),
+            'userId' => $userId,
             'gameId' => $gameId,
             'value2' => $value2,
         ]);
@@ -41,7 +40,7 @@ class StatsRepository extends EntityRepository
             $stat = new Stats();
             $stat
                 ->setStat($statName)
-                ->setUserId($user->getId())
+                ->setUserId($userId)
                 ->setGameId($gameId)
                 ->setValue($increment)
                 ->setValue2($value2);
@@ -50,5 +49,33 @@ class StatsRepository extends EntityRepository
 
         // Save
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Merge stat on delete game
+     * @param integer $gameId
+     */
+    public function onDeleteGame($gameId)
+    {
+        // Get stats to move
+        $statList = $this->findBy([
+            'gameId' => $gameId,
+        ]);
+
+        // Move it
+        /** @var Stats $stat */
+        foreach ($statList as $stat) {
+            $this->increment($stat->getStat(), $stat->getUserId(), null, $stat->getValue2(), $stat->getValue());
+        }
+
+        // Remove old
+        $builder = $this->createQueryBuilder('stats');
+        $builder
+            ->delete()
+            ->where('stats.gameId=:gameId')
+            ->setParameters([
+                'gameId' => $gameId,
+            ]);
+        $builder->getQuery()->execute();
     }
 }
