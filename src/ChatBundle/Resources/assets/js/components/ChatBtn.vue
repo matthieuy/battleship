@@ -7,7 +7,7 @@
 <script>
   // Import
   import {mapState} from 'vuex'
-  import MUTATION from '@match/js/match/store/mutation-types'
+  import {MUTATION} from '@match/js/match/store/mutation-types'
   /* global Translator */
 
   // Bower
