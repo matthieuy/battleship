@@ -15,6 +15,7 @@ imports:
     - { resource: "@BonusBundle/Resources/config/services.yml" }
     - { resource: "@ChatBundle/Resources/config/services.yml" }
     - { resource: "@NotificationBundle/Resources/config/services.yml" }
+    - { resource: "@StatsBundle/Resources/config/services.yml" }
 
 # Parameters that don't need to change on each machine where the app is deployed
 #parameters:

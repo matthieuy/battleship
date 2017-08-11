@@ -35,6 +35,7 @@ class AppKernel extends Kernel
             new BonusBundle\BonusBundle(),
             new ChatBundle\ChatBundle(),
             new NotificationBundle\NotificationBundle(),
+            new StatsBundle\StatsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
