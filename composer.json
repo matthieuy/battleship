@@ -18,6 +18,7 @@
             "ChatBundle\\": "src/ChatBundle/",
             "MatchBundle\\": "src/MatchBundle/",
             "UserBundle\\": "src/UserBundle/",
+            "StatsBundle\\": "src/StatsBundle/",
             "NotificationBundle\\": "src/NotificationBundle/"
         },
         "classmap": [

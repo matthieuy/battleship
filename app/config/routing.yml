@@ -32,6 +32,11 @@ notification:
     resource: "@NotificationBundle/Controller/"
     type:     annotation
 
+# StatsBundle
+stats:
+    resource: "@StatsBundle/Controller/"
+    type:     annotation
+
 # JS Translation
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
