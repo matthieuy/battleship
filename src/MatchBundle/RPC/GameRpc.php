@@ -20,6 +20,7 @@ use MatchBundle\Entity\Player;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\PenaltyEvent;
 use MatchBundle\Event\TouchEvent;
+use MatchBundle\Event\WeaponEvent;
 use MatchBundle\ImagesConstant;
 use MatchBundle\MatchEvents;
 use MatchBundle\PointsConstant;
@@ -388,6 +389,9 @@ class GameRpc implements RpcInterface
                 $player->removeScore($price);
                 $this->returnBox->setWeapon($weapon);
                 $boxList = $weapon->getBoxes($game, $x, $y, $weaponRotate);
+
+                $event = new WeaponEvent($game, $player, $weapon);
+                $this->eventDispatcher->dispatch(MatchEvents::WEAPON, $event);
             }
         }
 

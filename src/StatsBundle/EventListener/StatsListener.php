@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\PenaltyEvent;
 use MatchBundle\Event\TouchEvent;
+use MatchBundle\Event\WeaponEvent;
 use MatchBundle\MatchEvents;
 use StatsBundle\StatsConstants;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,6 +44,7 @@ class StatsListener implements EventSubscriberInterface
             MatchEvents::PENALTY => 'onPenalty',
             MatchEvents::NEW_TOUR => 'onNewTour',
             MatchEvents::TOUCH => 'onTouch',
+            MatchEvents::WEAPON => 'onWeapon',
             BonusEvents::CATCH_ONE => 'onCatchBonus',
         ];
     }
@@ -164,5 +166,17 @@ class StatsListener implements EventSubscriberInterface
         $bonusId = $event->getBonus()->getId();
 
         $this->repo->increment(StatsConstants::BONUS_CATCH, $user, $event->getGame(), $bonusId);
+    }
+
+    /**
+     * On weapon use
+     * @param WeaponEvent $event
+     */
+    public function onWeapon(WeaponEvent $event)
+    {
+        $user = $event->getPlayer()->getUser();
+        $weaponName = $event->getWeapon()->getName();
+
+        $this->repo->increment(StatsConstants::WEAPON, $user, $event->getGame(), $weaponName);
     }
 }

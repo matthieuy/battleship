@@ -32,4 +32,7 @@ class StatsConstants
 
     // Catch bonus
     const BONUS_CATCH = 10;
+
+    // Use weapon
+    const WEAPON = 11;
 }

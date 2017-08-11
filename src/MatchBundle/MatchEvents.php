@@ -61,4 +61,10 @@ final class MatchEvents
      * Instance of MatchBundle\Event\PenaltyEvent
      */
     const PENALTY = 'match.penalty';
+
+    /**
+     * When a player use a weapon
+     * Instance of MatchBundle\Event\WeaponEvent
+     */
+    const WEAPON = 'match.weapon';
 }
