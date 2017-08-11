@@ -40,7 +40,7 @@ class StatsListener implements EventSubscriberInterface
         return [
             MatchEvents::CREATE => 'onCreate',
             MatchEvents::LAUNCH => 'onLaunch',
-            MatchEvents::FINISH => 'onLaunch',
+            MatchEvents::FINISH => 'onFinish',
             MatchEvents::PENALTY => 'onPenalty',
             MatchEvents::NEW_TOUR => 'onNewTour',
             MatchEvents::TOUCH => 'onTouch',
@@ -57,6 +57,24 @@ class StatsListener implements EventSubscriberInterface
     {
         $game = $event->getGame();
         $this->repo->increment(StatsConstants::GAME_CREATE, $game->getCreator());
+    }
+
+    /**
+     * On finish game
+     * @param GameEvent $event
+     * @param string    $eventName
+     */
+    public function onFinish(GameEvent $event, $eventName)
+    {
+        $game = $event->getGame();
+        $players = $game->getPlayersTour();
+        foreach ($players as $player) {
+            if ($player->isAlive()) {
+                $this->repo->increment(StatsConstants::GAME_WIN, $player->getUser());
+            }
+        }
+
+        $this->onLaunch($event, $eventName);
     }
 
     /**

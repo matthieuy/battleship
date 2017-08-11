@@ -35,4 +35,7 @@ class StatsConstants
 
     // Use weapon
     const WEAPON = 11;
+
+    // Win game
+    const GAME_WIN = 12;
 }
