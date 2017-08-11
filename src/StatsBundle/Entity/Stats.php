@@ -45,6 +45,12 @@ class Stats
     protected $value;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $value2;
+
+    /**
      * Get id
      * @return integer
      */
@@ -68,7 +74,7 @@ class Stats
      *
      * @return $this
      */
-    public function setGameId($gameId)
+    public function setGameId($gameId = null)
     {
         $this->gameId = $gameId;
 
@@ -90,7 +96,7 @@ class Stats
      *
      * @return $this
      */
-    public function setUserId($userId)
+    public function setUserId($userId = null)
     {
         $this->userId = $userId;
 
@@ -137,6 +143,28 @@ class Stats
     public function setValue($value)
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get Value2
+     * @return integer|null
+     */
+    public function getValue2()
+    {
+        return $this->value2;
+    }
+
+    /**
+     * Set Value2
+     * @param integer|null $value2
+     *
+     * @return $this
+     */
+    public function setValue2($value2 = null)
+    {
+        $this->value2 = $value2;
 
         return $this;
     }
