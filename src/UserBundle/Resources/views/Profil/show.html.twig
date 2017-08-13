@@ -2,6 +2,13 @@
 {% extends "::base.html.twig" %}
 {% block title %}{{ 'Profil of %name%'|trans({'%name%': user.username }) }} - {{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    {{  parent() }}
+    {% webpack css '@stats/less/stats.less.js' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
 {% block body %}
     <h1 class="center">{{ user.username }}</h1>
 
@@ -14,4 +21,7 @@
             <a href="{{ path('user.profil.edit', { slug: user.slug }) }}" class="button success">{{ 'Edit profil'|trans }}</a>
         </div>
     {% endif %}
+
+    {# Statistics #}
+    {{ render(controller('StatsBundle:Stats:personalStats', {user: user })) }}
 {% endblock %}

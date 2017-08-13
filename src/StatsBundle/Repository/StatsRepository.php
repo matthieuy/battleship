@@ -5,6 +5,7 @@ namespace StatsBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use MatchBundle\Entity\Game;
 use StatsBundle\Entity\Stats;
+use UserBundle\Entity\User;
 
 /**
  * Class StatsRepository
@@ -77,5 +78,40 @@ class StatsRepository extends EntityRepository
                 'gameId' => $gameId,
             ]);
         $builder->getQuery()->execute();
+    }
+
+    /**
+     * Get personal stats
+     * @param User $user
+     *
+     * @return array
+     */
+    public function getPersonalStats(User $user)
+    {
+        // Create query
+        $builder = $this->createQueryBuilder('stats');
+        $builder
+            ->where('stats.userId=:userId')
+            ->andWhere('stats.gameId IS NULL')
+            ->setParameters([
+                'userId' => $user->getId(),
+            ]);
+        $results = $builder->getQuery()->getResult();
+
+        // Organize result
+        $list = [];
+        /** @var Stats $stat */
+        foreach ($results as $stat) {
+            if ($stat->getValue2() === null) {
+                $list[$stat->getStat()] = $stat->getValue();
+            } else {
+                $list[$stat->getStat()] = [
+                    'value' => $stat->getValue(),
+                    'value2' => $stat->getValue2(),
+                ];
+            }
+        }
+
+        return $list;
     }
 }
