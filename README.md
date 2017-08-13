@@ -25,8 +25,11 @@ Features
 - Weapons
 - Bonus and inventory
 - Animate shot
-- Translations
+- Translations :
+  - English
+  - French
 - Chat
+- Statistics
 - Notifications :
   - Mail
   - SMS

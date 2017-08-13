@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="console1" resname="game_load">
+                <source>Game loaded</source>
+                <target>Partie chargée</target>
+            </trans-unit>
+            <trans-unit id="console2" resname="ai_join">
+                <source>AI join the game</source>
+                <target>Un IA rejoint la partie</target>
+            </trans-unit>
+            <trans-unit id="console3" resname="user_join">
+                <source>%name% join the game</source>
+                <target>%name% rejoint la partie</target>
+            </trans-unit>
+            <trans-unit id="console4" resname="user_leave">
+                <source>User leave the game</source>
+                <target>Utilisateur quitte la partie</target>
+            </trans-unit>
+            <trans-unit id="console5" resname="max_players">
+                <source>Max players : %nb%</source>
+                <target>Joueurs maximum : %nb%</target>
+            </trans-unit>
+            <trans-unit id="console6" resname="change_team">
+                <source>%name% change team : %nb%</source>
+                <target>%name% change d'équipe : %nb%</target>
+            </trans-unit>
+            <trans-unit id="console7" resname="change_color">
+                <source>%name% change color</source>
+                <target>%name% change de couleur</target>
+            </trans-unit>
+            <trans-unit id="console8" resname="change_position">
+                <source>%name% change position to %nb%</source>
+                <target>%name% change de position pour %nb%</target>
+            </trans-unit>
+            <trans-unit id="console9" resname="change_options">
+                <source>Change option "%name%" => %value%</source>
+                <target>Option modifié : "%name%" => %value%</target>
+            </trans-unit>
+            <trans-unit id="console10" resname="game_ready">
+                <source>Game is ready in 5 seconds</source>
+                <target>La partie est prête dans 5 secondes</target>
+            </trans-unit>
+            <trans-unit id="console11" resname="generate_empty">
+                <source>Generate empty grid</source>
+                <target>Generation d'une grille vide</target>
+            </trans-unit>
+            <trans-unit id="console12" resname="place_boat">
+                <source>Place %boat% of %user% (%i%/%nb_boat%) after %try% try</source>
+                <target>Placement des %boat% de %user% (%i%/%nb_boat%) après %try% essai(s)</target>
+            </trans-unit>
+            <trans-unit id="console13" resname="Clear grid">
+                <source>Clear grid</source>
+                <target>Nettoyage de la grille</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="ca66b1bf53f429270952e5730807cc67" resname="Edit connexion's informations">
+        <source>Edit connexion's informations</source>
+        <target>Éditer les informations de connexion</target>
+      </trans-unit>
+      <trans-unit id="5027290bc561619591d78ca4f05687d8" resname="Edit profil">
+        <source>Edit profil</source>
+        <target>Éditer le profil</target>
+      </trans-unit>
+      <trans-unit id="ee0192b32643258989b190b4a4022e54" resname="Edit profil of %name%">
+        <source>Edit profil of %name%</source>
+        <target>Éditer le profil de %name%</target>
+      </trans-unit>
+      <trans-unit id="d0c0b5fb250ad1d0b4c4f007f8acfa24" resname="Profil of %name%">
+        <source>Profil of %name%</source>
+        <target>Profil de %name%</target>
+      </trans-unit>
+      <trans-unit id="d4f55806cd59b59b755dab13a7c4c8c2" resname="Show profil">
+        <source>Show profil</source>
+        <target>Afficher profil</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

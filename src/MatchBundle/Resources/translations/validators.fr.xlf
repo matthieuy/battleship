@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="c6d5a7109be38604ff288562aad48f545b6b8446" resname="The game's name length must be greather than {{ limit }} characters">
+        <source>The game's name length must be greather than {{ limit }} characters</source>
+        <target>La longueur du nom de la partie doit faire {{ limit }} caractères minimum</target>
+      </trans-unit>
+      <trans-unit id="1778e103e72e68e197f29f71523d0558bb2a6935" resname="The game's name length must be less than {{ limit }} characters">
+        <source>The game's name length must be less than {{ limit }} characters</source>
+        <target>La longueur du nom de la partie doit faire {{ limit }} caractères maximum</target>
+      </trans-unit>
+      <trans-unit id="c362a53b03cf88a2f539b3ef11139fb823f7695a" resname="The grid size must be greater then {{ limit }}x{{ limit }}">
+        <source>The grid size must be greater then {{ limit }}x{{ limit }}</source>
+        <target>La grille doit être plus grande que {{ limit }}x{{ limit }}</target>
+      </trans-unit>
+      <trans-unit id="0a5dd4e5f319bb13e87f7664a8ee47141108cf80" resname="The grid size must be under {{ limit }}x{{ limit }}">
+        <source>The grid size must be under {{ limit }}x{{ limit }}</source>
+        <target>La grille doit être plus petite que {{ limit }}x{{ limit }}</target>
+      </trans-unit>
+      <trans-unit id="26e6256c40ea13c54e4e9e9af9d4e13e34bde3e8" resname="The number of player must be greater then {{ limit }}">
+        <source>The number of player must be greater then {{ limit }}</source>
+        <target>Le nombre de joueur doit être supérieur à {{ limit }}</target>
+      </trans-unit>
+      <trans-unit id="77aaf1dd7cd8c078f53099ff716bbd523c2648ea" resname="The number of player must be under {{ limit }}">
+        <source>The number of player must be under {{ limit }}</source>
+        <target>Le nombre de joueur doit être inférieur à {{ limit }}</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

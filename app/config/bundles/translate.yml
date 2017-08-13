@@ -3,3 +3,4 @@ bazinga_js_translation:
     locale_fallback: "en"
     active_locales:
             - en
+            - fr

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="32036005d1f6ed59803ba3e13c80993e" resname="Avatar">
+        <source>Avatar</source>
+        <target>Avatar</target>
+      </trans-unit>
+      <trans-unit id="7583655b9ed013a6bc3236cb750055bf" resname="Display grid">
+        <source>Display grid</source>
+        <target>Afficher la grille</target>
+      </trans-unit>
+      <trans-unit id="5b3c98ce02f11265e206b78638c161ac" resname="Box size">
+        <source>Box size</source>
+        <target>Taille des cases</target>
+      </trans-unit>
+      <trans-unit id="c9cc8cce247e49bae79f15173ce97354" resname="Save">
+        <source>Save</source>
+        <target>Sauvegarder</target>
+      </trans-unit>
+      <trans-unit id="ea4788705e6873b424c65e91c2846b19" resname="Cancel">
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

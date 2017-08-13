@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="bonus1" resname="Price">
+                <source>Price</source>
+                <target>Prix</target>
+            </trans-unit>
+            <trans-unit id="bonus2" resname="Rotate">
+                <source>Rotate</source>
+                <target>Rotation</target>
+            </trans-unit>
+            <trans-unit id="bonus3" resname="Select">
+                <source>Select</source>
+                <target>Sélectionner</target>
+            </trans-unit>
+            <trans-unit id="bonus4" resname="weapon.bomber">
+                <source>Bomber</source>
+                <target>Bombardier</target>
+            </trans-unit>
+            <trans-unit id="bonus5" resname="weapon.gust">
+                <source>Gust</source>
+                <target>Rafale</target>
+            </trans-unit>
+            <trans-unit id="bonus6" resname="weapon.mortar">
+                <source>Mortar</source>
+                <target>Mortier</target>
+            </trans-unit>
+            <trans-unit id="bonus7" resname="weapon.flash">
+                <source>Flash</source>
+                <target>Flash</target>
+            </trans-unit>
+            <trans-unit id="bonus8" resname="Inventory">
+                <source>Inventory</source>
+                <target>Inventaire</target>
+            </trans-unit>
+            <trans-unit id="bonus8b" resname="Inventory is empty">
+                <source>Inventory is empty</source>
+                <target>L'inventaire est vide</target>
+            </trans-unit>
+            <trans-unit id="bonus9" resname="use_it">
+                <source>Use it</source>
+                <target>Utiliser</target>
+            </trans-unit>
+            <trans-unit id="bonus10" resname="select_target">
+                <source>Select target</source>
+                <target>Sélectionnez la cible</target>
+            </trans-unit>
+            <trans-unit id="bonus11" resname="bonus.point">
+                <source>Points</source>
+                <target>Points</target>
+            </trans-unit>
+            <trans-unit id="bonus12" resname="bonus.point.desc">
+                <source>Add points</source>
+                <target>Ajouter des points</target>
+            </trans-unit>
+            <trans-unit id="bonus13" resname="bonus.point.team">
+                <source>Team points</source>
+                <target>Points d'équipe</target>
+            </trans-unit>
+            <trans-unit id="bonus14" resname="bonus.point.team.desc">
+                <source>Add points to all players in your team</source>
+                <target>Ajoute des points à tous les joueurs de votre équipe</target>
+            </trans-unit>
+            <trans-unit id="bonus15" resname="bonus.point.team.msg">
+                <source>%user% offer %points% points to your team</source>
+                <target>%user% offre %points% points à votre équipe</target>
+            </trans-unit>
+            <trans-unit id="bonus16" resname="bonus.skip_player">
+                <source>Skip player</source>
+                <target>Passer un joueur</target>
+            </trans-unit>
+            <trans-unit id="bonus17" resname="bonus.skip_player.desc">
+                <source>One player can't play next tour</source>
+                <target>Un joueur ne pourra pas jouer le prochain tour</target>
+            </trans-unit>
+            <trans-unit id="bonus18" resname="bonus.skip_player.msg">
+                <source>%victim% skip his tour (by %user%)</source>
+                <target>%victim% passe son tour (par %user%)</target>
+            </trans-unit>
+            <trans-unit id="bonus19" resname="bonus.robber">
+                <source>Robber</source>
+                <target>Voleur</target>
+            </trans-unit>
+            <trans-unit id="bonus20" resname="bonus.robber.desc">
+                <source>Steal points to your ennemy</source>
+                <target>Voler des points à votre ennemi</target>
+            </trans-unit>
+            <trans-unit id="bonus21" resname="bonus.robber.msg">
+                <source>%user% steal %points% to %victim%</source>
+                <target>%user% vole %points% points à %victim%</target>
+            </trans-unit>
+            <trans-unit id="bonus22" resname="bonus.spy">
+                <source>Spy</source>
+                <target>Espion</target>
+            </trans-unit>
+            <trans-unit id="bonus23" resname="bonus.spy.desc">
+                <source>Discover the number of points of your enemy</source>
+                <target>Découvrir le nombre de point de ses ennemies</target>
+            </trans-unit>
+            <trans-unit id="bonus23msg" resname="bonus.spy.msg">
+                <source>%user% spy the enemy (points/probability) : %list%</source>
+                <target>%user% espionne ses ennemies (points/proba) : %list%</target>
+            </trans-unit>
+            <trans-unit id="bonus24" resname="bonus.reset">
+                <source>Reset</source>
+                <target>RàZ</target>
+            </trans-unit>
+            <trans-unit id="bonus25" resname="bonus.reset.desc">
+                <source>Reset probability of your enemy</source>
+                <target>Remise à zéro des probabilités de bonus de votre ennemie</target>
+            </trans-unit>
+            <trans-unit id="bonus26" resname="bonus.damage">
+                <source>Double damage</source>
+                <target>Double dégât</target>
+            </trans-unit>
+            <trans-unit id="bonus27" resname="bonus.damage.desc">
+                <source>Multiplies the score if a touch during the lap</source>
+                <target>Multiplie le score si il y a une touche durant le prochain tir</target>
+            </trans-unit>
+            <trans-unit id="bonus28" resname="bonus.booster">
+                <source>Captain's equipment</source>
+                <target>Équipement du capitaine</target>
+            </trans-unit>
+            <trans-unit id="bonus29" resname="bonus.booster.desc">
+                <source>Increases your luck to catch a big bonus</source>
+                <target>Augmente les chances de toucher de gros bonus</target>
+            </trans-unit>
+            <trans-unit id="bonus30" resname="bonus.bomber">
+                <source>Fighter bomber</source>
+                <target>Bombadier</target>
+            </trans-unit>
+            <trans-unit id="bonus31" resname="bonus.bomber.desc">
+                <source>Drop random bombs</source>
+                <target>Lâche des bombes aléatoirements</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

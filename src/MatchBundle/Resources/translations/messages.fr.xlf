@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="match1" resname="btn_ai">
+                <source>Add a AI</source>
+                <target>Ajouter un IA</target>
+            </trans-unit>
+            <trans-unit id="match2" resname="btn_ai_tip">
+                <source>Add a player managed by the computer.</source>
+                <target>Ajouter un joueur géré par l'ordinateur.</target>
+            </trans-unit>
+            <trans-unit id="match3" resname="btn_join">
+                <source>Join</source>
+                <target>Rejoindre</target>
+            </trans-unit>
+            <trans-unit id="match4" resname="btn_join_tip">
+                <source>Join the game.</source>
+                <target>Rejoindre la partie.</target>
+            </trans-unit>
+            <trans-unit id="match5" resname="btn_leave">
+                <source>Leave</source>
+                <target>Quitter</target>
+            </trans-unit>
+            <trans-unit id="match6" resname="btn_leave_tip">
+                <source>Leave the game.</source>
+                <target>Quitter la partie.</target>
+            </trans-unit>
+            <trans-unit id="match7" resname="btn_run">
+                <source>Start</source>
+                <target>Lancer</target>
+            </trans-unit>
+            <trans-unit id="match8" resname="btn_run_tip">
+                <source><![CDATA[Once everyone is ready<br>and options configured : you can start the game!]]></source>
+                <target><![CDATA[Quand tout le monde est prêt<br>et les options configurées : on peux lancer la partie !]]></target>
+            </trans-unit>
+            <trans-unit id="match9" resname="error_team">
+                <source>The game must consist with SEVERAL teams</source>
+                <target>La partie doit contenir PLUSIEURS équipes</target>
+            </trans-unit>
+            <trans-unit id="match10" resname="error_empty_team">
+                <source>Nobody in team #%team% !</source>
+                <target>Personne dans l'équipe #%team% !</target>
+            </trans-unit>
+            <trans-unit id="match11" resname="error_ai">
+                <source>Game contains only AI!</source>
+                <target>La partie ne contient que des IA !</target>
+            </trans-unit>
+            <trans-unit id="match12" resname="confirm_start">
+                <source>Are you sure to start the game ?</source>
+                <target>Êtes-vous sûr de vouloir démarrer la partie ?</target>
+            </trans-unit>
+            <trans-unit id="match13" resname="Informations">
+                <source>Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+            <trans-unit id="match14" resname="gridsize">
+                <source>Grid size</source>
+                <target>Taille de la grille</target>
+            </trans-unit>
+            <trans-unit id="match15" resname="XXL">
+                <source>XXL</source>
+                <target>XXL</target>
+            </trans-unit>
+            <trans-unit id="match16" resname="create_date">
+                <source>Create date</source>
+                <target>Date de création</target>
+            </trans-unit>
+            <trans-unit id="match17" resname="Creator">
+                <source>Creator</source>
+                <target>Créateur</target>
+            </trans-unit>
+            <trans-unit id="match18" resname="Status">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+            <trans-unit id="match19" resname="Options">
+                <source>Options</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="match20" resname="penalty_in">
+                <source>Penalty in</source>
+                <target>Penalité dans</target>
+            </trans-unit>
+            <trans-unit id="match21" resname="penalty_name">
+                <source>Penalty</source>
+                <target>Pénalité</target>
+            </trans-unit>
+            <trans-unit id="match22" resname="penalty_desc">
+                <source><![CDATA[Over a certain time without playing,<br>the player takes a shot on one of his boats.]]></source>
+                <target><![CDATA[Après un certain temps sans jouer,<br>le joueur prend un tir sur un de ses bateaux.]]></target>
+            </trans-unit>
+            <trans-unit id="match23" resname="weapon_name">
+                <source>Weapons</source>
+                <target>Armes</target>
+            </trans-unit>
+            <trans-unit id="match24" resname="weapon_desc">
+                <source><![CDATA[Players can use their points <br>for use special weapon.<br><br>(see scores table)]]></source>
+                <target><![CDATA[Les joueurs peuvent utiliser leurs points<br>pour utiliser des armes spéciales.<br><br>(voir tableau des scores)]]></target>
+            </trans-unit>
+            <trans-unit id="match25" resname="bonus_name">
+                <source>Bonus</source>
+                <target>Bonus</target>
+            </trans-unit>
+            <trans-unit id="match26" resname="bonus_desc">
+                <source>Players can catch bonus</source>
+                <target>Les joueurs peuvent attraper des bonus</target>
+            </trans-unit>
+            <trans-unit id="match27" resname="color">
+                <source>Color</source>
+                <target>Couleur</target>
+            </trans-unit>
+            <trans-unit id="match28" resname="Player">
+                <source>Player</source>
+                <target>Joueur</target>
+            </trans-unit>
+            <trans-unit id="match29" resname="AI">
+                <source>AI</source>
+                <target>IA</target>
+            </trans-unit>
+            <trans-unit id="match30" resname="Team">
+                <source>Team</source>
+                <target>Équipe</target>
+            </trans-unit>
+            <trans-unit id="match31" resname="Change color">
+                <source>Change color</source>
+                <target>Changer de couleur</target>
+            </trans-unit>
+            <trans-unit id="match32" resname="no_player">
+                <source>No players</source>
+                <target>Aucun joueur</target>
+            </trans-unit>
+            <trans-unit id="match33" resname="Console">
+                <source>Console</source>
+                <target>Console</target>
+            </trans-unit>
+            <trans-unit id="match34" resname="Wrong color">
+                <source>Wrong color</source>
+                <target>Mauvaise couleur</target>
+            </trans-unit>
+            <trans-unit id="match35" resname="error_already_start">
+                <source>The game has already started</source>
+                <target>La partie est déjà débutée</target>
+            </trans-unit>
+            <trans-unit id="match36" resname="error_generate">
+                <source>Unable to place all boats : try again or take a larger grid!</source>
+                <target>Impossible de placer tout les bateaux : essayez encore ou prenez une grille plus grande !</target>
+            </trans-unit>
+            <trans-unit id="match37" resname="error_generate2">
+                <source>Error while generate grid</source>
+                <target>Erreur durant la génération de la grille</target>
+            </trans-unit>
+            <trans-unit id="match38" resname="gameover">
+                <source>Game is over</source>
+                <target>Partie terminée</target>
+            </trans-unit>
+            <trans-unit id="match39" resname="error_shoot">
+                <source>You can't shoot here</source>
+                <target>Vous ne pouvez pas tirer ici</target>
+            </trans-unit>
+            <trans-unit id="match40" resname="error_tour">
+                <source>You can't play now!</source>
+                <target>Vous ne pouvez pas jouer maintenant !</target>
+            </trans-unit>
+            <trans-unit id="match41" resname="already_shoot">
+                <source>Someone already shoot here!</source>
+                <target>Quelqu'un a déjà tiré ici !</target>
+            </trans-unit>
+            <trans-unit id="match42" resname="own_boat">
+                <source>Unable to shoot own boats!</source>
+                <target>Impossible de tirer sur ces propres bateaux !</target>
+            </trans-unit>
+            <trans-unit id="match43" resname="team_shoot">
+                <source>Team shoot is forbidden!</source>
+                <target>Tir allié est interdit !</target>
+            </trans-unit>
+            <trans-unit id="match44" resname="error_player404">
+                <source>Player not found</source>
+                <target>Joueur introuvable</target>
+            </trans-unit>
+            <trans-unit id="match45" resname="error_boat404">
+                <source>The boat not found</source>
+                <target>Bateau introuvable</target>
+            </trans-unit>
+            <trans-unit id="match46" resname="shoot_of">
+                <source>Shot of %name%</source>
+                <target>Tir de "%name%"</target>
+            </trans-unit>
+            <trans-unit id="match47" resname="boat_of">
+                <source>Boat of %name%</source>
+                <target>Bateau de "%name%"</target>
+            </trans-unit>
+            <trans-unit id="match48" resname="your_boat">
+                <source>Your boat</source>
+                <target>Votre bateau</target>
+            </trans-unit>
+            <trans-unit id="match49" resname="your_shot">
+                <source>Your shot</source>
+                <target>Votre tir</target>
+            </trans-unit>
+            <trans-unit id="match50" resname="winner_list">
+                <source>Winner : %list%</source>
+                <target>Vainqueurs : %list%</target>
+            </trans-unit>
+            <trans-unit id="match51" resname="waiting_list">
+                <source>Waiting shot of %list%</source>
+                <target>En attente des tirs de %list%</target>
+            </trans-unit>
+            <trans-unit id="match52" resname="Lifes">
+                <source>Lifes</source>
+                <target>Vies</target>
+            </trans-unit>
+            <trans-unit id="match53" resname="Torpedo">
+                <source>Torpedo</source>
+                <target>Torpilleur</target>
+            </trans-unit>
+            <trans-unit id="match54" resname="Destroyer">
+                <source>Destroyer</source>
+                <target>Destroyer</target>
+            </trans-unit>
+            <trans-unit id="match55" resname="Cruiser">
+                <source>Cruiser</source>
+                <target>Croiser</target>
+            </trans-unit>
+            <trans-unit id="match56" resname="Aircraft">
+                <source>Aircraft</source>
+                <target>Porte-avions</target>
+            </trans-unit>
+            <trans-unit id="match57" resname="game_full">
+                <source>Game is full</source>
+                <target>Partie pleine</target>
+            </trans-unit>
+            <trans-unit id="match58" resname="waiting_player">
+                <source>Waiting players</source>
+                <target>En attente de joueurs</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

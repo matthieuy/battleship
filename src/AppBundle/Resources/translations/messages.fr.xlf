@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="app1" resname="Loading list...">
+                <source>Loading list...</source>
+                <target>Chargement de la liste...</target>
+            </trans-unit>
+            <trans-unit id="app2" resname="Waiting games">
+                <source>Waiting games</source>
+                <target>Parties en attentes</target>
+            </trans-unit>
+            <trans-unit id="app3" resname="Games">
+                <source>Games</source>
+                <target>Parties</target>
+            </trans-unit>
+            <trans-unit id="app4" resname="Players">
+                <source>Players</source>
+                <target>Joueurs</target>
+            </trans-unit>
+            <trans-unit id="app5" resname="Games in progress">
+                <source>Games in progress</source>
+                <target>Parties en cours</target>
+            </trans-unit>
+            <trans-unit id="app6" resname="Tour">
+                <source>Tour</source>
+                <target>Tour</target>
+            </trans-unit>
+            <trans-unit id="app7" resname="create_on">
+                <source>Create</source>
+                <target>Créé</target>
+            </trans-unit>
+            <trans-unit id="app8" resname="start_on">
+                <source>Start</source>
+                <target>Débuté</target>
+            </trans-unit>
+            <trans-unit id="app9" resname="shoot_on">
+                <source>Last shoot</source>
+                <target>Dernier tir</target>
+            </trans-unit>
+            <trans-unit id="app10" resname="by_author">
+                <source>by %author%</source>
+                <target>par %author%</target>
+            </trans-unit>
+            <trans-unit id="app11" resname="Games over">
+                <source>Games over</source>
+                <target>Parties terminées</target>
+            </trans-unit>
+            <trans-unit id="app12" resname="Winners">
+                <source>Winners</source>
+                <target>Vainqueurs</target>
+            </trans-unit>
+            <trans-unit id="app13" resname="finish_on">
+                <source>finish</source>
+                <target>Finit</target>
+            </trans-unit>
+            <trans-unit id="app14" resname="no_game">
+                <source>Any game</source>
+                <target>Aucune partie</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

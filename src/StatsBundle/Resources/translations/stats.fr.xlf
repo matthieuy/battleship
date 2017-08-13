@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="stats.en.xlf">
+        <body>
+            <trans-unit id="stat2" resname="Games created">
+                <source>Games created</source>
+                <target>Parties crées</target>
+            </trans-unit>
+            <trans-unit id="0" resname="Games started">
+                <source>Games started</source>
+                <target>Parties débutées</target>
+            </trans-unit>
+            <trans-unit id="1">
+                <source>Winning games</source>
+                <target>Parties gagnées</target>
+            </trans-unit>
+            <trans-unit id="2" resname="Games finished">
+                <source>Games finished</source>
+                <target>Parties terminées</target>
+            </trans-unit>
+            <trans-unit id="3" resname="Go back to game">
+                <source>Go back to game</source>
+                <target>Retour à la partie</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

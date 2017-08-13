@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="68f18f6b55f955ad05e4a174341bf3f1" resname="Close menu">
+        <source>Close menu</source>
+        <target>Fermer le menu</target>
+      </trans-unit>
+      <trans-unit id="d4a0881a7bf63e43d691b559807c937a" resname="Create game">
+        <source>Create game</source>
+        <target>Créer une partie</target>
+      </trans-unit>
+      <trans-unit id="f2a6c498fb90ee345d997f888fce3b18" resname="Delete">
+        <source>Delete</source>
+        <target>Supprimer</target>
+      </trans-unit>
+      <trans-unit id="59bc1e034bfa0c86feb65c4d567da378" resname="Delete the game">
+        <source>Delete the game</source>
+        <target>Supprimer la partie</target>
+      </trans-unit>
+      <trans-unit id="5dd135d1bcfa7f63c3b7f25425c2a4a1" resname="Score">
+        <source>Score</source>
+        <target>Score</target>
+      </trans-unit>
+      <trans-unit id="106a6c241b8797f52e1e77317b96a201" resname="home">
+        <source>home</source>
+        <target>Accueil</target>
+      </trans-unit>
+      <trans-unit id="8d6ab84ca2af9fccd4e4048694176ebf" resname="menu">
+        <source>menu</source>
+        <target>Menu</target>
+      </trans-unit>
+      <trans-unit id="503db976e003ef2fe33a37c051053940" resname="Who online ?">
+        <source>Who online ?</source>
+        <target>Qui est en ligne ?</target>
+      </trans-unit>
+      <trans-unit id="a274f4d4670213a9045ce258c6c56b80" resname="Notifications">
+        <source>Notifications</source>
+        <target>Notifications</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

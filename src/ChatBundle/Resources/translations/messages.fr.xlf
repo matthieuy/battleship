@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+        <body>
+            <trans-unit id="chat1" resname="Chat">
+                <source>Chat</source>
+                <target>Chat</target>
+            </trans-unit>
+            <trans-unit id="chat2" resname="General">
+                <source>General</source>
+                <target>Général</target>
+            </trans-unit>
+            <trans-unit id="chat3" resname="system.bonus_catch">
+                <source>%username% catch a bonus</source>
+                <target>%username% attrape un bonus</target>
+            </trans-unit>
+            <trans-unit id="chat4" resname="system.finish">
+                <source>Game is over ! Winner(s) : %list%</source>
+                <target>Partie terminée ! Vainqueur(s) : %list%</target>
+            </trans-unit>
+            <trans-unit id="chat5" resname="system.discovery">
+                <source>%shooter% discovered a %victim%'s boat</source>
+                <target>%shooter% découvre un bateau à %victim%</target>
+            </trans-unit>
+            <trans-unit id="chat6" resname="system.fatal">
+                <source>%shooter% finish %victim%</source>
+                <target>%shooter% donne le coup de grâce à %victim%</target>
+            </trans-unit>
+            <trans-unit id="chat7" resname="system.touch">
+                <source>%shooter% touch a boat of %victim%</source>
+                <target>%shooter% touche un bateau à %victim%</target>
+            </trans-unit>
+            <trans-unit id="chat8" resname="system.sink">
+                <source>%shooter% sink a %boat% of %victim%</source>
+                <target>%shooter% coule le %boat% à %victim%</target>
+            </trans-unit>
+            <trans-unit id="chat9" resname="system.penalty">
+                <source>%username% take a penalty</source>
+                <target>%username% prend une pénalité</target>
+            </trans-unit>
+            <trans-unit id="chat10" resname="system.penalty_victim">
+                <source>%victim% take penalty instead of %username%</source>
+                <target>%victim% prend une pénalité à la place de %username%</target>
+            </trans-unit>
+            <trans-unit id="chat11" resname="system.bonus_use">
+                <source>%username% use a bonus</source>
+                <target>%username% utilise un bonus</target>
+            </trans-unit>
+            <trans-unit id="chat13" resname="system.bonus_catch_team">
+                <source>%username% catch a bonus : %bonus%</source>
+                <target>%username% attrape un bonus : %bonus%</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

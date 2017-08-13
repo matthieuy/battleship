@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="not.available">
+    <body>
+      <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
+        <source>Actions</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="45461202537a9ee95ad4d538f09250f871c2429e" resname="Blow">
+        <source>Blow</source>
+        <target>Coup de grâce</target>
+      </trans-unit>
+      <trans-unit id="fd8e45bac7d354790ec0a82d8a61341bf8acd055" resname="Direction">
+        <source>Direction</source>
+        <target>Direction</target>
+      </trans-unit>
+      <trans-unit id="3b3290c7fa38e8995548177b7dc6f6f38a686a22" resname="Discovery">
+        <source>Discovery</source>
+        <target>Découverte</target>
+      </trans-unit>
+      <trans-unit id="a87d6df2cb394ce24dd6ec032f09712af4ce7092" resname="Last shot on a boat.">
+        <source>Last shot on a boat.</source>
+        <target>Dernier tir sur un bateau.</target>
+      </trans-unit>
+      <trans-unit id="e53e8d5300c878019a997d4cfb7201c7ed2ee003" resname="Sink">
+        <source>Sink</source>
+        <target>Couler</target>
+      </trans-unit>
+      <trans-unit id="3d60d9cae0c08d91b8e982574a0919fc87bfebb9" resname="Sink the last boat of your enemy.">
+        <source>Sink the last boat of your enemy.</source>
+        <target>Couler le dernier bateau d'un ennemi.</target>
+      </trans-unit>
+      <trans-unit id="c3ce4775684b53d7ef6231f14af5a5c336f411ee" resname="The first hit on the boat.">
+        <source>The first hit on the boat.</source>
+        <target>Le 1er tir sur un bateau.</target>
+      </trans-unit>
+      <trans-unit id="735ce1f4aadb6a9e213d81b7cf8816a206d05cdf" resname="The second hit on the boat.">
+        <source>The second hit on the boat.</source>
+        <target>Le 2ème tir sur un bateau.</target>
+      </trans-unit>
+      <trans-unit id="e3f139abb7a549a1210b36f7dbf89215ad6c9902" resname="Touch">
+        <source>Touch</source>
+        <target>Toucher</target>
+      </trans-unit>
+      <trans-unit id="613c96d8e23ce610cee7f34861c948adbe448b58" resname="Touch a boat.">
+        <source>Touch a boat.</source>
+        <target>Toucher un bateau.</target>
+      </trans-unit>
+      <trans-unit id="819f41f058379eb51168ff0ad732be993fa49610" resname="points">
+        <source>points</source>
+        <target>points</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

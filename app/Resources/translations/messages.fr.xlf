@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="60d7256e376411625bec35a812715320" resname="error_ws">
+        <source>error_ws</source>
+        <target>Erreur de connexion Websocket!</target>
+      </trans-unit>
+      <trans-unit id="0fc30646d5cf22910283967bf24ebf66" resname="Bad request">
+        <source>Bad request</source>
+        <target>Mauvaise requête</target>
+      </trans-unit>
+      <trans-unit id="b84f0efdd4353592b2b7b21926b02407" resname="Game delete successful!">
+        <source>Game delete successful!</source>
+        <target>Partie supprimée avec succès !</target>
+      </trans-unit>
+      <trans-unit id="57a3addda6f46f6b9b20fb5bdbd0d07d" resname="ask_delete_game">
+        <source>ask_delete_game</source>
+        <target>Êtes-vous sûr de vouloir supprimer cette partie ?</target>
+      </trans-unit>
+      <trans-unit id="45813f0df47638110cb1a5456a3924e4" resname="Name of the game">
+        <source>Name of the game</source>
+        <target>Nom de la partie</target>
+      </trans-unit>
+      <trans-unit id="a10311459433adf322f2590a4987c423" resname="enabled">
+        <source>enabled</source>
+        <target>activé</target>
+      </trans-unit>
+      <trans-unit id="075ae3d2fc31640504f814f60e5ef713" resname="disabled">
+        <source>disabled</source>
+        <target>désactivé</target>
+      </trans-unit>
+      <trans-unit id="a14fa2166ed698f3d04061f57e5ab9b9" resname="loading">
+        <source>loading</source>
+        <target>Chargement...</target>
+      </trans-unit>
+      <trans-unit id="5dd135d1bcfa7f63c3b7f25425c2a4a1" resname="Score">
+        <source>Score</source>
+        <target>Score</target>
+      </trans-unit>
+      <trans-unit id="d3d2e617335f08df83599665eef8a418" resname="Close">
+        <source>Close</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="a9c98b1ff4b688de60e9ab3330a76ccc" resname="points_plurial">
+        <source>points_plurial</source>
+        <target>[0,1]%nb% point|]1,Inf[%nb% points</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

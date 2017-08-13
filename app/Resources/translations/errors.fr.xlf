@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="8e95bd427d65fbeeedb980f640074ea2" resname="error_code">
+        <source>error_code</source>
+        <target>Erreur %code%</target>
+      </trans-unit>
+      <trans-unit id="de9b9ed78d7e2e1dceeffee780e2f919" resname="javascript">
+        <source>javascript</source>
+        <target>Ce jeu nécessite javascript d'activé !</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
