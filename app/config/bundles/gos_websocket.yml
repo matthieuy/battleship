@@ -22,3 +22,5 @@ gos_web_socket:
                 - "@BonusBundle/Resources/config/rpc.yml"
                 - "@AppBundle/Resources/config/rpc.yml"
                 - "@ChatBundle/Resources/config/rpc.yml"
+    periodic:
+        - "@websocket.ping.periodic"

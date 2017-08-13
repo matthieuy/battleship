@@ -1,13 +1,13 @@
 services:
-#    # PDO connexion
-#    pdo:
-#        class: PDO
-#        arguments:
-#            - "mysql:host=%database_host%;port=%database_port%;dbname=%database_name%"
-#            - "%database_user%"
-#            - "%database_password%"
-#        calls:
-#            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+    # PDO connexion
+    pdo:
+        class: PDO
+        arguments:
+            - "mysql:host=%database_host%;port=%database_port%;dbname=%database_name%"
+            - "%database_user%"
+            - "%database_password%"
+        calls:
+            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
 #
 #    # PDO session
 #    session.handler.pdo:
@@ -37,3 +37,12 @@ services:
         arguments:
             - "@snc_redis.ws_client"
             - "ws"
+
+    # PDO periodic ping
+    websocket.ping.periodic:
+        class: AppBundle\Periodic\PdoPeriodicPing
+        lazy: true
+        arguments:
+            - '@?pdo'
+            - '@?monolog.logger.websocket'
+
