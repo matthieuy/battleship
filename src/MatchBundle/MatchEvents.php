@@ -67,4 +67,10 @@ final class MatchEvents
      * Instance of MatchBundle\Event\WeaponEvent
      */
     const WEAPON = 'match.weapon';
+
+    /**
+     * When a player shoot
+     * Instance of MatchBundle\Event\PlayerEvent
+     */
+    const SHOOT = 'match.shoot';
 }
