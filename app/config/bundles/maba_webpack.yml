@@ -1,5 +1,5 @@
 maba_webpack:
-    enabled_bundles: [AppBundle, BonusBundle, ChatBundle, MatchBundle, UserBundle, NotificationBundle]
+    enabled_bundles: [AppBundle, BonusBundle, ChatBundle, MatchBundle, UserBundle, NotificationBundle, StatsBundle]
     config:
         parameters:
             extract_css: true

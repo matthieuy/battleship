@@ -8,8 +8,8 @@ TODO
 - [ ] Mobile :
   - [ ] Helper for weapon
 - [ ] Stats :
-  - [ ] Register stats on event
-  - [ ] Display user stats on profil
+  - [X] Register stats on event
+  - [X] Display user stats on profil
   - [ ] Display stats on game
 - [ ] Translate :
   - [ ] Translate in French

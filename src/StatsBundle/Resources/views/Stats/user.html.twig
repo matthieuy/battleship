@@ -1,0 +1,28 @@
+{% trans_default_domain 'stats' %}
+<h1 class="center">{{ 'Statistics'|trans }}</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th colspan="2">Statistics</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ 'Games created'|trans }}</td>
+            <td>{{ personal[constant('GAME_CREATE', const)]|default('0') }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'Games started'|trans }}</td>
+            <td>{{ personal[constant('GAME_START', const)]|default('0') }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'Games finished'|trans }}</td>
+            <td>{{ personal[constant('GAME_FINISH', const)]|default('0') }}</td>
+        </tr>
+        <tr>
+            <td>{{ 'Winning games'|trans }}</td>
+            <td>{{ personal[constant('GAME_WIN', const)]|default('0') }}</td>
+        </tr>
+    </tbody>
+</table>
