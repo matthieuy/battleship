@@ -38,4 +38,7 @@ class StatsConstants
 
     // Win game
     const GAME_WIN = 12;
+
+    // Shoot
+    const SHOOT = 13;
 }

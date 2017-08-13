@@ -19,6 +19,7 @@ use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\PenaltyEvent;
+use MatchBundle\Event\PlayerEvent;
 use MatchBundle\Event\TouchEvent;
 use MatchBundle\Event\WeaponEvent;
 use MatchBundle\ImagesConstant;
@@ -252,6 +253,7 @@ class GameRpc implements RpcInterface
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
         $this->pusher->push([], 'game.score.topic', ['slug' => $game->getSlug()]);
         $this->eventDispatcher->dispatch(MatchEvents::CHANGE_TOUR, new GameEvent($game));
+        $this->eventDispatcher->dispatch(MatchEvents::SHOOT, new PlayerEvent($game, $player));
 
         // Save
         $this->em->flush();
@@ -744,6 +746,7 @@ class GameRpc implements RpcInterface
         foreach ($boxes as $i => $box) {
             $this->doFire($game, $box, $ai, $i == 0);
         }
+        $this->eventDispatcher->dispatch(MatchEvents::SHOOT, new PlayerEvent($game, $ai));
 
         // Bonus
         if ($game->getOption('bonus', false) && !$this->returnBox->isDoTouch()) {
