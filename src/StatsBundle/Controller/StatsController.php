@@ -2,6 +2,8 @@
 
 namespace StatsBundle\Controller;
 
+use MatchBundle\Entity\Game;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use StatsBundle\StatsConstants;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UserBundle\Entity\User;
@@ -12,6 +14,25 @@ use UserBundle\Entity\User;
  */
 class StatsController extends Controller
 {
+    /**
+     * Statistics game
+     * @param Game $game
+     * @Route(
+     *     name="stats.game",
+     *     path="/game/{slug}/stats",
+     *     methods={"GET"},
+     *     requirements={"slug": "([0-9A-Za-z\-]+)"}
+     *     )
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function gameStatsAction(Game $game)
+    {
+        return $this->render('@Stats/Stats/game.html.twig', [
+            'game' => $game,
+        ]);
+    }
+
     /**
      * Get embed render of personal statistics
      * @param User $user

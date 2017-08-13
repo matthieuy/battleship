@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+{% trans_default_domain 'stats' %}
+{% block title %}{{ 'Statistics'|trans({}, 'messages') }} "{{ game.name }}" - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{  parent() }}
+    {% webpack css '@stats/less/stats.less.js' %}
+    <link rel="stylesheet" href="{{ asset_url }}">
+    {% end_webpack %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">{{ game.name }} - {{ 'Statistics'|trans({}, 'messages') }}</h1>
+
+    <div class="center">
+        <a href="{{ path('match.display', { slug: game.slug }) }}" class="button success">{{ 'Go back to game'|trans }}</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th colspan="2">{{ 'Games'|trans({}, 'messages') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ 'start_on'|trans({}, 'messages') }}</td>
+                <td>{{ game.runAt|localizeddate }}</td>
+            </tr>
+            {% if game.status == 2 %}
+                <tr>
+                    <td>{{ 'finish_on'|trans({}, 'messages') }}</td>
+                    <td>{{ game.lastShoot|localizeddate }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

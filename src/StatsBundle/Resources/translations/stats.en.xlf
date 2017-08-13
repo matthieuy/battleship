@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
         <body>
-            <trans-unit id="stat1" resname="Statistics">
-                <source>Statistics</source>
-                <target>Statistics</target>
-            </trans-unit>
             <trans-unit id="stat2" resname="Games created">
                 <source>Games created</source>
                 <target>Games created</target>
@@ -21,6 +17,10 @@
             <trans-unit id="2" resname="Games finished">
                 <source>Games finished</source>
                 <target>Games finished</target>
+            </trans-unit>
+            <trans-unit id="3" resname="Go back to game">
+                <source>Go back to game</source>
+                <target>Go back to game</target>
             </trans-unit>
         </body>
     </file>

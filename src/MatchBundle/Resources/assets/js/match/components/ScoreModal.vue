@@ -79,6 +79,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
+                                <a :href="stats" class="button small-10 large-3" @click="statsLink()">{{ trans('Statistics') }}</a>
                                 <button class="close button alert small-10 large-3" @click="close()">
                                     <i class="fa fa-close"></i>
                                     {{ trans('Close') }}
@@ -101,6 +102,7 @@
   export default {
     props: {
       time: {type: String},
+      stats: {type: String},
     },
     data () {
       return {
@@ -127,6 +129,10 @@
       // Close modal
       close () {
         this.$store.commit(MUTATION.SCORE.MODAL, false)
+      },
+      // Open stats link
+      statsLink () {
+        window.location.href = this.stats
       },
     },
     watch: {
