@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+source $SCRIPTPATH/vars
+cd $ROOTPATH
+
+./bin/console fos:js-routing:dump --callback="module.exports = " --target="web/assets/fos_js_routes_export.js"

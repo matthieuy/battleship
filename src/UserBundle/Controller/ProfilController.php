@@ -38,6 +38,22 @@ class ProfilController extends Controller
     }
 
     /**
+     * Redirect to profil from route id
+     * @param User $user
+     *
+     * @Route(
+     *     name="user.profil.showId",
+     *     path="/user/id/{id}",
+     *     methods={"GET"},
+     *     requirements={"id": "([0-9]+)"})
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function showByIdAction(User $user)
+    {
+        return $this->redirectToRoute('user.profil.show', ['slug' => $user->getSlug()]);
+    }
+
+    /**
      * Edit a profil
      * @param Request $request
      * @param User    $user

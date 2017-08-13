@@ -9,6 +9,7 @@
     "exports-loader": "^0.6.4",
     "favico.js": "^0.3.10",
     "font-awesome": "^4.7.0",
+    "fos-routing": "^0.0.2",
     "jquery": "^3.1.1",
     "jquery-mobile": "^1.5.0-alpha.1",
     "jquery-ui": "^1.12.1",

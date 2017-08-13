@@ -96,6 +96,7 @@
     echo "Task : Assets";
     cd {{ $dirLastRelease }};
     ./bin/console assets:install --env={{ $env }};
+    ./bin/js-link
     echo "/!\ Compile Webpack : Take a while...";
     ./bin/console maba:webpack:compile --env={{ $env }};
 @endtask

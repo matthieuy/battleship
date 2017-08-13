@@ -39,7 +39,7 @@
                                                         <span class="name" :class="{dead: player.life <= 0 }">{{ player.name }}</span>
                                                         <span class="lbl" :class="{dead: player.life <= 0, tour: player.tour }">{{ player.position + 1 }}</span>
                                                         <div class="avatar-content" :style="'border-color: #'+player.color+';'">
-                                                            <img class="avatar" :src="'/user/'+player.userId+'-50.png'">
+                                                            <img class="avatar cursor" :src="routing('user.avatar', { id: player.userId, size: 50 })" @click="profilLink(player.userId)">
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -79,7 +79,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <a :href="stats" class="button small-10 large-3" @click="statsLink()">{{ trans('Statistics') }}</a>
+                                <button class="button small-10 large-3" @click="statsLink()">{{ trans('Statistics') }}</button>
                                 <button class="close button alert small-10 large-3" @click="close()">
                                     <i class="fa fa-close"></i>
                                     {{ trans('Close') }}
@@ -95,6 +95,7 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import {MUTATION} from '../store/mutation-types'
+  import Routing from '@app/js/routing'
   /* global WS, $, Translator */
 
   require('@app/js/vendor/jquery.timeago.js')
@@ -102,13 +103,15 @@
   export default {
     props: {
       time: {type: String},
-      stats: {type: String},
     },
     data () {
       return {
         latency: 0,
         trans () {
           return Translator.trans(...arguments)
+        },
+        routing () {
+          return Routing.generate(...arguments)
         },
       }
     },
@@ -132,7 +135,11 @@
       },
       // Open stats link
       statsLink () {
-        window.location.href = this.stats
+        window.location.href = Routing.generate('stats.game', { slug: document.getElementById('slug').value })
+      },
+      // Open profil link
+      profilLink (userId) {
+        window.location.href = Routing.generate('user.profil.showId', { id: userId })
       },
     },
     watch: {

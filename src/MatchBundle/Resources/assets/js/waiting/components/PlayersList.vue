@@ -24,10 +24,12 @@
                 <i class="fa" :class="[player.ai ? 'fa-gamepad' : 'fa-desktop']"></i>
             </td>
             <td>
-                <img :src="'/user/'+player.userId+'-50.png'" :alt="player.name">
+                <a :href="routing('user.profil.showId', { id: player.userId })">
+                    <img :src="routing('user.avatar', { id: player.userId, size: 50 })" :alt="player.name">
+                </a>
             </td>
             <td>
-                {{ player.name }}
+                <a :href="routing('user.profil.showId', { id: player.userId })" class="name">{{ player.name }}</a>
                 <div class="color-div" v-show="isCreator || player.userId === userId">
                     <input type="color" class="color" :title="trans('Change color')" :value="'#' + player.color" @change="changeColor($event, player)">
                 </div>
@@ -56,6 +58,7 @@
 <script>
   import {mapState} from 'vuex'
   import * as types from '../store/mutation-types'
+  import Routing from '@app/js/routing'
   /* global Translator, Flash, $ */
 
   export default {
@@ -63,6 +66,9 @@
       return {
         trans () {
           return Translator.trans(...arguments)
+        },
+        routing () {
+          return Routing.generate(...arguments)
         },
       }
     },
@@ -169,3 +175,8 @@
     return [r, g, b]
   }
 </script>
+<style lang="less">
+    a.name {
+        color: #000;
+    }
+</style>

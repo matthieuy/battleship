@@ -45,6 +45,7 @@ Install libs :
 docker-compose exec php yarn install
 docker-compose exec php sf doctrine:migration:migrate
 docker-compose exec php sf doctrine:fixtures:load
+docker-compose exec php ./bin/js-link
 docker-compose exec php sf maba:webpack:compile --env=prod
 ```
 

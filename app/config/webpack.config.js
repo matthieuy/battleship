@@ -104,7 +104,7 @@ module.exports = function makeWebpackConfig(options) {
         test: /\.(js)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        exclude: /(node_modules|vendor|vue\.js)/,
+        exclude: /(node_modules|vendor|web\/assets|vue\.js)/,
       },
       /**
        * Vue loader

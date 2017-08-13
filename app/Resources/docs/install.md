@@ -11,14 +11,8 @@ You need :
 - Composer ([see install instructions](https://getcomposer.org/download/))
 - NPM ([see install instructions](https://nodejs.org/en/download/package-manager/))
 - Yarn (`npm install -g yarn`)
-- ZeroMQ
+- ZeroMQ (`sudo apt-get install libzmq3-dev php-zmq`)
 - Redis (`sudo apt-get install redis-server`)
-
-You can install ZeroMQ with this command (on ubuntu/debian like) :
-
-```
-sudo apt-get install libzmq3-dev php-zmq
-```
 
 Reload apache/nginx after install it
 
@@ -41,6 +35,7 @@ Reload apache/nginx after install it
 ```
 composer install -o
 yarn install
+./bin.js-link
 php bin/console maba:webpack:compile --env=prod
 ```
 

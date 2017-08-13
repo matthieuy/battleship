@@ -88,13 +88,13 @@
     </div>
 </template>
 <script>
+  import Routing from '@app/js/routing'
   require('@app/js/vendor/jquery.timeago.js')
   /* global Translator, WS, $ */
 
   export default {
     props: {
       userid: {type: String},
-      url: {type: String},
     },
     data () {
       return {
@@ -133,7 +133,7 @@
       },
       // Open game
       open (game) {
-        document.location.href = this.url.replace('SLUG', game.slug)
+        document.location.href = Routing.generate('match.display', { slug: game.slug })
       },
       // Convert timestamp to ISO date
       convertTimestamp (timestamp) {

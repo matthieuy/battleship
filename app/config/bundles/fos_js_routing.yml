@@ -1,0 +1,6 @@
+fos_js_routing:
+    routes_to_expose:
+        - 'match.display'
+        - 'stats.game'
+        - 'user.avatar'
+        - 'user.profil.showId'
