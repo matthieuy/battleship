@@ -101,14 +101,17 @@ class ChatListener implements EventSubscriberInterface
      */
     public function onTouch(TouchEvent $event)
     {
-        // unknow shooter
-        if (!$event->getShooter()) {
+        $shooter = $event->getShooter();
+        $victim = $event->getVictim();
+
+        // unknow shooter or penalty
+        if (!$shooter || $shooter->getId() === $victim->getId()) {
             return;
         }
 
         $context = [
-            'shooter' => $event->getShooter()->getName(),
-            'victim' => $event->getVictim()->getName(),
+            'shooter' => $shooter->getName(),
+            'victim' => $victim->getName(),
         ];
 
         switch ($event->getType()) {
