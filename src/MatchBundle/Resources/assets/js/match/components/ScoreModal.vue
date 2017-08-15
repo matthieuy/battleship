@@ -98,7 +98,7 @@
   import Routing from '@app/js/routing'
   /* global WS, $, Translator */
 
-  require('@app/js/vendor/jquery.timeago.js')
+  require('@app/js/timeago')
 
   export default {
     props: {

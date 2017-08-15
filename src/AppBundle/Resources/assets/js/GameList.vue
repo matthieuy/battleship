@@ -89,7 +89,7 @@
 </template>
 <script>
   import Routing from '@app/js/routing'
-  require('@app/js/vendor/jquery.timeago.js')
+  require('@app/js/timeago.js')
   /* global Translator, WS, $ */
 
   export default {

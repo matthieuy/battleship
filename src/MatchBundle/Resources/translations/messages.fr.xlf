@@ -80,7 +80,7 @@
             </trans-unit>
             <trans-unit id="match20" resname="penalty_in">
                 <source>Penalty in</source>
-                <target>Penalité dans</target>
+                <target>Penalité</target>
             </trans-unit>
             <trans-unit id="match21" resname="penalty_name">
                 <source>Penalty</source>

@@ -46,6 +46,78 @@
                 <source>[0,1]%nb% point|]1,Inf[%nb% points</source>
                 <target>[0,1]%nb% point|]1,Inf[%nb% points</target>
             </trans-unit>
+            <trans-unit id="prefixAgo" resname="prefixAgo">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="prefixFromNow" resname="prefixFromNow">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="suffixAgo" resname="suffixAgo">
+                <source>ago</source>
+                <target>ago</target>
+            </trans-unit>
+            <trans-unit id="suffixFromNow" resname="suffixFromNow">
+                <source>from now</source>
+                <target>from now</target>
+            </trans-unit>
+            <trans-unit id="lessMinute" resname="lessMinute">
+                <source>less than a minute</source>
+                <target>less than a minute</target>
+            </trans-unit>
+            <trans-unit id="seconds" resname="seconds">
+                <source>%d secondes</source>
+                <target>%d secondes</target>
+            </trans-unit>
+            <trans-unit id="second" resname="second">
+                <source>a seconde</source>
+                <target>a seconde</target>
+            </trans-unit>
+            <trans-unit id="minute" resname="minute">
+                <source>a minute</source>
+                <target>a minute</target>
+            </trans-unit>
+            <trans-unit id="minutes" resname="minutes">
+                <source>%d minutes</source>
+                <target>%d minutes</target>
+            </trans-unit>
+            <trans-unit id="hour" resname="hour">
+                <source>a hour</source>
+                <target>a hour</target>
+            </trans-unit>
+            <trans-unit id="hours" resname="hours">
+                <source>%d hours</source>
+                <target>%d hours</target>
+            </trans-unit>
+            <trans-unit id="day" resname="day">
+                <source>a day</source>
+                <target>a day</target>
+            </trans-unit>
+            <trans-unit id="days" resname="days">
+                <source>%d days</source>
+                <target>%d days</target>
+            </trans-unit>
+            <trans-unit id="month" resname="month">
+                <source>a month</source>
+                <target>a month</target>
+            </trans-unit>
+            <trans-unit id="months" resname="months">
+                <source>%d months</source>
+                <target>%d months</target>
+            </trans-unit>
+            <trans-unit id="year" resname="year">
+                <source>a year</source>
+                <target>a year</target>
+            </trans-unit>
+            <trans-unit id="years" resname="years">
+                <source>%d years</source>
+                <target>%d years</target>
+            </trans-unit>
+            <trans-unit id="wordSeparator" resname="wordSeparator">
+                <source> </source>
+                <target> </target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
