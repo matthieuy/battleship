@@ -17,12 +17,11 @@ export default {
   mutations: {
     // On first load game
     [MUTATION.LOAD] (state, obj) {
-      state.enabled = obj.options.weapon
-
       // Score
       obj.players.some(function (player) {
         if (player.me) {
           state.score = player.score
+          state.enabled = obj.options.weapon
         }
         return (typeof player.me !== 'undefined')
       })

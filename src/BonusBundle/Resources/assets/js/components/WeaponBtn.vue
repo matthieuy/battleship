@@ -30,7 +30,9 @@
     },
     methods: {
       toggleModal () {
-        this.$store.commit(MUTATION.WEAPON.MODAL)
+        if (this.$store.state.weapon.enabled) {
+          this.$store.commit(MUTATION.WEAPON.MODAL)
+        }
       },
     },
     watch: {
