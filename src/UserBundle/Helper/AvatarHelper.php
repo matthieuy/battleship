@@ -43,7 +43,7 @@ class AvatarHelper
 
             if (!file_exists($sourcePath)) {
                 $randomAvatar = rand(1, $this->nbAvatar).'.png';
-                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars').'/'.$randomAvatar;
+                copy(realpath($this->rootPath.'/src/UserBundle/Resources/avatars').'/'.$randomAvatar, $sourcePath);
             }
 
             $this->makeAvatar($sourcePath, $outPath, $size);
