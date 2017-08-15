@@ -24,10 +24,10 @@
                                         </thead>
                                         <tfoot>
                                         <tr>
-                                            <td colspan="6" id="chrono">
+                                            <td colspan="6">
                                                 <span v-show="score.penalty">{{ trans('penalty_in') }}</span>
                                                 <span v-show="!score.penalty">{{ trans('shoot_on') }} :</span>
-                                                <span :title="datePenalty"></span>
+                                                <span id="chrono" :title="datePenalty"></span>
                                             </td>
                                         </tr>
                                         </tfoot>
@@ -124,7 +124,7 @@
       ]),
       datePenalty () {
         let date = new Date((this.score.chrono + this.latency) * 1000)
-        $('#chrono span').timeago('updateFromDOM')
+        // $('#chrono').timeago('updateFromDOM')
         return date.toISOString()
       },
     },
@@ -156,7 +156,8 @@
             overflow: 'hidden',
             position: 'fixed',
           })
-          $('#chrono span').timeago('updateFromDOM')
+          $('#chrono').timeago('updateFromDOM')
+          $('#chrono').timeago()
 
           let escapeTouch = function (e) {
             if (e.which === 27) {
@@ -170,12 +171,16 @@
         } else {
           WS.unsubscribe(topicName)
           $('#container').removeAttr('style')
-          $('#chrono span').timeago('dispose')
+          $('#chrono').timeago('dispose')
         }
       },
       // Update chrono
       'score.chrono': function (chrono) {
-        $('#chrono span').timeago('updateFromDOM')
+        if (this.$store.state.modal) {
+          $('#chrono').timeago('dispose')
+          $('#chrono').timeago('updateFromDOM')
+          $('#chrono').timeago()
+        }
       },
     },
     mounted () {
@@ -224,6 +229,9 @@
                     padding-right: 10px;
                 }
             }
+            tfoot td {
+                text-align: center !important;
+            }
         }
 
         .lbl {
@@ -246,10 +254,6 @@
         }
         .name.dead {
             text-decoration: line-through;
-        }
-
-        #chrono {
-            text-align: center;
         }
 
         .avatar-content {
