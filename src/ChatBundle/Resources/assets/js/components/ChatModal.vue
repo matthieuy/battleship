@@ -16,7 +16,7 @@
                                             <li :class="{selected: chat.active_tab == 'general'}" @click="change_tab({id: 'general'})">
                                                 <div>{{ trans('General') }} <span class="label" v-show="chat.unread_tab.general > 0">{{ chat.unread_tab.general }}</span></div>
                                             </li>
-                                            <li v-if="team !== 'false'" :class="{selected: chat.active_tab == 'team'}" @click="change_tab({id:'team'})">
+                                            <li v-if="team !== 'false' && me" :class="{selected: chat.active_tab == 'team'}" @click="change_tab({id:'team'})">
                                                 <div>{{ trans('Team') }} <span class="label" v-show="chat.unread_tab.team > 0">{{ chat.unread_tab.team }}</span></div>
                                             </li>
                                             <li :class="{selected: chat.active_tab == tab.id}" v-for="tab in chat.open_tab" @click="change_tab({id: tab.id})">
@@ -83,6 +83,7 @@
       ...mapState([
         'chat', // Chat module
         'userId',
+        'me',
       ]),
       // Get message (for the current tab)
       messages () {

@@ -95,6 +95,9 @@ class ChatRPC implements RpcInterface
             if ($chan == 'team') {
                 // Team message
                 $player = $game->getPlayerByUser($user);
+                if (!$player) {
+                    return ['success' => false];
+                }
                 $message
                     ->setChannel(Message::CHANNEL_TEAM)
                     ->setRecipient($player->getTeam());
