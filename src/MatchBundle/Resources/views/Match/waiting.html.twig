@@ -116,7 +116,7 @@
                                 <btn-join><i class="fa fa-spin fa-spinner"></i></btn-join>
                                 <btn-ai></btn-ai>
                                 <btn-run></btn-run>
-                                {% if isCreator %}
+                                {% if canDelete %}
                                     <a id="btn-delete" href="{{ path('match.delete', {slug: game.slug}) }}" class="button alert round small-12 large-2 opentip" data-tip="<strong>{{ 'Delete'|trans({}, 'menu') }} :</strong> {{ 'Delete the game'|trans({}, 'menu') }}">{{ 'Delete'|trans({}, 'menu') }}</a>
                                 {% endif %}
                             </td>

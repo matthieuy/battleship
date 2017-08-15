@@ -117,7 +117,7 @@ class MatchController extends Controller
     {
         return $this->render('@Match/Match/waiting.html.twig', [
             'game' => $game,
-            'isCreator' => $game->isCreator($this->getUser()),
+            'canDelete' => $this->isGranted('ROLE_ADMIN') || $game->isCreator($this->getUser()),
         ]);
     }
 
@@ -131,7 +131,7 @@ class MatchController extends Controller
         return $this->render('@Match/Match/game.html.twig', [
             'game' => $game,
             'inGame' => true,
-            'canDelete' => $this->isGranted('ROLE_ADMIN') && $game->isCreator($this->getUser()),
+            'canDelete' => $this->isGranted('ROLE_ADMIN') || $game->isCreator($this->getUser()),
         ]);
     }
 
