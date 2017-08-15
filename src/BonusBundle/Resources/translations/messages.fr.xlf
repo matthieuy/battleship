@@ -108,7 +108,7 @@
             </trans-unit>
             <trans-unit id="bonus25" resname="bonus.reset.desc">
                 <source>Reset probability of your enemy</source>
-                <target>Remise à zéro des probabilités de bonus de votre ennemie</target>
+                <target>Remise à zéro des probabilités de bonus de votre ennemi</target>
             </trans-unit>
             <trans-unit id="bonus26" resname="bonus.damage">
                 <source>Double damage</source>
@@ -128,7 +128,7 @@
             </trans-unit>
             <trans-unit id="bonus30" resname="bonus.bomber">
                 <source>Fighter bomber</source>
-                <target>Bombadier</target>
+                <target>Bombardier</target>
             </trans-unit>
             <trans-unit id="bonus31" resname="bonus.bomber.desc">
                 <source>Drop random bombs</source>

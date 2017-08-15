@@ -31,6 +31,7 @@ class BonusListCommand extends ContainerAwareCommand
     {
         // Get services
         $container = $this->getContainer();
+        $container->get('event.manager');
         $bonusManager = $container->get('bonus.registry');
         $translator = $container->get('translator');
 
