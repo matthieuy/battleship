@@ -17,11 +17,11 @@ export default {
   mutations: {
     // On first load game
     [MUTATION.LOAD] (state, obj) {
-      state.enabled = obj.options.bonus
       obj.players.some(function (player) {
         if (player.me) {
           state.nb = player.nbBonus
           state.team = player.team
+          state.enabled = obj.options.bonus
         }
         return (typeof player.me !== 'undefined')
       })
