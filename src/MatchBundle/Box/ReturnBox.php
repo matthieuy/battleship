@@ -145,6 +145,7 @@ class ReturnBox
                         'img' => $img,
                         'shoot' => $b['shoot'],
                         'player' => $b['player'],
+                        'dead' => true,
                     ]);
                     $box->setDead(true);
                 }

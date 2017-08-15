@@ -158,7 +158,7 @@
           boat: box.img > 0,
         }
         css['img' + box.img] = box.img > 0
-        if (box.player !== null) {
+        if (typeof box.player !== 'undefined') {
           css['player' + box.player] = true
         }
 
@@ -302,7 +302,7 @@
       if ($('.hide').length) {
         $('.hide').removeClass('hide').addClass('boat')
       } else {
-        $('.boat:not(.dead,.animated)').removeClass('boat').addClass('hide')
+        $('.boat:not(.dead)').removeClass('boat').addClass('hide')
       }
     }
   }
