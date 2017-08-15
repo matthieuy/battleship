@@ -61,10 +61,12 @@
   // Imports
   import {mapState} from 'vuex'
   import * as types from '../store/mutation-types'
-  import moment from 'moment'
   /* global Translator */
 
   export default {
+    props: {
+      date: {type: String},
+    },
     data () {
       return {
         trans () {
@@ -82,10 +84,6 @@
       // Status
       status () {
         return (this.players.length < this.game.max) ? Translator.trans('waiting_player') : Translator.trans('game_full')
-      },
-      // Get create date
-      date () {
-        return moment.unix(this.game.date).format('LLL')
       },
       // Get/Set grid size
       size: {
