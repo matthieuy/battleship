@@ -14,22 +14,18 @@ use UserBundle\Entity\User;
 class AiFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
     private $aiList = [
-        ['name' => 'Alan Turing', 'email' => 'turing'],
-        ['name' => 'Tim Berners-Lee', 'email' => 'www'],
-        ['name' => 'Nolan Bushnell', 'email' => 'pong'],
-        ['name' => 'Alan Cox', 'email' => 'cox'],
-        ['name' => 'François Gernelle', 'email' => 'gernelle'],
-        ['name' => 'Rasmus Lerdorf', 'email' => 'php'],
-        ['name' => 'Ian Murdock', 'email' => 'debian'],
-        ['name' => 'Werner Koch', 'email' => 'gpg'],
-        ['name' => 'Shigeru Miyamoto', 'email' => 'nintendo'],
-        ['name' => 'Vint Cerf', 'email' => 'tcp'],
-        ['name' => 'John McCarthy', 'email' => 'mccarthy'],
-        ['name' => 'Ken Thompson', 'email' => 'unix'],
-        ['name' => 'Linus Torvald', 'email' => 'linux'],
-        ['name' => 'Ronald Rivest', 'email' => 'rsa'],
-        ['name' => 'Martin Hellman', 'email' => 'hellman'],
-        ['name' => 'Abraham Lempel', 'email' => 'lz'],
+        'Edward Teach',
+        'Roberto Cofresi',
+        'Peter Easton',
+        'Olivier Levasseur',
+        'Mary Read',
+        'John Roberts',
+        'Klaus Stortebeker',
+        'John Silver',
+        'Edward England',
+        'John Halsey',
+        'Jean Lafitte',
+        'Arudj Reis',
     ];
 
     /**
@@ -38,14 +34,14 @@ class AiFixtures extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->aiList as $data) {
+        foreach ($this->aiList as $name) {
             $ai = new User();
             $ai
                 ->setAi(true)
-                ->setUsername($data['name'])
-                ->setEmail($data['email'].'@ai')
+                ->setUsername($name)
+                ->setEmail(str_replace(' ', '', $name).'@ai')
                 ->setEnabled(false)
-                ->setPassword($data['name']);
+                ->setPassword($name);
 
             $manager->persist($ai);
         }

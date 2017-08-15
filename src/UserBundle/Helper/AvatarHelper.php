@@ -39,8 +39,7 @@ class AvatarHelper
 
         if (!file_exists($outPath)) {
             if ($user->isAi()) {
-                $filename = str_replace('@ai', '', $user->getEmail()).'.png';
-                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars').'/'.$filename;
+                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars/pirate.png');
             } else {
                 $sourcePath = $uploadDir.'/'.$user->getId();
             }

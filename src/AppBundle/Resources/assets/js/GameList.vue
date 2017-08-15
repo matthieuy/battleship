@@ -19,8 +19,8 @@
                         <span class="date">{{ trans('create_on') }} <span class="datetime" :title="convertTimestamp(game.date)"></span> {{ trans('by_author', {author: game.creatorName}) }}</span>
                     </div>
                 </td>
-                <td class="right" :style="{color: (game.nb >= game.max) ? '#FF0000' : '#009933'}">
-                    {{ game.nb }} / {{ game.max }}
+                <td :style="{color: (game.nb >= game.max) ? '#FF0000' : '#009933'}">
+                    <div class="right">{{ game.nb }} / {{ game.max }}</div>
                 </td>
             </tr>
             </tbody>
