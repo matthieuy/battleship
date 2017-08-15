@@ -81,7 +81,7 @@ class BonusRegistry
     public function catchBonus(Player &$player, ReturnBox &$returnBox)
     {
         // Inventory full
-        if ($player->getNbBonus() >= BonusConstant::INVENTORY_SIZE) {
+        if ($player->getNbBonus() >= $player->getInventorySize()) {
             return false;
         }
 

@@ -46,7 +46,7 @@ class Stats
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, length=30)
      */
     protected $value2;
 

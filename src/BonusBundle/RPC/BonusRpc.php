@@ -77,6 +77,7 @@ class BonusRpc implements RpcInterface
         // Get inventory
         $repo = $this->entityManager->getRepository('BonusBundle:Inventory');
         $inventory = $repo->getInventory($game, $user);
+        $player = $game->getPlayerByUser($user);
 
         $list = [];
         foreach ($inventory as $bonus) {
@@ -92,7 +93,7 @@ class BonusRpc implements RpcInterface
 
         return [
             'list' => $list,
-            'size' => BonusConstant::INVENTORY_SIZE,
+            'size' => ($player) ? $player->getInventorySize() : BonusConstant::INVENTORY_SIZE,
         ];
     }
 

@@ -101,6 +101,12 @@ class Player
     protected $probability;
 
     /**
+     * @var integer
+     * @ORM\Column(type="smallint")
+     */
+    protected $inventorySize;
+
+    /**
      * Player constructor.
      */
     public function __construct()
@@ -109,6 +115,7 @@ class Player
         $this->score = 0;
         $this->life = 0;
         $this->probability = BonusConstant::INITIAL_PROBABILITY;
+        $this->inventorySize = BonusConstant::INVENTORY_SIZE;
         $this->bonus = new ArrayCollection();
         $this->boats = [];
     }
@@ -481,6 +488,28 @@ class Player
     public function removeBonus(Inventory $inventory)
     {
         $this->bonus->removeElement($inventory);
+
+        return $this;
+    }
+
+    /**
+     * Get InventorySize
+     * @return int
+     */
+    public function getInventorySize()
+    {
+        return $this->inventorySize;
+    }
+
+    /**
+     * Set InventorySize
+     * @param int $inventorySize
+     *
+     * @return $this
+     */
+    public function setInventorySize($inventorySize)
+    {
+        $this->inventorySize = $inventorySize;
 
         return $this;
     }

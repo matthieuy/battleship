@@ -143,3 +143,9 @@ services:
         class: BonusBundle\Bonus\BomberBonus
         tags:
             - { name: bonus.type }
+
+    # Inventory size
+    bonus.inventory_size:
+        class: BonusBundle\Bonus\InventorySizeBonus
+        tags:
+            - { name: bonus.type }

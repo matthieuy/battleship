@@ -17,6 +17,7 @@ class BonusConstant
      * Inventory size
      */
     const INVENTORY_SIZE = 9;
+    const INVENTORY_MAX_SIZE = 12;
 
     /**
      * Target selector
