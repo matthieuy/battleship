@@ -151,6 +151,7 @@
     // On update : reset timeago
     updated () {
       $('.datetime').timeago('dispose')
+      $('.datetime').timeago('updateFromDOM')
       $('.datetime').timeago()
     },
   }
