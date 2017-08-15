@@ -14,6 +14,7 @@ use UserBundle\Entity\User;
 class AvatarHelper
 {
     private $rootPath;
+    private $nbAvatar = 21;
 
     /**
      * AvatarHelper constructor DI
@@ -38,14 +39,13 @@ class AvatarHelper
         $outPath = $uploadDir.'/'.$filename;
 
         if (!file_exists($outPath)) {
-            if ($user->isAi()) {
-                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars/pirate.png');
-            } else {
-                $sourcePath = $uploadDir.'/'.$user->getId();
-            }
+            $sourcePath = $uploadDir.'/'.$user->getId();
+
             if (!file_exists($sourcePath)) {
-                $sourcePath = $this->rootPath.'/web/img/noimg.png';
+                $randomAvatar = rand(1, $this->nbAvatar).'.png';
+                $sourcePath = realpath($this->rootPath.'/src/UserBundle/Resources/avatars').'/'.$randomAvatar;
             }
+
             $this->makeAvatar($sourcePath, $outPath, $size);
         }
 
