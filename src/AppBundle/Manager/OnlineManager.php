@@ -176,8 +176,10 @@ class OnlineManager
                 $infos['game_id'] = $game->getId();
                 if ($user instanceof User) {
                     $player = $game->getPlayerByUser($user);
-                    $infos['player'] = $player;
-                    $infos['team'] = $player->getTeam();
+                    if ($player) {
+                        $infos['player'] = $player;
+                        $infos['team'] = $player->getTeam();
+                    }
                 }
             }
 
