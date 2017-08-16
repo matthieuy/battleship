@@ -169,7 +169,6 @@ class OnlineManager
                 'user' => $user,
                 'username' => ($user instanceof User) ? $user->getUsername() : $user,
                 'date' => new \DateTime(),
-                'ip' => $connection->remoteAddress,
                 'user_agent' => $connection->WebSocket->request->getHeader('user-agent').'', // @codingStandardsIgnoreLine
             ];
             if ($game) {

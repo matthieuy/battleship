@@ -26,10 +26,6 @@
                 <source>Date</source>
                 <target>Date</target>
             </trans-unit>
-            <trans-unit id="who7" resname="IP Address">
-                <source>IP Address</source>
-                <target>Adresse IP</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>

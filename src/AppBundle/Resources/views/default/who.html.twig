@@ -24,7 +24,6 @@
         <thead>
             <tr>
                 <td>{{ 'Date'|trans }}</td>
-                <td>{{ 'IP Address'|trans }}</td>
                 <td>{{ 'User'|trans }}</td>
                 <td>{{ 'Topic'|trans }}</td>
                 <td>{{ 'Game ID'|trans }}</td>
@@ -36,11 +35,8 @@
                 <tr>
                     <td>{{ info.date|localizeddate('short') }}</td>
                     <td>
-                        {{ info.ip }}
-                        <span class="fa opentip" data-tip="{{ info.user_agent|default('') }}"></span>
-                    </td>
-                    <td>
                         {{ info.username }}
+                        <span class="fa opentip" data-tip="{{ info.user_agent|default('') }}"></span>
                     </td>
                     <td>{{ info.topic }}</td>
                     <td>{{ info.game_id|default('') }}</td>
