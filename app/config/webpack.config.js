@@ -97,16 +97,6 @@ module.exports = function makeWebpackConfig(options) {
   config.module = {
     loaders: [
       /**
-       * ESlint
-       * Reference : https://github.com/MoOx/eslint-loader
-       */
-      {
-        test: /\.(js)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        exclude: /(node_modules|vendor|web\/assets|vue\.js)/,
-      },
-      /**
        * Vue loader
        * Reference : https://vue-loader.vuejs.org/en/
        */
@@ -115,7 +105,7 @@ module.exports = function makeWebpackConfig(options) {
         loader: "vue-loader",
         options: {
           loaders: {
-            js: 'babel-loader!eslint-loader',
+            js: 'babel-loader',
           },
         },
       },
@@ -302,6 +292,24 @@ module.exports = function makeWebpackConfig(options) {
       renderThrottle: 100,
     }))
   }
+
+  /**
+   * ESlint
+   * Reference : https://github.com/MoOx/eslint-loader
+   */
+  if (!BUILD) {
+    config.modules.loaders.unshift({
+      test: /\.(js)$/,
+      loader: 'eslint-loader',
+      enforce: 'pre',
+      exclude: /(node_modules|vendor|web\/assets|vue\.js)/,
+    })
+
+    // Change vuejs loader
+    config.modules.loaders[0]['options']['loaders']['js'] = 'babel-loader!eslint-loader'
+  }
+
+
 
   /**
    * Build specific plugins - used only in production environment
