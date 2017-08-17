@@ -73,7 +73,7 @@ class DiscordWebHookTransporter extends AbstractTransporter
             new Constraints\NotBlank(),
             new Constraints\Url(),
             new Constraints\Regex([
-                'pattern' => '/^https:\/\/discordapp\.com\/api\/webhooks\/([0-9]{18})\/([0-9a-zA-Z]+)$/',
+                'pattern' => '/^https:\/\/discordapp\.com\/api\/webhooks\/([0-9]{18})\/([0-9a-zA-Z\-\_]+)$/',
             ]),
         ]);
 
