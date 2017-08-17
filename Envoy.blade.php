@@ -169,7 +169,7 @@
 @task('restart')
     echo "Restart the Websocket server";
     cd {{ $dirLastRelease }};
-    ./bin/console redis:flushdb --client=ws_client --env=prod;
+    ./bin/console redis:flushdb --client=ws_client --env={{ $env }};
     sudo supervisorctl restart battleship;
 @endtask
 
@@ -184,7 +184,7 @@
 
     echo "Clear Redis";
     cd {{ $dirLastRelease }};
-    ./bin/console redis:flushdb --client=ws_client --env=prod;
+    ./bin/console redis:flushdb --client=ws_client --env={{ $env }};
 @endtask
 
 @task('ping')
