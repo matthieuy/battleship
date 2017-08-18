@@ -4,7 +4,8 @@ namespace UserBundle\Helper;
 
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use UserBundle\Entity\User;
 
 /**
@@ -26,13 +27,14 @@ class AvatarHelper
     }
 
     /**
-     * Get Binary response
+     * Get response
+     * @param Request $request
      * @param User    $user
      * @param integer $size
      *
-     * @return BinaryFileResponse
+     * @return Response
      */
-    public function getBinaryResponse(User $user, $size)
+    public function getResponse(Request $request, User $user, $size)
     {
         $uploadDir = realpath($this->rootPath.'/var/avatars');
         $filename = $user->getId().'-'.$size.'.png';
@@ -49,8 +51,17 @@ class AvatarHelper
             $this->makeAvatar($sourcePath, $outPath, $size);
         }
 
-        $response = new BinaryFileResponse($outPath);
+        // Get content file
+        $fp = fopen($outPath, 'rb');
+        $content = stream_get_contents($fp);
+        fclose($fp);
+
+        // Response
+        $response = new Response($content);
+        $response->setEtag(md5($content));
+        $response->setLastModified(\DateTime::createFromFormat('U', filemtime($outPath)));
         $response->headers->set('Content-Type', 'image/png');
+        $response->isNotModified($request);
 
         return $response;
     }

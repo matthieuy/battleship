@@ -5,7 +5,7 @@ namespace UserBundle\Controller;
 use FOS\UserBundle\Form\Type\ChangePasswordFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use UserBundle\Entity\User;
@@ -155,14 +155,12 @@ class ProfilController extends Controller
      *     methods={"GET"},
      *     requirements={"id": "([0-9]+)", "size": "(50|60|150)"},
      *     defaults={"size": "60"})
-     * @return BinaryFileResponse
+     * @return Response
      */
     public function avatarAction(Request $request, User $user, $size = 60)
     {
         $helper = $this->get('profil.avatar.helper');
-        $response = $helper->getBinaryResponse($user, $size);
-        $response->isNotModified($request);
 
-        return $response;
+        return $helper->getResponse($request, $user, $size);
     }
 }

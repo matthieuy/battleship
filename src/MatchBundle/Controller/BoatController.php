@@ -200,6 +200,9 @@ class BoatController extends Controller
         // Response
         $response = new BinaryFileResponse($destPath);
         $response->headers->set('Content-Type', 'image/png');
+        $response->setEtag(md5_file($destPath));
+        $response->setLastModified(\DateTime::createFromFormat('U', filemtime($destPath)));
+        $response->isNotModified($request);
 
         return $response;
     }
