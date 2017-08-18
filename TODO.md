@@ -7,7 +7,7 @@ TODO
       - [x] localStorage : use game_id instead slug (against games with same name)
     - [ ] Profil :
       - [x] Avatar file error
-    - [ ] UserSwitch (admin) : Warning and link to return to admin account
+    - [x] UserSwitch (admin) : Warning and link to return to admin account
     - [x] Notifications :
       - [x] Wrong discord webhook pattern
     - [x] Other :

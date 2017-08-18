@@ -16,12 +16,14 @@
         <img src="{{ path('user.avatar', {id: user.id, size: 150}) }}" width="150" height="150">
     </div>
 
-    {% if isMe or is_granted('ROLE_ADMIN') %}
-        <div class="center">
+    <div class="center">
+        {% if isMe or is_granted('ROLE_ADMIN') %}
             <a href="{{ path('user.profil.edit', { slug: user.slug }) }}" class="button success">{{ 'Edit profil'|trans }}</a>
-        </div>
-    {% endif %}
-
+        {% endif %}
+        {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
+            <a class="button" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_user': user.username})) }}">{{ 'Switch'|trans }}</a>
+        {% endif %}
+    </div>
     {# Statistics #}
     {{ render(controller('StatsBundle:Stats:personalStats', {user: user })) }}
 {% endblock %}

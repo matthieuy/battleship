@@ -22,6 +22,10 @@
         <source>Show profil</source>
         <target>Afficher profil</target>
       </trans-unit>
+      <trans-unit id="switch" resname="Switch">
+        <source>Switch</source>
+        <target>Switch</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
