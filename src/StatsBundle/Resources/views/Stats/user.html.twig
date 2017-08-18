@@ -1,28 +1,149 @@
 {% trans_default_domain 'stats' %}
-<h1 class="center">{{ 'Statistics'|trans({}, 'messages') }}</h1>
+<h3 class="center">{{ 'Statistics'|trans({}, 'messages') }}</h3>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th colspan="2">Statistics</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ 'Games created'|trans }}</td>
-            <td>{{ personal[constant('GAME_CREATE', const)]|default('0') }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'Games started'|trans }}</td>
-            <td>{{ personal[constant('GAME_START', const)]|default('0') }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'Games finished'|trans }}</td>
-            <td>{{ personal[constant('GAME_FINISH', const)]|default('0') }}</td>
-        </tr>
-        <tr>
-            <td>{{ 'Winning games'|trans }}</td>
-            <td>{{ personal[constant('GAME_WIN', const)]|default('0') }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    {# Games #}
+    <div class="column large-3 small-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ 'Games'|trans({}, 'messages') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ 'Games created'|trans }}</td>
+                    <td>{{ personal['game']['create'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Games started'|trans }}</td>
+                    <td>{{ personal['game']['start'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Games finished'|trans }}</td>
+                    <td>{{ personal['game']['finish'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Winning games'|trans }}</td>
+                    <td>{{ personal['game']['win'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'penalty_name'|trans({}, 'messages') }}</td>
+                    <td>{{ personal['penalty'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {# Laps #}
+    <div class="column large-3 small-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ 'laps'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ 'total'|trans }}</td>
+                    <td>{{ personal['laps']['total'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'avg_game'|trans }}</td>
+                    <td>{{ personal['laps']['avg'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {# Shoots #}
+    <div class="column large-3 small-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ 'shoots'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ 'total'|trans }}</td>
+                    <td>{{ personal['shoot']['total'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Touch'|trans({}, 'waiting') }}</td>
+                    <td>{{ personal['shoot']['touch'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Discovery'|trans({}, 'waiting') }}</td>
+                    <td>{{ personal['shoot']['discovery'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Direction'|trans({}, 'waiting') }}</td>
+                    <td>{{ personal['shoot']['direction'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Sink'|trans({}, 'waiting') }}</td>
+                    <td>{{ personal['shoot']['sink'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'Blow'|trans({}, 'waiting') }}</td>
+                    <td>{{ personal['shoot']['fatal'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {# Weapon #}
+    <div class="column large-3 small-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ 'weapon_name'|trans({}, 'messages') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ 'total'|trans }}</td>
+                    <td>{{ personal['weapons']['total'] }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'favorite_weapon'|trans }}</td>
+                    <td>{{ personal['weapons']['favorite']|trans({}, 'messages') }}</td>
+                </tr>
+                {% for key,value in personal['weapons']['type'] %}
+                    <tr>
+                        <td>{{ key|trans({}, 'messages') }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {# Bonus #}
+    <div class="column large-3 small-12">
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="2">{{ 'bonus_name'|trans({}, 'messages') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ 'total'|trans }}</td>
+                <td>{{ personal['bonus']['total'] }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'favorite_bonus'|trans }}</td>
+                <td>{{ personal['bonus']['favorite']|trans({}, 'messages') }}</td>
+            </tr>
+            {% for key,value in personal['bonus']['type'] %}
+                <tr>
+                    <td>{{ key|trans({}, 'messages') }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,4 +1,10 @@
 services:
+    # Stats manager
+    stats.manager:
+        class: StatsBundle\Manager\StatsManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
     # Stats listener
     stats.listener:
         class: StatsBundle\EventListener\StatsListener

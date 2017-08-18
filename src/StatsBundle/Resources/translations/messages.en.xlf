@@ -6,6 +6,10 @@
                 <source>Statistics</source>
                 <target>Statistics</target>
             </trans-unit>
+            <trans-unit id="stat2" resname="none">
+                <source>none</source>
+                <target>none</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

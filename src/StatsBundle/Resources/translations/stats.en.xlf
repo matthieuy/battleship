@@ -22,6 +22,30 @@
                 <source>Go back to game</source>
                 <target>Go back to game</target>
             </trans-unit>
+            <trans-unit id="4" resname="laps">
+                <source>Laps</source>
+                <target>Laps</target>
+            </trans-unit>
+            <trans-unit id="5" resname="total">
+                <source>Sum</source>
+                <target>Sum</target>
+            </trans-unit>
+            <trans-unit id="6" resname="avg_game">
+                <source>Average by game</source>
+                <target>Average by game</target>
+            </trans-unit>
+            <trans-unit id="7" resname="shoots">
+                <source>Shoots</source>
+                <target>Shoots</target>
+            </trans-unit>
+            <trans-unit id="8" resname="favorite_weapon">
+                <source>Favorite weapon</source>
+                <target>Favorite weapon</target>
+            </trans-unit>
+            <trans-unit id="9" resname="favorite_bonus">
+                <source>Favorite bonus</source>
+                <target>Favorite bonus</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

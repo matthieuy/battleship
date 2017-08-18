@@ -4,7 +4,6 @@ namespace StatsBundle\Controller;
 
 use MatchBundle\Entity\Game;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use StatsBundle\StatsConstants;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use UserBundle\Entity\User;
 
@@ -41,13 +40,10 @@ class StatsController extends Controller
      */
     public function personalStatsAction(User $user)
     {
-        // Personal stat
-        $repo = $this->get('doctrine.orm.entity_manager')->getRepository('StatsBundle:Stats');
-        $personal = $repo->getPersonalStats($user);
+        $personal = $this->get('stats.manager')->getPersonalStats($user);
 
         // Views
         return $this->render('@Stats/Stats/user.html.twig', [
-            'const' => new StatsConstants(),
             'personal' => $personal,
         ]);
     }
