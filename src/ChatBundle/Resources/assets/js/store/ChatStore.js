@@ -68,7 +68,7 @@ export default {
     },
     // User id listener : set the localkey
     [MUTATION.SET_USERID] (state, userId) {
-      state.localkey = 'chat_' + document.getElementById('slug').value + '_' + userId + '_id'
+      state.localkey = 'chat_' + document.getElementById('game-id').value + '_' + userId + '_id'
     },
     // Mark message read (internal use only)
     markReadChat (state, obj) {
