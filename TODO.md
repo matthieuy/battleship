@@ -1,11 +1,20 @@
 TODO
 ====
 
-- [ ] Documentations :
-  - [ ] Add screenshot or gif
-- [ ] Game :
-  - [ ] ISO view
-- [ ] Mobile :
-  - [ ] Helper for weapon
-- [ ] Tests/Dev :
-  - [ ] Unit tests
+- [x] Do a first alpha test :
+  - Bugs reported :
+    - [x] Chat :
+      - [x] localStorage : use game_id instead slug (against games with same name)
+    - [ ] Profil :
+      - [x] Avatar file error
+    - [ ] UserSwitch (admin) : Warning and link to return to admin account
+    - [x] Notifications :
+      - [x] Wrong discord webhook pattern
+    - [x] Other :
+      - [x] Deploy : flush redis DB
+      - [x] Cache ETags for avatars and boats
+  - Features :
+    - [ ] Button to purge the local indexedDB (and localStorage)
+    - [ ] ISO view
+    - [ ] Add screenshot or gif in documentation
+
