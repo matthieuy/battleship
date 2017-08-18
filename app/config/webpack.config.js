@@ -298,15 +298,16 @@ module.exports = function makeWebpackConfig(options) {
    * Reference : https://github.com/MoOx/eslint-loader
    */
   if (!BUILD) {
-    config.modules.loaders.unshift({
+    // Change vuejs loader
+    config.module.loaders[0]['options']['loaders']['js'] = 'babel-loader!eslint-loader'
+
+    // Add eslint loader
+    config.module.loaders.unshift({
       test: /\.(js)$/,
       loader: 'eslint-loader',
       enforce: 'pre',
       exclude: /(node_modules|vendor|web\/assets|vue\.js)/,
     })
-
-    // Change vuejs loader
-    config.modules.loaders[0]['options']['loaders']['js'] = 'babel-loader!eslint-loader'
   }
 
 
