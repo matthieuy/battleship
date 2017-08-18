@@ -17,11 +17,6 @@
         {% include "::sidebar.html.twig" %}
         <div id="container" canvas="container">
             {% include "::topbar.html.twig" %}
-            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                <div class="switch-user">
-                    Login as <a href="{{ path('user.profil.show', { slug: app.user.slug}) }}">{{ app.user.username }}</a> - <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_user': '_exit'})) }}">Exit</a>
-                </div>
-            {% endif %}
 
             <div class="flash-container">
                 {% include "::flash.html.twig" %}
