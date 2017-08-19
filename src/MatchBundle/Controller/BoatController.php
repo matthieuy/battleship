@@ -6,7 +6,6 @@ use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use MatchBundle\Entity\Game;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -193,12 +192,17 @@ class BoatController extends Controller
      * @param Request $request
      * @param string  $destPath
      *
-     * @return BinaryFileResponse
+     * @return Response
      */
     private function getResponse(Request $request, $destPath)
     {
         // Response
-        $response = new BinaryFileResponse($destPath);
+        // Get content file
+        $fp = fopen($destPath, 'rb');
+        $content = stream_get_contents($fp);
+        fclose($fp);
+
+        $response = new Response($content);
         $response->headers->set('Content-Type', 'image/png');
         $response->setEtag(md5_file($destPath));
         $response->setLastModified(\DateTime::createFromFormat('U', filemtime($destPath)));
