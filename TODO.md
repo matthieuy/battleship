@@ -3,18 +3,33 @@ TODO
 
 - [x] Do a first alpha test :
   - Bugs reported :
-    - [x] Chat :
-      - [x] localStorage : use game_id instead slug (against games with same name)
-    - [ ] Profil :
-      - [x] Avatar file error
-    - [x] UserSwitch (admin) : Warning and link to return to admin account
-    - [x] Notifications :
-      - [x] Wrong discord webhook pattern
-    - [x] Other :
-      - [x] Deploy : flush redis DB
-      - [x] Cache ETags for avatars and boats
+    - [ ] Chat :
+      - [ ] Mark message read on open chat
+      - [ ] Private message : show the send message
+    - [ ] Notifications :
+      - [ ] Discord webhook : message global insteal personal
+      - [ ] Discord bot : don't work
+    - [ ] Game :
+      - [ ] Boats / explose images : error (save as avatar)
+      - [ ] Change lap don't work if multi player (no AI)
+      - [ ] Boat image hide if explose on it
+      - [ ] Player position == 0 can't be shoot with bonus
+      - [ ] Simulate shoot : status don't synchronize
+      - [ ] Score : don't be synchronize (WS) but DB value is great 
+    - [ ] Bonus :
+      - [ ] Robber : send chat message with user instead system
+      - [ ] Skip player : don't work correctly if after "next lap" event
+    - [ ] Other :
+      - [ ] Websocket : Error "Mysql server has gone away"
+      - [ ] Flash close button don't work
+      - [ ] Weapon : switch button select and rotate
+      - [ ] Stats : division by zero (StatsManager line 71)
   - Features :
-    - [ ] Button to purge the local indexedDB (and localStorage)
+    - [ ] Chat :
+        - [ ] Button to purge the local indexedDB (and localStorage)
     - [ ] ISO view
     - [ ] Add screenshot or gif in documentation
+    - [ ] Bonus :
+        - [ ] Radar
+        - [ ] Decrement penalty time
 
