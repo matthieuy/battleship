@@ -196,15 +196,15 @@ class BoatController extends Controller
      */
     private function getResponse(Request $request, $destPath)
     {
-        // Response
         // Get content file
         $fp = fopen($destPath, 'rb');
         $content = stream_get_contents($fp);
         fclose($fp);
 
+        // Response
         $response = new Response($content);
         $response->headers->set('Content-Type', 'image/png');
-        $response->setEtag(md5_file($destPath));
+        $response->setEtag(md5($content));
         $response->setLastModified(\DateTime::createFromFormat('U', filemtime($destPath)));
         $response->isNotModified($request);
 

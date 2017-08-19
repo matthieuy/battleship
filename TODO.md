@@ -10,7 +10,7 @@ TODO
       - [ ] Discord webhook : message global insteal personal
       - [ ] Discord bot : don't work
     - [ ] Game :
-      - [ ] Boats / explose images : error (save as avatar)
+      - [X] Boats / explose images : error (same as avatar)
       - [ ] Change lap don't work if multi player (no AI)
       - [ ] Boat image hide if explose on it
       - [ ] Player position == 0 can't be shoot with bonus
