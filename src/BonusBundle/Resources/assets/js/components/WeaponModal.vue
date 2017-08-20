@@ -30,12 +30,14 @@
                         <div class="clear"></div>
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button class="button primary small-10 large-3" @click="rotate()">{{ trans('Rotate') }}
-                                </button>
                                 <button class="button success small-10 large-3" :class="{disabled: !selected}" @click="select()">
                                     {{ trans('Select') }}
                                 </button>
-                                <button class="button alert small-10 large-3" @click="close()">{{ trans('Close') }}
+                                <button class="button primary small-10 large-3" @click="rotate()">
+                                    {{ trans('Rotate') }}
+                                </button>
+                                <button class="button alert small-10 large-3" @click="close()">
+                                    {{ trans('Close') }}
                                 </button>
                             </div>
                         </div>
