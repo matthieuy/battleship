@@ -20,7 +20,7 @@ TODO
       - [ ] Robber : send chat message with user instead system
       - [ ] Skip player : don't work correctly if after "next lap" event
     - [ ] Other :
-      - [ ] Websocket : Error "Mysql server has gone away"
+      - [X] Websocket : Error "Mysql server has gone away"
       - [ ] Flash close button don't work
       - [x] Weapon : switch button select and rotate
       - [ ] Stats : division by zero (StatsManager line 71)

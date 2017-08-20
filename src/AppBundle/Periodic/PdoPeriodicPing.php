@@ -19,6 +19,6 @@ class PdoPeriodicPing extends BasePeriodicPing
     public function __construct(\PDO $pdo = null, LoggerInterface $logger = null)
     {
         parent::__construct($pdo, $logger);
-        $this->setTimeout(60);
+        $this->setTimeout(30);
     }
 }
