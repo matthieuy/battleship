@@ -17,7 +17,7 @@ TODO
       - [ ] Simulate shoot : status don't synchronize
       - [ ] Score : don't be synchronize (WS) but DB value is great 
     - [ ] Bonus :
-      - [ ] Robber : send chat message with user instead system
+      - [X] Robber : send chat message with user instead system
       - [ ] Skip player : don't work correctly if after "next lap" event
     - [X] Other :
       - [X] Websocket : Error "Mysql server has gone away"

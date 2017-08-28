@@ -125,6 +125,7 @@ class RobberBonus extends AbstractBonus
         $message
             ->setGame($game)
             ->setText('bonus.robber.msg')
+            ->setAuthor($player->getUser())
             ->setContext([
                 'user' => $player->getName(),
                 'victim' => $victim->getName(),
