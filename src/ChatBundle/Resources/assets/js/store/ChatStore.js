@@ -72,8 +72,11 @@ export default {
     },
     // Mark message read (internal use only)
     markReadChat (state, obj) {
-      state.unread -= obj.nb
       state.unread_tab[obj.tab] = 0
+      state.unread = 0
+      for (let i in state.unread_tab) {
+        state.unread += state.unread_tab[i]
+      }
     },
   },
   getters: {},

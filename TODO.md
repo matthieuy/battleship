@@ -3,8 +3,8 @@ TODO
 
 - [x] Do a first alpha test :
   - Bugs reported :
-    - [ ] Chat :
-      - [ ] Mark message read on open chat
+    - [X] Chat :
+      - [X] Mark message read on open chat
       - [X] Private message : show the send message
     - [ ] Notifications :
       - [ ] Discord webhook : message global insteal personal
