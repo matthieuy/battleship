@@ -21,7 +21,7 @@ TODO
       - [ ] Skip player : don't work correctly if after "next lap" event
     - [ ] Other :
       - [X] Websocket : Error "Mysql server has gone away"
-      - [ ] Flash close button don't work
+      - [X] Flash close button don't work
       - [x] Weapon : switch button select and rotate
       - [ ] Stats : division by zero (StatsManager line 71)
   - Features :

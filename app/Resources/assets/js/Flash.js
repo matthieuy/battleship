@@ -1,6 +1,6 @@
 /* global Translator, $ */
 module.exports = function () {
-  $('#flash-container').on('click', '.close', function () {
+  $('.flash-container').on('click', '.close', function () {
     let $flash = $(this).parents('.flash-msg')
     $flash.slideUp(300, () => {
       $flash.remove()
