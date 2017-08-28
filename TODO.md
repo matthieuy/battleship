@@ -19,11 +19,11 @@ TODO
     - [ ] Bonus :
       - [ ] Robber : send chat message with user instead system
       - [ ] Skip player : don't work correctly if after "next lap" event
-    - [ ] Other :
+    - [X] Other :
       - [X] Websocket : Error "Mysql server has gone away"
       - [X] Flash close button don't work
-      - [x] Weapon : switch button select and rotate
-      - [ ] Stats : division by zero (StatsManager line 71)
+      - [X] Weapon : switch button select and rotate
+      - [X] Stats : division by zero (StatsManager line 71)
   - Features :
     - [ ] Chat :
         - [ ] Button to purge the local indexedDB (and localStorage)

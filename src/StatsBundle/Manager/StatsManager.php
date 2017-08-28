@@ -67,11 +67,7 @@ class StatsManager
         ];
 
         // Laps avg
-        try {
-            $stats['laps']['avg'] = $stats['laps']['total'] / $stats['game']['start'];
-        } catch (\Exception $e) {
-            $stats['laps']['avg'] = 0;
-        }
+        $stats['laps']['avg'] = ($stats['game']['start'] === 0) ? 0 : $stats['laps']['total'] / $stats['game']['start'];
 
         // Shoot hit sum
         $stats['shoot']['hit'] = $stats['shoot']['touch'] + $stats['shoot']['discovery'] + $stats['shoot']['direction'] + $stats['shoot']['sink'] + $stats['shoot']['fatal'];
