@@ -5,7 +5,7 @@ TODO
   - Bugs reported :
     - [ ] Chat :
       - [ ] Mark message read on open chat
-      - [ ] Private message : show the send message
+      - [X] Private message : show the send message
     - [ ] Notifications :
       - [ ] Discord webhook : message global insteal personal
       - [ ] Discord bot : don't work

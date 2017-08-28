@@ -52,6 +52,7 @@ class ChatTopic implements TopicInterface, PushableTopicInterface
         } else {
             // Private message
             $topic->broadcast($data, [], $this->onlineManager->getSessionsByUserId($message['recipient'], $message['game']));
+            $topic->broadcast($data, [], $this->onlineManager->getSessionsByUserId($message['author']['id'], $message['game']));
         }
     }
 
