@@ -11,7 +11,7 @@ TODO
       - [ ] Discord bot : don't work
     - [ ] Game :
       - [X] Boats / explose images : error (same as avatar)
-      - [ ] Change lap don't work if multi player (no AI)
+      - [X] Change lap don't work if multi player (no AI)
       - [ ] Boat image hide if explose on it
       - [ ] Player position == 0 can't be shoot with bonus
       - [ ] Simulate shoot : status don't synchronize

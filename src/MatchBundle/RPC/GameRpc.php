@@ -599,6 +599,9 @@ class GameRpc implements RpcInterface
             }
         } while (!$okTour);
 
+        // Save tour
+        $game->setTour($tour);
+
         return true;
     }
 
