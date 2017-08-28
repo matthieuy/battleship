@@ -13,7 +13,7 @@ TODO
       - [X] Boats / explose images : error (same as avatar)
       - [X] Change lap don't work if multi player (no AI)
       - [ ] Boat image hide if explose on it
-      - [ ] Player position == 0 can't be shoot with bonus
+      - [X] Player position == 0 can't be shoot with bonus
       - [ ] Simulate shoot : status don't synchronize
       - [ ] Score : don't be synchronize (WS) but DB value is great 
     - [ ] Bonus :

@@ -42,7 +42,7 @@
 
                         <div class="large-12 center">
                             <div class="row btn-action">
-                                <button v-show="inventory.list.length && !gameover" class="button success small-10 large-3" :class="{disabled: !selected || (selected.options.select && !selectPlayer) }" @click="use()">
+                                <button v-show="inventory.list.length && !gameover" class="button success small-10 large-3" :class="{disabled: !selected || (selected.options.select && selectPlayer === null) }" @click="use()">
                                     <i class="gi gi-round-star"></i>
                                     {{ trans('use_it') }}
                                 </button>
@@ -89,9 +89,9 @@
       },
       // Use bonus
       use () {
-        if (!this.selected || (this.selected.options.select && !this.selectPlayer)) {
+        if (!this.selected || (this.selected.options.select && this.selectPlayer === null)) {
           return false
-        } else if (this.selected.options.select && this.selectPlayer) {
+        } else if (this.selected.options.select && this.selectPlayer !== null) {
           this.selected.options.player = this.selectPlayer
         }
 
