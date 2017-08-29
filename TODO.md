@@ -8,7 +8,7 @@ TODO
       - [X] Private message : show the send message
     - [ ] Notifications :
       - [ ] Discord webhook : message global insteal personal
-      - [ ] Discord bot : don't work
+      - [X] Discord bot : don't work
     - [ ] Game :
       - [X] Boats / explose images : error (same as avatar)
       - [X] Change lap don't work if multi player (no AI)
