@@ -147,7 +147,7 @@ class GameRpc implements RpcInterface
 
         // Penalty
         if ($this->checkPenalty($game)) {
-            $this->doPenalty($game, $user);
+            $this->doPenalty($game);
         }
 
         return $infos;
@@ -249,7 +249,7 @@ class GameRpc implements RpcInterface
         $this->nextTour($game, $player);
 
         // Return and push
-        $return = $this->returnBox->getReturnBox($game, $player);
+        $return = $this->returnBox->getReturnBox($game);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
         $this->pusher->push([], 'game.score.topic', ['slug' => $game->getSlug()]);
         $this->eventDispatcher->dispatch(MatchEvents::CHANGE_TOUR, new GameEvent($game));
@@ -327,7 +327,7 @@ class GameRpc implements RpcInterface
 
                 // Add the box to list
                 if ($show) {
-                    $boxList[] = $box->getInfoToReturn($player, $showAnyway);
+                    $boxList[] = $box->getInfoToReturn();
                 }
             }
         }
@@ -776,9 +776,8 @@ class GameRpc implements RpcInterface
     /**
      * Do a penalty
      * @param Game $game
-     * @param User $user
      */
-    private function doPenalty(Game &$game, User $user = null)
+    private function doPenalty(Game &$game)
     {
         $game->setLastShoot();
 
@@ -840,11 +839,7 @@ class GameRpc implements RpcInterface
         $this->eventDispatcher->dispatch(MatchEvents::PENALTY, $event);
 
         // Return
-        $player = $this->getPlayer($game, null, $user->getId());
-        if (!$player instanceof Player) {
-            $player = null;
-        }
-        $return = $this->returnBox->getReturnBox($game, $player);
+        $return = $this->returnBox->getReturnBox($game);
         $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
 
         // Persist

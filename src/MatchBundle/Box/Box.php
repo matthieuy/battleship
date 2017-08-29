@@ -283,23 +283,14 @@ class Box
 
     /**
      * Get infos to return to players
-     * @param Player $player
-     * @param bool   $showAll
-     *
      * @return array
      */
-    public function getInfoToReturn(Player $player = null, $showAll = false)
+    public function getInfoToReturn()
     {
-        if ($showAll || $this->isSameTeam($player) || $this->dead || $this->img < 0) {
-            $img = $this->img;
-        } else {
-            $img = ($this->player !== null) ? ImagesConstant::EXPLOSE : ImagesConstant::MISS;
-        }
-
         $infos = [
             'x' => $this->x,
             'y' => $this->y,
-            'img' => $img,
+            'img' => $this->img,
             'shoot' => $this->shoot,
         ];
         if (!$this->dead && $this->shoot !== null && $this->img > 0) {
@@ -308,6 +299,7 @@ class Box
 
         if ($this->player !== null) {
             $infos['player'] = $this->player;
+            $infos['team'] = $this->team;
         }
         if ($this->dead) {
             $infos['dead'] = $this->dead;

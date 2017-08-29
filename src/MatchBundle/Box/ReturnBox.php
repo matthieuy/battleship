@@ -51,12 +51,11 @@ class ReturnBox
 
     /**
      * Get information to return to user
-     * @param Game   $game
-     * @param Player $player
+     * @param Game $game
      *
      * @return array
      */
-    public function getReturnBox(Game $game, Player $player = null)
+    public function getReturnBox(Game $game)
     {
         $return = [
             'img' => [],
@@ -70,7 +69,7 @@ class ReturnBox
         }
 
         foreach ($this->listBox as $box) {
-            $return['img'][] = $box->getInfoToReturn($player);
+            $return['img'][] = $box->getInfoToReturn();
         }
 
         return $return;

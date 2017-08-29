@@ -155,7 +155,7 @@
           hit: box.img === -1,
           opentip: (typeof box.player !== 'undefined' || typeof box.shoot !== 'undefined'),
           animated: box.img === -1,
-          boat: box.img > 0,
+          boat: (this.me !== null && box.team === this.me.team) || box.dead || (this.gameover && typeof box.player !== 'undefined'),
         }
         css['img' + box.img] = box.img > 0
         if (typeof box.player !== 'undefined') {

@@ -6,13 +6,13 @@ TODO
     - [X] Chat :
       - [X] Mark message read on open chat
       - [X] Private message : show the send message
-    - [ ] Notifications :
-      - [ ] Discord webhook : message global insteal personal
+    - [X] Notifications :
+      - [X] Discord webhook : message global insteal personal
       - [X] Discord bot : don't work
     - [ ] Game :
       - [X] Boats / explose images : error (same as avatar)
       - [X] Change lap don't work if multi player (no AI)
-      - [ ] Boat image hide if explose on it
+      - [X] Boat image hide if explose on it
       - [X] Player position == 0 can't be shoot with bonus
       - [ ] Simulate shoot : status don't synchronize
       - [ ] Score : don't be synchronize (WS) but DB value is great 
