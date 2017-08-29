@@ -148,7 +148,7 @@ export default {
     [ACTION.CHAT.MARK_READ] (context, tab) {
       db.messages
         .filter(function (message) {
-          return (message.user_id === context.rootState.userId || message.user_id === null) && message.game === Number(document.getElementById('game-id').value) && message.tab === tab && message.unread
+          return message.unread && (message.user_id === context.rootState.userId || typeof message.user_id === 'undefined') && message.game === Number(document.getElementById('game-id').value) && message.tab === tab
         })
         .modify(function (value) {
           delete value.unread
