@@ -97,9 +97,9 @@ class SkipPlayerBonus extends AbstractBonus
                 $options[$teamId] = array_values($options[$teamId]);
                 $this->sendMessage($event->getGame(), $event->getPlayer(), $victim);
                 $this->delete();
+                $event->setOptions($options);
             }
         }
-        $event->setOptions($options);
 
         return true;
     }
