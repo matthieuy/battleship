@@ -149,3 +149,9 @@ services:
         class: BonusBundle\Bonus\InventorySizeBonus
         tags:
             - { name: bonus.type }
+
+    # Penalty decrease time
+    bonus.penalty:
+        class: BonusBundle\Bonus\PenaltyBonus
+        tags:
+            - { name: bonus.type }

@@ -31,5 +31,5 @@ TODO
     - [ ] Add screenshot or gif in documentation
     - [ ] Bonus :
         - [ ] Radar
-        - [ ] Decrement penalty time
+        - [X] Decrement penalty time
 
