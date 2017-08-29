@@ -36,9 +36,11 @@ class SkipPlayerBonus extends AbstractBonus
 
     /**
      * Get options to add in inventory
+     * @param Player $player
+     *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(Player $player)
     {
         return [
             'select' => BonusConstant::TARGET_ENEMY,

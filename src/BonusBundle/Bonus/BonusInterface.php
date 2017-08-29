@@ -37,9 +37,11 @@ interface BonusInterface
 
     /**
      * Get options to add in inventory
+     * @param Player $player
+     *
      * @return array
      */
-    public function getOptions();
+    public function getOptions(Player $player);
 
     /**
      * Set the new probability after catch the bonus

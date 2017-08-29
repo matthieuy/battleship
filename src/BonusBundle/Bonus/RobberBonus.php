@@ -39,9 +39,11 @@ class RobberBonus extends AbstractBonus
 
     /**
      * Get options to add in inventory
+     * @param Player $player
+     *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(Player $player)
     {
         $random = rand(self::MIN_PERCENTAGE, self::MAX_PERCENTAGE);
         $percentage = $random - ($random % 5);

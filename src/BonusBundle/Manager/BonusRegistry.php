@@ -122,7 +122,7 @@ class BonusRegistry
         $inventory = new Inventory();
         $inventory
             ->setName($bonus->getId())
-            ->setOptions($bonus->getOptions());
+            ->setOptions($bonus->getOptions($player));
         $player->addBonus($inventory);
 
         // RAZ probability

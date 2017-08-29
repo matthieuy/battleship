@@ -33,9 +33,11 @@ class InventorySizeBonus extends AbstractBonus
 
     /**
      * Get options to add in inventory
+     * @param Player $player
+     *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(Player $player)
     {
         $size = rand(1, 3);
 

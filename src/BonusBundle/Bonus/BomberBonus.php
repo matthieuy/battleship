@@ -37,9 +37,11 @@ class BomberBonus extends AbstractBonus
 
     /**
      * Get options to add in inventory
+     * @param Player $player
+     *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(Player $player)
     {
         return [
             'label' => rand(self::MIN_BOX, self::MAX_BOX),
