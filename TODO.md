@@ -16,7 +16,7 @@ TODO
       - [X] Player position == 0 can't be shoot with bonus
       - [ ] Simulate shoot : status don't synchronize
       - [ ] Score : don't be synchronize (WS) but DB value is great 
-    - [ ] Bonus :
+    - [X] Bonus :
       - [X] Robber : send chat message with user instead system
       - [X] Skip player : don't work correctly if after "next lap" event
     - [X] Other :
@@ -25,8 +25,8 @@ TODO
       - [X] Weapon : switch button select and rotate
       - [X] Stats : division by zero (StatsManager line 71)
   - Features :
-    - [ ] Chat :
-        - [ ] Button to purge the local indexedDB (and localStorage)
+    - [X] Chat :
+        - [X] Button to purge the local indexedDB (and localStorage)
     - [ ] ISO view
     - [ ] Add screenshot or gif in documentation
     - [ ] Bonus :

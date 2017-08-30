@@ -6,6 +6,10 @@
                 <source>Profil saved with success !</source>
                 <target>Profil saved with success !</target>
             </trans-unit>
+            <trans-unit id="user2" resname="reset.cache">
+                <source>Clear local cache</source>
+                <target>Clear local cache</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
