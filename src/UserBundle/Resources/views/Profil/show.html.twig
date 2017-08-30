@@ -9,15 +9,6 @@
     {% end_webpack %}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% if isMe %}
-        {% webpack js '@user/js/profils.js' %}
-            <script src="{{ asset_url }}"></script>
-        {% end_webpack %}
-    {% endif %}
-{% endblock %}
-
 {% block body %}
     <h1 class="center">{{ user.username }}</h1>
 
@@ -28,9 +19,6 @@
     <div class="center">
         {% if isMe or is_granted('ROLE_ADMIN') %}
             <a href="{{ path('user.profil.edit', { slug: user.slug }) }}" class="button success">{{ 'Edit profil'|trans }}</a>
-            <span id="vue">
-                <btn-reset></btn-reset>
-            </span>
         {% endif %}
         {% if is_granted('ROLE_ALLOWED_TO_SWITCH') %}
             <a class="button" href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_user': user.username})) }}">{{ 'Switch'|trans }}</a>

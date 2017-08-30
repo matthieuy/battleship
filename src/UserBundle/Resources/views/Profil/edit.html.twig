@@ -2,6 +2,13 @@
 {% extends "::base.html.twig" %}
 {% block title %}{% if isMe %}{{ 'Edit profil'|trans }}{% else %}{{ 'Edit profil of %name%'|trans({'%name%': user.username }) }}{% endif %} - {{ parent() }}{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {% webpack js '@user/js/profils.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
+
 {% block body %}
     <h1 class="center">{% if isMe %}{{ 'Edit profil'|trans }}{% else %}{{ 'Edit profil of %name%'|trans({'%name%': user.username }) }}{% endif %}</h1>
 
@@ -32,6 +39,9 @@
             {{ form_rest(form) }}
             <input type="submit" value="{{ 'Save'|trans({}, 'form') }}" class="button success">
             <a href="{{ path('user.profil.show', {'slug': user.slug}) }}" class="button">{{ 'Show profil'|trans }}</a>
+            <span id="vue">
+                <btn-reset></btn-reset>
+            </span>
             <a href="{{ path('user.personal.edit', {'slug': user.slug}) }}" class="button">{{ "Edit connexion's informations"|trans }}</a>
         </div>
         {{ form_end(form) }}
