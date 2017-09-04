@@ -5,7 +5,7 @@ namespace BonusBundle\Repository;
 use BonusBundle\Entity\Inventory;
 use Doctrine\ORM\EntityRepository;
 use MatchBundle\Entity\Game;
-use UserBundle\Entity\User;
+use MatchBundle\Entity\Player;
 
 /**
  * Class InventoryRepository
@@ -15,23 +15,23 @@ class InventoryRepository extends EntityRepository
 {
     /**
      * Get the inventory
-     * @param Game $game
-     * @param User $user
+     * @param Game   $game
+     * @param Player $player
      *
      * @return Inventory[]
      */
-    public function getInventory(Game $game, User $user)
+    public function getInventory(Game $game, Player $player)
     {
         $builder = $this->createQueryBuilder('inventory');
         $builder
             ->select('inventory')
             ->where('inventory.game=:game')
-            ->innerJoin('inventory.player', 'player')
-            ->andWhere('player.user=:user')
+            ->andWhere('inventory.player=:player')
             ->orderBy('inventory.useIt', 'ASC')
+            ->setMaxResults($player->getInventorySize())
             ->setParameters([
                 'game' => $game,
-                'user' => $user,
+                'player' => $player,
             ]);
 
         $query = $builder->getQuery();

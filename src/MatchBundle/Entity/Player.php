@@ -462,7 +462,7 @@ class Player
      */
     public function getNbBonus()
     {
-        return $this->bonus->count();
+        return min($this->bonus->count(), $this->inventorySize);
     }
 
     /**
