@@ -8,7 +8,7 @@ TODO
       - [ ] Score : don't be synchronize (WS) but DB value is great
       - [X] Waiting : Game without AI can't be start
       - [ ] Refresh grid on game over to see boat alive
-      - [ ] Allow near boat on the grid
+      - [X] Allow nearly boat on the grid
     - [ ] Notifications :
       - [ ] Discord webhook : send only personal message instead global
     - [ ] Bonus :

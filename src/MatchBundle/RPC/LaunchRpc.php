@@ -225,8 +225,8 @@ class LaunchRpc implements RpcInterface
                                 }
 
                                 foreach ($near as $n) {
-                                    // try<10 : no player nearly | try<20 : no same team | try>20 : yolo
-                                    if (($try < 10 && isset($n['player'])) || ($try < 20 && isset($n['team']) && $n['team'] == $player->getTeam())) {
+                                    // try<3 : no player nearly | try<20 : no same team | try>20 : yolo
+                                    if (($try < 3 && isset($n['player'])) || ($try < 20 && isset($n['team']) && $n['team'] == $player->getTeam())) {
                                         $ok = false;
                                         break 2;
                                     }
