@@ -50,6 +50,10 @@
                 <source>%username% catch a bonus : %bonus%</source>
                 <target>%username% attrape un bonus : %bonus%</target>
             </trans-unit>
+            <trans-unit id="chat14" resname="show.system.msg">
+                <source>Show system message</source>
+                <target>Afficher les messages systèmes</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

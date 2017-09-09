@@ -16,8 +16,8 @@ TODO
       - [ ] Skip_player : don't work on next lap
       - [ ] Damage : don't work on next lap
       - [ ] Skip player on current player
-    - [ ] Chat :
-      - [ ] Hide system message
+    - [X] Chat :
+      - [X] Hide system message
   - Features :
     - [ ] ISO view
     - [ ] Add screenshot or gif in documentation
