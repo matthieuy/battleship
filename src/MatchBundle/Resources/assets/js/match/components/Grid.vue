@@ -232,6 +232,10 @@
       gameover (gameover) {
         if (gameover) {
           $('#grid').off('vmouseup vmousedown vmousemove')
+          let self = this
+          WS.callRPC('run/load', {}, function (game) {
+            self.$store.commit(MUTATION.LOAD, game)
+          })
         }
       },
     },
