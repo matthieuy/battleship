@@ -12,7 +12,7 @@ TODO
     - [ ] Notifications :
       - [ ] Discord webhook : send only personal message instead global
     - [ ] Bonus :
-      - [ ] Translate "bonus.robber.msg" by user (instead system)
+      - [X] Translate "bonus.robber.msg" by user (instead system)
       - [ ] Skip_player : don't work on next lap
       - [ ] Damage : don't work on next lap
       - [ ] Skip player on current player
