@@ -61,7 +61,7 @@
         }
 
         // Any human player ?
-        if ($('#playerlist tbody .fa-gamepad').length === 0) {
+        if ($('#playerlist tbody .fa-desktop').length === 0) {
           return Flash.error('error_ai')
         }
 

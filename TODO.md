@@ -6,7 +6,7 @@ TODO
     - [ ] Game :
       - [ ] Simulate shoot : status don't synchronize
       - [ ] Score : don't be synchronize (WS) but DB value is great
-      - [ ] Waiting : Game without AI can't be start
+      - [X] Waiting : Game without AI can't be start
       - [ ] Refresh grid on game over to see boat alive
       - [ ] Allow near boat on the grid
     - [ ] Notifications :
