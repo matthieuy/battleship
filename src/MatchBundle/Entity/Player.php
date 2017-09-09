@@ -407,12 +407,12 @@ class Player
         $list = [];
         if (is_array($this->boats)) {
             foreach ($this->boats as $boat) {
-                if ($boat[1] > $boat[2]) {
-                    if (isset($list[$boat[1]])) {
-                        $list[$boat[1]]++;
-                    } else {
-                        $list[$boat[1]] = 1;
+                $lengthBoat = $boat[1];
+                if ($lengthBoat > $boat[2]) {
+                    if (!isset($list['b'.$lengthBoat])) {
+                        $list['b'.$lengthBoat] = 0;
                     }
+                    $list['b'.$lengthBoat]++;
                 }
             }
         }

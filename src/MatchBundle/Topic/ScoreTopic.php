@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\PushableTopicInterface;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
+use MatchBundle\Entity\Player;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 
@@ -107,6 +108,7 @@ class ScoreTopic implements TopicInterface, PushableTopicInterface
 
         $list = [];
         foreach ($players as $player) {
+            /** @var Player $player */
             $list[] = array_merge(
                 $player->toArray(),
                 ['tour' => in_array($player->getPosition(), $tour)]
