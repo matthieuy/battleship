@@ -106,4 +106,13 @@ abstract class AbstractWeapon implements WeaponInterface
             'grid' => $this->getGridArray(),
         ];
     }
+
+    /**
+     * Convert to string
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

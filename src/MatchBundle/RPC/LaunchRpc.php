@@ -12,6 +12,7 @@ use MatchBundle\Boats;
 use MatchBundle\Entity\Game;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\MatchEvents;
+use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -28,6 +29,7 @@ class LaunchRpc implements RpcInterface
     private $pusher;
     private $eventDispatcher;
     private $translator;
+    private $logger;
 
     /**
      * LaunchRpc constructor (DI)
@@ -36,19 +38,22 @@ class LaunchRpc implements RpcInterface
      * @param PusherInterface            $pusher
      * @param EventDispatcherInterface   $eventDispatcher
      * @param TranslatorInterface        $translator
+     * @param LoggerInterface            $logger
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
         EventDispatcherInterface $eventDispatcher,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        LoggerInterface $logger
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->eventDispatcher = $eventDispatcher;
         $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,6 +65,11 @@ class LaunchRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
+        $this->logger->error('Bad request', [
+            'name' => $name,
+            'args' => $arguments,
+        ]);
+
         return ['error' => "Bad request"];
     }
 
@@ -117,6 +127,7 @@ class LaunchRpc implements RpcInterface
         // Event
         $event = new GameEvent($game);
         $this->eventDispatcher->dispatch(MatchEvents::LAUNCH, $event);
+        $this->logger->info($game->getSlug().' - Start game');
 
         // Push
         $this->pusher->push([

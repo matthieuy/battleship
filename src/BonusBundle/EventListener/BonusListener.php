@@ -7,6 +7,7 @@ use BonusBundle\Event\BonusEvent;
 use BonusBundle\Manager\BonusRegistry;
 use Doctrine\ORM\EntityManager;
 use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -18,18 +19,21 @@ class BonusListener implements EventSubscriberInterface
     private $entityManager;
     private $bonusRegistry;
     private $pusher;
+    private $logger;
 
     /**
      * BonusListener constructor.
      * @param EntityManager   $entityManager
      * @param BonusRegistry   $bonusRegistry
      * @param PusherInterface $pusher
+     * @param LoggerInterface $logger
      */
-    public function __construct(EntityManager $entityManager, BonusRegistry $bonusRegistry, PusherInterface $pusher)
+    public function __construct(EntityManager $entityManager, BonusRegistry $bonusRegistry, PusherInterface $pusher, LoggerInterface $logger)
     {
         $this->entityManager = $entityManager;
         $this->bonusRegistry = $bonusRegistry;
         $this->pusher = $pusher;
+        $this->logger = $logger;
     }
 
     /**
@@ -117,6 +121,13 @@ class BonusListener implements EventSubscriberInterface
         if (method_exists($event->getBonus(), $methodName)) {
             // Call method
             call_user_func_array([$event->getBonus(), $methodName], [$event]);
+            $this->logger->info($event->getGame()->getSlug().' - Bonus', [
+                'action' => 'trigger',
+                'method' => $methodName,
+                'bonus' => $event->getBonus()->getName(),
+                'player' => $event->getPlayer()->getName(),
+                'inventory_id' => $event->getInventory()->getId(),
+            ]);
 
             // WebSocket
             $result = $event->getBonus()->getWSReturn();
@@ -129,6 +140,12 @@ class BonusListener implements EventSubscriberInterface
                 $playerInventory = $event->getInventory()->getPlayer();
                 $playerInventory->removeBonus($event->getInventory());
                 $this->entityManager->remove($event->getInventory());
+                $this->logger->info($event->getGame()->getSlug().' - Bonus', [
+                    'action' => 'remove',
+                    'method' => $methodName,
+                    'bonus' => $event->getBonus()->getName(),
+                    'inventory_id' => $event->getInventory()->getId(),
+                ]);
             }
 
             $this->entityManager->flush();

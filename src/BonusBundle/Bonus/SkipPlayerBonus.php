@@ -100,6 +100,11 @@ class SkipPlayerBonus extends AbstractBonus
                 $this->sendMessage($event->getGame(), $event->getPlayer(), $victim);
                 $this->delete();
                 $event->setOptions($options);
+                $this->logger->info($event->getGame()->getSlug().' - Bonus', [
+                    'name' => $this->getName(),
+                    'player' => $event->getPlayer()->getName(),
+                    'opts' => $options,
+                ]);
             }
         }
 

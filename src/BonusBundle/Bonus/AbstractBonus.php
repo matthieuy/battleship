@@ -7,6 +7,7 @@ use BonusBundle\Event\BonusEvent;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AbstractBonus
@@ -17,14 +18,17 @@ abstract class AbstractBonus implements BonusInterface
     protected $WSreturn = [];
     protected $delete = false;
     protected $entityManager;
+    protected $logger;
 
     /**
      * AbstractBonus constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManager        $entityManager
+     * @param LoggerInterface|null $logger
      */
-    public function __construct(EntityManager $entityManager = null)
+    public function __construct(EntityManager $entityManager = null, LoggerInterface $logger = null)
     {
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
     }
 
     /**
