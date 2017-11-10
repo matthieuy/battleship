@@ -16,7 +16,7 @@ TODO
       - [ ] Skip_player : don't work on next lap
       - [ ] Damage : don't work on next lap
       - [ ] Skip player on current player
-      - [ ] Disable use multi bonus
+      - [X] Disable use multi bonus
     - [X] Chat :
       - [X] Hide system message
   - Features :

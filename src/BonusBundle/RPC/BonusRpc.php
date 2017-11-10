@@ -149,6 +149,12 @@ class BonusRpc implements RpcInterface
             return ['msg' => "Can't use this bonus now"];
         }
 
+        // Mutli bonus ?
+        if ($repo->nbrOfCurrentBonus($game, $player) >= 1) {
+            return ['msg' => "Can't use multi bonus"];
+        }
+
+
         // Event
         $event = new BonusEvent($game, $player);
         $event
