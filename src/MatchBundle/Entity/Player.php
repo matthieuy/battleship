@@ -513,4 +513,13 @@ class Player
 
         return $this;
     }
+
+    /**
+     * Convert to string
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

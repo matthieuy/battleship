@@ -25,4 +25,4 @@ TODO
     - [ ] Bonus :
         - [ ] Radar
         - [ ] Decrement penalty time
-        - [ ] Command to add bonus (dev environment)
+        - [X] Command to add bonus (dev environment)
