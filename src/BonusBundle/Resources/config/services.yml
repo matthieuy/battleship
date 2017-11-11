@@ -105,7 +105,6 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@monolog.logger.game"
-            - "@gos_web_socket.zmq.pusher"
             - "@game.run.rpc"
         tags:
             - { name: bonus.type }

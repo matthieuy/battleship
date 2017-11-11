@@ -18,20 +18,17 @@ use Psr\Log\LoggerInterface;
  */
 class SkipPlayerBonus extends AbstractBonus
 {
-    private $pusher;
     private $rpc;
 
     /**
      * SkipPlayerBonus constructor (DI)
      * @param EntityManager   $entityManager
      * @param LoggerInterface $logger
-     * @param PusherInterface $pusher
      * @param GameRpc         $rpc
      */
-    public function __construct(EntityManager $entityManager = null, LoggerInterface $logger = null, PusherInterface $pusher, GameRpc $rpc)
+    public function __construct(EntityManager $entityManager = null, LoggerInterface $logger = null, GameRpc $rpc)
     {
         parent::__construct($entityManager, $logger);
-        $this->pusher = $pusher;
         $this->rpc = $rpc;
     }
 
