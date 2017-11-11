@@ -61,7 +61,7 @@ class DamageBonus extends AbstractBonus
         }
 
         // Only if not alone in team
-        return (count($player->getGame()->getPlayersByTeam($player->getTeam(), true)) > 0);
+        return (count($player->getGame()->getPlayersByTeam($player->getTeam(), true)) > 1);
     }
 
     /**
