@@ -146,12 +146,12 @@ class BonusRpc implements RpcInterface
         // Check if can use bonus now
         $player = $game->getPlayerByUser($user);
         if (!$player || !$bonus->canUseNow($game, $player)) {
-            return ['msg' => "Can't use this bonus now"];
+            return ['msg' => 'bonus.error.use_now'];
         }
 
         // Mutli bonus ?
         if ($repo->nbrOfCurrentBonus($game, $player) >= 1) {
-            return ['msg' => "Can't use multi bonus"];
+            return ['msg' => 'bonus.error.multi'];
         }
 
 

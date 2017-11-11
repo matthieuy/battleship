@@ -142,6 +142,14 @@
                 <source>Increase your inventory size</source>
                 <target>Increase your inventory size</target>
             </trans-unit>
+            <trans-unit id="bonus34" resname="bonus.error.use_now">
+                <source>Can't use this bonus now</source>
+                <target>Can't use this bonus now</target>
+            </trans-unit>
+            <trans-unit id="bonus35" resname="bonus.error.multi">
+                <source>Can't use multi bonus</source>
+                <target>Can't use multi bonus</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
