@@ -278,6 +278,21 @@ class GameRpc implements RpcInterface
     }
 
     /**
+     * Check tour (if AI to play)
+     * @param Game   $game
+     * @param Player $player
+     */
+    public function checkTour(Game $game, Player $player)
+    {
+        $this->returnBox = new ReturnBox();
+        $this->nextTour($game, $player);
+
+        $return = $this->returnBox->getReturnBox($game);
+        $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push([], 'game.score.topic', ['slug' => $game->getSlug()]);
+    }
+
+    /**
      * Get RPC name
      * @return string
      */
@@ -558,7 +573,7 @@ class GameRpc implements RpcInterface
      *
      * @return bool Game is over
      */
-    private function nextTour(Game &$game, Player $fromPlayer)
+    private function nextTour(Game &$game, Player $fromPlayer = null)
     {
         // Get players and teams alive
         $teamsList = $this->checkFinish($game);

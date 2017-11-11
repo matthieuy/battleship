@@ -15,7 +15,7 @@ TODO
       - [X] Translate "bonus.robber.msg" by user (instead system)
       - [ ] Skip_player : don't work on next lap
       - [ ] Damage : don't work on next lap
-      - [ ] Skip player on current player
+      - [X] Skip player on current player
       - [X] Disable use multi bonus
     - [X] Chat :
       - [X] Hide system message
