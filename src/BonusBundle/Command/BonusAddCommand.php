@@ -47,7 +47,7 @@ class BonusAddCommand extends ContainerAwareCommand
         // Get game
         $repoGame = $em->getRepository('MatchBundle:Game');
         $slug = $input->getOption('slug');
-        if ($slug == null) {
+        if ($slug === null) {
             $games = $repoGame->findBy(['status' => Game::STATUS_RUN]);
             $slug = $io->choice('Game', $games);
         }
@@ -61,7 +61,7 @@ class BonusAddCommand extends ContainerAwareCommand
         // Get player
         $repoPlayer = $em->getRepository('MatchBundle:Player');
         $playerName = $input->getOption('player');
-        if ($playerName == null) {
+        if ($playerName === null) {
             $players = $repoPlayer->findBy(['game' => $game], ['position' => 'ASC']);
             $playerName = $io->choice('Player', $players);
         }
