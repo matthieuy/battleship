@@ -6,7 +6,6 @@ use BonusBundle\BonusConstant;
 use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
 use Doctrine\ORM\EntityManager;
-use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 use MatchBundle\RPC\GameRpc;

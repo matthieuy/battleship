@@ -64,7 +64,7 @@ export default {
     [ACTION.INVENTORY.USE] (context, bonus) {
       // Get data to send
       let dataSend = {id: bonus.id}
-      if (bonus.options.player) {
+      if (typeof bonus.options.player !== 'undefined') {
         Object.assign(dataSend, {
           player: bonus.options.player,
         })

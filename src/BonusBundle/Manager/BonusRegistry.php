@@ -69,7 +69,7 @@ class BonusRegistry
     public function getBonusById($id)
     {
         if (!isset($this->bonusList[$id])) {
-            throw new \Exception("This bonus don't exist !");
+            throw new \Exception("This bonus don't exist ($id) !");
         }
 
         return $this->bonusList[$id];
