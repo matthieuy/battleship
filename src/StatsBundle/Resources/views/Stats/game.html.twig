@@ -12,7 +12,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        var penaltyData = JSON.parse('{{ penaltyData|json_encode(4)|raw }}')
+        var penaltyData = '{{ penaltyData }}'
     </script>
     {% webpack js '@stats/js/stats-game.js' %}
         <script src="{{ asset_url }}"></script>
