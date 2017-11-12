@@ -22,7 +22,7 @@ $(function () {
       },
       series: [{
         name: Translator.trans('penalty_name'),
-        data: penaltyData.nb,
+        data: JSON.parse(penaltyData.replace(/&quot;/g, '"')).nb,
       }],
     })
   }
@@ -47,7 +47,7 @@ $(function () {
       },
       series: [{
         name: Translator.trans('penalty_name'),
-        data: penaltyData.victim,
+        data: JSON.parse(penaltyData.replace(/&quot;/g, '"')).victim,
       }],
     })
   }
