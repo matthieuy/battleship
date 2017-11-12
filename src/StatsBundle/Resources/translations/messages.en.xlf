@@ -10,6 +10,10 @@
                 <source>none</source>
                 <target>none</target>
             </trans-unit>
+            <trans-unit id="stats3" resname="Victim">
+                <source>Victim</source>
+                <target>Victim</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
