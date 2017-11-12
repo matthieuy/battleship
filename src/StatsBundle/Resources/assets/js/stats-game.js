@@ -17,6 +17,9 @@ $(function () {
           },
         },
       },
+      credits: {
+        enabled: false,
+      },
       title: {
         text: Translator.trans('penalty_name'),
       },
@@ -44,6 +47,9 @@ $(function () {
       },
       title: {
         text: Translator.trans('Victim'),
+      },
+      credits: {
+        enabled: false,
       },
       series: [{
         name: Translator.trans('penalty_name'),

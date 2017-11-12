@@ -33,7 +33,7 @@ class StatsController extends Controller
         // View
         return $this->render('@Stats/Stats/game.html.twig', [
             'game' => $game,
-            'penaltyData' => ($penaltyData) ? json_encode($penaltyData, 4) : false,
+            'penaltyData' => $penaltyData,
         ]);
     }
 
