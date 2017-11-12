@@ -13,6 +13,7 @@
     {{ parent() }}
     <script>
         var penaltyData = '{{ penaltyData }}'
+        var weaponData = '{{ weaponData }}'
     </script>
     {% webpack js '@stats/js/stats-game.js' %}
         <script src="{{ asset_url }}"></script>
@@ -69,4 +70,8 @@
             </tbody>
         </table>
     {% endif %}
+
+    <div class="large-12">
+        <div id="weapons" style="width: 100%;"></div>
+    </div>
 {% endblock %}

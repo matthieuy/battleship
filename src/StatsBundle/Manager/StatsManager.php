@@ -2,6 +2,7 @@
 
 namespace StatsBundle\Manager;
 
+use BonusBundle\Manager\WeaponRegistry;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
 use StatsBundle\StatsConstants;
@@ -145,7 +146,43 @@ class StatsManager
         }
         $data['victim'] = array_values($data['victim']);
 
-        return json_encode($data, 4);
+        return json_encode($data, JSON_HEX_APOS);
+    }
+
+    /**
+     * Get weapon's data for graph
+     * @param Game           $game           The game
+     * @param WeaponRegistry $weaponRegistry Weapon registry
+     *
+     * @return string JSON data
+     */
+    public function getWeaponData(Game $game, WeaponRegistry $weaponRegistry)
+    {
+        $allWeaponName = array_keys($weaponRegistry->getAllWeapons());
+        $data['categories'] = $allWeaponName;
+
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+        if (!isset($gameStats[StatsConstants::WEAPON])) {
+            return $data;
+        }
+        $weaponStats = $gameStats[StatsConstants::WEAPON];
+
+        foreach ($weaponStats as $userId => $d) {
+            $data['series'][$userId] = [
+                'type' => 'column',
+                'name' => $this->getUserName($userId),
+                'data' => array_fill(0, count($allWeaponName), 0),
+            ];
+
+            foreach ($d as $k) {
+                if (false !== $key = array_search($k['value2'], $allWeaponName)) {
+                    $data['series'][$userId]['data'][$key] += $k['value'];
+                }
+            }
+        }
+        $data['series'] = array_values($data['series']);
+
+        return json_encode($data, JSON_HEX_APOS);
     }
 
     /**
