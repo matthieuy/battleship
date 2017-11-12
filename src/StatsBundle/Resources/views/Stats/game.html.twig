@@ -44,33 +44,29 @@
                 </tr>
                 <tr>
                     <td>{{ 'Winners'|trans({}, 'messages') }}</td>
-                    <td>
-                        {% for player in game.playersTour %}
-                            <p>{{ player.name }}</p>
-                        {% endfor %}
-                    </td>
+                    <td>{{ game.playersTour|join(',') }}</td>
                 </tr>
             {% endif %}
         </tbody>
     </table>
 
-    {% if not penaltyData == false %}
-    <table class="table large-6">
-        <thead>
-            <tr>
-                <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-            <td width="50%">
-                    <div id="penalty" style="width: 100%;"></div>
-                </td>
-                <td>
-                    <div id="penaltyvic" style="width: 100%;"></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    {% if penaltyData %}
+        <table class="table large-6">
+            <thead>
+                <tr>
+                    <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td width="50%">
+                        <div id="penalty" style="width: 100%;"></div>
+                    </td>
+                    <td>
+                        <div id="penaltyvic" style="width: 100%;"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     {% endif %}
 {% endblock %}

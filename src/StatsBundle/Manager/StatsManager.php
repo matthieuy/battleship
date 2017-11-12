@@ -108,7 +108,7 @@ class StatsManager
      * Get penalty's data for graph
      * @param Game $game The game
      *
-     * @return array|bool Data or false if any penalty
+     * @return string|bool JSON Data or false if any penalty
      */
     public function getPenaltyData(Game $game)
     {
@@ -145,7 +145,7 @@ class StatsManager
         }
         $data['victim'] = array_values($data['victim']);
 
-        return $data;
+        return json_encode($data, 4);
     }
 
     /**
