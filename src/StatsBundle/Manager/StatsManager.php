@@ -3,6 +3,7 @@
 namespace StatsBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use MatchBundle\Entity\Game;
 use StatsBundle\StatsConstants;
 use UserBundle\Entity\User;
 
@@ -13,6 +14,7 @@ use UserBundle\Entity\User;
 class StatsManager
 {
     private $entityManager;
+    private $userList = [];
 
     /**
      * StatsManager constructor.
@@ -100,5 +102,70 @@ class StatsManager
         }
 
         return $stats;
+    }
+
+    /**
+     * Get penalty's data for graph
+     * @param Game $game The game
+     *
+     * @return array|bool Data or false if any penalty
+     */
+    public function getPenaltyData(Game $game)
+    {
+        $repo = $this->entityManager->getRepository('StatsBundle:Stats');
+        $gameStats = $repo->getGameStats($game);
+
+        // No penalty : return false
+        if (!isset($gameStats[StatsConstants::PENALTY])) {
+            return false;
+        }
+
+        $data = [
+            'nb' => [],
+            'victim' => [],
+        ];
+
+        foreach ($gameStats[StatsConstants::PENALTY] as $userId => $stat) {
+            $nb = 0;
+            foreach ($stat as $value) {
+                // Init values
+                if (!isset($data['victim'][$value['value2']]['y'])) {
+                    $data['victim'][$value['value2']]['y'] = 0;
+                    $data['victim'][$value['value2']]['name'] = $this->getUserName($value['value2']);
+                }
+
+                // Increment values
+                $nb += $value['value'];
+                $data['victim'][$value['value2']]['y'] += $value['value'];
+            }
+            $data['nb'][] = [
+                'name' => $this->getUserName($userId),
+                'y' => $nb,
+            ];
+        }
+        $data['victim'] = array_values($data['victim']);
+
+        return $data;
+    }
+
+    /**
+     * Get username from userId
+     * @param integer $userId
+     *
+     * @return string
+     */
+    private function getUserName($userId)
+    {
+        if (!isset($this->userList[$userId])) {
+            $repoUser = $this->entityManager->getRepository('UserBundle:User');
+            $user = $repoUser->find($userId);
+            if ($user instanceof User) {
+                $this->userList[$userId] = $user->getUsername();
+            } else {
+                return '';
+            }
+        }
+
+        return $this->userList[$userId];
     }
 }

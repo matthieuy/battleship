@@ -9,6 +9,16 @@
     {% end_webpack %}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var penaltyData = JSON.parse('{{ penaltyData|json_encode(4)|raw }}')
+    </script>
+    {% webpack js '@stats/js/stats-game.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% end_webpack %}
+{% endblock %}
+
 {% block body %}
     <h1 class="center">{{ game.name }} - {{ 'Statistics'|trans({}, 'messages') }}</h1>
 
@@ -32,7 +42,35 @@
                     <td>{{ 'finish_on'|trans({}, 'messages') }}</td>
                     <td>{{ game.lastShoot|localizeddate }}</td>
                 </tr>
+                <tr>
+                    <td>{{ 'Winners'|trans({}, 'messages') }}</td>
+                    <td>
+                        {% for player in game.playersTour %}
+                            <p>{{ player.name }}</p>
+                        {% endfor %}
+                    </td>
+                </tr>
             {% endif %}
         </tbody>
     </table>
+
+    {% if not penaltyData == false %}
+    <table class="table large-6">
+        <thead>
+            <tr>
+                <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <td width="50%">
+                    <div id="penalty" style="width: 100%;"></div>
+                </td>
+                <td>
+                    <div id="penaltyvic" style="width: 100%;"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    {% endif %}
 {% endblock %}

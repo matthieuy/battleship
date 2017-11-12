@@ -98,7 +98,7 @@ class StatsRepository extends EntityRepository
             ]);
         $results = $builder->getQuery()->getResult();
 
-        // Organize result
+        // Organize results
         $list = [];
         /** @var Stats $stat */
         foreach ($results as $stat) {
@@ -106,6 +106,40 @@ class StatsRepository extends EntityRepository
                 $list[$stat->getStat()] = $stat->getValue();
             } else {
                 $list[$stat->getStat()] = [
+                    'value' => $stat->getValue(),
+                    'value2' => $stat->getValue2(),
+                ];
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * Get game's stats
+     * @param Game $game
+     *
+     * @return array
+     */
+    public function getGameStats(Game $game)
+    {
+        // Create query
+        $builder = $this->createQueryBuilder('stats');
+        $builder
+            ->where('stats.gameId=:gameId')
+            ->setParameters([
+                'gameId' => $game->getId(),
+            ]);
+        $results = $builder->getQuery()->getResult();
+
+        // Organize results
+        $list = [];
+        /** @var Stats $stat */
+        foreach ($results as $stat) {
+            if ($stat->getValue2() === null) {
+                $list[$stat->getStat()][$stat->getUserId()] = $stat->getValue();
+            } else {
+                $list[$stat->getStat()][$stat->getUserId()][] = [
                     'value' => $stat->getValue(),
                     'value2' => $stat->getValue2(),
                 ];
