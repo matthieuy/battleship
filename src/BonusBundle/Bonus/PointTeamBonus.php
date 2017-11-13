@@ -25,7 +25,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'point.team';
+        return 'team_point';
     }
 
     /**
