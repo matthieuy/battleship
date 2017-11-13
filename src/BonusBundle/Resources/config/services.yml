@@ -32,6 +32,7 @@ services:
     # The bonus registry
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
+        lazy: true
         arguments:
             - "@event.manager"
             - "@monolog.logger.game"

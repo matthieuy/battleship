@@ -5,6 +5,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@weapon.registry"
+            - "@bonus.registry"
 
     # Stats listener
     stats.listener:
