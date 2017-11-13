@@ -34,6 +34,7 @@ class StatsController extends Controller
             'game' => $game,
             'penaltyData' => $statsManager->getPenaltyData($game),
             'weaponData' => $statsManager->getWeaponData($game),
+            'bonusData' => $statsManager->getBonusData($game),
         ]);
     }
 

@@ -17,17 +17,20 @@ class StatsManager
 {
     private $entityManager;
     private $weaponRegistry;
+    private $bonusRegistry;
     private $userList = [];
 
     /**
      * StatsManager constructor.
      * @param EntityManager  $entityManager
      * @param WeaponRegistry $weaponRegistry
+     * @param BonusRegistry  $bonusRegistry
      */
-    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry)
+    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry, BonusRegistry $bonusRegistry)
     {
         $this->entityManager = $entityManager;
         $this->weaponRegistry = $weaponRegistry;
+        $this->bonusRegistry = $bonusRegistry;
     }
 
     /**
@@ -164,6 +167,19 @@ class StatsManager
         $listName = array_keys($this->weaponRegistry->getAllWeapons());
 
         return $this->getWeaponOrBonusData($game, $listName, StatsConstants::WEAPON);
+    }
+
+    /**
+     * Get bonus data for graph
+     * @param Game $game The game
+     *
+     * @return string JSON data
+     */
+    public function getBonusData(Game $game)
+    {
+        $listName = array_keys($this->bonusRegistry->getAllBonus());
+
+        return $this->getWeaponOrBonusData($game, $listName, StatsConstants::BONUS_CATCH);
     }
 
     /**

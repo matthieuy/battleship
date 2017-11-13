@@ -14,6 +14,7 @@
     <script>
         var penaltyData = '{{ penaltyData }}'
         var weaponData = '{{ weaponData }}'
+        var bonusData = '{{ bonusData }}'
     </script>
     {% webpack js '@stats/js/stats-game.js' %}
         <script src="{{ asset_url }}"></script>
@@ -73,5 +74,6 @@
 
     <div class="large-12">
         <div id="weapons" style="width: 100%;"></div>
+        <div id="bonus" style="width: 100%;"></div>
     </div>
 {% endblock %}
