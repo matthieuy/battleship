@@ -28,52 +28,75 @@
         <a href="{{ path('match.display', { slug: game.slug }) }}" class="button success">{{ 'Go back to game'|trans }}</a>
     </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th colspan="2">{{ 'Games'|trans({}, 'messages') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ 'start_on'|trans({}, 'messages') }}</td>
-                <td>{{ game.runAt|localizeddate }}</td>
-            </tr>
-            {% if game.status == 2 %}
-                <tr>
-                    <td>{{ 'finish_on'|trans({}, 'messages') }}</td>
-                    <td>{{ game.lastShoot|localizeddate }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'Winners'|trans({}, 'messages') }}</td>
-                    <td>{{ game.playersTour|join(',') }}</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-
-    {% if penaltyData %}
-        <table class="table large-6">
+    <div class="row">
+        <table class="table">
             <thead>
                 <tr>
-                    <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
+                    <th colspan="2">{{ 'Games'|trans({}, 'messages') }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                <td width="50%">
-                        <div id="penalty" style="width: 100%;"></div>
-                    </td>
-                    <td>
-                        <div id="penaltyvic" style="width: 100%;"></div>
-                    </td>
+                    <td>{{ 'start_on'|trans({}, 'messages') }}</td>
+                    <td>{{ game.runAt|localizeddate }}</td>
+                </tr>
+                {% if game.status == 2 %}
+                    <tr>
+                        <td>{{ 'finish_on'|trans({}, 'messages') }}</td>
+                        <td>{{ game.lastShoot|localizeddate }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'Winners'|trans({}, 'messages') }}</td>
+                        <td>{{ game.playersTour|join(',') }}</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        {% if penaltyData %}
+            <table class="table large-6">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td width="50%">
+                            <div id="penalty" style="width: 100%;"></div>
+                        </td>
+                        <td>
+                            <div id="penaltyvic" style="width: 100%;"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endif %}
+
+        <table class="table large-12">
+            <thead>
+                <tr>
+                    <th>{{ 'weapon_name'|trans({}, 'messages') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div id="weapons" style="width: 100%;"></div></td>
                 </tr>
             </tbody>
         </table>
-    {% endif %}
 
-    <div class="large-12">
-        <div id="weapons" style="width: 100%;"></div>
-        <div id="bonus" style="width: 100%;"></div>
+        <table class="table large-12">
+            <thead>
+                <tr>
+                    <th>{{ 'bonus_name'|trans({}, 'messages') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div id="bonus" style="width: 100%;"></div></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}
