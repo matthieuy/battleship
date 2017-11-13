@@ -2,6 +2,7 @@
 
 namespace StatsBundle\Manager;
 
+use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
@@ -15,15 +16,18 @@ use UserBundle\Entity\User;
 class StatsManager
 {
     private $entityManager;
+    private $weaponRegistry;
     private $userList = [];
 
     /**
      * StatsManager constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManager  $entityManager
+     * @param WeaponRegistry $weaponRegistry
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry)
     {
         $this->entityManager = $entityManager;
+        $this->weaponRegistry = $weaponRegistry;
     }
 
     /**
@@ -132,7 +136,7 @@ class StatsManager
                 // Init values
                 if (!isset($data['victim'][$value['value2']]['y'])) {
                     $data['victim'][$value['value2']]['y'] = 0;
-                    $data['victim'][$value['value2']]['name'] = $this->getUserName($value['value2']);
+                    $data['victim'][$value['value2']]['name'] = $this->getUsername($value['value2']);
                 }
 
                 // Increment values
@@ -140,7 +144,7 @@ class StatsManager
                 $data['victim'][$value['value2']]['y'] += $value['value'];
             }
             $data['nb'][] = [
-                'name' => $this->getUserName($userId),
+                'name' => $this->getUsername($userId),
                 'y' => $nb,
             ];
         }
@@ -151,38 +155,51 @@ class StatsManager
 
     /**
      * Get weapon's data for graph
-     * @param Game           $game           The game
-     * @param WeaponRegistry $weaponRegistry Weapon registry
+     * @param Game $game The game
      *
      * @return string JSON data
      */
-    public function getWeaponData(Game $game, WeaponRegistry $weaponRegistry)
+    public function getWeaponData(Game $game)
     {
-        $allWeaponName = array_keys($weaponRegistry->getAllWeapons());
-        $data['categories'] = $allWeaponName;
+        $listName = array_keys($this->weaponRegistry->getAllWeapons());
+
+        return $this->getWeaponOrBonusData($game, $listName, StatsConstants::WEAPON);
+    }
+
+    /**
+     * Get Weapon or bonus data
+     * @param Game    $game
+     * @param array   $listName
+     * @param integer $statConstant
+     *
+     * @return string JSON data
+     */
+    private function getWeaponOrBonusData(Game $game, array $listName, $statConstant)
+    {
+        $data['categories'] = $listName;
 
         $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
-        if (!isset($gameStats[StatsConstants::WEAPON])) {
+        if (!isset($gameStats[$statConstant])) {
             return $data;
         }
-        $weaponStats = $gameStats[StatsConstants::WEAPON];
+        $stats = $gameStats[$statConstant];
 
-        foreach ($weaponStats as $userId => $d) {
+        foreach ($stats as $userId => $d) {
             $data['series'][$userId] = [
                 'type' => 'column',
-                'name' => $this->getUserName($userId),
-                'data' => array_fill(0, count($allWeaponName), 0),
+                'name' => $this->getUsername($userId),
+                'data' => array_fill(0, count($listName), 0),
             ];
 
             foreach ($d as $k) {
-                if (false !== $key = array_search($k['value2'], $allWeaponName)) {
+                if (false !== $key = array_search($k['value2'], $listName)) {
                     $data['series'][$userId]['data'][$key] += $k['value'];
                 }
             }
         }
         $data['series'] = array_values($data['series']);
 
-        return json_encode($data, JSON_HEX_APOS);
+        return \GuzzleHttp\json_encode($data, JSON_HEX_APOS);
     }
 
     /**
@@ -191,7 +208,7 @@ class StatsManager
      *
      * @return string
      */
-    private function getUserName($userId)
+    private function getUsername($userId)
     {
         if (!isset($this->userList[$userId])) {
             $repoUser = $this->entityManager->getRepository('UserBundle:User');

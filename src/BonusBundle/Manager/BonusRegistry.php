@@ -3,7 +3,6 @@
 namespace BonusBundle\Manager;
 
 use BonusBundle\Bonus\BonusInterface;
-use BonusBundle\BonusConstant;
 use BonusBundle\BonusEvents;
 use BonusBundle\Entity\Inventory;
 use BonusBundle\Event\BonusEvent;
