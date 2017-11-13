@@ -4,6 +4,7 @@ services:
         class: StatsBundle\Manager\StatsManager
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@weapon.registry"
 
     # Stats listener
     stats.listener:

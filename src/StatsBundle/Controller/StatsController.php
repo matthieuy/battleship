@@ -28,13 +28,12 @@ class StatsController extends Controller
     public function gameStatsAction(Game $game)
     {
         $statsManager = $this->get('stats.manager');
-        $weaponRegistry = $this->get('weapon.registry');
 
         // View
         return $this->render('@Stats/Stats/game.html.twig', [
             'game' => $game,
             'penaltyData' => $statsManager->getPenaltyData($game),
-            'weaponData' => $statsManager->getWeaponData($game, $weaponRegistry),
+            'weaponData' => $statsManager->getWeaponData($game),
         ]);
     }
 
