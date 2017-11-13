@@ -32,7 +32,7 @@ class BonusAddCommand extends ContainerAwareCommand
             ->setDescription('Add bonus to a player')
             ->addOption('slug', null, InputOption::VALUE_OPTIONAL, "The game slug")
             ->addOption('player', null, InputOption::VALUE_OPTIONAL, "The player's name")
-            ->addArgument('bonus', InputArgument::REQUIRED, "The bonus ID");
+            ->addArgument('bonus', InputArgument::OPTIONAL, "The bonus ID");
     }
 
     /**
@@ -45,13 +45,27 @@ class BonusAddCommand extends ContainerAwareCommand
         $em = $container->get('doctrine.orm.entity_manager');
 
         // Get game
+        $game = null;
         $repoGame = $em->getRepository('MatchBundle:Game');
         $slug = $input->getOption('slug');
         if ($slug === null) {
             $games = $repoGame->findBy(['status' => Game::STATUS_RUN]);
-            $slug = $io->choice('Game', $games);
+            $nbGame = count($games);
+            if ($nbGame == 0) {
+                $io->error("No running game");
+
+                return false;
+            } elseif ($nbGame == 1) {
+                $game = $games[0];
+                $io->note('Select the only one game : "'.$game->getName().'"');
+            } else {
+                $slug = $io->choice('Game', $games);
+            }
         }
-        $game = $repoGame->findOneBy(['slug' => $slug]);
+        if ($game === null) {
+            $game = $repoGame->findOneBy(['slug' => $slug]);
+        }
+
         if (!$game instanceof Game) {
             $io->error("Game with this slug not found !");
 
@@ -83,6 +97,11 @@ class BonusAddCommand extends ContainerAwareCommand
         // Get bonus
         try {
             $bonusName = $input->getArgument('bonus');
+            if ($bonusName === null) {
+                $bonusList = array_keys($container->get('bonus.registry')->getAllBonus());
+                $bonusName = $io->choice('Bonus', $bonusList);
+            }
+
             $bonus = $container->get('bonus.'.$bonusName);
         } catch (ServiceNotFoundException $e) {
             $io->error('Bonus not found');
@@ -105,5 +124,6 @@ class BonusAddCommand extends ContainerAwareCommand
             ->setBonus($bonus)
             ->setInventory($inventory);
         $container->get('event.manager')->dispatch(BonusEvents::CATCH_ONE, $event);
+        $io->text('Add the bonus "'.$bonusName.'" to "'.$playerName.'" into game "'.$game->getName().'"');
     }
 }
