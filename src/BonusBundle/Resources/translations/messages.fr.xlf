@@ -54,15 +54,15 @@
                 <source>Add points</source>
                 <target>Ajouter des points</target>
             </trans-unit>
-            <trans-unit id="bonus13" resname="bonus.point.team">
+            <trans-unit id="bonus13" resname="bonus.team_point">
                 <source>Team points</source>
                 <target>Points d'équipe</target>
             </trans-unit>
-            <trans-unit id="bonus14" resname="bonus.point.team.desc">
+            <trans-unit id="bonus14" resname="bonus.team_point.desc">
                 <source>Add points to all players in your team</source>
                 <target>Ajoute des points à tous les joueurs de votre équipe</target>
             </trans-unit>
-            <trans-unit id="bonus15" resname="bonus.point.team.msg">
+            <trans-unit id="bonus15" resname="bonus.team_point.msg">
                 <source>%user% offer %points% points to your team</source>
                 <target>%user% offre %points% points à votre équipe</target>
             </trans-unit>
@@ -134,11 +134,11 @@
                 <source>Drop random bombs</source>
                 <target>Lâche des bombes aléatoirements</target>
             </trans-unit>
-            <trans-unit id="bonus32" resname="bonus.inventory.size">
+            <trans-unit id="bonus32" resname="bonus.inventory_size">
                 <source>Big bag</source>
                 <target>Big bag</target>
             </trans-unit>
-            <trans-unit id="bonus33" resname="bonus.inventory.size.desc">
+            <trans-unit id="bonus33" resname="bonus.inventory_size.desc">
                 <source>Increase your inventory size</source>
                 <target>Augmente la capacité de votre inventaire</target>
             </trans-unit>
