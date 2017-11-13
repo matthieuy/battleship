@@ -61,9 +61,18 @@ $(function () {
   // Weapons
   Highcharts.chart('weapons', {
     title: {
-      text: Translator.trans('weapon_name'),
+      text: '',
+    },
+    plotOptions: {
+      column: {
+        stacking: 'normal',
+        dataLabels: {
+          enabled: false,
+        },
+      },
     },
     xAxis: {
+      type: 'category',
       categories: JSON.parse(weaponData.replace(/&quot;/g, '"')).categories,
       labels: {
         formatter: function () {
@@ -71,13 +80,21 @@ $(function () {
         },
       },
     },
-    tooltip: {
-      formatter: function () {
-        return '<span style="font-size: 10px">' + Translator.trans(this.key) + '</span><br/><span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + this.y + '</b><br/>'
-      },
-    },
     yAxis: {
       allowDecimals: false,
+      title: {
+        text: '',
+      },
+    },
+    tooltip: {
+      formatter: function () {
+        let code = '<p style="font-size: 12px;"><b>' + Translator.trans(this.x) + ' :</b></p><br>'
+        this.points.forEach(function (point) {
+          code += '<span style="font-size: 10px"><span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ' : <b>' + point.y + '</b></span><br>'
+        })
+        return code
+      },
+      shared: true,
     },
     credits: {
       enabled: false,
@@ -88,7 +105,15 @@ $(function () {
   // Bonus
   Highcharts.chart('bonus', {
     title: {
-      text: Translator.trans('bonus_name'),
+      text: '',
+    },
+    plotOptions: {
+      column: {
+        stacking: 'normal',
+        dataLabels: {
+          enabled: false,
+        },
+      },
     },
     xAxis: {
       categories: JSON.parse(bonusData.replace(/&quot;/g, '"')).categories,
@@ -98,13 +123,21 @@ $(function () {
         },
       },
     },
-    tooltip: {
-      formatter: function () {
-        return '<span style="font-size: 10px">' + Translator.trans(this.key) + '</span><br/><span style="color:' + this.color + '">\u25CF</span> ' + this.series.name + ': <b>' + this.y + '</b><br/>'
-      },
-    },
     yAxis: {
       allowDecimals: false,
+      title: {
+        text: '',
+      },
+    },
+    tooltip: {
+      formatter: function () {
+        let code = '<p style="font-size: 12px;"><b>' + Translator.trans('bonus_name') + ' "' + Translator.trans('bonus.' + this.x) + '" :</b></p><br>'
+        this.points.forEach(function (point) {
+          code += '<span style="font-size: 10px"><span style="color:' + point.color + '">\u25CF</span> ' + point.series.name + ' : <b>' + point.y + '</b></span><br>'
+        })
+        return code
+      },
+      shared: true,
     },
     credits: {
       enabled: false,
