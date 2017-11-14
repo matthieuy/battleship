@@ -57,7 +57,7 @@ class BonusAddCommand extends ContainerAwareCommand
                 return false;
             } elseif ($nbGame == 1) {
                 $game = $games[0];
-                $io->note('Select the only one game : "'.$game->getName().'"');
+                $io->note(sprintf('Select the only one game : "%s"', $game->getName()));
             } else {
                 $slug = $io->choice('Game', $games);
             }
