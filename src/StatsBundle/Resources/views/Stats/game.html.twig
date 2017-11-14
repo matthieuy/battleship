@@ -1,6 +1,5 @@
 {% extends '::base.html.twig' %}
-{% trans_default_domain 'stats' %}
-{% block title %}{{ 'Statistics'|trans({}, 'messages') }} "{{ game.name }}" - {{ parent() }}{% endblock %}
+{% block title %}{{ 'Statistics'|trans }} "{{ game.name }}" - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {{  parent() }}
@@ -22,31 +21,31 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="center">{{ game.name }} - {{ 'Statistics'|trans({}, 'messages') }}</h1>
+    <h1 class="center">{{ game.name }} - {{ 'Statistics'|trans }}</h1>
 
     <div class="center">
-        <a href="{{ path('match.display', { slug: game.slug }) }}" class="button success">{{ 'Go back to game'|trans }}</a>
+        <a href="{{ path('match.display', { slug: game.slug }) }}" class="button success">{{ 'Go back to game'|trans({}, 'stats') }}</a>
     </div>
 
     <div class="row">
         <table class="table">
             <thead>
                 <tr>
-                    <th colspan="2">{{ 'Games'|trans({}, 'messages') }}</th>
+                    <th colspan="2">{{ 'Games'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ 'start_on'|trans({}, 'messages') }}</td>
+                    <td>{{ 'start_on'|trans }}</td>
                     <td>{{ game.runAt|localizeddate }}</td>
                 </tr>
                 {% if game.status == 2 %}
                     <tr>
-                        <td>{{ 'finish_on'|trans({}, 'messages') }}</td>
+                        <td>{{ 'finish_on'|trans }}</td>
                         <td>{{ game.lastShoot|localizeddate }}</td>
                     </tr>
                     <tr>
-                        <td>{{ 'Winners'|trans({}, 'messages') }}</td>
+                        <td>{{ 'Winners'|trans }}</td>
                         <td>{{ game.playersTour|join(',') }}</td>
                     </tr>
                 {% endif %}
@@ -57,7 +56,7 @@
             <table class="table large-6">
                 <thead>
                     <tr>
-                        <th colspan="2">{{ 'penalty_name'|trans({}, 'messages') }}</th>
+                        <th colspan="2">{{ 'penalty_name'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +75,7 @@
         <table class="table large-12">
             <thead>
                 <tr>
-                    <th>{{ 'weapon_name'|trans({}, 'messages') }}</th>
+                    <th>{{ 'weapon_name'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,7 +88,7 @@
         <table class="table large-12">
             <thead>
                 <tr>
-                    <th>{{ 'bonus_name'|trans({}, 'messages') }}</th>
+                    <th>{{ 'bonus_name'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
