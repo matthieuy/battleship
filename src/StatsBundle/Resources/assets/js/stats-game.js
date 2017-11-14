@@ -2,8 +2,9 @@ let Highcharts = require('@npm/highcharts/highcharts')
 /* global $, Translator, penaltyData, weaponData, bonusData */
 
 $(function () {
-  // Penalty chart
-  if (document.getElementById('penalty') !== null) {
+  if (penaltyData) {
+    document.querySelector('table.penalty').style.display = 'table'
+    // Penalty chart
     Highcharts.chart('penalty', {
       chart: {
         type: 'pie',
@@ -28,10 +29,8 @@ $(function () {
         data: JSON.parse(penaltyData.replace(/&quot;/g, '"')).nb,
       }],
     })
-  }
 
-  // Penalty victim chart
-  if (document.getElementById('penaltyvic') !== null) {
+    // Penalty victim chart
     Highcharts.chart('penaltyvic', {
       chart: {
         type: 'pie',
