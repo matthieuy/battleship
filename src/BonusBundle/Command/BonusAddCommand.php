@@ -124,6 +124,6 @@ class BonusAddCommand extends ContainerAwareCommand
             ->setBonus($bonus)
             ->setInventory($inventory);
         $container->get('event.manager')->dispatch(BonusEvents::CATCH_ONE, $event);
-        $io->text('Add the bonus "'.$bonusName.'" to "'.$playerName.'" into game "'.$game->getName().'"');
+        $io->text(sprintf('Add the bonus "%s" to "%s" into game "%s"', $bonusName, $playerName, $game->getName()));
     }
 }
