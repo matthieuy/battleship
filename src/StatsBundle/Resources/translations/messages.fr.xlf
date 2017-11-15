@@ -14,6 +14,11 @@
                 <source>Victim</source>
                 <target>Victime</target>
             </trans-unit>
+
+            <trans-unit id="stats4" resname="Ferity">
+                <source>Ferity</source>
+                <target>Acharnements</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

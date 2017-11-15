@@ -36,6 +36,10 @@
             </thead>
             <tbody>
                 <tr>
+                    <td>{{ 'create_on'|trans }}</td>
+                    <td>{{ game.createAt|localizeddate }}</td>
+                </tr>
+                <tr>
                     <td>{{ 'start_on'|trans }}</td>
                     <td>{{ game.runAt|localizeddate }}</td>
                 </tr>
@@ -51,6 +55,9 @@
                 {% endif %}
             </tbody>
         </table>
+
+        {# Table with shooters / victims #}
+        {% include "@Stats/Stats/table-shoot.html.twig" %}
 
         <table class="table large-6 penalty" style="display: none;">
             <thead>

@@ -1,3 +1,4 @@
+require('@app/js/tooltips')
 let Highcharts = require('@npm/highcharts/highcharts')
 /* global $, Translator, penaltyData, weaponData, bonusData */
 
