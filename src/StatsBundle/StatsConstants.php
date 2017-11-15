@@ -11,7 +11,7 @@ class StatsConstants
     // Games create
     const GAME_CREATE = 0;
 
-    // Games starte
+    // Games start
     const GAME_START = 1;
 
     // Games finish

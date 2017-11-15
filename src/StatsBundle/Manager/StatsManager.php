@@ -6,6 +6,7 @@ use BonusBundle\Manager\BonusRegistry;
 use BonusBundle\Manager\WeaponRegistry;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
+use StatsBundle\Entity\Stats;
 use StatsBundle\StatsConstants;
 use UserBundle\Entity\User;
 
@@ -180,6 +181,60 @@ class StatsManager
         $listName = array_keys($this->bonusRegistry->getAllBonus());
 
         return $this->getWeaponOrBonusData($game, $listName, StatsConstants::BONUS_CATCH);
+    }
+
+    /**
+     * Get table with shooter/victim
+     * @param Game $game
+     *
+     * @return array
+     */
+    public function getTableShoot(Game $game)
+    {
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+        $listStatConstant = [
+            StatsConstants::DISCOVERY => 'Discovery',
+            StatsConstants::DIRECTION => 'Direction',
+            StatsConstants::TOUCH => 'Touch',
+            StatsConstants::SINK => 'Sink',
+            StatsConstants::FATAL => 'Blow',
+        ];
+
+        $return = [];
+        $players = $game->getPlayers();
+        foreach ($players as $shooter) {
+            $shooterUserId = $shooter->getUser()->getId();
+            $return[$shooterUserId] = [
+                'name' => $shooter->getName(),
+                'team' => $shooter->getTeam(),
+            ];
+            foreach ($players as $victim) {
+                $victimUserId = $victim->getUser()->getId();
+                if ($shooter->getTeam() == $victim->getTeam()) {
+                    $return[$shooterUserId]['shoots'][$victimUserId] = null;
+                } else {
+                    $return[$shooterUserId]['shoots'][$victimUserId]['total'] = 0;
+                }
+            }
+        }
+
+        /** @var Stats $stat */
+        foreach ($gameStats as $constant => $stat) {
+            if (!in_array($constant, array_keys($listStatConstant))) {
+                continue;
+            }
+
+            foreach ($stat as $shooterUserId => $data) {
+                foreach ($data as $v) {
+                    if ($return[$shooterUserId]['shoots'][$v['value2']] !== null) {
+                        $return[$shooterUserId]['shoots'][$v['value2']][$listStatConstant[$constant]] = $v['value'];
+                        $return[$shooterUserId]['shoots'][$v['value2']]['total'] += $v['value'];
+                    }
+                }
+            }
+        }
+
+        return $return;
     }
 
     /**

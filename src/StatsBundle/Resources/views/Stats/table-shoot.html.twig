@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="column large-12 small-12">
+        <div class="table-overflow">
+            <table class="small-12 extendable">
+                <thead>
+                <tr>
+                    <th colspan="{{ shoots|length + 1 }}">
+                        {{ 'Ferity'|trans }}
+                        <div class="fa caret"></div>
+                    </th>
+                </tr>
+                <tr>
+                    <th></th>
+                    {% for victim in shoots %}
+                        <th>{{ victim.name }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody style="text-align: center">
+                {% for shooter in shoots %}
+                    <tr>
+                        <td style="text-align: right;">{{ shooter.name }}</td>
+                        {% for shoot in shooter.shoots %}
+                            {% if shoot is null %}
+                                <td style="background-color: #000000;"></td>
+                            {% else %}
+                                <td class="opentip" data-tip="
+                                        <strong>{{ 'shoot_of'|trans({'%name%': shooter.name }) }}</strong>
+                                        {% for type, value in shoot if value != 0 and type != 'total' %}
+                                            {{ type|trans({}, 'waiting') }} : <b>{{ value }}</b><br>
+                                        {% endfor %}
+                                            ">{{ shoot.total }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
