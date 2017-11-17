@@ -81,7 +81,7 @@ export default {
       list.shift()
 
       // Sort team's life
-      list.sort((a, b) => a.life < b.life)
+      list.sort((a, b) => a.life / a.players.length < b.life / b.players.length)
 
       return list
     },
