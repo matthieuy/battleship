@@ -26,7 +26,7 @@
                             {% else %}
                                 <td class="opentip" data-tip="
                                         <strong>{{ 'shoot_of'|trans({'%name%': shooter.name }) }}</strong>
-                                        {% for type, value in shoot if value != 0 and type != 'total' %}
+                                        {% for type, value in shoot if type != 'total' %}
                                             {{ type|trans({}, 'waiting') }} : <b>{{ value }}</b><br>
                                         {% endfor %}
                                             ">{{ shoot.total }}</td>
