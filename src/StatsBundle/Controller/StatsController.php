@@ -32,6 +32,7 @@ class StatsController extends Controller
         // View
         return $this->render('@Stats/Stats/game.html.twig', [
             'game' => $game,
+            'nbShoot' => $statsManager->getNbShoots($game),
             'shoots' => $statsManager->getTableShoot($game),
             'penaltyData' => $statsManager->getPenaltyData($game),
             'weaponData' => $statsManager->getWeaponData($game),

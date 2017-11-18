@@ -19,6 +19,10 @@
                 <source>Ferity</source>
                 <target>Acharnements</target>
             </trans-unit>
+            <trans-unit id="stats5" resname="Shoots">
+                <source>Shoots</source>
+                <target>Tirs</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
