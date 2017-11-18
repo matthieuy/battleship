@@ -238,6 +238,20 @@ class StatsManager
     }
 
     /**
+     * Get number of shoot
+     * @param Game $game
+     *
+     * @return int
+     */
+    public function getNbShoots(Game $game)
+    {
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+
+        return (isset($gameStats[StatsConstants::SHOOT])) ? array_sum($gameStats[StatsConstants::SHOOT]) : 0;
+    }
+
+
+    /**
      * Get Weapon or bonus data
      * @param Game    $game
      * @param array   $listName

@@ -7,6 +7,7 @@ use BonusBundle\Event\BonusEvent;
 use Doctrine\ORM\EntityManager;
 use MatchBundle\Event\GameEvent;
 use MatchBundle\Event\PenaltyEvent;
+use MatchBundle\Event\PlayerEvent;
 use MatchBundle\Event\TouchEvent;
 use MatchBundle\Event\WeaponEvent;
 use MatchBundle\MatchEvents;
@@ -41,6 +42,7 @@ class StatsListener implements EventSubscriberInterface
             MatchEvents::CREATE => 'onCreate',
             MatchEvents::LAUNCH => 'onLaunch',
             MatchEvents::FINISH => 'onFinish',
+            MatchEvents::SHOOT => 'onShoot',
             MatchEvents::PENALTY => 'onPenalty',
             MatchEvents::NEW_TOUR => 'onNewTour',
             MatchEvents::TOUCH => 'onTouch',
@@ -196,5 +198,15 @@ class StatsListener implements EventSubscriberInterface
         $weaponName = $event->getWeapon()->getName();
 
         $this->repo->increment(StatsConstants::WEAPON, $userId, $event->getGame(), $weaponName);
+    }
+
+    /**
+     * On shoot
+     * @param PlayerEvent $event
+     */
+    public function onShoot(PlayerEvent $event)
+    {
+        $userId = $event->getPlayer()->getUser()->getId();
+        $this->repo->increment(StatsConstants::SHOOT, $userId, $event->getGame());
     }
 }

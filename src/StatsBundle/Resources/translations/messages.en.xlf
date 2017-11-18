@@ -18,6 +18,10 @@
                 <source>Ferity</source>
                 <target>Ferity</target>
             </trans-unit>
+            <trans-unit id="stats5" resname="Shoots">
+                <source>Shoots</source>
+                <target>Shoots</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
