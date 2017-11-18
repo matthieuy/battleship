@@ -25,11 +25,9 @@
                                 <td style="background-color: #000000;"></td>
                             {% else %}
                                 <td class="opentip" data-tip="
-                                        <strong>{{ 'shoot_of'|trans({'%name%': shooter.name }) }}</strong>
-                                        {% for type, value in shoot if type != 'total' %}
-                                            {{ type|trans({}, 'waiting') }} : <b>{{ value }}</b><br>
-                                        {% endfor %}
-                                            ">{{ shoot.total }}</td>
+                                    <strong>{{ 'shoot_of'|trans({'%name%': shooter.name }) }}</strong>
+                                    {{ shoot.tooltip|join('<br>') }}
+                                    ">{{ shoot.total }}</td>
                             {% endif %}
                         {% endfor %}
                     </tr>

@@ -6,6 +6,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@weapon.registry"
             - "@bonus.registry"
+            - "@translator"
 
     # Stats listener
     stats.listener:

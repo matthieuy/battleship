@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
 use StatsBundle\Entity\Stats;
 use StatsBundle\StatsConstants;
+use Symfony\Component\Translation\TranslatorInterface;
 use UserBundle\Entity\User;
 
 /**
@@ -19,19 +20,22 @@ class StatsManager
     private $entityManager;
     private $weaponRegistry;
     private $bonusRegistry;
+    private $translator;
     private $userList = [];
 
     /**
      * StatsManager constructor.
-     * @param EntityManager  $entityManager
-     * @param WeaponRegistry $weaponRegistry
-     * @param BonusRegistry  $bonusRegistry
+     * @param EntityManager       $entityManager
+     * @param WeaponRegistry      $weaponRegistry
+     * @param BonusRegistry       $bonusRegistry
+     * @param TranslatorInterface $translator
      */
-    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry, BonusRegistry $bonusRegistry)
+    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry, BonusRegistry $bonusRegistry, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->weaponRegistry = $weaponRegistry;
         $this->bonusRegistry = $bonusRegistry;
+        $this->translator = $translator;
     }
 
     /**
@@ -214,6 +218,7 @@ class StatsManager
                     $return[$shooterUserId]['shoots'][$victimUserId] = null;
                 } else {
                     $return[$shooterUserId]['shoots'][$victimUserId]['total'] = 0;
+                    $return[$shooterUserId]['shoots'][$victimUserId]['tooltip'] = [];
                 }
             }
         }
@@ -229,6 +234,7 @@ class StatsManager
                     if ($return[$shooterUserId]['shoots'][$v['value2']] !== null) {
                         $return[$shooterUserId]['shoots'][$v['value2']][$listStatConstant[$constant]] = $v['value'];
                         $return[$shooterUserId]['shoots'][$v['value2']]['total'] += $v['value'];
+                        $return[$shooterUserId]['shoots'][$v['value2']]['tooltip'][] = $this->translator->trans($listStatConstant[$constant], [], 'waiting').' : <b>'.$v['value'].'</b>';
                     }
                 }
             }
