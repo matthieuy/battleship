@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="messages" id="messages">
                                         <div class="message" v-for="msg in messages">
-                                            <div v-if="!msg.author_id">
+                                            <div v-if="!msg.author_id" v-show="showSystem">
                                                 <span class="msg-system">{{ trans(msg.text, msg.context) }}</span>
                                             </div>
                                             <div v-if="msg.author_id">
@@ -54,6 +54,10 @@
                                     <i class="fa fa-close"></i>
                                     {{ trans('Close') }}
                                 </button>
+                                <label for="checkbox" @click="hideSystem()">
+                                    <input type="checkbox" id="checkbox" v-model="showSystem">
+                                    {{ trans('show.system.msg') }}
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -74,6 +78,7 @@
     data () {
       return {
         message: '',
+        showSystem: true,
         trans () {
           return Translator.trans(...arguments)
         },
@@ -128,6 +133,10 @@
           let el = document.getElementById('messages')
           el.scrollTop = el.scrollHeight
         }, 500)
+      },
+      // Toggle system message
+      hideSystem () {
+        this.showSystem = !this.showSystem
       },
     },
     watch: {

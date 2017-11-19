@@ -2,8 +2,13 @@
 
 namespace StatsBundle\Manager;
 
+use BonusBundle\Manager\BonusRegistry;
+use BonusBundle\Manager\WeaponRegistry;
 use Doctrine\ORM\EntityManager;
+use MatchBundle\Entity\Game;
+use StatsBundle\Entity\Stats;
 use StatsBundle\StatsConstants;
+use Symfony\Component\Translation\TranslatorInterface;
 use UserBundle\Entity\User;
 
 /**
@@ -13,14 +18,24 @@ use UserBundle\Entity\User;
 class StatsManager
 {
     private $entityManager;
+    private $weaponRegistry;
+    private $bonusRegistry;
+    private $translator;
+    private $userList = [];
 
     /**
      * StatsManager constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManager       $entityManager
+     * @param WeaponRegistry      $weaponRegistry
+     * @param BonusRegistry       $bonusRegistry
+     * @param TranslatorInterface $translator
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, WeaponRegistry $weaponRegistry, BonusRegistry $bonusRegistry, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
+        $this->weaponRegistry = $weaponRegistry;
+        $this->bonusRegistry = $bonusRegistry;
+        $this->translator = $translator;
     }
 
     /**
@@ -100,5 +115,202 @@ class StatsManager
         }
 
         return $stats;
+    }
+
+    /**
+     * Get penalty's data for graph
+     * @param Game $game The game
+     *
+     * @return string|bool JSON Data or false if any penalty
+     */
+    public function getPenaltyData(Game $game)
+    {
+        $repo = $this->entityManager->getRepository('StatsBundle:Stats');
+        $gameStats = $repo->getGameStats($game);
+
+        // No penalty : return false
+        if (!isset($gameStats[StatsConstants::PENALTY])) {
+            return false;
+        }
+
+        $data = [
+            'nb' => [],
+            'victim' => [],
+        ];
+
+        foreach ($gameStats[StatsConstants::PENALTY] as $userId => $stat) {
+            $nb = 0;
+            foreach ($stat as $value) {
+                // Init values
+                if (!isset($data['victim'][$value['value2']]['y'])) {
+                    $data['victim'][$value['value2']]['y'] = 0;
+                    $data['victim'][$value['value2']]['name'] = $this->getUsername($value['value2']);
+                }
+
+                // Increment values
+                $nb += $value['value'];
+                $data['victim'][$value['value2']]['y'] += $value['value'];
+            }
+            $data['nb'][] = [
+                'name' => $this->getUsername($userId),
+                'y' => $nb,
+            ];
+        }
+        $data['victim'] = array_values($data['victim']);
+
+        return json_encode($data, JSON_HEX_APOS);
+    }
+
+    /**
+     * Get weapon's data for graph
+     * @param Game $game The game
+     *
+     * @return string JSON data
+     */
+    public function getWeaponData(Game $game)
+    {
+        $listName = array_keys($this->weaponRegistry->getAllWeapons());
+
+        return $this->getWeaponOrBonusData($game, $listName, StatsConstants::WEAPON);
+    }
+
+    /**
+     * Get bonus data for graph
+     * @param Game $game The game
+     *
+     * @return string JSON data
+     */
+    public function getBonusData(Game $game)
+    {
+        $listName = array_keys($this->bonusRegistry->getAllBonus());
+
+        return $this->getWeaponOrBonusData($game, $listName, StatsConstants::BONUS_CATCH);
+    }
+
+    /**
+     * Get table with shooter/victim
+     * @param Game $game
+     *
+     * @return array
+     */
+    public function getTableShoot(Game $game)
+    {
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+        $listStatConstant = [
+            StatsConstants::DISCOVERY => 'Discovery',
+            StatsConstants::DIRECTION => 'Direction',
+            StatsConstants::TOUCH => 'Touch',
+            StatsConstants::SINK => 'Sink',
+            StatsConstants::FATAL => 'Blow',
+        ];
+
+        $return = [];
+        $players = $game->getPlayers();
+        foreach ($players as $shooter) {
+            $shooterUserId = $shooter->getUser()->getId();
+            $return[$shooterUserId] = [
+                'name' => $shooter->getName(),
+                'team' => $shooter->getTeam(),
+            ];
+            foreach ($players as $victim) {
+                $victimUserId = $victim->getUser()->getId();
+                if ($shooter->getTeam() == $victim->getTeam()) {
+                    $return[$shooterUserId]['shoots'][$victimUserId] = null;
+                } else {
+                    $return[$shooterUserId]['shoots'][$victimUserId]['total'] = 0;
+                    $return[$shooterUserId]['shoots'][$victimUserId]['tooltip'] = [];
+                }
+            }
+        }
+
+        /** @var Stats $stat */
+        foreach ($gameStats as $constant => $stat) {
+            if (!in_array($constant, array_keys($listStatConstant))) {
+                continue;
+            }
+
+            foreach ($stat as $shooterUserId => $data) {
+                foreach ($data as $v) {
+                    if ($return[$shooterUserId]['shoots'][$v['value2']] !== null) {
+                        $return[$shooterUserId]['shoots'][$v['value2']][$listStatConstant[$constant]] = $v['value'];
+                        $return[$shooterUserId]['shoots'][$v['value2']]['total'] += $v['value'];
+                        $return[$shooterUserId]['shoots'][$v['value2']]['tooltip'][] = $this->translator->trans($listStatConstant[$constant], [], 'waiting').' : <b>'.$v['value'].'</b>';
+                    }
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get number of shoot
+     * @param Game $game
+     *
+     * @return int
+     */
+    public function getNbShoots(Game $game)
+    {
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+
+        return (isset($gameStats[StatsConstants::SHOOT])) ? array_sum($gameStats[StatsConstants::SHOOT]) : 0;
+    }
+
+
+    /**
+     * Get Weapon or bonus data
+     * @param Game    $game
+     * @param array   $listName
+     * @param integer $statConstant
+     *
+     * @return string JSON data
+     */
+    private function getWeaponOrBonusData(Game $game, array $listName, $statConstant)
+    {
+        $data['categories'] = $listName;
+
+        $gameStats = $this->entityManager->getRepository('StatsBundle:Stats')->getGameStats($game);
+        if (!isset($gameStats[$statConstant])) {
+            return $data;
+        }
+        $stats = $gameStats[$statConstant];
+
+        foreach ($stats as $userId => $d) {
+            $data['series'][$userId] = [
+                'type' => 'column',
+                'name' => $this->getUsername($userId),
+                'data' => array_fill(0, count($listName), 0),
+            ];
+
+            foreach ($d as $k) {
+                if (false !== $key = array_search($k['value2'], $listName)) {
+                    $data['series'][$userId]['data'][$key] += $k['value'];
+                }
+            }
+        }
+        $data['series'] = array_values($data['series']);
+
+        return \GuzzleHttp\json_encode($data, JSON_HEX_APOS);
+    }
+
+    /**
+     * Get username from userId
+     * @param integer $userId
+     *
+     * @return string
+     */
+    private function getUsername($userId)
+    {
+        if (!isset($this->userList[$userId])) {
+            $repoUser = $this->entityManager->getRepository('UserBundle:User');
+            $user = $repoUser->find($userId);
+            if ($user instanceof User) {
+                $this->userList[$userId] = $user->getUsername();
+            } else {
+                return '';
+            }
+        }
+
+        return $this->userList[$userId];
     }
 }

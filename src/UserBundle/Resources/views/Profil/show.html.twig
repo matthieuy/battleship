@@ -3,7 +3,7 @@
 {% block title %}{{ 'Profil of %name%'|trans({'%name%': user.username }) }} - {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-    {{  parent() }}
+    {{ parent() }}
     {% webpack css '@stats/less/stats.less.js' %}
     <link rel="stylesheet" href="{{ asset_url }}">
     {% end_webpack %}

@@ -10,6 +10,19 @@
                 <source>none</source>
                 <target>aucun</target>
             </trans-unit>
+            <trans-unit id="stats3" resname="Victim">
+                <source>Victim</source>
+                <target>Victime</target>
+            </trans-unit>
+
+            <trans-unit id="stats4" resname="Ferity">
+                <source>Ferity</source>
+                <target>Acharnements</target>
+            </trans-unit>
+            <trans-unit id="stats5" resname="Shoots">
+                <source>Shoots</source>
+                <target>Tirs</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -19,7 +19,7 @@ class InventorySizeBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'inventory.size';
+        return 'inventory_size';
     }
 
     /**

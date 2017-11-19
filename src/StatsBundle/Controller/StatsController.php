@@ -27,8 +27,16 @@ class StatsController extends Controller
      */
     public function gameStatsAction(Game $game)
     {
+        $statsManager = $this->get('stats.manager');
+
+        // View
         return $this->render('@Stats/Stats/game.html.twig', [
             'game' => $game,
+            'nbShoot' => $statsManager->getNbShoots($game),
+            'shoots' => $statsManager->getTableShoot($game),
+            'penaltyData' => $statsManager->getPenaltyData($game),
+            'weaponData' => $statsManager->getWeaponData($game),
+            'bonusData' => $statsManager->getBonusData($game),
         ]);
     }
 
@@ -40,9 +48,10 @@ class StatsController extends Controller
      */
     public function personalStatsAction(User $user)
     {
-        $personal = $this->get('stats.manager')->getPersonalStats($user);
+        $statsManager = $this->get('stats.manager');
+        $personal = $statsManager->getPersonalStats($user);
 
-        // Views
+        // View
         return $this->render('@Stats/Stats/user.html.twig', [
             'personal' => $personal,
         ]);

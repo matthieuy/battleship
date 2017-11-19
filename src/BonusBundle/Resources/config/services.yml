@@ -10,6 +10,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@bonus.registry"
             - "@event.manager"
+            - "@monolog.logger.game"
         tags:
             - { name: gos_web_socket.rpc }
 
@@ -31,8 +32,10 @@ services:
     # The bonus registry
     bonus.registry:
         class: BonusBundle\Manager\BonusRegistry
+        lazy: true
         arguments:
             - "@event.manager"
+            - "@monolog.logger.game"
 
     # Bonus listener
     bonus.listener:
@@ -41,6 +44,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@bonus.registry"
             - "@gos_web_socket.zmq.pusher"
+            - "@monolog.logger.game"
         tags:
             - { name: kernel.event_subscriber }
 
@@ -101,6 +105,8 @@ services:
         class: BonusBundle\Bonus\SkipPlayerBonus
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@monolog.logger.game"
+            - "@game.run.rpc"
         tags:
             - { name: bonus.type }
 

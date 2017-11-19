@@ -11,6 +11,7 @@ use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use MatchBundle\Entity\Game;
+use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use UserBundle\Entity\User;
@@ -25,6 +26,7 @@ class BonusRpc implements RpcInterface
     private $entityManager;
     private $bonusRegistry;
     private $eventDispatcher;
+    private $logger;
 
     /**
      * BonusRpc constructor.
@@ -32,13 +34,20 @@ class BonusRpc implements RpcInterface
      * @param EntityManager              $entityManager
      * @param BonusRegistry              $bonusRegistry
      * @param EventDispatcherInterface   $eventDispatcher
+     * @param LoggerInterface            $logger
      */
-    public function __construct(ClientManipulatorInterface $clientManipulator, EntityManager $entityManager, BonusRegistry $bonusRegistry, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        ClientManipulatorInterface $clientManipulator,
+        EntityManager $entityManager,
+        BonusRegistry $bonusRegistry,
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface $logger
+    ) {
         $this->clientManipulator = $clientManipulator;
         $this->entityManager = $entityManager;
         $this->bonusRegistry = $bonusRegistry;
         $this->eventDispatcher = $eventDispatcher;
+        $this->logger = $logger;
     }
 
     /**
@@ -76,8 +85,8 @@ class BonusRpc implements RpcInterface
 
         // Get inventory
         $repo = $this->entityManager->getRepository('BonusBundle:Inventory');
-        $inventory = $repo->getInventory($game, $user);
         $player = $game->getPlayerByUser($user);
+        $inventory = $repo->getInventory($game, $player);
 
         $list = [];
         foreach ($inventory as $bonus) {
@@ -137,8 +146,14 @@ class BonusRpc implements RpcInterface
         // Check if can use bonus now
         $player = $game->getPlayerByUser($user);
         if (!$player || !$bonus->canUseNow($game, $player)) {
-            return ['msg' => "Can't use this bonus now"];
+            return ['msg' => 'bonus.error.use_now'];
         }
+
+        // Mutli bonus ?
+        if ($repo->nbrOfCurrentBonus($game, $player) >= 1) {
+            return ['msg' => 'bonus.error.multi'];
+        }
+
 
         // Event
         $event = new BonusEvent($game, $player);
@@ -146,6 +161,12 @@ class BonusRpc implements RpcInterface
             ->setInventory($inventory)
             ->setBonus($bonus);
         $this->eventDispatcher->dispatch(BonusEvents::USE_IT, $event);
+        $this->logger->info($game->getSlug().' - Bonus', [
+            'action' => 'use_it',
+            'player' => $player->getName(),
+            'bonus' => $bonus->getName(),
+            'inventory_id' => $inventory->getId(),
+        ]);
 
         return ['success' => true];
     }

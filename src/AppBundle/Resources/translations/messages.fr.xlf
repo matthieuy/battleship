@@ -58,6 +58,10 @@
                 <source>Any game</source>
                 <target>Aucune partie</target>
             </trans-unit>
+            <trans-unit id="app15" resname="device.offline">
+                <source>Your browser is offline !</source>
+                <target>Votre naigateur est hors-ligne !</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

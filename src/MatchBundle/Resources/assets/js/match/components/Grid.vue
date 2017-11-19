@@ -70,56 +70,60 @@
       // Receive data from game
       receive (obj) {
         let self = this
-        async.mapSeries(
-          obj.img,
-          function (img, next) {
-            let $box = $('#g_' + img.y + '_' + img.x)
-            $box.getTop = function () {
-              return this.offset().top + document.querySelector('#container').scrollTop
+        if (obj.img) {
+          async.mapSeries(
+            obj.img,
+            function (img, next) {
+              let $box = $('#g_' + img.y + '_' + img.x)
+              $box.getTop = function () {
+                return this.offset().top + document.querySelector('#container').scrollTop
+              }
+              $box.getLeft = function () {
+                return this.offset().left + document.querySelector('#container').scrollLeft
+              }
+
+              // Status
+              let shooter = self.playerById(img.shoot)
+              if (typeof img.player !== 'undefined' && img.player === img.shoot) {
+                self.$store.commit(MUTATION.SET_STATUS, Translator.trans('system.penalty', {username: shooter.name}))
+              } else {
+                self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
+              }
+
+              // Rocket animate
+              Velocity(document.getElementById('rocket' + img.shoot), {
+                top: $box.getTop() - (self.boxSize / 2),
+                left: $box.getLeft() + (self.boxSize / 4),
+              }, {
+                duration: 5 * ($box.getTop() + 20),
+                easing: 'linear',
+                begin: function (rocket) {
+                  // Start position of the rocket
+                  $(rocket).css({
+                    top: -20,
+                    left: $box.getLeft() + (self.boxSize / 4),
+                  })
+                },
+                complete: function (rocket) {
+                  $(rocket).css('top', '-40px')
+
+                  // Update grid
+                  $box.addClass('animated')
+                  self.$store.commit(MUTATION.AFTER_ROCKET, img)
+                  self.$store.dispatch(ACTION.AFTER_ROCKET, img)
+
+                  // Next img
+                  next()
+                },
+              })
+            },
+            function () { // End of animate
+              self.$store.commit(MUTATION.AFTER_ANIMATE, obj)
             }
-            $box.getLeft = function () {
-              return this.offset().left + document.querySelector('#container').scrollLeft
-            }
-
-            // Status
-            let shooter = self.playerById(img.shoot)
-            if (typeof img.player !== 'undefined' && img.player === img.shoot) {
-              self.$store.commit(MUTATION.SET_STATUS, Translator.trans('system.penalty', {username: shooter.name}))
-            } else {
-              self.$store.commit(MUTATION.SET_STATUS, Translator.trans('shoot_of', {name: shooter.name}))
-            }
-
-            // Rocket animate
-            Velocity(document.getElementById('rocket' + img.shoot), {
-              top: $box.getTop() - (self.boxSize / 2),
-              left: $box.getLeft() + (self.boxSize / 4),
-            }, {
-              duration: 5 * ($box.getTop() + 20),
-              easing: 'linear',
-              begin: function (rocket) {
-                // Start position of the rocket
-                $(rocket).css({
-                  top: -20,
-                  left: $box.getLeft() + (self.boxSize / 4),
-                })
-              },
-              complete: function (rocket) {
-                $(rocket).css('top', '-40px')
-
-                // Update grid
-                $box.addClass('animated')
-                self.$store.commit(MUTATION.AFTER_ROCKET, img)
-                self.$store.dispatch(ACTION.AFTER_ROCKET, img)
-
-                // Next img
-                next()
-              },
-            })
-          },
-          function () { // End of animate
-            self.$store.commit(MUTATION.AFTER_ANIMATE, obj)
-          }
-        )
+          )
+        } else {
+          self.$store.commit(MUTATION.AFTER_ANIMATE, obj)
+        }
       },
       // On click : shoot if not mobile
       click (box) {
@@ -232,6 +236,10 @@
       gameover (gameover) {
         if (gameover) {
           $('#grid').off('vmouseup vmousedown vmousemove')
+          let self = this
+          WS.callRPC('run/load', {}, function (game) {
+            self.$store.commit(MUTATION.LOAD, game)
+          })
         }
       },
     },

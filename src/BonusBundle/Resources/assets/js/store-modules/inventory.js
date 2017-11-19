@@ -1,7 +1,7 @@
 /**
  * Inventory module
  */
-/* global WS */
+/* global Translator, WS */
 import {ACTION, MUTATION} from '@match/js/match/store/mutation-types'
 
 export default {
@@ -64,7 +64,7 @@ export default {
     [ACTION.INVENTORY.USE] (context, bonus) {
       // Get data to send
       let dataSend = {id: bonus.id}
-      if (bonus.options.player) {
+      if (typeof bonus.options.player !== 'undefined') {
         Object.assign(dataSend, {
           player: bonus.options.player,
         })
@@ -73,7 +73,7 @@ export default {
       // send RPC
       WS.callRPC('bonus/useit', dataSend, (obj) => {
         if (obj.msg) {
-          return alert(obj.msg)
+          return alert(Translator.trans(obj.msg))
         }
         context.commit(MUTATION.INVENTORY.MODAL, false)
       })

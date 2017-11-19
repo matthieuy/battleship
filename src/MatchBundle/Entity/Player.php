@@ -407,12 +407,12 @@ class Player
         $list = [];
         if (is_array($this->boats)) {
             foreach ($this->boats as $boat) {
-                if ($boat[1] > $boat[2]) {
-                    if (isset($list[$boat[1]])) {
-                        $list[$boat[1]]++;
-                    } else {
-                        $list[$boat[1]] = 1;
+                $lengthBoat = $boat[1];
+                if ($lengthBoat > $boat[2]) {
+                    if (!isset($list['b'.$lengthBoat])) {
+                        $list['b'.$lengthBoat] = 0;
                     }
+                    $list['b'.$lengthBoat]++;
                 }
             }
         }
@@ -462,7 +462,7 @@ class Player
      */
     public function getNbBonus()
     {
-        return $this->bonus->count();
+        return min($this->bonus->count(), $this->inventorySize);
     }
 
     /**
@@ -512,5 +512,14 @@ class Player
         $this->inventorySize = $inventorySize;
 
         return $this;
+    }
+
+    /**
+     * Convert to string
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 }

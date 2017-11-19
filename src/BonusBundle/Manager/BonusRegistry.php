@@ -3,12 +3,12 @@
 namespace BonusBundle\Manager;
 
 use BonusBundle\Bonus\BonusInterface;
-use BonusBundle\BonusConstant;
 use BonusBundle\BonusEvents;
 use BonusBundle\Entity\Inventory;
 use BonusBundle\Event\BonusEvent;
 use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Player;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,14 +22,17 @@ class BonusRegistry
      */
     protected $bonusList;
     private $eventDispatcher;
+    private $logger;
 
     /**
      * BonusRegistry constructor.
      * @param EventDispatcherInterface $eventDispatcher
+     * @param LoggerInterface          $logger
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, LoggerInterface $logger)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->logger = $logger;
         $this->bonusList = [];
     }
 
@@ -65,7 +68,7 @@ class BonusRegistry
     public function getBonusById($id)
     {
         if (!isset($this->bonusList[$id])) {
-            throw new \Exception("This bonus don't exist !");
+            throw new \Exception("This bonus don't exist ($id) !");
         }
 
         return $this->bonusList[$id];
@@ -129,14 +132,20 @@ class BonusRegistry
         $bonus->setProbabilityAfterCatch($player);
 
         // Event
-        $event = new BonusEvent($player->getGame(), $player);
+        $game = $player->getGame();
+        $event = new BonusEvent($game, $player);
         $event
             ->setBonus($bonus)
             ->setInventory($inventory);
         $this->eventDispatcher->dispatch(BonusEvents::CATCH_ONE, $event);
+        $this->logger->info($game->getSlug().' - Bonus', [
+            'action' => 'catch',
+            'player' => $player->getName(),
+            'bonus' => $bonus->getName(),
+        ]);
 
         // Use it (AI)
-        if ($player->isAi() && $bonus->canUseNow($player->getGame(), $player)) {
+        if ($player->isAi() && $bonus->canUseNow($game, $player)) {
             $this->eventDispatcher->dispatch(BonusEvents::USE_IT, $event);
         }
 
@@ -165,5 +174,11 @@ class BonusRegistry
         }
 
         $player->addProbability($increment);
+        $this->logger->info($player->getGame()->getSlug().' - Bonus', [
+            'action' => 'proba',
+            'player' => $player->getName(),
+            'incr' => $increment,
+            'proba' => $player->getProbability(),
+        ]);
     }
 }

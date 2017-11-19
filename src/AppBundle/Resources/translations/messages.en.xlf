@@ -58,6 +58,10 @@
                 <source>Any game</source>
                 <target>Any game</target>
             </trans-unit>
+            <trans-unit id="app15" resname="device.offline">
+                <source>Your browser is offline !</source>
+                <target>Your browser is offline !</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

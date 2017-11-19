@@ -51,22 +51,22 @@
                                             </td>
                                             <td>
                                                 <ul>
-                                                    <li v-for="player in team.players">{{ player.boats[2] }}</li>
+                                                    <li v-for="player in team.players">{{ player.boats['b2'] }}</li>
                                                 </ul>
                                             </td>
                                             <td>
                                                 <ul>
-                                                    <li v-for="player in team.players">{{ player.boats[3] }}</li>
+                                                    <li v-for="player in team.players">{{ player.boats['b3'] }}</li>
                                                 </ul>
                                             </td>
                                             <td>
                                                 <ul>
-                                                    <li v-for="player in team.players">{{ player.boats[4] }}</li>
+                                                    <li v-for="player in team.players">{{ player.boats['b4'] }}</li>
                                                 </ul>
                                             </td>
                                             <td>
                                                 <ul>
-                                                    <li v-for="player in team.players">{{ player.boats[5] }}</li>
+                                                    <li v-for="player in team.players">{{ player.boats['b5'] }}</li>
                                                 </ul>
                                             </td>
                                         </tr>

@@ -3,12 +3,13 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
-use BonusBundle\Entity\Inventory;
 use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
-use MatchBundle\Box\ReturnBox;
+use Doctrine\ORM\EntityManager;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
+use MatchBundle\RPC\GameRpc;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class SkipPlayerBonus
@@ -16,6 +17,20 @@ use MatchBundle\Entity\Player;
  */
 class SkipPlayerBonus extends AbstractBonus
 {
+    private $rpc;
+
+    /**
+     * SkipPlayerBonus constructor (DI)
+     * @param EntityManager   $entityManager
+     * @param LoggerInterface $logger
+     * @param GameRpc         $rpc
+     */
+    public function __construct(EntityManager $entityManager = null, LoggerInterface $logger = null, GameRpc $rpc)
+    {
+        parent::__construct($entityManager, $logger);
+        $this->rpc = $rpc;
+    }
+
     /**
      * Get the unique id of the bonus
      * @return string
@@ -71,6 +86,30 @@ class SkipPlayerBonus extends AbstractBonus
     }
 
     /**
+     * On use : remove a player in current lap
+     * @param BonusEvent $event
+     */
+    public function onUse(BonusEvent $event)
+    {
+        if (!$event->getPlayer()->isAi()) {
+            $victimPosition = $event->getInventory()->getOption('player');
+            $game = $event->getGame();
+            $tour = $game->getTour();
+            $key = array_search($victimPosition."", $tour);
+
+            if (false !== $key) {
+                unset($tour[$key]);
+                $tour = array_values($tour);
+                $game->setTour($tour);
+                $victim = $game->getPlayerByPosition($victimPosition);
+                $this->rpc->checkTour($game, $victim);
+                $this->sendMessage($game, $event->getPlayer(), $victim);
+                $this->delete();
+            }
+        }
+    }
+
+    /**
      * Before tour : remove a player
      * @param BonusEvent $event
      *
@@ -100,6 +139,11 @@ class SkipPlayerBonus extends AbstractBonus
                 $this->sendMessage($event->getGame(), $event->getPlayer(), $victim);
                 $this->delete();
                 $event->setOptions($options);
+                $this->logger->info($event->getGame()->getSlug().' - Bonus', [
+                    'name' => $this->getName(),
+                    'player' => $event->getPlayer()->getName(),
+                    'opts' => $options,
+                ]);
             }
         }
 

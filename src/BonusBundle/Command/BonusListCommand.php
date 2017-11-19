@@ -20,7 +20,7 @@ class BonusListCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('battleship:bonus')
+            ->setName('battleship:bonus:list')
             ->setDescription('Display list of bonus');
     }
 

@@ -8,6 +8,7 @@ use Gos\Bundle\WebSocketBundle\Pusher\PusherInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\RPC\RpcInterface;
 use MatchBundle\Entity\Game;
+use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use UserBundle\Entity\User;
@@ -22,6 +23,7 @@ class WaitingRpc implements RpcInterface
     private $em;
     private $pusher;
     private $translator;
+    private $logger;
 
     /**
      * WaitingRpc constructor (DI)
@@ -29,17 +31,20 @@ class WaitingRpc implements RpcInterface
      * @param EntityManager              $em
      * @param PusherInterface            $pusher
      * @param TranslatorInterface        $translator
+     * @param LoggerInterface            $logger
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
         EntityManager $em,
         PusherInterface $pusher,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        LoggerInterface $logger
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
         $this->pusher = $pusher;
         $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     /**
@@ -51,6 +56,11 @@ class WaitingRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
+        $this->logger->error('Bad request', [
+            'name' => $name,
+            'args' => $arguments,
+        ]);
+
         return ['error' => "Bad request"];
     }
 
@@ -84,11 +94,19 @@ class WaitingRpc implements RpcInterface
             $ai = ($game->isCreator($user) && isset($params['ai'])) ? $params['ai'] : false;
             $result = $repo->joinGame($game, $user, $ai);
             $console = ($ai) ? $this->translate('ai_join') : $this->translate('user_join', ['%name%' => $user->getUsername()]);
+            $this->logger->info($game->getSlug().' - Waiting', [
+                'action' => 'join',
+                'user' => ($ai) ? 'AI' : $user->getUsername(),
+            ]);
         } else {
             // Leave
             $playerId = ($game->isCreator($user) && isset($params['id'])) ? $params['id'] : null;
             $result = $repo->quitGame($game, $user, $playerId);
             $console = $this->translate('user_leave');
+            $this->logger->info($game->getSlug().' - Waiting', [
+                'action' => 'leave',
+                'id' => $playerId,
+            ]);
         }
 
         // Msg Error ?
@@ -138,10 +156,18 @@ class WaitingRpc implements RpcInterface
         if ($this->getParam($params, 'type', 'size') == 'size') {
             $game->setSize($this->getParam($params, 'size', 25));
             $console = $this->translator->trans('gridsize')." : ".$game->getSize();
+            $this->logger->info($game->getSlug().' - Waiting', [
+                'action' => 'size',
+                'size' => $game->getSize(),
+            ]);
         } else {
             $game->setMaxPlayer($this->getParam($params, 'size', 4));
             $game->setSizeFromPlayers();
             $console = $this->translate('max_players', ['%nb%' => $game->getMaxPlayer()]);
+            $this->logger->info($game->getSlug().' - Waiting', [
+                'action' => 'max_player',
+                'max' => $game->getMaxPlayer(),
+            ]);
         }
         $this->em->flush();
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);
@@ -173,6 +199,11 @@ class WaitingRpc implements RpcInterface
         $player = $repo->getPlayer($game, $user, $playerId);
         $player->setTeam($this->getParam($params, 'team'));
         $this->em->flush();
+        $this->logger->info($game->getSlug().' - Waiting', [
+            'action' => 'change_team',
+            'player' => $player->getName(),
+            'team' => $player->getTeam(),
+        ]);
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
@@ -214,6 +245,11 @@ class WaitingRpc implements RpcInterface
         $player = $repo->getPlayer($game, $user, $playerId);
         $player->setColor($color);
         $this->em->flush();
+        $this->logger->info($game->getSlug().' - Waiting', [
+            'action' => 'color',
+            'player' => $player->getName(),
+            'color' => $player->getColor(),
+        ]);
 
         // Push
         $this->pusher->push(['_call' => 'updatePlayers'], 'game.wait.topic', ['slug' => $game->getSlug()]);
@@ -252,6 +288,12 @@ class WaitingRpc implements RpcInterface
 
         // Move
         if ($player->getPosition() !== $position) {
+            $this->logger->info($game->getSlug().' - Waiting', [
+                'action' => 'position',
+                'player' => $player->getName(),
+                'old' => $player->getPosition(),
+                'new' => $position,
+            ]);
             $player->setPosition($position);
             $this->em->flush();
             $this->em->refresh($game);
@@ -303,6 +345,11 @@ class WaitingRpc implements RpcInterface
         // Save
         $game->setOption($optionName, $value);
         $this->em->flush();
+        $this->logger->info($game->getSlug().' - Waiting', [
+            'action' => 'options',
+            'name' => $optionName,
+            'value' => $value,
+        ]);
 
         // Push
         $this->pusher->push(['_call' => 'updateGame'], 'game.wait.topic', ['slug' => $game->getSlug()]);

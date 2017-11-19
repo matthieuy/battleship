@@ -25,6 +25,7 @@ use MatchBundle\Event\WeaponEvent;
 use MatchBundle\ImagesConstant;
 use MatchBundle\MatchEvents;
 use MatchBundle\PointsConstant;
+use Psr\Log\LoggerInterface;
 use Ratchet\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use UserBundle\Entity\User;
@@ -41,6 +42,7 @@ class GameRpc implements RpcInterface
     private $weaponRegistry;
     private $bonusRegistry;
     private $pusher;
+    private $logger;
 
     /** @var ReturnBox */
     private $returnBox;
@@ -53,6 +55,7 @@ class GameRpc implements RpcInterface
      * @param EventDispatcherInterface   $eventDispatcher
      * @param WeaponRegistry             $weaponRegistry
      * @param BonusRegistry              $bonusRegistry
+     * @param LoggerInterface            $logger
      */
     public function __construct(
         ClientManipulatorInterface $clientManipulator,
@@ -60,7 +63,8 @@ class GameRpc implements RpcInterface
         PusherInterface $pusher,
         EventDispatcherInterface $eventDispatcher,
         WeaponRegistry $weaponRegistry,
-        BonusRegistry $bonusRegistry
+        BonusRegistry $bonusRegistry,
+        LoggerInterface $logger
     ) {
         $this->clientManipulator = $clientManipulator;
         $this->em = $em;
@@ -68,6 +72,7 @@ class GameRpc implements RpcInterface
         $this->eventDispatcher = $eventDispatcher;
         $this->weaponRegistry = $weaponRegistry;
         $this->bonusRegistry = $bonusRegistry;
+        $this->logger = $logger;
     }
 
     /**
@@ -79,6 +84,11 @@ class GameRpc implements RpcInterface
      */
     public function __call($name, $arguments)
     {
+        $this->logger->error('Bad request', [
+            'name' => $name,
+            'args' => $arguments,
+        ]);
+
         return ['error' => "Bad request"];
     }
 
@@ -226,6 +236,12 @@ class GameRpc implements RpcInterface
 
         // Get boxes to shoot
         $boxList = $this->getBoxesToShoot($game, $player, $x, $y, $weapon, $weaponRotate);
+        $this->logger->info($game->getSlug().' - Shoot by '.$player->getName(), [
+            'x' => $x,
+            'y' => $y,
+            'weapon' => $weapon.'',
+            'rotate' => $weaponRotate,
+        ]);
 
         // Do fire
         foreach ($boxList as $i => $box) {
@@ -259,6 +275,21 @@ class GameRpc implements RpcInterface
         $this->em->flush();
 
         return ['success' => true];
+    }
+
+    /**
+     * Check tour (if AI to play)
+     * @param Game   $game
+     * @param Player $player
+     */
+    public function checkTour(Game $game, Player $player)
+    {
+        $this->returnBox = new ReturnBox();
+        $this->nextTour($game, $player);
+
+        $return = $this->returnBox->getReturnBox($game);
+        $this->pusher->push($return, 'game.run.topic', ['slug' => $game->getSlug()]);
+        $this->pusher->push([], 'game.score.topic', ['slug' => $game->getSlug()]);
     }
 
     /**
@@ -506,6 +537,15 @@ class GameRpc implements RpcInterface
             if (!$shooter->isAi()) {
                 $box->setScore($shooter);
             }
+
+            // Log
+            $this->logger->info($game->getSlug().' - Touch', [
+                'shooter' => $shooter->getName(),
+                'victim' => $victim->getName(),
+                'victim_life' => $victim->getLife(),
+                'score_add' => $points,
+                'shooter_score' => $shooter->getScore(),
+            ]);
         }
 
         // Save
@@ -533,7 +573,7 @@ class GameRpc implements RpcInterface
      *
      * @return bool Game is over
      */
-    private function nextTour(Game &$game, Player $fromPlayer)
+    private function nextTour(Game &$game, Player $fromPlayer = null)
     {
         // Get players and teams alive
         $teamsList = $this->checkFinish($game);
@@ -549,6 +589,12 @@ class GameRpc implements RpcInterface
         // Next
         $tour = $game->getTour();
         $maxTeam = max(array_keys($teamsList));
+        $this->logger->debug($game->getSlug().' - Tour', [
+            'action' => 'before',
+            'teams' => $teamsList,
+            'from' => $fromPlayer->getName(),
+        ]);
+
 
         do {
             $okTour = true;
@@ -581,6 +627,12 @@ class GameRpc implements RpcInterface
                 if ($isNewTour) {
                     $this->eventDispatcher->dispatch(MatchEvents::NEW_TOUR, $event);
                 }
+                $this->logger->debug($game->getSlug().' - Tour', [
+                    'action' => 'next_team',
+                    'new_team' => $isNewTour,
+                    'tour' => $tour,
+                    'team' => $team,
+                ]);
             }
 
             // AI
@@ -601,6 +653,10 @@ class GameRpc implements RpcInterface
 
         // Save tour
         $game->setTour($tour);
+        $this->logger->debug($game->getSlug().' - Tour', [
+            'action' => 'end_tour',
+            'tour' => $tour,
+        ]);
 
         return true;
     }
@@ -744,6 +800,16 @@ class GameRpc implements RpcInterface
             $weapon = null;
         }
 
+        // Log
+        $this->logger->debug($game->getSlug().' - AI', [
+            'action' => 'shoot',
+            'select' => $selectShoot,
+            'ai' => $ai->getName(),
+            'x' => $sx,
+            'y' => $sy,
+            'weapon' => $weapon.'',
+        ]);
+
         // Fire !!!
         $boxes = $this->getBoxesToShoot($game, $ai, $sx, $sy, $weapon);
         foreach ($boxes as $i => $box) {
@@ -837,6 +903,12 @@ class GameRpc implements RpcInterface
 
         // Event
         $this->eventDispatcher->dispatch(MatchEvents::PENALTY, $event);
+        $this->logger->info($game->getSlug().' - Penalty', [
+            'player' => $player->getName(),
+            'victim' => $player->getName(),
+            'x' => $x,
+            'y' => $y,
+        ]);
 
         // Return
         $return = $this->returnBox->getReturnBox($game);
@@ -875,6 +947,7 @@ class GameRpc implements RpcInterface
             // Event
             $event = new GameEvent($game);
             $this->eventDispatcher->dispatch(MatchEvents::FINISH, $event);
+            $this->logger->info($game->getSlug().' - Gameover');
 
             return false;
         }

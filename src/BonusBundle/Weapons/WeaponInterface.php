@@ -64,4 +64,10 @@ interface WeaponInterface
      * @return array
      */
     public function toArray();
+
+    /**
+     * Convert to string
+     * @return string
+     */
+    public function __toString();
 }

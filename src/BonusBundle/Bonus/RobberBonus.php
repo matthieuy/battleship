@@ -3,10 +3,8 @@
 namespace BonusBundle\Bonus;
 
 use BonusBundle\BonusConstant;
-use BonusBundle\Entity\Inventory;
 use BonusBundle\Event\BonusEvent;
 use ChatBundle\Entity\Message;
-use MatchBundle\Box\ReturnBox;
 use MatchBundle\Entity\Game;
 use MatchBundle\Entity\Player;
 
@@ -127,7 +125,6 @@ class RobberBonus extends AbstractBonus
         $message
             ->setGame($game)
             ->setText('bonus.robber.msg')
-            ->setAuthor($player->getUser())
             ->setContext([
                 'user' => $player->getName(),
                 'victim' => $victim->getName(),

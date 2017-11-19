@@ -25,7 +25,7 @@ class PointTeamBonus extends AbstractBonus
      */
     public function getId()
     {
-        return 'point.team';
+        return 'team_point';
     }
 
     /**
@@ -109,7 +109,7 @@ class PointTeamBonus extends AbstractBonus
             ->setGame($player->getGame())
             ->setChannel(Message::CHANNEL_TEAM)
             ->setRecipient($player->getTeam())
-            ->setText('bonus.point.team.msg')
+            ->setText('bonus.team_point.msg')
             ->setContext([
                 'user' => $player->getName(),
                 'points' => $points,
