@@ -12,6 +12,7 @@
             {% end_webpack %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="manifest" href="{{ path('manifest') }}" />
     </head>
     <body>
         {% include "::sidebar.html.twig" %}

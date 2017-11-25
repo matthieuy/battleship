@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class DefaultController
@@ -51,5 +52,41 @@ class DefaultController extends Controller
         return $this->render('@App/default/who.html.twig', [
             'list' => $list,
         ]);
+    }
+
+    /**
+     * Manifest.json
+     * @Route(
+     *     path="/manifest.json",
+     *     name="manifest",
+     *     methods={"GET"})
+     * @return JsonResponse
+     */
+    public function manifestAction()
+    {
+        $translator = $this->get('translator');
+
+        $data = [
+            'short_name' => $translator->trans('app_name', [], 'app'),
+            'name' => $translator->trans('app_name', [], 'app'),
+            'icons' => [
+                [
+                    'src' => './img/icons/logo192.png',
+                    'sizes' => '192x192',
+                    'type' => 'image/png',
+                ],
+                [
+                    'src' => './img/icons/logo512.png',
+                    'sizes' => '512x512',
+                    'type' => 'image/png',
+                ],
+            ],
+            'start_url' => '/',
+            'display' => 'standalone',
+            'theme_color' => '#000000',
+            'background_color' => '#ffffff',
+        ];
+
+        return new JsonResponse($data);
     }
 }
