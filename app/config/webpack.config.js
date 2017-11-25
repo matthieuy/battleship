@@ -9,6 +9,7 @@ var AssetsPlugin = require('assets-webpack-plugin');
 var ExtractFilePlugin = require('extract-file-loader/Plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var AnalyserPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var chalk = require('chalk');
 
 module.exports = function makeWebpackConfig(options) {
@@ -308,6 +309,15 @@ module.exports = function makeWebpackConfig(options) {
       enforce: 'pre',
       exclude: /(node_modules|vendor|web\/assets|vue\.js)/,
     })
+
+    // Dep Analyser
+    config.plugins.push(
+      new AnalyserPlugin({
+        openAnalyzer: false,
+        defaultSizes: 'gzip',
+        analyzerMode: 'static',
+      })
+    )
   }
 
 
