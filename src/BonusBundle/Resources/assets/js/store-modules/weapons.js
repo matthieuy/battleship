@@ -25,6 +25,11 @@ export default {
         }
         return (typeof player.me !== 'undefined')
       })
+
+      // Disable weapon
+      if (typeof obj.finished === 'boolean' && obj.finished) {
+        state.enabled = false
+      }
     },
 
     // Set score
