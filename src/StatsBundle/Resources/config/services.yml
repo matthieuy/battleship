@@ -2,6 +2,7 @@ services:
     # Stats manager
     stats.manager:
         class: StatsBundle\Manager\StatsManager
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@weapon.registry"
