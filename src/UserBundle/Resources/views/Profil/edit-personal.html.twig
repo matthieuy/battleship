@@ -9,7 +9,7 @@
     {{ form_start(form) }}
         <fieldset>
             <legend>{{ 'form.email'|trans({}, 'FOSUserBundle') }}</legend>
-            {{ form_row(form.email) }}
+            {{ form_row(form.email, {translation_domain: 'FOSUserBundle', label: 'form.email'}) }}
         </fieldset>
         <fieldset>
             <legend>{{ 'form.password'|trans({}, 'FOSUserBundle') }}</legend>
