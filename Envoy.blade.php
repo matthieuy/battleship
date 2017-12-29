@@ -36,6 +36,7 @@
     mkdir -p {{ $dirShared }}/logs;
     mkdir -p {{ $dirShared }}/img/avatars;
     mkdir -p {{ $dirShared }}/img/boats;
+    touch {{ $dirShared }}/version.txt;
 
     echo "Prepare git repository";
     [ -d {{ $dirRepo }} ] && rm -rf {{ $dirRepo }};
@@ -56,6 +57,7 @@
 
     echo "Update git (branch: {{ $branch }})";
     cd {{ $dirRepo }};
+    if ! git diff --quiet origin/{{ $branch }}; then echo -e "$(git log -n1 --pretty="%cI %h - %s")\n$(cat {{ $dirShared }}/version.txt)" > {{ $dirShared }}/version.txt; fi;
     git checkout -q {{ $branch }};
     git reset -q --hard;
     git pull;
@@ -63,10 +65,6 @@
 
     echo "Copy files to new release";
     git archive {{$branch}}|tar -x -C {{ $dirRelease }};
-    
-    @if ($fileVersion) 
-        git log -n1 --pretty="%h - %s" >> {{ $dirRelease }}/web/version.txt;
-    @endif
 
     echo "Create links :";
     [ -e {{ $dirShared }}/parameters.yml ] || cp {{ $dirRelease }}/app/config/parameters.yml.dist {{ $dirShared }}/parameters.yml;
@@ -78,6 +76,11 @@
     ln -vs {{ $dirShared }}/img/boats {{ $dirRelease }}/var/boats;
     rm -f {{ $dirReleases }}/last;
     ln -vs {{ $dirRelease }} {{ $dirReleases }}/last;
+    @if ($fileVersion) 
+        ln -vs {{ $dirShared }}/version.txt {{ $dirRelease }}/web/version.txt;
+    @else
+        rm {{ $dirRelease }}/web/version.txt;
+    @endif
 
     echo "Fix right";
     chmod -Rf 777 {{ $dirReleases }}/last/var;
