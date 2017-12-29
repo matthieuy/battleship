@@ -39,3 +39,8 @@ $branch = 'develop';
  * Number of release
  */
 $nbRelease = 5;
+
+/**
+ * Generate file version
+ */
+$fileVersion = true;

@@ -63,6 +63,10 @@
 
     echo "Copy files to new release";
     git archive {{$branch}}|tar -x -C {{ $dirRelease }};
+    
+    @if ($fileVersion) 
+        git log -n1 --pretty="%h - %s" >> {{ $dirRelease }}/web/version.txt;
+    @endif
 
     echo "Create links :";
     [ -e {{ $dirShared }}/parameters.yml ] || cp {{ $dirRelease }}/app/config/parameters.yml.dist {{ $dirShared }}/parameters.yml;
