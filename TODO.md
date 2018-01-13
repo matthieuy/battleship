@@ -3,7 +3,9 @@ TODO
 
 - [x] Do a first alpha test :
   - Bugs reported :
+    - [ ] Upload avatar : clear cache
     - [ ] Game :
+      - [ ] Delete game : Error 500
       - [ ] Simulate shoot : status don't synchronize
       - [X] Score : don't be synchronize (WS) but DB value is great
       - [X] Waiting : Game without AI can't be start
@@ -11,11 +13,15 @@ TODO
       - [X] Allow nearly boat on the grid
     - [ ] Notifications :
       - [ ] Discord webhook : send only personal message instead global
+    - [ ] Waiting :
+      - [ ] No host can change AI team
     - [ ] Bonus :
       - [X] Translate "bonus.robber.msg" by user (instead system)
       - [ ] Skip_player : don't work on next lap
       - [ ] Damage : don't work on next lap
       - [X] Skip player on current player
+      - [ ] Team point : message to all (from AI) or give to wrong team
+      - [ ] IA : double message : catch + use (needly ?)
       - [X] Disable use multi bonus
     - [X] Chat :
       - [X] Hide system message
